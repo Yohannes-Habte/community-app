@@ -1,0 +1,100 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.about-page {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .about-container {
+    .about-title {
+      @include title;
+    }
+
+    .tabs-content {
+      display: grid;
+      grid-template-columns: 15% 80%;
+      column-gap: 1rem;
+      margin-top: 1rem;
+
+      // Tabs or menu
+      .blog-tabs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        font-size: $afs;
+        font-weight: $aafw;
+
+        // Passive tabs
+        .tabs {
+          padding: 1rem;
+          cursor: pointer;
+          box-shadow: 0 0 2px;
+          text-align: center;
+        }
+
+        // Active tabs
+        .active-tabs {
+          background-color: #bbe1fb;
+          border-bottom: 1px solid transparent;
+          cursor: pointer;
+        }
+      }
+
+      // Contents or results when you click the tabs
+      .contents {
+        .content {
+          display: none;
+        }
+
+        // Active content
+        .active-content {
+          display: block;
+          padding: 0 1rem;
+          line-height: 2rem;
+          font-size: $afs;
+
+          .values {
+            // Values of Holy Saviour
+            .value {
+              margin-bottom: 1.5rem;
+
+              .subtitle {
+                color: blue;
+                font-size: $afs;
+                font-weight: $aafw;
+                padding: 0 1rem;
+              }
+              .description {
+                padding: 0 1rem;
+              }
+            }
+          }
+
+          // Council of the Holy Redeemer Parish
+          .members {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 1rem;
+            row-gap: 1rem;
+
+            .member-info {
+                @include shadow3;
+                
+              .photo-container {
+                .photo {
+                }
+              }
+
+              .contact-details {
+                .subtitle {
+                }
+                .info {
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

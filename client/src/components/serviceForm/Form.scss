@@ -1,0 +1,210 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+/* Mobile screen size */
+.church-service {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+
+  .image-container {
+    display: none;
+    @include shadow3;
+    text-align: center;
+    justify-content: center;
+    .image {
+      @include imageSize;
+    }
+  }
+
+  .form {
+    @include shadow3;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+
+    .input-container {
+      position: relative;
+      width: 100%;
+
+      .input-field {
+        @include inputField;
+      }
+    }
+
+    .files-input-container {
+      position: relative;
+      margin-bottom: 5rem;
+
+      .file-field {
+        @include inputField;
+        position: absolute;
+        top: 1rem;
+        opacity: 0;
+      }
+
+      .file-label {
+        position: absolute;
+        top: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 13px;
+        border: 2px solid #ccc;
+        cursor: pointer;
+        font-size: 0.9rem;
+
+        .icon {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .btn {
+      @include btn1;
+    }
+  }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .church-service {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .image-container {
+      display: block;
+      @include shadow3;
+      flex: 1;
+      text-align: center;
+      justify-content: center;
+      .image {
+        @include imageSize;
+      }
+    }
+
+    .form {
+      @include shadow3;
+      flex: 2;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 1rem;
+
+      .input-container {
+        position: relative;
+        width: 48%;
+
+        .input-field {
+          @include inputField;
+        }
+      }
+
+      .files-input-container {
+        position: relative;
+        width: 48%;
+
+        .file-field {
+          @include inputField;
+          position: absolute;
+          top: 1rem;
+          opacity: 0;
+        }
+
+        .file-label {
+          position: absolute;
+          top: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 13px;
+          border: 2px solid #ccc;
+          cursor: pointer;
+          font-size: 0.9rem;
+
+          .icon {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .btn {
+        @include btn1;
+      }
+    }
+  }
+}
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
+  .church-service {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+
+    .image-container {
+      display: block;
+      @include shadow3;
+      text-align: center;
+      justify-content: center;
+
+      .image {
+        @include imageSize;
+      }
+    }
+
+    .form {
+      @include shadow3;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      .input-container {
+        position: relative;
+
+        .input-field {
+          @include inputField;
+        }
+      }
+
+      .files-input-container {
+        position: relative;
+        width: 50%;
+
+        .file-field {
+          @include inputField;
+          position: absolute;
+          top: 1rem;
+          opacity: 0;
+        }
+
+        .file-label {
+          position: absolute;
+          top: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 13px 2.3rem;
+          border: 2px solid #ccc;
+          cursor: pointer;
+
+          .icon {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .btn {
+        @include btn1;
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}

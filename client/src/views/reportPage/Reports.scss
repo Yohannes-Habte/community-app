@@ -1,0 +1,14 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.report-page {
+    width: $laptop;
+    margin: 1rem auto;
+
+    .report-container {
+
+        .report-title {
+            @include title;
+        }
+    }
+}
