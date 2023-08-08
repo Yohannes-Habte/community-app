@@ -171,8 +171,8 @@ export const serviceData = {
   sacraments: [
     {
       type: 'text',
-      id: 'service',
-      name: 'service',
+      id: 'name',
+      name: 'name',
       label: 'Sacrament Type',
       placeholder: 'Enter Sacrament Service',
     },
@@ -187,8 +187,8 @@ export const serviceData = {
 
     {
       type: 'text',
-      id: 'telephone',
-      name: 'telephone',
+      id: 'phone',
+      name: 'phone',
       label: 'Telephone',
       placeholder: ' Enter Telephone Number',
     },
@@ -199,8 +199,8 @@ export const serviceData = {
   prayerRequest: [
     {
       type: 'text',
-      id: 'service',
-      name: 'service',
+      id: 'name',
+      name: 'name',
       label: 'Prayer Request',
       placeholder: 'Enter Prayer Service Name',
     },
@@ -215,8 +215,8 @@ export const serviceData = {
 
     {
       type: 'text',
-      id: 'telephone',
-      name: 'telephone',
+      id: 'phone',
+      name: 'phone',
       label: 'Telephone',
       placeholder: ' Enter Telephone Number',
     },
@@ -227,8 +227,8 @@ export const serviceData = {
   spiritualAdvice: [
     {
       type: 'text',
-      id: 'service',
-      name: 'service',
+      id: 'name',
+      name: 'name',
       label: 'Spiritual Development Service',
       placeholder: 'Enter Spiritual Development Service',
     },
@@ -243,8 +243,8 @@ export const serviceData = {
 
     {
       type: 'text',
-      id: 'telephone',
-      name: 'telephone',
+      id: 'phone',
+      name: 'phone',
       label: 'Telephone',
       placeholder: ' Enter Telephone Number',
     },

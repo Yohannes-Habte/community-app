@@ -10,10 +10,15 @@ import { toast } from 'react-toastify';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import './Login.scss';
+import { UserContext } from '../../contexts/user/UserProvider';
+import { ACTION } from '../../contexts/user/UserReducer';
+import ErrorMessage from '../../utiles/ErrorMessage';
 
 const Login = () => {
+  // Global state variables
+  const { user, loading, error, dispatch } = useContext(UserContext);
+
   const navigate = useNavigate();
-  // Global variables
 
   // State variables
   const [email, setEmail] = useState('');
@@ -37,7 +42,7 @@ const Login = () => {
 
   // useRef hook to focus on specific issues
   const emailRef = useRef();
-  //const passwordRef = useRef();
+  const passwordRef = useRef();
 
   // Function handling Email Validation
   const checkEmailFormat = () => {
@@ -52,16 +57,19 @@ const Login = () => {
   };
 
   // Function handling Password validation
-  // const checkPasswordFormat = () => {
-  //   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
-  //   if (passwordRegex) {
-  //     passwordRef.current.className = "errorInvisible";
-  //     //passwordRef.current.style.display = "none"
-  //   } else {
-  //     passwordRef.current.className = "errorVisible";
-  //     //passwordRef.current.style.display = "block"
-  //   }
-  // };
+  const checkPasswordFormat = () => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+        password
+      );
+    if (passwordRegex) {
+      passwordRef.current.className = 'errorInvisible';
+      //passwordRef.current.style.display = "none"
+    } else {
+      passwordRef.current.className = 'errorVisible';
+      //passwordRef.current.style.display = "block"
+    }
+  };
 
   // Function to update login user data
   const updateUserLoginData = (event) => {
@@ -91,28 +99,39 @@ const Login = () => {
   };
 
   // Login and Submit Function
-  const submitUserLogin = async (event) => {
+  const submitLoginUser = async (event) => {
     event.preventDefault();
 
-    // The body
-    const loginUser = {
-      email: email,
-      password: password,
-    };
+    dispatch({ type: ACTION.USER_SIGNIN_START });
+
+    if (!email) {
+      toast.error('Please enter your email!');
+    } else if (!password) {
+      toast.error('Please enter password!');
+    }
 
     try {
+      // The body
+      const loginUser = {
+        email: email,
+        password: password,
+      };
       const { data } = await axios.post(
-        process.env.REACT_APP_SERVER_URL + '/api/users/login',
+        'http://localhost:4000/api/users/login',
         loginUser
       );
+
+      dispatch({ type: ACTION.SACRMENT_SEND_SUCCESS, payload: data.details });
 
       //& 1. Save user in the local storage
       localStorage.setItem('user', JSON.stringify(data));
       resetVariables();
-      navigate('/');
+      navigate('/reports');
     } catch (err) {
-      //? toast-step-3: display the err using the GetError function from the component
-      // toast.error(ErrorMessage(err));
+      dispatch({
+        type: ACTION.USER_SIGNIN_FAIL,
+        payload: toast.error(ErrorMessage(err)),
+      });
     }
   };
 
@@ -129,7 +148,7 @@ const Login = () => {
         </figure>
         <fieldset className="login-fieldset">
           <legend className="login-legend">User Login </legend>
-          <form onSubmit={submitUserLogin} className="login-form">
+          <form onSubmit={submitLoginUser} className="login-form">
             <div className="input-container">
               <MdEmail className="icon" />
               <input

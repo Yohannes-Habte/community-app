@@ -2,7 +2,13 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
-import { FaMapMarker, FaTimes, FaUserAlt } from 'react-icons/fa';
+import {
+  FaLaptopCode,
+  FaMapMarker,
+  FaPhone,
+  FaTimes,
+  FaUserAlt,
+} from 'react-icons/fa';
 import { BsCheck2All } from 'react-icons/bs';
 import { MdEmail, MdLocationPin } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
@@ -10,8 +16,14 @@ import './Register.scss';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
+import { UserContext } from '../../contexts/user/UserProvider';
+import { ACTION } from '../../contexts/user/UserReducer';
+import ErrorMessage from '../../utiles/ErrorMessage';
 
 const Register = () => {
+  // Global state variables
+  const { error, dispatch } = useContext(UserContext);
+
   // to navigate register page
   const navigate = useNavigate();
 
@@ -200,7 +212,10 @@ const Register = () => {
   const SubmitRegisteredUser = async (event) => {
     event.preventDefault();
 
+    dispatch({ type: ACTION.USER_REGISTER_START });
     if (password !== confirmPassword) {
+      toast.error('Emails did not match');
+    } else if (email !== confirmEmail) {
       toast.error('Passwords did not match');
     } else {
       const userData = {
@@ -220,14 +235,20 @@ const Register = () => {
 
       try {
         const { data } = await axios.post(
-          process.env.REACT_APP_SERVER_URL + '/api/users/register',
+          'http://localhost:4000/api/users/register',
           userData
         );
+
+        dispatch({ type: ACTION.USER_REGISTER_SUCCESS, payload: data });
 
         resetAllEnteredData();
         navigate('/login');
       } catch (err) {
         console.log(err);
+        dispatch({
+          type: ACTION.USER_REGISTER_FAIL,
+          payload: toast.error(ErrorMessage(err)),
+        });
       }
     }
   };
@@ -238,9 +259,10 @@ const Register = () => {
         <title>Sign Up</title>
       </Helmet>
 
-      <div className="register-form-container">
+      <section className="register-container">
+        <h1 className="title"> Create Account</h1>
         <fieldset className="register-field">
-          <legend className="register-legend"> Register </legend>
+          {/* <legend className="register-legend"> Sign Up for Free </legend> */}
           <form
             action=""
             onSubmit={SubmitRegisteredUser}
@@ -353,23 +375,27 @@ const Register = () => {
                   className="input-field"
                 />
                 <label htmlFor="confirmPassword" className="input-label">
-                  Password
+                  Confirm Password
                 </label>
                 <span className="input-highlight"></span>
                 <span
                   onClick={displayConfirmPassword}
                   className="confirm-password-display"
                 >
-                  {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                  {showConfirmPassword ? (
+                    <AiFillEyeInvisible className="icon" />
+                  ) : (
+                    <AiFillEye className="icon" />
+                  )}
                 </span>
-              </div>    
+              </div>
 
               <div className="input-container">
                 <MdLocationPin className="input-icon" />
                 <input
                   type="text"
                   name="phone"
-                  is="phone"
+                  id="phone"
                   value={phone}
                   onChange={update}
                   placeholder="Phone Number"
@@ -377,39 +403,41 @@ const Register = () => {
                 />
 
                 <label htmlFor="phone" className="input-label">
-                Phone Number
+                  Phone Number
                 </label>
                 <span className="input-highlight"></span>
               </div>
 
               <div className="input-container">
-                <MdLocationPin className="input-icon" />
+                <FaPhone className="input-icon" />
                 <input
                   type="text"
                   name="street"
-                  is="street"
+                  id="street"
                   value={street}
                   onChange={update}
                   placeholder="Street Name"
                   className="input-field"
                 />
+
                 <label htmlFor="street" className="input-label">
-                Street Name
+                  Street Name
                 </label>
                 <span className="input-highlight"></span>
               </div>
 
               <div className="input-container">
-                <MdLocationPin className="input-icon" />
+                <FaLaptopCode className="input-icon" />
                 <input
                   type="text"
                   name="zipCode"
                   id="zipCode"
                   value={zipCode}
                   onChange={update}
-                  placeholder="Postal Code"
+                  placeholder="Zip Code"
                   className="input-field"
                 />
+
                 <label htmlFor="zipCode" className="input-label">
                   Zip Code
                 </label>
@@ -468,7 +496,7 @@ const Register = () => {
               </div>
             </div>
 
-            <div className="cosent-and-others-container">
+            <div className="consent-and-others-container">
               <div className="consent-terms-button-login-container">
                 <div className="register-consent">
                   <input
@@ -477,9 +505,10 @@ const Register = () => {
                     onChange={update}
                     className="register-consent-input"
                   />
-                  <span>I accept</span>
-                  <NavLink> Terms of Use</NavLink>
+                  <span className="accept">I accept</span>
+                  <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
                 </div>
+
                 <button className="register-button"> Register </button>
                 <p className="haveAccount">
                   Already have an account?
@@ -511,7 +540,7 @@ const Register = () => {
             </div>
           </form>
         </fieldset>
-      </div>
+      </section>
     </main>
   );
 };

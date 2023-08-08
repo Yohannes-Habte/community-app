@@ -85,7 +85,7 @@ export const deleteSpiritual = async (req, res, next) => {
 //==========================================================================
 // Get all Spiritual Development
 //==========================================================================
-export const getAllSacraments = async (req, res, next) => {
+export const getAllSpiritual = async (req, res, next) => {
   try {
     const spirituals = await Spiritual.find();
     return res.status(200).json(spirituals);

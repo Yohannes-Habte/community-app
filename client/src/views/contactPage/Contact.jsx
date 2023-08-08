@@ -1,10 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import './Contact.scss';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import { ContactData } from '../../data/Data';
+import { UserContext } from '../../contexts/user/UserProvider';
+import { ACTION } from '../../contexts/user/UserReducer';
+import { toast } from 'react-toastify';
+import ErrorMessage from '../../utiles/ErrorMessage';
 
 const Contact = () => {
+  // Global state variables
+  const { user, loading, error, dispatch } = useContext(UserContext);
+
   // State variables
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -50,7 +57,7 @@ const Contact = () => {
   };
 
   // Function to reset all the state variables to initial value
-  const resetStateVariables = () => {
+  const reset = () => {
     setFullName('');
     setEmail('');
     setMessage('');
@@ -59,39 +66,34 @@ const Contact = () => {
     setMessageValidation(false);
   };
 
-  // Function to submit user's message
-  const submitMessage = async (event) => {
+  // Login and Submit Function
+  const submitComment = async (event) => {
     event.preventDefault();
 
-    const newMessage = {
-      fullName: fullName,
-      email: email,
-      message: message,
-    };
-
-    const settings = {
-      method: 'POST',
-      body: JSON.stringify(newMessage),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const response = await fetch('http://localhost:5000/messages', settings);
-    const messageData = await response.json();
-    console.log(response);
-    console.log(messageData);
+    dispatch({ type: ACTION.COMMENT_SEND_START });
 
     try {
-      if (response.ok) {
-        setMessage(messageData.comment);
-        //setComments([...comments, messageData.comment])
-        resetStateVariables();
-      } else {
-        throw new Error(messageData.message);
-      }
+      // The body
+      const newComment = {
+        fullName: fullName,
+        email: email,
+        message: message,
+      };
+      const { data } = await axios.post(
+        'http://localhost:4000/api/comments/new-comment',
+        newComment
+      );
+
+      dispatch({ type: ACTION.COMMENT_SEND_SUCCESS, payload: data });
+
+   
+      localStorage.setItem('comment', JSON.stringify(data));
+      reset();
     } catch (err) {
-      console.log(err);
+      dispatch({
+        type: ACTION.COMMENT_SEND_FAIL,
+        payload: toast.error(ErrorMessage(err)),
+      });
     }
   };
 
@@ -115,7 +117,7 @@ const Contact = () => {
 
       <section className="contact-page-form">
         <h2 className="contact-page-form-title">Contact Us</h2>
-        <form onSubmit={submitMessage} className="contact-form">
+        <form onSubmit={submitComment} className="contact-form">
           <div className="contact-form-input-container">
             <input
               type="text"

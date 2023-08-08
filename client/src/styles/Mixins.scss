@@ -54,6 +54,12 @@
 }
 
 // Form input and label
+@mixin legend {
+  font-size: $afs;
+  font-weight: $aafw;
+  padding: 0 1rem ;
+}
+
 @mixin inputContainer {
   width: 100%;
   display: flex;
@@ -139,7 +145,7 @@
   font-weight: $aafw;
   padding: $textPadding;
   margin: 0.5rem 0;
-text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 @mixin subTitle {
