@@ -1,0 +1,29 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.products-page {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  .products-container {
+    display: flex;
+    flex-direction: column;
+
+    .product-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+
+      .product-title {
+        font-size: $aafs;
+      }
+
+      .add-product-btn {
+        @include button;
+      }
+    }
+  }
+}

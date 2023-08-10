@@ -1,0 +1,12 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.product-page {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+
+  .product-container {
+    padding: 1rem;
+  }
+}

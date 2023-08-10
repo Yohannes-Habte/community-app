@@ -1,0 +1,71 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.add {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(102, 51, 153, 0.723);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal {
+    position: relative;
+    padding: 3rem;
+    border-radius: 0.5rem;
+    background-color: $main-bg;
+    color: $soft-color;
+
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: white;
+      cursor: pointer;
+
+      &:hover {
+        color: tomato;
+      }
+    }
+
+    .title {
+      font-size: $aafs;
+      color: $soft-color;
+      margin-bottom: 2rem;
+    }
+
+    .form {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 500px;
+      justify-content: space-between;
+
+      .item {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        .input-label {
+          font-size: 14px;
+        }
+
+        .input-field {
+          padding: 10px;
+          background-color: transparent;
+          color: $main-color;
+          outline: none;
+        }
+      }
+
+      .add-btn {
+        @include button;
+        width: 100%;
+      }
+    }
+  }
+}

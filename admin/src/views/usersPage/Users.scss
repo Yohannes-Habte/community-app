@@ -1,0 +1,29 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.users-page {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  .user-container {
+    display: flex;
+    flex-direction: column;
+
+    .user-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
+
+      .users-title {
+        font-size: $aafs;
+      }
+
+      .add-user-btn {
+        @include button;
+      }
+    }
+  }
+}

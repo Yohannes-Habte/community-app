@@ -1,0 +1,35 @@
+$ms: 480px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1200px;
+$xxl: 1400px;
+
+@mixin smallMobileScreen {
+  @media screen and (max-width: ($sm)) {
+    @content;
+  }
+}
+
+@mixin largeMobileScreen {
+  @media screen and (max-width: ($md)) {
+    @content;
+  }
+}
+
+@mixin tabletScreen {
+  @media screen and (max-width: ($lg)) {
+    @content;
+  }
+}
+
+@mixin labtopScreen {
+  @media screen and (max-width: ($xl)) {
+    @content;
+  }
+}
+
+@mixin desktopScreen {
+  @media screen and (max-width: ($xxl)) {
+    @content;
+  }
+}

@@ -1,0 +1,68 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: $main-bg;
+  color: $soft-color;
+
+  // Logo
+  .logo {
+  }
+
+  .icons-user {
+    display: flex;
+    flex-direction: row;
+    gap: 2 rem;
+    padding: 0 1rem;
+
+    // Icons
+
+    .icons {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+
+    // Notification
+
+    .notification {
+      padding: 0 2rem;
+      position: relative;
+
+      .bell {
+      }
+      .message-notification {
+        position: absolute;
+        top: -0.5rem;
+        right: 1rem;
+        color: white;
+        background-color: red;
+        width: 1.2rem;
+        border-radius: 50%;
+        text-align: center;
+      }
+    }
+
+    // User
+
+    .user {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 2rem;
+
+      .user-photo {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+}

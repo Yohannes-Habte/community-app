@@ -1,0 +1,13 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.barchart {
+  height: 100%;
+  width: 100%;
+  color: $soft-color;
+
+  .title {
+    font-size: $aafs;
+    margin-bottom: 1rem;
+  }
+}

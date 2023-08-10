@@ -1,0 +1,47 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.piechart {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .title {
+    color: $soft-color;
+  }
+
+  .piechart-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 10px;
+    color: $main-color;
+    .option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}

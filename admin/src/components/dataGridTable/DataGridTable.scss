@@ -1,0 +1,32 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.data-grid {
+  .data-grid-table {
+    // the className "MuiDataGrid-toolbarContainer" is taken from MUI by inpecting the Data Grid tabel, particularly the Search bar
+    .MuiDataGrid-toolbarContainer {
+      flex-direction: row-reverse;
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .action {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      .view {
+        cursor: pointer;
+      }
+
+      .delete {
+        cursor: pointer;
+      }
+    }
+  }
+}

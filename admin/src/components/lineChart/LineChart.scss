@@ -1,0 +1,53 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.chart-box {
+  display: flex;
+  height: 100%;
+
+  .box-info {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $soft-color;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: $soft-color;
+    }
+
+    .image {
+    }
+  }
+
+  .chart-info {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .chart {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .texts {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    color: $soft-color;
+
+    .percentage {
+        font-weight: $aafw;
+        font-size: $afs;
+    }
+
+    .duration {
+        font-size: $afs;
+    }
+  }
+}

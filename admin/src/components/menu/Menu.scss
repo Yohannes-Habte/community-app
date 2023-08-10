@@ -1,0 +1,43 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.menu {
+  width: 15%;
+  background-color: $main-bg;
+  padding: 0.5rem 1rem;
+  color: $soft-color;
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+   
+
+    .title {
+      text-transform: uppercase;
+      font-size: $sfs;
+      font-weight: $sfw;
+      color: $soft-color;
+    }
+
+    .link-list-item {
+      display: flex;
+      flex-direction: row;
+      gap: $icon-gap;
+      padding: 0.2rem 0;
+
+      .icon {
+        color: $soft-color;
+      }
+
+      .item {
+        color: $soft-color;
+      }
+
+      &:hover {
+        background-color: $soft-bg;
+      }
+    }
+  }
+}
