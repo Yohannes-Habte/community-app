@@ -5,9 +5,17 @@ import Finance from '../models/financeModel.js';
 // Post new finance report
 //=======================================================
 
-export const createFinace = async (req, res, next) => {
-  const { offer, donation, priestExpense, choirExpense, generalExpense, date } =
-    req.body;
+export const createExpense = async (req, res, next) => {
+  const {
+    offer,
+    donation,
+    frekdasie,
+    choirExpense,
+    eventExpense,
+    priestExpense,
+    otherExpense,
+    date,
+  } = req.body;
 
   let existingFinanceReport;
 
@@ -29,16 +37,20 @@ export const createFinace = async (req, res, next) => {
     const newFinanceReport = new Finance({
       offer: offer,
       donation: donation,
-      priestExpense: priestExpense,
+      frekdasie: frekdasie,
       choirExpense: choirExpense,
-      generalExpense: generalExpense,
+      eventExpense: eventExpense,
+      priestExpense: priestExpense,
+      otherExpense: otherExpense,
       date: date,
       total:
         Number(offer) +
         Number(donation) +
-        Number(priestExpense) +
+        Number(frekdasie) +
         Number(choirExpense) +
-        Number(generalExpense),
+        Number(eventExpense) +
+        Number(priestExpense) +
+        Number(otherExpense),
     });
 
     try {
@@ -48,7 +60,7 @@ export const createFinace = async (req, res, next) => {
       return next(createError(500, 'Server error. Please try again.'));
     }
 
-    res.status(201).json({ finances: newFinanceReport });
+    res.status(201).json(newFinanceReport);
   }
 };
 

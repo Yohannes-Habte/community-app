@@ -9,9 +9,10 @@ import Navbar from './components/navbar/Navbar';
 import Home from './views/homePage/Home';
 import Users from './views/usersPage/Users';
 import SingleUser from './views/singleUserPage/SingleUser';
-import Login from './views/loginPage/Login';
 import SingleSacrament from './views/sigleSacramentPage/SingleSacrament';
 import Sacraments from './views/sacramentPage/Sacraments';
+import Login from './views/loginPage/Login';
+import Finance from './views/financePage/Finance';
 
 const App = () => {
   return (
@@ -20,11 +21,13 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<SingleUser />} />
           <Route path="/sacraments" element={<Sacraments />} />
           <Route path="/sacraments/:id" element={<SingleSacrament />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/finance" element={<Finance />} />
+          
           <Route path="*" element={<Navigate to={'/'} />} />
         </Routes>
       </Router>

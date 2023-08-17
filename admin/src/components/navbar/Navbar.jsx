@@ -11,7 +11,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="logo">
         <img src="" alt="" />
-        <span> Lisa Dashboard </span>
+        <span> Eritean Roman Catholic Church in Hamburg </span>
       </div>
 
       <div className="icons-user">

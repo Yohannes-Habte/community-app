@@ -3,7 +3,6 @@ import './Users.scss';
 import Menu from '../../components/menu/Menu';
 import AddNew from '../../components/addNew/AddNew';
 import DataGridTable from '../../components/dataGridTable/DataGridTable';
-import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { userRows } from '../../data/Data';
 
 // Column

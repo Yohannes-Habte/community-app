@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   countFinancialReports,
-  createFinace,
+  createExpense,
   deleteFinance,
   getAllFinance,
   getFinance,
@@ -12,7 +12,7 @@ import {
 const financeRouter = express.Router();
 
 // Finance routes
-financeRouter.post('/new-finance', createFinace);
+financeRouter.post('/new-expense', createExpense);
 financeRouter.put('/:id', updateFinance);
 financeRouter.get('/:id', getFinance);
 financeRouter.delete('/:id', deleteFinance);
