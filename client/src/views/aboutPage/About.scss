@@ -78,10 +78,15 @@
             row-gap: 1rem;
 
             .member-info {
-                @include shadow3;
-                
+              @include shadow3;
+
               .photo-container {
+                width: 100px;
+
                 .photo {
+                  width: 100%;
+                  object-fit: cover;
+                  text-align: center;
                 }
               }
 

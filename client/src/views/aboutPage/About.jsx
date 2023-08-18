@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { aboutPage } from '../../data/Data';
 import './About.scss';
-
+import axios from 'axios';
 const About = () => {
+  // Local variables
+  const [staff, setStaff] = useState([]);
   const [toggle, setToggle] = useState(0);
 
   // Function to manage tabs
   const tabsToggle = (index) => {
     setToggle(index);
   };
+
+  // Display staff members in the browser
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:4000/api/users');
+        setStaff(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStaff();
+  }, []);
 
   return (
     <main className="about-page">
@@ -88,18 +103,18 @@ const About = () => {
               className={toggle === 3 ? 'content active-content' : 'content'}
             >
               <section className="members">
-                {aboutPage.staff.map((member) => {
+                {staff.map((member) => {
                   return (
                     <div className="member-info">
                       <figure className="photo-container">
                         <img
                           className="photo"
-                          src={member.photo}
-                          alt={member.name}
+                          src={member.image}
+                          alt={member.firstName}
                         />
                       </figure>
                       <article className="contact-details">
-                        <h4 className="subtitle"> {member.title} </h4>
+                        <h4 className="subtitle"> {member.firstName}  {member.lastName} </h4>
                         <p className="info"> {member.name} </p>
                         <p className="info"> {member.phone} </p>
                         <p className="info"> {member.email} </p>

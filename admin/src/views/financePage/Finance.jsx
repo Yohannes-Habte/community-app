@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './Finance.scss';
 import Menu from '../../components/menu/Menu';
 import { NavLink } from 'react-router-dom';
-import MonthlyExpense from '../../components/monthlyExpense/MonthlyExpense';
 import axios from 'axios';
+import AddNewFinance from '../../components/addNew/AddNewFinance';
 
 const Finance = () => {
   // Local state variables
@@ -32,7 +32,7 @@ const Finance = () => {
         <h1 className="finance-title">Financial Reports</h1>
         <div className="financial-expenses-table">
           <article className="add-expense">
-            <h3 className="add-title"> New Financial Report </h3>
+            <h3 className="add-title"> Financial Reports </h3>
             <button onClick={() => setOpen(true)} className={'link'}>
               Add New
             </button>
@@ -89,7 +89,7 @@ const Finance = () => {
         </div>
       </section>
 
-      {open && <MonthlyExpense setOpen={setOpen} />}
+      {open && <AddNewFinance setOpen={setOpen} />}
     </main>
   );
 };

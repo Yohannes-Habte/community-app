@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './Users.scss';
 import Menu from '../../components/menu/Menu';
-import AddNew from '../../components/addNew/AddNew';
 import DataGridTable from '../../components/dataGridTable/DataGridTable';
 import { userRows } from '../../data/Data';
+import AddNewUser from '../../components/addNew/AddNewUser';
 
 // Column
 const columns = [
@@ -78,6 +78,7 @@ const columns = [
 
 const Users = () => {
   // Local state variable
+  const [users, setUser] = []
   const [open, setOpen] = useState(false);
 
   return (
@@ -87,14 +88,14 @@ const Users = () => {
         <section className="user-info">
           <h3 className="users-title">Users</h3>
           <button onClick={() => setOpen(true)} className="add-user-btn">
-            Add New User
+            Add New
           </button>
         </section>
 
         {/* slug repesents to the different pages  */}
         <DataGridTable columns={columns} rows={userRows} slug={'users'} />
 
-        {open && <AddNew colums={columns} setOpen={setOpen} slug={'user'} />}
+        {open && <AddNewUser colums={columns} setOpen={setOpen} slug={'user'} />}
       </div>
     </main>
   );

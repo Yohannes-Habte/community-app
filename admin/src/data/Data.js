@@ -55,7 +55,7 @@ export const menu = [
       {
         id: 3,
         itemName: 'Spiritual',
-        url: '/orders',
+        url: '/spirituals',
         icon: <FaFirstOrderAlt className="icon" />,
       },
       {

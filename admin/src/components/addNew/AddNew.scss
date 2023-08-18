@@ -14,7 +14,7 @@
 
   .modal {
     position: relative;
-    padding: 3rem;
+    padding: 0 3rem;
     border-radius: 0.5rem;
     background-color: $main-bg;
     color: $soft-color;
@@ -34,7 +34,6 @@
     .title {
       font-size: $aafs;
       color: $soft-color;
-      margin-bottom: 2rem;
     }
 
     .form {
@@ -43,16 +42,12 @@
       max-width: 500px;
       justify-content: space-between;
 
-      .item {
+      .input-container {
         width: 45%;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-bottom: 20px;
-
-        .input-label {
-          font-size: 14px;
-        }
+        margin-bottom: 1rem;
 
         .input-field {
           padding: 10px;
@@ -60,11 +55,39 @@
           color: $main-color;
           outline: none;
         }
+
+        .input-label {
+          font-size: 14px;
+        }
+      }
+
+      // Image container
+      .file-input-container {
+        position: relative;
+        width: 48%;
+
+        .file-field {
+          @include inputField2;
+          opacity: 0;
+        }
+
+        .file-label {
+          width: 90%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          font-size: $afs;
+          border: 1px solid rgba(255, 255, 255, 0.481);
+          padding: 0.3rem;
+
+          .icon {
+            cursor: pointer;
+          }
+        }
       }
 
       .add-btn {
         @include button;
-        width: 100%;
       }
     }
   }

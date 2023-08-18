@@ -1,7 +1,7 @@
 @import '../../styles/Variables.scss';
 @import '../../styles/Mixins.scss';
 
-.add-financial-expense {
+.add {
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
 
-  .finance-modal {
+  .modal {
     position: relative;
     padding: 3rem;
     border-radius: 0.5rem;
@@ -31,7 +31,13 @@
       }
     }
 
-    .finance-form {
+    .title {
+      font-size: $aafs;
+      color: $soft-color;
+      margin-bottom: 2rem;
+    }
+
+    .form {
       display: flex;
       flex-wrap: wrap;
       max-width: 500px;
@@ -56,7 +62,7 @@
         }
       }
 
-      .finance-btn {
+      .btn {
         @include btn1;
         margin-top: 1rem;
       }

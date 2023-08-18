@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import "./Sacraments.scss"
 import Menu from '../../components/menu/Menu';
 import DataGridTable from '../../components/dataGridTable/DataGridTable';
-import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { products } from '../../data/Data';
-import AddNew from '../../components/addNew/AddNew';
+import AddNewSacrament from '../../components/addNew/AddNewSacrament';
 
 
 // Columns Data
@@ -65,9 +64,9 @@ const Sacraments = () => {
        <Menu />
        <div className="products-container">
          <section className="product-info">
-           <h3 className="product-title">Products</h3>
+           <h3 className="product-title"> Sacrament Services </h3>
            <button onClick={() => setOpen(true)} className="add-product-btn">
-             Add New Product
+             Add New
            </button>
          </section>
  
@@ -75,7 +74,7 @@ const Sacraments = () => {
          <DataGridTable columns={columns} rows={products} slug={'products'} />
  
          {open && (
-           <AddNew colums={columns} setOpen={setOpen} slug={'products'} />
+           <AddNewSacrament setOpen={setOpen}  />
          )}
        </div>
      </main>

@@ -13,6 +13,7 @@ import SingleSacrament from './views/sigleSacramentPage/SingleSacrament';
 import Sacraments from './views/sacramentPage/Sacraments';
 import Login from './views/loginPage/Login';
 import Finance from './views/financePage/Finance';
+import Spirituals from './views/spiritualpage/Spirituals';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/users/:id" element={<SingleUser />} />
           <Route path="/sacraments" element={<Sacraments />} />
           <Route path="/sacraments/:id" element={<SingleSacrament />} />
+          <Route path="/spirituals" element={<Spirituals />} />
           <Route path="/finance" element={<Finance />} />
           
           <Route path="*" element={<Navigate to={'/'} />} />

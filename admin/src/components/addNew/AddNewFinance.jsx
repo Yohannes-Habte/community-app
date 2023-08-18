@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import './MonthlyExpense.scss';
 import axios from 'axios';
+import React, { useState } from 'react';
+import './AddNew.scss';
 
-const MonthlyExpense = ({ setOpen }) => {
+const AddNewFinance = ({ setOpen }) => {
   // Local state variables
   const [offer, setOffer] = useState('');
   const [donation, setDonation] = useState('');
@@ -78,24 +78,20 @@ const MonthlyExpense = ({ setOpen }) => {
         'http://localhost:4000/api/finances/new-expense',
         newFinance
       );
-      reset()
+      reset();
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="add-financial-expense">
-      <section className="finance-modal">
+    <div className="add">
+      <section className="modal">
         <span onClick={() => setOpen(false)} className="close">
           X
         </span>
         <h3 className="title"> Add New Report </h3>
-        <form
-          onSubmit={submitNewFinancialExpense}
-          action=""
-          className="finance-form"
-        >
+        <form onSubmit={submitNewFinancialExpense} action="" className="form">
           <div className="input-container">
             <label htmlFor="offer" className="input-label">
               Offer
@@ -216,11 +212,11 @@ const MonthlyExpense = ({ setOpen }) => {
             />
           </div>
 
-          <button className="finance-btn"> Submit </button>
+          <button className="add-btn"> Submit </button>
         </form>
       </section>
     </div>
   );
 };
 
-export default MonthlyExpense;
+export default AddNewFinance;
