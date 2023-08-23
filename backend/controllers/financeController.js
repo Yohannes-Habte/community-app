@@ -45,12 +45,12 @@ export const createExpense = async (req, res, next) => {
       date: date,
       total:
         Number(offer) +
-        Number(donation) +
-        Number(frekdasie) +
-        Number(choirExpense) +
-        Number(eventExpense) +
-        Number(priestExpense) +
-        Number(otherExpense),
+        Number(donation) -
+        (Number(frekdasie) +
+          Number(choirExpense) +
+          Number(eventExpense) +
+          Number(priestExpense) +
+          Number(otherExpense)),
     });
 
     try {
@@ -135,6 +135,31 @@ export const getAllFinance = async (req, res, next) => {
 };
 
 //==========================================================================
+// Get total fincial report
+//==========================================================================
+export const totalIncome = async (req, res, next) => {
+  try {
+    const financialReport = await Finance.find();
+
+    const annualTatalIncome = financialReport.reduce(
+      (totalSumMonthlyReportIncome, monthlyFinancialReport) =>
+        totalSumMonthlyReportIncome + monthlyFinancialReport.total,
+      0
+    );
+
+    return res.status(200).json(annualTatalIncome);
+  } catch (error) {
+    console.log(error);
+    return next(
+      createError(
+        400,
+        'The monthly financial reports could not be accessed! Please try again'
+      )
+    );
+  }
+};
+
+//==========================================================================
 // Count all monthly financial reports
 //==========================================================================
 export const countFinancialReports = async (req, res, next) => {
@@ -148,6 +173,24 @@ export const countFinancialReports = async (req, res, next) => {
         400,
         'The monthly financial reports count could not be accessed! Please try again'
       )
+    );
+  }
+};
+
+//==========================================================================
+// Delete Finance
+//==========================================================================
+export const deleteAllFinance = async (req, res, next) => {
+  try {
+    await Finance.deleteMany();
+
+    return res
+      .status(200)
+      .json(`All the financial details have been successfully deleted.`);
+  } catch (error) {
+    console.log(error);
+    return next(
+      createError(400, 'The sacrament could not be deleted! Please try again')
     );
   }
 };

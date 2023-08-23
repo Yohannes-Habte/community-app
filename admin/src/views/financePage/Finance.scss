@@ -37,10 +37,10 @@
         .table-head {
           background-color: #b0c4de;
           text-align: left;
-    
+
           .table-head-row {
             border-radius: 1rem;
-    
+
             .head-cell {
               padding: 0.5rem 0.3rem;
             }
@@ -52,97 +52,38 @@
             .body-cell {
               border-bottom: 1px solid #ddd;
               padding: 0 0.5rem;
-    
-              .action-wrapper {
-                width: 50px;
-                display: flex;
-                gap: 1rem;
-    
-                .link {
-                  @include btn2;
-                }
-    
-                .button {
-                  @include btn2;
-                }
-              }
             }
-    
-            .body-cell-user {
-              max-width: 150px;
+
+            .negative {
               border-bottom: 1px solid #ddd;
               padding: 0 0.5rem;
-    
-              .image-wrapper {
-                width: 250px;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-    
-                .image {
-                  width: 3rem;
-                  height: 3rem;
-                  border-radius: 50%;
-                }
-    
-                .name {
-                  text-align: left;
-                }
-              }
+              color: tomato;
             }
-    
-            .body-cell-email {
-              max-width: 9rem;
+
+            .positive {
               border-bottom: 1px solid #ddd;
               padding: 0 0.5rem;
-              
+              color: $title;
             }
-    
-            .body-cell-age {
-              width: 90px;
-              border-bottom: 1px solid #ddd;
-              padding: 0 0.5rem;
-            }
-    
-            .body-cell-city {
-              width: 200px;
-              border-bottom: 1px solid #ddd;
-              padding: 0 0.5rem;
-            }
-    
-            .body-cell-status {
-              width: 150px;
-              border-bottom: 1px solid #ddd;
-              padding: 0 0.5rem;
-    
-              &.active {
-                color: $title;
-              }
-    
-              &.passive {
-                color: $hover-text;
-              }
-    
-              &.pending {
-                color: goldenrod;
-              }
-            }
-    
+
             .body-cell-action {
               border-bottom: 1px solid #ddd;
               padding: 0 0.5rem;
               width: 150px;
-    
+
               .action-wrapper {
                 display: flex;
                 justify-content: space-between;
-    
+
                 .link {
                   display: flex;
                   align-items: center;
+                  justify-content: center;
                   @include btn2;
+                  padding: 0;
+                  text-decoration: none
                 }
-    
+
                 .button {
                   @include btn2;
                   color: $hover-text;
@@ -151,6 +92,12 @@
             }
           }
         }
+      }
+
+      .total-income {
+       .total {
+        color: blue;
+       }
       }
     }
   }
