@@ -1,14 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Spirituals.scss';
 import Menu from '../../components/menu/Menu';
 import { NavLink } from 'react-router-dom';
 import AddNewSpiritual from '../../components/addNew/AddNewSpiritual';
+import axios from 'axios';
 
 const Spirituals = () => {
   // Local state variables
   const [count, setCount] = useState();
   const [spirituals, setSpirituals] = useState([]);
   const [open, setOpen] = useState(false);
+
+  // Display sacraments reports to the frontend
+  useEffect(() => {
+    const fetchSpiritualDevelopments = async () => {
+      try {
+        const { data } = await axios.get(
+          'http://localhost:4000/api/spiritual-developments'
+        );
+        console.log('Sacrament data are:', data);
+        setSpirituals(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSpiritualDevelopments();
+  }, []);
+
+  // Handle delete
+  const handleDelete = async (Id) => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:4000/api/spiritual-developments/${Id}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <main className="spiritual-page">
       <Menu />
@@ -29,7 +58,7 @@ const Spirituals = () => {
                 <th className="head-cell"> Name </th>
                 <th className="head-cell"> Date </th>
                 <th className="head-cell"> Phone </th>
-                <th className="head-cell"> Verification </th>
+                <th className="head-cell"> Beneficiary Status </th>
                 <th className="head-cell"> Action </th>
               </tr>
             </thead>
@@ -40,16 +69,16 @@ const Spirituals = () => {
                   <tr key={spiritual._id} className="table-body-row">
                     <td className="body-cell"> {spiritual._id} </td>
                     <td className="body-cell"> {spiritual.date} </td>
-                    <td className="body-cell-email"> {spiritual.name} </td>
-                    <td className="body-cell-age"> {spiritual.phone} </td>
-                    <td className="body-cell-city">{spiritual.userStatus}</td>
+                    <td className="body-cell"> {spiritual.name} </td>
+                    <td className="body-cell"> {spiritual.phone} </td>
+                    <td className="body-cell"> {spiritual._id} </td>
                     <td className="body-cell-action">
                       <div className="action-wrapper">
                         <NavLink to={'/spirituals/id'} className={'link'}>
                           View
                         </NavLink>
                         <button
-                          //   onClick={() => handleDelete(user._id)}
+                          onClick={() => handleDelete(spiritual._id)}
                           className="button"
                         >
                           Delete

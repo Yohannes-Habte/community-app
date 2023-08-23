@@ -21,7 +21,7 @@ const DataGridTable = (props) => {
         <div className="action">
           {/* ${props.slug} represent to user page, product page, order page, post page */}
           {/* ${params.row.id} represent to userId, productId, orderId, postId */}
-          <Link to={`/${props.slug}/${params.row.id}`} className="view">
+          <Link to={`/`} className="view">
             <img src="/view.svg" alt="" />
           </Link>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
@@ -42,7 +42,7 @@ const DataGridTable = (props) => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 10,
+                pageSize: 5,
               },
             },
           }}

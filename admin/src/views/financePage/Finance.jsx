@@ -25,7 +25,7 @@ const Finance = () => {
     fechFinancialData();
   }, []);
 
-  // Display financial income and expenses in the table
+  // Display surplus or deficit from the financial report table
   useEffect(() => {
     const totalSuplusOrDeficit = async () => {
       try {
@@ -39,6 +39,17 @@ const Finance = () => {
     };
     totalSuplusOrDeficit();
   }, []);
+
+  // Handle delete
+  const handleDelete = async (Id) => {
+    try {
+      const { data } = await axios.delete(
+        `http://localhost:4000/api/spiritual-developments/${Id}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <main className="finance-page">
@@ -90,7 +101,7 @@ const Finance = () => {
                           View
                         </NavLink>
                         <button
-                          //   onClick={() => handleDelete(user._id)}
+                          onClick={() => handleDelete(expense._id)}
                           className="button"
                         >
                           Delete

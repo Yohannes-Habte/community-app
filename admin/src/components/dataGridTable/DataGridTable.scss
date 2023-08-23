@@ -2,6 +2,7 @@
 @import '../../styles/Mixins.scss';
 
 .data-grid {
+  z-index: 1;
   .data-grid-table {
     // the className "MuiDataGrid-toolbarContainer" is taken from MUI by inpecting the Data Grid tabel, particularly the Search bar
     .MuiDataGrid-toolbarContainer {

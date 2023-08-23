@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const AddNewSpiritual = ({setOpen}) => {
+const AddNewSpiritual = ({ setOpen }) => {
   // Local state variables
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
@@ -20,20 +20,23 @@ const AddNewSpiritual = ({setOpen}) => {
       case 'phone':
         setPhone(event.target.value);
         break;
-
+      case 'userStatus':
+        setUserStatus(event.target.value);
+        break;
       default:
         break;
     }
   };
 
-  // Reset all state variables for the login form
+  // Reset all state variables
   const reset = () => {
     setName('');
     setDate('');
     setPhone('');
+    setUserStatus('');
   };
 
-  // Submit new financial expense
+  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -46,7 +49,8 @@ const AddNewSpiritual = ({setOpen}) => {
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/finances/new-expense'
+        'http://localhost:4000/api/spiritual-developments/new',
+        newSpiritual
       );
       reset();
     } catch (error) {
@@ -106,6 +110,21 @@ const AddNewSpiritual = ({setOpen}) => {
               value={phone}
               onChange={updateData}
               placeholder="Enter Phone Number"
+              className="input-field"
+            />
+          </div>
+
+          {/* Religious recognition status */}
+          <div className="input-container">
+            <label htmlFor="userStatus" className="input-label">
+              Phone Number
+            </label>
+            <input
+              type="file"
+              name="userStatus"
+              id="userStatus"
+              value={userStatus}
+              onChange={updateData}
               className="input-field"
             />
           </div>

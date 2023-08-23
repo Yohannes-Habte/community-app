@@ -25,5 +25,57 @@
         @include button;
       }
     }
+
+    .user-info-table {
+      width: 100%;
+
+      .table-head {
+        background-color: #b0c4de;
+        text-align: left;
+  
+        .table-head-row {
+          border-radius: 1rem;
+  
+          .head-cell {
+            padding: 0.5rem 0.3rem;
+          }
+        }
+      }
+
+      .table-body {
+        .table-body-row {
+          .body-cell {
+            border-bottom: 1px solid #ddd;
+            padding: 0 0.5rem;
+  
+        
+          }
+  
+          .body-cell-action {
+            border-bottom: 1px solid #ddd;
+            padding: 0 0.5rem;
+            width: 150px;
+  
+            .action-wrapper {
+              display: flex;
+              justify-content: space-between;
+  
+              .link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                @include btn2;
+                padding: 0;
+              }
+  
+              .button {
+                @include btn2;
+                color: $hover-text;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

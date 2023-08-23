@@ -21,20 +21,24 @@ const AddNewSacrament = ({ setOpen }) => {
       case 'phone':
         setPhone(event.target.value);
         break;
+      case 'userStatus':
+        setUserStatus(event.target.value);
+        break;
       default:
         break;
     }
   };
 
-  // Reset all state variables for the login form
+  // Reset all state variables
   const reset = () => {
     setName('');
     setDate('');
     setPhone('');
+    setUserStatus('');
   };
 
   // handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const newSacrament = {
@@ -42,6 +46,12 @@ const AddNewSacrament = ({ setOpen }) => {
         date: date,
         phone: phone,
       };
+
+      const { data } = await axios.post(
+        'http://localhost:4000/api/sacraments/new-sacrament',
+        newSacrament
+      );
+      reset();
     } catch (error) {
       console.log(error);
     }
@@ -99,6 +109,21 @@ const AddNewSacrament = ({ setOpen }) => {
               value={phone}
               onChange={updateData}
               placeholder="Enter Phone Number"
+              className="input-field"
+            />
+          </div>
+
+          {/* Religious recognition status */}
+          <div className="input-container">
+            <label htmlFor="userStatus" className="input-label">
+              Phone Number
+            </label>
+            <input
+              type="file"
+              name="userStatus"
+              id="userStatus"
+              value={userStatus}
+              onChange={updateData}
               className="input-field"
             />
           </div>

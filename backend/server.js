@@ -42,7 +42,7 @@ app.use('/api/finances', financeRouter);
 app.use('/api/prayers', prayerServiceRouter);
 app.use('/api/sacraments', sacramentRouter);
 app.use('/api/spiritual-developments', spiritualDevelopmentRouter);
-app.use('/api/comments', commentRouter);
+app.use('/api/comments', commentRouter); 
 
 // Static assets
 app.use(express.static('assets'));
