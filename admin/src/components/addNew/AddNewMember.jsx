@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './AddNew.scss';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 
-const AddNewUser = ({ setOpen }) => {
+const AddNewMember = ({ setOpen }) => {
   // Local state variables
   const [image, setImage] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -16,6 +16,7 @@ const AddNewUser = ({ setOpen }) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
+
 
   // Function to update login user data
   const updateData = (event) => {
@@ -101,7 +102,7 @@ const AddNewUser = ({ setOpen }) => {
         country: country,
       };
       const { data } = await axios.post(
-        'http://localhost:4000/api/users/register',
+        'http://localhost:4000/api/members/register',
         newUser
       );
 
@@ -117,7 +118,7 @@ const AddNewUser = ({ setOpen }) => {
         <span onClick={() => setOpen(false)} className="close">
           X
         </span>
-        <h3 className="title"> Add New User </h3>
+        <h3 className="title"> Add New Member </h3>
         <form onSubmit={handleSubmit} action="" className="form">
           {/* First Name */}
           <div className="input-container">
@@ -301,4 +302,4 @@ const AddNewUser = ({ setOpen }) => {
   );
 };
 
-export default AddNewUser;
+export default AddNewMember;

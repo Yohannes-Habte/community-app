@@ -32,10 +32,9 @@ const SacramentReport = () => {
           <table className="report-table">
             <thead className="table-head">
               <tr className="table-head-row">
-                <th className="head-cell"> Date </th>
+              <th className="head-cell"> Service Date </th>
                 <th className="head-cell"> Sacrament Name </th>
-                <th className="head-cell"> Service Date </th>
-                <th className="head-cell"> Phone </th>
+                <th className="head-cell"> Contact Number </th>
                 <th className="head-cell"> User Status </th>
                
               </tr>
@@ -45,12 +44,10 @@ const SacramentReport = () => {
               {data.map((sacrament) => {
                 return (
                   <tr key={sacrament._id} className="table-body-row">
-                    <td className="body-cell"> {sacrament._id} </td>
                     <td className="body-cell"> {sacrament.date} </td>
                     <td className="body-cell"> {sacrament.name} </td>
-                    <td className="body-cell"> €{sacrament.phone} </td>
+                    <td className="body-cell"> {sacrament.phone} </td>
                     <td className="body-cell"> {sacrament._id} </td>
-                   
                   </tr>
                 );
               })}

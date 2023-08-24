@@ -12,11 +12,17 @@
 
   // Logo
   .logo {
+    .church-name {
+      text-decoration: none;
+      color: #ffffff;
+      font-size: $afs;
+    }
   }
 
   .icons-user {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 2 rem;
     padding: 0 1rem;
 

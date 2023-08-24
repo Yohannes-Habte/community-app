@@ -17,7 +17,7 @@ const Menu = () => {
                   to={listItem.url}
                   key={listItem.id}
                 >
-                  {listItem.icon}
+                  <span className="icon"> {listItem.icon} </span>
                   <span className="item"> {listItem.itemName} </span>
                 </NavLink>
               );

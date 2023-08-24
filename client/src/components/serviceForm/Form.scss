@@ -3,21 +3,6 @@
 
 /* Mobile screen size */
 .church-service {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-
-  .image-container {
-    display: none;
-    @include shadow3;
-    text-align: center;
-    justify-content: center;
-    .image {
-      @include imageSize;
-    }
-  }
-
   .form {
     @include shadow3;
     width: 100%;
@@ -72,22 +57,6 @@
 /* Tablet screen size */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .church-service {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1rem;
-
-    .image-container {
-      display: block;
-      @include shadow3;
-      flex: 1;
-      text-align: center;
-      justify-content: center;
-      .image {
-        @include imageSize;
-      }
-    }
-
     .form {
       @include shadow3;
       flex: 2;
@@ -143,31 +112,18 @@
 /* Labtop screen size */
 @media screen and (min-width: 1024px) {
   .church-service {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 3rem;
-
-    .image-container {
-      display: block;
-      @include shadow3;
-      text-align: center;
-      justify-content: center;
-
-      .image {
-        @include imageSize;
-      }
-    }
-
     .form {
-      @include shadow3;
-      width: 100%;
+      @include shadow;
+      width: 68%;
+      margin: auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
+      margin-top: 1rem;
 
       .input-container {
         position: relative;
+        width: 48%;
 
         .input-field {
           @include inputField;
@@ -177,6 +133,7 @@
       .files-input-container {
         position: relative;
         width: 50%;
+        padding-left: 1rem;
 
         .file-field {
           @include inputField;

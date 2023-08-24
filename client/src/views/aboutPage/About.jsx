@@ -16,7 +16,7 @@ const About = () => {
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/users');
+        const { data } = await axios.get('http://localhost:4000/api/committees');
         setStaff(data);
       } catch (error) {
         console.log(error);

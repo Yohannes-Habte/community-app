@@ -42,24 +42,31 @@ export const menu = [
     listItems: [
       {
         id: 1,
-        itemName: 'Users',
-        url: '/users',
+        itemName: 'Members',
+        url: '/members',
+        icon: <FaUserAlt className="icon" />,
+      },
+
+      {
+        id: 2,
+        itemName: 'Committee',
+        url: '/committee',
         icon: <FaUserAlt className="icon" />,
       },
       {
-        id: 2,
+        id: 3,
         itemName: 'Sacraments',
         url: '/sacraments',
         icon: <FaShoppingCart className="icon" />,
       },
       {
-        id: 3,
+        id: 4,
         itemName: 'Spiritual',
         url: '/spirituals',
         icon: <FaFirstOrderAlt className="icon" />,
       },
       {
-        id: 4,
+        id: 5,
         itemName: 'Finance',
         url: '/finance',
         icon: <BsFillFileEarmarkPostFill className="icon" />,

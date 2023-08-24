@@ -1,9 +1,9 @@
-import React from 'react'
-import "./SingleUser.scss"
+import React from 'react';
+import './SingleMember.scss';
 import Menu from '../../components/menu/Menu';
 import SingleItem from '../../components/singleItem/SingleItem';
 
-const SingleUser = () => {
+const SingleMember = () => {
   return (
     <main className="user-page">
       <Menu />
@@ -12,6 +12,6 @@ const SingleUser = () => {
       </div>
     </main>
   );
-}
+};
 
-export default SingleUser
+export default SingleMember;

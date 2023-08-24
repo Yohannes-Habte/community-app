@@ -2,7 +2,7 @@
 @import '../../styles/Mixins.scss';
 
 .menu {
-  width: 15%;
+  width: 12%;
   background-color: $main-bg;
   padding: 0.5rem 1rem;
   color: $soft-color;
@@ -29,6 +29,7 @@
 
       .icon {
         color: $soft-color;
+        margin-right: 0.2rem;
       }
 
       .item {

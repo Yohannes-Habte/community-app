@@ -1,72 +1,49 @@
 import createError from 'http-errors';
-import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
+import Committee from '../models/committeeModel.js';
 
 //==========================================================================
-// Register new user
+// Register new committee member
 //==========================================================================
-export const registerUser = async (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    image,
-    email,
-    password,
-    phone,
-    street,
-    zipCode,
-    city,
-    state,
-    country,
-    isAdmin,
-    isPriest,
-  } = req.body;
+export const registerCommitteMember = async (req, res, next) => {
+  const { fullName, email, password, phone, image, year, isAdmin, isPriest } =
+    req.body;
 
   try {
-    const user = await User.findOne({ email: email });
+    const committeeMember = await Committee.findOne({ email: email });
 
     // If user exists in the database
-    if (user) {
+    if (committeeMember) {
       return next(
         createError(400, 'Email has been taken. Please try another one!')
       );
     }
 
     // If user does exist in the database
-    if (!user) {
-      const newUser = new User({
-        firstName: firstName,
-        lastName: lastName,
+    if (!committeeMember) {
+      const newCommittee = new Committee({
+        fullName: fullName,
         email: email,
         password: password,
         phone: phone,
-        street: street,
-        zipCode: zipCode,
-        city: city,
-        state: state,
-        country: country,
+        year: year,
+        image: image,
         isAdmin: isAdmin,
         isPriest: isPriest,
-        image: image,
       });
 
-      const saveUser = await newUser.save();
+      const saveCommittee = await newCommittee.save();
 
       return res.status(201).json({
-        _id: saveUser._id,
-        firstName: saveUser.firstName,
-        lastName: saveUser.lastName,
-        email: saveUser.email,
-        password: saveUser.password,
-        phone: saveUser.phone,
-        street: saveUser.street,
-        zipCode: saveUser.zipCode,
-        state: saveUser.state,
-        image: saveUser.image,
-        address: saveUser.address,
-        country: saveUser.country,
-        isAdmin: saveUser.isAdmin,
-        isPriest: saveUser.isPriest,
+        _id: saveCommittee._id,
+        fullName: saveCommittee.fullName,
+        email: saveCommittee.email,
+        password: saveCommittee.password,
+        phone: saveCommittee.phone,
+        image: saveCommittee.image,
+        year: saveCommittee.year,
+        isAdmin: saveCommittee.isAdmin,
+        isPriest: saveCommittee.isPriest,
       });
     }
   } catch (error) {
@@ -78,13 +55,13 @@ export const registerUser = async (req, res, next) => {
 };
 
 //==========================================================================
-// Login user
+// Login committee member
 //==========================================================================
-export const loginUser = async (req, res, next) => {
+export const loginCommitteeMember = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email: email });
-    if (!user) {
+    const committeeMember = await Committee.findOne({ email: email });
+    if (!committeeMember) {
       return next(createError(400, 'Email does not exist. Please signup!'));
     }
 
@@ -95,7 +72,7 @@ export const loginUser = async (req, res, next) => {
       return next(createError(400, 'Incorrect password!'));
     }
 
-    if (user && isPasswordValid) {
+    if (committeeMember && isPasswordValid) {
       // To prevent password and adming sending to the frontend, you can do ....
       const { password, isAdmin, isPriest, ...userDetails } = user._doc;
 
@@ -110,11 +87,11 @@ export const loginUser = async (req, res, next) => {
 };
 
 //==========================================================================
-// Update user details
+// Update committee member details
 //==========================================================================
-export const updateUser = async (req, res, next) => {
+export const updateCommitteeMemberBiodata = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(
+    const user = await Committee.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true, runValidators: true }
@@ -130,11 +107,11 @@ export const updateUser = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get single user
+// Get single Committe Member
 //==========================================================================
-export const getUser = async (req, res, next) => {
+export const getCommitteeMember = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await Committee.findById(req.params.id);
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
@@ -145,15 +122,15 @@ export const getUser = async (req, res, next) => {
 };
 
 //==========================================================================
-// Delete a user
+// Delete a committee member
 //==========================================================================
-export const deleteUser = async (req, res, next) => {
+export const deleteCommitteeMember = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
-    await User.findByIdAndDelete(req.params.id);
+    const user = await Committee.findById(req.params.id);
+    await Committee.findByIdAndDelete(req.params.id);
     return res
       .status(200)
-      .json(`${user.firstName} ${user.lastName} has been successfully deleted`);
+      .json(`${user.fullName} has been successfully deleted`);
   } catch (error) {
     console.log(error);
     return next(createError(400, 'User is not deleted! please try again!'));
@@ -163,30 +140,17 @@ export const deleteUser = async (req, res, next) => {
 //==========================================================================
 // Get all users
 //==========================================================================
-export const getAllUsers = async (req, res, next) => {
+export const getAllCommitteeMembers = async (req, res, next) => {
   try {
-    const user = await User.find();
+    const user = await Committee.find();
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
     return next(
-      createError(400, 'Users could not be accessed! please try again!')
-    );
-  }
-};
-
-
-//==========================================================================
-// Count all users
-//==========================================================================
-export const userCount = async (req, res, next) => {
-  try {
-    const user = await User.countDocuments();
-    return res.status(200).json(user);
-  } catch (error) {
-    console.log(error);
-    return next(
-      createError(400, 'Users could not be accessed! please try again!')
+      createError(
+        400,
+        'Committee members could not be accessed! please try again!'
+      )
     );
   }
 };

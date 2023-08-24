@@ -55,8 +55,8 @@ const Spirituals = () => {
             <thead className="table-head">
               <tr className="table-head-row">
                 <th className="head-cell"> Id </th>
-                <th className="head-cell"> Name </th>
                 <th className="head-cell"> Date </th>
+                <th className="head-cell"> Name </th>
                 <th className="head-cell"> Phone </th>
                 <th className="head-cell"> Beneficiary Status </th>
                 <th className="head-cell"> Action </th>

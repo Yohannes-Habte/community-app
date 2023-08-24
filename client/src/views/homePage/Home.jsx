@@ -1,4 +1,5 @@
 import React from 'react';
+import Siyum from '../../assets/Fr.Siyum.jpg';
 import {
   landingPageEritreanBishops,
   landingPageFiveBishops,
@@ -44,6 +45,35 @@ const Home = () => {
             );
           })}
         </figure>
+      </section>
+
+      {/* The parish priest */}
+
+      <section className="parish-priest">
+        <h2 className="sub-title">Parish Priest</h2>
+        <div className="image-paragraph-container">
+          <figure className="image-container">
+            <img className="image" src={Siyum} alt="Abba Siyum" />
+          </figure>
+
+          <div className="paragraphs">
+            <p className="paragraph">
+              Since 2018, Father Siyum Kifle Zeragiorgis has been serving the
+              Eritrean Roman Catholic communities in Hamburg and the surrounding
+              area with unparalleled dedication and love. He inspires
+              Parishioners with the Gospel of Jesus Christ, hope and love. The
+              priest focuses on providing effective and quality social services
+              and the emotional well-being of individuals, families and
+              communities.
+            </p>
+
+            <p className="paragraph">
+              The parishioners are delighted with the priest's shepherd.
+              However, due to time constraints and geographical distance, the
+              relationships and spiritual growth are not as expected.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Eritrean bishops */}

@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import './Users.scss';
+import './Members.scss';
 import Menu from '../../components/menu/Menu';
-import DataGridTable from '../../components/dataGridTable/DataGridTable';
-import { userRows } from '../../data/Data';
-import AddNewUser from '../../components/addNew/AddNewUser';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import AddNewMember from '../../components/addNew/AddNewMember';
 
-const Users = () => {
+const Members = () => {
   // Local state variable
-  const [users, setUsers] = useState([]);
+  const [members, setMembers] = useState([]);
   const [open, setOpen] = useState(false);
 
   // Display sacraments reports to the frontend
   useEffect(() => {
     const fetchSpiritualDevelopments = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/users');
+        const { data } = await axios.get('http://localhost:4000/api/members');
         console.log(data);
-        setUsers(data);
+        setMembers(data);
       } catch (error) {
         console.log(error);
       }
@@ -30,7 +28,7 @@ const Users = () => {
   const handleDelete = async (Id) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:4000/api/users/${Id}`
+        `http://localhost:4000/api/members/${Id}`
       );
     } catch (error) {
       console.log(error);
@@ -42,7 +40,7 @@ const Users = () => {
       <Menu />
       <div className="user-container">
         <section className="user-info">
-          <h3 className="users-title">Users</h3>
+          <h3 className="users-title"> Church Members </h3>
           <button onClick={() => setOpen(true)} className="add-user-btn">
             Add New
           </button>
@@ -65,7 +63,7 @@ const Users = () => {
           </thead>
 
           <tbody className="table-body">
-            {users.map((user) => {
+            {members.map((user) => {
               return (
                 <tr key={user._id} className="table-body-row">
                   <td className="body-cell"> {user.firstName} </td>
@@ -96,9 +94,9 @@ const Users = () => {
           </tbody>
         </table>
       </div>{' '}
-      {open && <AddNewUser setOpen={setOpen} />}
+      {open && <AddNewMember setOpen={setOpen} />}
     </main>
   );
 };
 
-export default Users;
+export default Members;

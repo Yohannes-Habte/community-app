@@ -7,13 +7,14 @@ import {
 } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import Home from './views/homePage/Home';
-import Users from './views/usersPage/Users';
-import SingleUser from './views/singleUserPage/SingleUser';
+import SingleUser from './views/singleUserPage/SingleMember';
 import SingleSacrament from './views/sigleSacramentPage/SingleSacrament';
 import Sacraments from './views/sacramentPage/Sacraments';
 import Login from './views/loginPage/Login';
 import Finance from './views/financePage/Finance';
 import Spirituals from './views/spiritualpage/Spirituals';
+import Members from './views/memberPage/Members';
+import Committe from './views/committeePage/Committee';
 
 const App = () => {
   return (
@@ -23,8 +24,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/users/:id" element={<SingleUser />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/members/:id" element={<SingleUser />} />
+          <Route path="/committee" element={<Committe />} />
           <Route path="/sacraments" element={<Sacraments />} />
           <Route path="/sacraments/:id" element={<SingleSacrament />} />
           <Route path="/spirituals" element={<Spirituals />} />

@@ -55,20 +55,6 @@ const Sacrament = () => {
 
   return (
     <div className="church-service">
-
-      {/* Left container */}
-      <figure className="image-container">
-        <img
-          src={
-            files
-              ? URL.createObjectURL(files[0])
-              : 'https://icon-library.com/images/no-image-icon//no-image-icon-0.jpg'
-          }
-          alt=""
-          className="image"
-        />
-      </figure>
-
       {/* Right container */}
       <form onSubmit={handleSacramentSubmit} action="" className="form">
         {serviceData.sacraments.map((input) => {

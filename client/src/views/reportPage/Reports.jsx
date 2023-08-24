@@ -15,13 +15,13 @@ const Reports = () => {
       <section className="report-container">
         <h1 className="report-title"> Annual Reports </h1>
 
-        <article className='finance-report'>
-        <h2 className="title"> Financial Report for the Year 2022 and 2023</h2>
+        <article className="finance-report">
+          <h2 className="title">Financial Report for the Year 2022 and 2023</h2>
           <FinancialReport />
         </article>
 
-        <article className='sacrament-report'>
-          <h2 className='title'> Sacrament Report for the Year 2022 and 2023 </h2>
+        <article className="sacrament-report">
+          <h2 className="title">Sacrament Report for the Year 2022 and 2023</h2>
           <SacramentReport />
         </article>
       </section>

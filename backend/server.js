@@ -6,13 +6,14 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 
 // Routes
-import userRouter from './routes/userRoutes.js';
 import globalErrorHandler from './middlewares/globalErrorHandler.js';
 import financeRouter from './routes/financeRoutes.js';
 import prayerServiceRouter from './routes/prayerServiceRoutes.js';
 import sacramentRouter from './routes/sacramentRoutes.js';
 import spiritualDevelopmentRouter from './routes/spiritualDevelopmentRoutes.js';
 import commentRouter from './routes/commentRoutes.js';
+import memberRouter from './routes/memberRoutes.js';
+import committeeRouter from './routes/committesRoutes.js';
 
 // Express app
 const app = express();
@@ -37,12 +38,13 @@ const connectToDB = async () => {
 app.use(morgan('tiny'));
 
 // End points
-app.use('/api/users', userRouter);
+app.use('/api/members', memberRouter);
+app.use('/api/committees', committeeRouter);
 app.use('/api/finances', financeRouter);
 app.use('/api/prayers', prayerServiceRouter);
 app.use('/api/sacraments', sacramentRouter);
 app.use('/api/spiritual-developments', spiritualDevelopmentRouter);
-app.use('/api/comments', commentRouter); 
+app.use('/api/comments', commentRouter);
 
 // Static assets
 app.use(express.static('assets'));
