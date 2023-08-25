@@ -7,6 +7,7 @@ const AddNewCommittee = ({ setOpen }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [title, setTitle] = useState('');
   const [phone, setPhone] = useState('');
   const [year, setYear] = useState('');
   const [image, setImage] = useState('');
@@ -22,6 +23,9 @@ const AddNewCommittee = ({ setOpen }) => {
         break;
       case 'password':
         setPassword(event.target.value);
+        break;
+      case 'title':
+        setTitle(event.target.value);
         break;
       case 'phone':
         setPhone(event.target.value);
@@ -39,6 +43,7 @@ const AddNewCommittee = ({ setOpen }) => {
     setFullName('');
     setEmail('');
     setPassword('');
+    setTitle("")
     setPhone('');
     setYear('');
   };
@@ -65,6 +70,7 @@ const AddNewCommittee = ({ setOpen }) => {
         fullName: fullName,
         email: email,
         password: password,
+        title: title,
         phone: phone,
         year: year,
         image: url,
@@ -130,6 +136,21 @@ const AddNewCommittee = ({ setOpen }) => {
               name="password"
               id="password"
               value={password}
+              onChange={updateData}
+              placeholder="Enter Password"
+              className="input-field"
+            />
+          </div>
+            {/* Password */}
+            <div className="input-container">
+            <label htmlFor="title" className="input-label">
+              Title / Role
+            </label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              value={title}
               onChange={updateData}
               placeholder="Enter Password"
               className="input-field"

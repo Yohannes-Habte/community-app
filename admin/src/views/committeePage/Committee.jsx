@@ -14,7 +14,9 @@ const Committee = () => {
   useEffect(() => {
     const fetchSpiritualDevelopments = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/committees');
+        const { data } = await axios.get(
+          'http://localhost:4000/api/committees'
+        );
         console.log(data);
         setCommittees(data);
       } catch (error) {
@@ -49,6 +51,7 @@ const Committee = () => {
           <thead className="table-head">
             <tr className="table-head-row">
               <th className="head-cell"> Full Name </th>
+              <th className="head-cell"> Role </th>
               <th className="head-cell"> Email Address </th>
               <th className="head-cell"> Phone Number </th>
               <th className="head-cell"> Service Period </th>
@@ -61,6 +64,7 @@ const Committee = () => {
               return (
                 <tr key={committee._id} className="table-body-row">
                   <td className="body-cell"> {committee.fullName} </td>
+                  <td className="body-cell"> {committee.title} </td>
                   <td className="body-cell"> {committee.email} </td>
                   <td className="body-cell"> {committee.phone} </td>
                   <td className="body-cell"> {committee.year} </td>

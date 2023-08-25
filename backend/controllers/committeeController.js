@@ -6,8 +6,17 @@ import Committee from '../models/committeeModel.js';
 // Register new committee member
 //==========================================================================
 export const registerCommitteMember = async (req, res, next) => {
-  const { fullName, email, password, phone, image, year, isAdmin, isPriest } =
-    req.body;
+  const {
+    fullName,
+    email,
+    password,
+    title,
+    phone,
+    image,
+    year,
+    isAdmin,
+    isPriest,
+  } = req.body;
 
   try {
     const committeeMember = await Committee.findOne({ email: email });
@@ -25,6 +34,7 @@ export const registerCommitteMember = async (req, res, next) => {
         fullName: fullName,
         email: email,
         password: password,
+        title: title,
         phone: phone,
         year: year,
         image: image,
@@ -39,6 +49,7 @@ export const registerCommitteMember = async (req, res, next) => {
         fullName: saveCommittee.fullName,
         email: saveCommittee.email,
         password: saveCommittee.password,
+        title: saveCommittee.title,
         phone: saveCommittee.phone,
         image: saveCommittee.image,
         year: saveCommittee.year,

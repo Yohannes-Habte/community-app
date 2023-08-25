@@ -16,7 +16,9 @@ const About = () => {
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/committees');
+        const { data } = await axios.get(
+          'http://localhost:4000/api/committees'
+        );
         setStaff(data);
       } catch (error) {
         console.log(error);
@@ -113,11 +115,12 @@ const About = () => {
                           alt={member.firstName}
                         />
                       </figure>
+
                       <article className="contact-details">
-                        <h4 className="subtitle"> {member.firstName}  {member.lastName} </h4>
-                        <p className="info"> {member.name} </p>
-                        <p className="info"> {member.phone} </p>
-                        <p className="info"> {member.email} </p>
+                        <h2 className="staff-member-title"> {member.title} </h2>
+                        <p className="staff-member-info"> {member.fullName} </p>
+                        <p className="staff-member-info"> {member.phone} </p>
+                        <p className="staff-member-info"> {member.email} </p>
                       </article>
                     </div>
                   );

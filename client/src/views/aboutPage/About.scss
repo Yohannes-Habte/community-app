@@ -73,11 +73,14 @@
           // Council of the Holy Redeemer Parish
           .members {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             column-gap: 1rem;
             row-gap: 1rem;
 
             .member-info {
+              display: flex;
+              flex-direction: row;
+              gap: 1rem;
               @include shadow3;
 
               .photo-container {
@@ -91,9 +94,12 @@
               }
 
               .contact-details {
-                .subtitle {
+                line-height: 2rem;
+                .staff-member-title {
+                  font-size: $afs;
                 }
-                .info {
+                .staff-member-info {
+                  font-size: 0.9rem;
                 }
               }
             }
