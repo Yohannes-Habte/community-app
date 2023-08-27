@@ -67,7 +67,7 @@ const FinancialReport = () => {
 
       <h4 className="total-income">
         Total Income for the year 2022 was{' '}
-        <span className="total">€ {total} </span>
+        <span className="total">€ {total},00 </span>
       </h4>
     </section>
   );

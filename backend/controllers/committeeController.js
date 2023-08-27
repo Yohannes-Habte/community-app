@@ -149,6 +149,25 @@ export const deleteCommitteeMember = async (req, res, next) => {
 };
 
 //==========================================================================
+// Get service facilitator for sacrament
+//==========================================================================
+export const serviceFacilitator = async (req, res, next) => {
+  try {
+    const user = await Committee.findById(req.params.id);
+    if (user.title === 'Parish Priest') {
+      return res.status(200).json(user.fullName);
+    } else {
+      return res.status(200).json('Facilitator not found!');
+    }
+  } catch (error) {
+    console.log(error);
+    return next(
+      createError(400, 'Priest could not be accessed! please try again!')
+    );
+  }
+};
+
+//==========================================================================
 // Get all users
 //==========================================================================
 export const getAllCommitteeMembers = async (req, res, next) => {

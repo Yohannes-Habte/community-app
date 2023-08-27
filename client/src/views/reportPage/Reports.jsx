@@ -1,8 +1,10 @@
 import React from 'react';
 import './Reports.scss';
 import FetchData from '../../utiles/GlobalClientFunction';
-import FinancialReport from '../../components/tables/FinancialReport';
-import SacramentReport from '../../components/tables/SacramentReport';
+import FinancialReport from '../../components/reportTables/FinancialReport';
+import SacramentReport from '../../components/reportTables/SacramentReport';
+import PrayerReport from '../../components/reportTables/PrayerReport';
+import SpiritualDevelopmentReport from '../../components/reportTables/SpiritualDevelopmentReport';
 
 const Reports = () => {
   // Global Functions
@@ -20,9 +22,25 @@ const Reports = () => {
           <FinancialReport />
         </article>
 
-        <article className="sacrament-report">
-          <h2 className="title">Sacrament Report for the Year 2022 and 2023</h2>
+        <article className="other-report">
+          <h2 className="title">
+            Sacrament Service Report for the Year 2022 and 2023
+          </h2>
           <SacramentReport />
+        </article>
+
+        <article className="other-report">
+          <h2 className="title">
+            Prayer Service Report for the Year 2022 and 2023
+          </h2>
+          <PrayerReport />
+        </article>
+
+        <article className="other-report">
+          <h2 className="title">
+            Spiritual Development report for the Year 2022 and 2023
+          </h2>
+          <SpiritualDevelopmentReport />
         </article>
       </section>
     </main>

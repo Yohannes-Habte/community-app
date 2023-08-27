@@ -5,6 +5,7 @@ import {
   getCommitteeMember,
   loginCommitteeMember,
   registerCommitteMember,
+  serviceFacilitator,
   updateCommitteeMemberBiodata,
 } from '../controllers/committeeController.js';
 
@@ -17,6 +18,7 @@ committeeRouter.post('/login', loginCommitteeMember);
 committeeRouter.put('/:id', updateCommitteeMemberBiodata);
 committeeRouter.get('/:id', getCommitteeMember);
 committeeRouter.delete('/:id', deleteCommitteeMember);
+committeeRouter.get('/:id/facilitator', serviceFacilitator);
 committeeRouter.get('/', getAllCommitteeMembers);
 
 // Export Committee Router
