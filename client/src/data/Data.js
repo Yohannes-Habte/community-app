@@ -87,73 +87,25 @@ export const aboutPage = {
   mission:
     'Inspired by the Gospel of Jesus Christ, we seek to bring joy to those we serve by enabling growth, healing, and hope. By delivering effective and high quality social services, Holy Saviour helps to build the social and emotional wellbeing of individuals, families and communities.',
   vision: `To make the hope of Jesus known by building a large, Christ-centered, multicultural, multigenerational church, transforming culture through creativity and empowering ordinary people to lead others and live dynamically for the cause of God's kingdom.`,
-  staff: [
-    {
-      title: 'Parish Priest',
-      name: 'Siyum Kifle Zera Giorgis',
-      email: 'siyum@gmail.com',
-      phone: '+4915213860211',
-      photo: 'image',
-    },
-    {
-      title: 'Chair Person',
-      name: 'Yohannes Habtemariam',
-      email: 'habte@gmail.com',
-      phone: '+4915213860211',
-      photo: 'image',
-    },
-
-    {
-      title: 'Contact Person',
-      name: 'Abel Gurja',
-      email: 'abel@gmail.com',
-      phone: '+4915219080890',
-      photo: 'image',
-    },
-
-    {
-      title: 'Financial Manager',
-      name: 'Kidane Tekie',
-      email: 'kidane@gmail.com',
-      phone: '+49152080890',
-      photo: 'image',
-    },
-
-    {
-      title: 'Spiritual Manager',
-      name: 'Zekarias Haile',
-      email: 'zekarias@gmail.com',
-      phone: '+49152080890',
-      photo: 'image',
-    },
-
-    {
-      title: 'Children Manager',
-      name: 'Selam Haile',
-      email: 'selam@gmail.com',
-      phone: '+49152080890',
-      photo: 'image',
-    },
-  ],
 
   teamDesc:
     'At Holy Saviour, we love to see people thrive in their God given gifts & abilities. We have strategically positioned people to see the best that they have to offer and to ultimately build the Kingdom of God with excellence and passion. ',
 
   values: [
     {
-      value: 'Love',
+      name: 'Love',
       desc: 'Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonor others, it is not self-seeking, it is not easily angered, it keeps no record of wrongs. Love does not delight in evil but rejoices with the truth. It always protects, always trusts, always hopes, always perseveres (1 Corinthians 13:4-7). Therefore, love your enemies and pray for those who persecute you (Matthew 5:44).',
     },
     {
-      value: 'Truth',
+      name: 'Truth',
       desc: 'Jesus says, “If you abide in my word, you are truly my disciples, and you will know the truth, and the truth will set you free (John 8:31-32 ).',
     },
     {
-      value: 'Respect',
+      name: 'Respect',
       desc: 'Respect and honor should be shown to everyone (1 Peter 2:17). So in everything, do to others what you would have them do to you, for this sums up the Law and the Prophets (Matthew 7:12).',
     },
     {
-      value: 'Equity ',
+      name: 'Equity ',
       desc: 'There is neither Jew nor Greek, there is neither slave nor free, there is no male and female, for you are all one in Christ Jesus (Galatians 3:28).',
     },
   ],
@@ -192,7 +144,6 @@ export const serviceData = {
       label: 'Telephone',
       placeholder: ' Enter Telephone Number',
     },
- 
   ],
 
   // Request for prayer
@@ -220,7 +171,6 @@ export const serviceData = {
       label: 'Telephone',
       placeholder: ' Enter Telephone Number',
     },
-
   ],
 
   // Spiritual Development Service

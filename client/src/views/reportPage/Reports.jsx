@@ -35,13 +35,6 @@ const Reports = () => {
           </h2>
           <PrayerReport />
         </article>
-
-        <article className="other-report">
-          <h2 className="title">
-            Spiritual Development report for the Year 2022 and 2023
-          </h2>
-          <SpiritualDevelopmentReport />
-        </article>
       </section>
     </main>
   );

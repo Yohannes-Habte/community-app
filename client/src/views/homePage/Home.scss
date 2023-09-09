@@ -31,50 +31,6 @@
     }
   }
 
-  // Five bishops
-  .five-bishops {
-    @include shadow3;
-    width: $mobile;
-    margin: auto;
-
-    .sub-title {
-      @include subTitle;
-      font-size: $afs;
-    }
-
-    .bishops-photos {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: 0.5rem;
-      column-gap: 0.5rem;
-
-      .bishop-details {
-        @include shadow3;
-        width: $mobile;
-        margin: auto;
-
-        .b-image {
-          width: 9rem;
-          height: 12rem;
-          object-fit: cover;
-          border-radius: $radius;
-          cursor: pointer;
-        }
-
-        .b-title {
-          font-size: $sfs;
-        }
-
-        .b-name {
-          font-size: $sfs;
-        }
-
-        .b-eparchy {
-          font-size: $sfs;
-        }
-      }
-    }
-  }
 
   // Eritrean bishops
   .eritrean-bishops {

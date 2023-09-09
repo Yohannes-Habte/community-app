@@ -86,7 +86,6 @@ const Contact = () => {
 
       dispatch({ type: ACTION.COMMENT_SEND_SUCCESS, payload: data });
 
-   
       localStorage.setItem('comment', JSON.stringify(data));
       reset();
     } catch (err) {
@@ -104,9 +103,9 @@ const Contact = () => {
       </Helmet>
       <h1 className="contact-page-title"> We'd Love to Hear From You </h1>
       <section className="contact-media">
-        {ContactData.map(({ image, heading, link }) => {
+        {ContactData.map(({ image, heading, link }, index) => {
           return (
-            <article className="contact-media-items">
+            <article key={index} className="contact-media-items">
               <figure className="contact-meida-icon-container"> {image}</figure>
               <h3 className="contact-media-header"> {heading} </h3>
               <p className="contact-media-link-to"> {link} </p>

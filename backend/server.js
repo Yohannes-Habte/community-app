@@ -19,7 +19,7 @@ import committeeRouter from './routes/committesRoutes.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
-const port = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 // Security key holder
 dotenv.config();
@@ -53,7 +53,7 @@ app.use(express.static('assets'));
 app.use(globalErrorHandler);
 
 // Server Listner
-app.listen(port, () => {
+app.listen(PORT, () => {
   connectToDB();
-  console.log(`The server starts on port ${port}`.blue.bold);
+  console.log(`The server starts on port ${PORT}`.blue.bold);
 });

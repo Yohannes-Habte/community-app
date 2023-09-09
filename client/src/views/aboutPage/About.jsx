@@ -7,7 +7,7 @@ const About = () => {
   const [staff, setStaff] = useState([]);
   const [toggle, setToggle] = useState(0);
 
-  // Function to manage tabs
+  // Function to manage tabs using index number
   const tabsToggle = (index) => {
     setToggle(index);
   };
@@ -20,6 +20,7 @@ const About = () => {
           'http://localhost:4000/api/committees'
         );
         setStaff(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -31,39 +32,54 @@ const About = () => {
     <main className="about-page">
       <section className="about-container">
         <h1 className="about-title"> {aboutPage.title} </h1>
+        <article className="strategic-intent">
+          <h2 className="sub-title"> Mission </h2>
+          <p className='paragraph'> {aboutPage.mission} </p>
+        </article>
 
-        <div className="tabs-content">
-          {/* Tabs or menue  */}
-          <div className="blog-tabs">
-            <div
-              onClick={() => tabsToggle(0)}
-              className={toggle === 0 ? 'tabs active-tabs' : 'tabs'}
-            >
-              Mission
-            </div>
+        <article className="strategic-intent">
+          <h2 className="sub-title"> Vision </h2>
+          <p className='paragraph'> {aboutPage.vision} </p>
+        </article>
 
-            <div
-              onClick={() => tabsToggle(1)}
-              className={toggle === 1 ? 'tabs active-tabs' : 'tabs'}
-            >
-              Vision
-            </div>
+        <article className="strategic-intent">
+          <h2 className="sub-title">Values</h2>
+          {aboutPage.values.map((value) => {
+            return (
+              <section className='value'>
+                <h3 className="value-title"> {value.name}</h3>
+                <p className="description"> {value.desc}</p>
+              </section>
+            );
+          })}
+        </article>
 
-            <div
-              onClick={() => tabsToggle(2)}
-              className={toggle === 2 ? 'tabs active-tabs' : 'tabs'}
-            >
-              Values
-            </div>
-
-            <div
-              onClick={() => tabsToggle(3)}
-              className={toggle === 3 ? 'tabs active-tabs' : 'tabs'}
-            >
-              Staff
-            </div>
+        <article className="staff-members">
+          <h2 className="sub-title"> Staff Members </h2>
+          <div className="staff-container">
+            {staff.map((member) => {
+              return (
+                <section className="member-info">
+                  <figure className="photo-container ">
+                    <img
+                      className="photo"
+                      src={member.image}
+                      alt={member.name}
+                    />
+                  </figure>
+                  <h3 className="staff-title"> {member.title} </h3>
+                  <p className="staff"> {member.fullName} </p>
+                  <p className="staff"> {member.email} </p>
+                  <p className="staff"> {member.phone} </p>
+                  <p className="staff"> {member.year} </p>
+                  <p></p>
+                </section>
+              );
+            })}
           </div>
+        </article>
 
+        <article className="tabs-content">
           {/* Contents or results when you click the tabs */}
           <div className="contents">
             {/* Holy Savior Mission */}
@@ -88,10 +104,10 @@ const About = () => {
               className={toggle === 2 ? 'content active-content' : 'content'}
             >
               <section className="values">
-                {aboutPage.values.map((value) => {
+                {aboutPage.values.map((value, index) => {
                   return (
-                    <article className="value">
-                      <h4 className="subtitle"> {value.value} </h4>
+                    <article key={index} className="value">
+                      <h4 className="subtitle"> {value.name} </h4>
                       <p className="description"> {value.desc} </p>
                     </article>
                   );
@@ -107,7 +123,7 @@ const About = () => {
               <section className="members">
                 {staff.map((member) => {
                   return (
-                    <div className="member-info">
+                    <div key={member._id} className="member-info">
                       <figure className="photo-container">
                         <img
                           className="photo"
@@ -128,7 +144,7 @@ const About = () => {
               </section>
             </div>
           </div>
-        </div>
+        </article>
       </section>
     </main>
   );

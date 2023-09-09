@@ -34,7 +34,7 @@ export const registerUser = async (req, res, next) => {
 
     // If user does exist in the database
     if (!user) {
-      const newUser = new User({
+      const newUser = new Member({
         firstName: firstName,
         lastName: lastName,
         email: email,
