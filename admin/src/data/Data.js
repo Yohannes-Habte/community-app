@@ -760,3 +760,5 @@ export const singleProduct = {
     },
   ],
 };
+
+

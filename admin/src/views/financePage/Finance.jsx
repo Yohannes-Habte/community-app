@@ -44,7 +44,7 @@ const Finance = () => {
   const handleDelete = async (Id) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:4000/api/spiritual-developments/${Id}`
+        `http://localhost:4000/api/finances/${Id}`
       );
     } catch (error) {
       console.log(error);
@@ -68,8 +68,8 @@ const Finance = () => {
             <thead className="table-head">
               <tr className="table-head-row">
                 <th className="head-cell"> Date </th>
-                <th className="head-cell"> Offer </th>
                 <th className="head-cell"> Donation </th>
+                <th className="head-cell"> Offer </th>
                 <th className="head-cell"> Mass </th>
                 <th className="head-cell"> Choir </th>
                 <th className="head-cell"> Event </th>
@@ -85,8 +85,8 @@ const Finance = () => {
                 return (
                   <tr key={expense._id} className="table-body-row">
                     <td className="body-cell"> {expense.date} </td>
-                    <td className="body-cell"> €{expense.offer} </td>
                     <td className="body-cell"> €{expense.donation} </td>
+                    <td className="body-cell"> €{expense.offer} </td>
                     <td className="body-cell"> €{expense.frekdasie} </td>
                     <td className="body-cell"> €{expense.choirExpense} </td>
                     <td className="body-cell"> €{expense.eventExpense} </td>

@@ -4,25 +4,7 @@
 .chart-box {
   display: flex;
   height: 100%;
-
-  .box-info {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: $soft-color;
-
-    .title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: $soft-color;
-    }
-
-    .image {
-    }
-  }
-
+  background-color: #111;
   .chart-info {
     flex: 2;
     display: flex;
@@ -32,22 +14,6 @@
     .chart {
       height: 100%;
       width: 100%;
-    }
-  }
-
-  .texts {
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-    color: $soft-color;
-
-    .percentage {
-        font-weight: $aafw;
-        font-size: $afs;
-    }
-
-    .duration {
-        font-size: $afs;
     }
   }
 }

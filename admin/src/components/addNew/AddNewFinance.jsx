@@ -64,8 +64,8 @@ const AddNewFinance = ({ setOpen }) => {
     try {
       // The body
       const newFinance = {
-        offer: offer,
         donation: donation,
+        offer: offer,
         frekdasie: frekdasie,
         choirExpense: choirExpense,
         eventExpense: eventExpense,
@@ -92,6 +92,21 @@ const AddNewFinance = ({ setOpen }) => {
         </span>
         <h3 className="title"> Add New Report </h3>
         <form onSubmit={submitNewFinancialExpense} action="" className="form">
+
+        <div className="input-container">
+            <label htmlFor="donation" className="input-label">
+              Monthly Donation
+            </label>
+            <input
+              type="number"
+              name="donation"
+              id="donation"
+              value={donation}
+              onChange={updateData}
+              placeholder="Enter Donation"
+              className="input-field"
+            />
+          </div>
           <div className="input-container">
             <label htmlFor="offer" className="input-label">
               Offer
@@ -103,21 +118,6 @@ const AddNewFinance = ({ setOpen }) => {
               value={offer}
               onChange={updateData}
               placeholder="Enter Offer"
-              className="input-field"
-            />
-          </div>
-
-          <div className="input-container">
-            <label htmlFor="donation" className="input-label">
-              Monthly Donation
-            </label>
-            <input
-              type="number"
-              name="donation"
-              id="donation"
-              value={donation}
-              onChange={updateData}
-              placeholder="Enter Donation"
               className="input-field"
             />
           </div>

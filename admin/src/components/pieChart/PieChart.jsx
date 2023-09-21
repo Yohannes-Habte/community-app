@@ -12,9 +12,8 @@ const Piechart = () => {
 
   return (
     <section className="piechart">
-      <h3 className="title"> Leads by Source </h3>
       <div className="piechart-container">
-        <ResponsiveContainer width="99%" height={300}>
+        <ResponsiveContainer width="99%" height={280}>
           <PieChart>
             <Tooltip
               contentStyle={{

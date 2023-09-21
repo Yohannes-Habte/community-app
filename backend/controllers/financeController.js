@@ -44,13 +44,13 @@ export const createExpense = async (req, res, next) => {
       otherExpense: otherExpense,
       date: date,
       total:
-        Number(offer) +
-        Number(donation) -
-        (Number(frekdasie) +
-          Number(choirExpense) +
-          Number(eventExpense) +
-          Number(priestExpense) +
-          Number(otherExpense)),
+        Number(Number(offer).toFixed(2)) +
+        Number(Number(donation).toFixed(2)) -
+        (Number(Number(frekdasie).toFixed(2)) +
+          Number(Number(choirExpense).toFixed(2)) +
+          Number(Number(eventExpense).toFixed(2)) +
+          Number(Number(priestExpense).toFixed(2)) +
+          Number(Number(otherExpense).toFixed(2))),
     });
 
     try {

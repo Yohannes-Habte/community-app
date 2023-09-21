@@ -10,50 +10,54 @@
   .home-container {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: minmax(180px, auto);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'title title '
+      'sacrament sacrament '
+      'participation spiritual'
+      'donation finance';
     column-gap: 1rem;
     row-gap: 1rem;
+    background-color: #111;
+
+
+    .home-title {
+      grid-area: title;
+      @include title;
+      color: $soft-color;
+    }
 
     .box {
       padding: 1rem;
       border-radius: $radius;
       border: 1px solid $soft-bg;
+
+
+      .subTitle {
+        color: $soft-color;
+        font-size: $afs;
+        text-align: center;
+      }
     }
 
-    .box1 {
-      grid-column: span 1;
-      grid-row: span 3;
+    .sacraments {
+      grid-area: sacrament;
     }
 
-    .box2 {
-      grid-column: span 1;
-      grid-row: span 1;
+    .members-participation {
+      grid-area: participation;
     }
 
-    .box3 {
-      grid-column: span 1;
-      grid-row: span 1;
+    .spiritual-development {
+      grid-area: spiritual;
     }
 
-    .box4 {
-      grid-column: span 1;
-      grid-row: span 3;
+    .members-donation {
+      grid-area: donation;
     }
 
-    .box5 {
-      grid-column: span 1;
-      grid-row: span 1;
-    }
-
-    .box6 {
-      grid-column: span 1;
-      grid-row: span 1;
-    }
-
-    .box7 {
-      grid-column: span 2;
-      grid-row: span 2;
+    .financial-analysis {
+      grid-area: finance;
     }
   }
 }

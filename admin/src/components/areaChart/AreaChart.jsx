@@ -5,7 +5,6 @@ import {
   Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
@@ -58,9 +57,8 @@ const AreaChartRevenue = () => {
 
   return (
     <section className="revenue-linechart">
-      <h3 className="title"> Revenue Analysis </h3>
       <div className="revenue-chart">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={315}>
           <AreaChart
             width={500}
             height={400}
