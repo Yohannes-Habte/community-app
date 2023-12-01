@@ -73,36 +73,7 @@ export const menu = [
       },
     ],
   },
-  {
-    id: 3,
-    title: 'general',
-    listItems: [
-      {
-        id: 1,
-        itemName: 'Elements',
-        url: '/',
-        icon: <SiElement className="icon" />,
-      },
-      {
-        id: 2,
-        itemName: 'Notes',
-        url: '/',
-        icon: <PiNotePencilBold className="icon" />,
-      },
-      {
-        id: 3,
-        itemName: 'Forms',
-        url: '/',
-        icon: <FaCalendarAlt className="icon" />,
-      },
-      {
-        id: 4,
-        itemName: 'Calendar',
-        url: '/',
-        icon: <FaWpforms className="icon" />,
-      },
-    ],
-  },
+
   {
     id: 4,
     title: 'Maintenance',
@@ -118,24 +89,6 @@ export const menu = [
         itemName: 'Backups',
         url: '/',
         icon: <MdBackup className="icon" />,
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: 'analytics',
-    listItems: [
-      {
-        id: 1,
-        itemName: 'Charts',
-        url: '/',
-        icon: <HiOutlineChartBar className="icon" />,
-      },
-      {
-        id: 2,
-        itemName: 'Logs',
-        url: '/',
-        icon: <SiLogstash className="icon" />,
       },
     ],
   },
@@ -760,5 +713,3 @@ export const singleProduct = {
     },
   ],
 };
-
-

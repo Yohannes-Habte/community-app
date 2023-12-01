@@ -31,7 +31,6 @@ const App = () => {
           <Route path="/sacraments/:id" element={<SingleSacrament />} />
           <Route path="/spirituals" element={<Spirituals />} />
           <Route path="/finance" element={<Finance />} />
-          
           <Route path="*" element={<Navigate to={'/'} />} />
         </Routes>
       </Router>
