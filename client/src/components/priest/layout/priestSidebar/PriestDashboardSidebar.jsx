@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const PriestDashboardSidebar = () => {
   return (
-    <div>PriestDashboardSidebar</div>
-  )
-}
+    <section>
+      <h1>sgsgsg</h1>
+    </section>
+  );
+};
 
-export default PriestDashboardSidebar
+export default PriestDashboardSidebar;

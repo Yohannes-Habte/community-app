@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { serviceData } from '../../data/Data';
-import './Service.scss';
+import './ServicesPage.scss';
 import Sacrament from '../../components/servicesForm/Sacrament';
 import PrayerRequest from '../../components/servicesForm/PrayerRequest';
 import SpiritualService from '../../components/servicesForm/SpiritualService';
 
-const Service = () => {
+const ServicesPage = () => {
   // Local state variables
   const [toggle, setToggle] = useState(0);
 
@@ -90,4 +90,4 @@ const Service = () => {
   );
 };
 
-export default Service;
+export default ServicesPage;

@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 const UserInboxPage = () => {
   return (
-    <div>UserInboxPage</div>
-  )
-}
+    <main>
+      <section>
+        <h1>sgsgsg</h1>
+      </section>
+    </main>
+  );
+};
 
-export default UserInboxPage
+export default UserInboxPage;

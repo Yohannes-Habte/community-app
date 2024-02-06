@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const UserAddress = () => {
   return (
-    <div>UserAddress</div>
-  )
-}
+    <section>
+      <h1>sgsgsg</h1>
+    </section>
+  );
+};
 
-export default UserAddress
+export default UserAddress;

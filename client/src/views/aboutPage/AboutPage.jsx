@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { aboutPage } from '../../data/Data';
-import './About.scss';
+import './AboutPage.scss';
 import axios from 'axios';
-const About = () => {
+const AboutPage = () => {
   // Local variables
   const [staff, setStaff] = useState([]);
   const [toggle, setToggle] = useState(0);
@@ -150,4 +150,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutPage;

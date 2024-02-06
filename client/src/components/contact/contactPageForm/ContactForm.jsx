@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserInbox = () => {
+const ContactForm = () => {
   return (
     <section>
       <h1>sgsgsg</h1>
@@ -8,4 +8,4 @@ const UserInbox = () => {
   );
 };
 
-export default UserInbox;
+export default ContactForm;

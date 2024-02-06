@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const AllEvents = () => {
   return (
-    <div>AllEvents</div>
-  )
-}
+    <section>
+      <h1>sgsgsg</h1>
+    </section>
+  );
+};
 
-export default AllEvents
+export default AllEvents;

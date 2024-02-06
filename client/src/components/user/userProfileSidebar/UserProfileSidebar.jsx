@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const UserProfileSidebar = () => {
   return (
-    <div>UserProfileSidebar</div>
-  )
-}
+    <section>
+      <h1>sgsgsg</h1>
+    </section>
+  );
+};
 
-export default UserProfileSidebar
+export default UserProfileSidebar;

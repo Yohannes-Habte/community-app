@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const AllChurchServices = () => {
   return (
-    <div>AllChurchServices</div>
-  )
-}
+    <section>
+      <h1>sgsgsg</h1>
+    </section>
+  );
+};
 
-export default AllChurchServices
+export default AllChurchServices;

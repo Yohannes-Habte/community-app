@@ -1,11 +1,11 @@
 import React from 'react';
-import './Reports.scss';
+import './ReportsPage.scss';
 import FinancialReport from '../../components/reportTables/FinancialReport';
 import SacramentReport from '../../components/reportTables/SacramentReport';
 import PrayerReport from '../../components/reportTables/PrayerReport';
 import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
 
-const Reports = () => {
+const ReportsPage = () => {
   // Global Functions
   const { data, loading, error, reFetching, deleteData } = FetchData(
     'http://localhost:4500/api/users'
@@ -39,4 +39,4 @@ const Reports = () => {
   );
 };
 
-export default Reports;
+export default ReportsPage;

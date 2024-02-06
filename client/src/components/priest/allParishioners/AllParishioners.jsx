@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const AllParishioners = () => {
   return (
-    <div>AllParishioners</div>
-  )
-}
+    <section>
+      <h1>sgsgsg</h1>
+    </section>
+  );
+};
 
-export default AllParishioners
+export default AllParishioners;

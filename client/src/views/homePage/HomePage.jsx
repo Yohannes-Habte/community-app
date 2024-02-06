@@ -1,11 +1,11 @@
 import React from 'react';
 import Siyum from '../../assets/Fr.Siyum.jpg';
 import { landingPageEritreanBishops } from '../../data/Data';
-import './Home.scss';
+import './HomePage.scss';
 import Bishops from '../../components/bishopsSlider/Bishops';
 
 
-const Home = () => {
+const HomePage = () => {
   return (
     <main className="home-page">
       {/* Pope Francis and Archbishop Menghesteab */}
@@ -57,4 +57,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 const ServiceRequest = () => {
   return (
-    <div>ServiceRequest</div>
-  )
-}
+    <main>
+      <section>
+        <h1>sgsgsg</h1>
+      </section>
+    </main>
+  );
+};
 
-export default ServiceRequest
+export default ServiceRequest;

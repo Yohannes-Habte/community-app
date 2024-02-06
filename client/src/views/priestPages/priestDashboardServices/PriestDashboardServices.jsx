@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FAQsPage = () => {
+const PriestDashboardServices = () => {
   return (
     <main>
       <section>
@@ -10,4 +10,4 @@ const FAQsPage = () => {
   );
 };
 
-export default FAQsPage;
+export default PriestDashboardServices;

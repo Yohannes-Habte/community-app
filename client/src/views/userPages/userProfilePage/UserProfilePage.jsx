@@ -2,7 +2,11 @@ import React from 'react'
 
 const UserProfilePage = () => {
   return (
-    <div>UserProfilePage</div>
+    <main>
+      <section>
+        <h1>sgsgsg</h1>
+      </section>
+    </main>
   )
 }
 

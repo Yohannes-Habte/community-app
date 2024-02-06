@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import './Contact.scss';
+import './ContactPage.scss';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import { ContactData } from '../../data/Data';
@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
 
 
-const Contact = () => {
+const ContactPage = () => {
   // Global state variables
   const { user, loading, error, dispatch } = useContext(UserContext);
 
@@ -200,4 +200,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactPage;
