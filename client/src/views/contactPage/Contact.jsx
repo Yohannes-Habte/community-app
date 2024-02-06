@@ -6,7 +6,8 @@ import { ContactData } from '../../data/Data';
 import { UserContext } from '../../contexts/user/UserProvider';
 import { ACTION } from '../../contexts/user/UserReducer';
 import { toast } from 'react-toastify';
-import ErrorMessage from '../../utiles/ErrorMessage';
+import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
+
 
 const Contact = () => {
   // Global state variables

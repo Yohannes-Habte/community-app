@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { serviceData } from '../../data/Data';
 import './Service.scss';
-import Sacrament from '../../components/serviceForm/Sacrament';
-import PrayerRequest from '../../components/serviceForm/PrayerRequest';
-import SpiritualService from '../../components/serviceForm/SpiritualService';
+import Sacrament from '../../components/servicesForm/Sacrament';
+import PrayerRequest from '../../components/servicesForm/PrayerRequest';
+import SpiritualService from '../../components/servicesForm/SpiritualService';
 
 const Service = () => {
   // Local state variables

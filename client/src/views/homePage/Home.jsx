@@ -1,9 +1,9 @@
 import React from 'react';
 import Siyum from '../../assets/Fr.Siyum.jpg';
 import { landingPageEritreanBishops } from '../../data/Data';
-
 import './Home.scss';
-import Shepherds from '../../components/shepherdSlider/Shepherds';
+import Bishops from '../../components/bishopsSlider/Bishops';
+
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       {/* Pope Francis and Archbishop Menghesteab */}
       <section className="pope-container">
         <h1 className="title"> Eritrean Roman Catholic Church in Hamburg </h1>
-        <Shepherds />
+        <Bishops />
       </section>
 
       {/* The parish priest */}

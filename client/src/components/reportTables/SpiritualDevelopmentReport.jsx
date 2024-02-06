@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import FetchData from '../../utiles/GlobalClientFunction';
 import axios from 'axios';
+import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
 
 const SpiritualDevelopmentReport = () => {
   // Local state variable

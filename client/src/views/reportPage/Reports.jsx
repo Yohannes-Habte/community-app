@@ -1,10 +1,9 @@
 import React from 'react';
 import './Reports.scss';
-import FetchData from '../../utiles/GlobalClientFunction';
 import FinancialReport from '../../components/reportTables/FinancialReport';
 import SacramentReport from '../../components/reportTables/SacramentReport';
 import PrayerReport from '../../components/reportTables/PrayerReport';
-import SpiritualDevelopmentReport from '../../components/reportTables/SpiritualDevelopmentReport';
+import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
 
 const Reports = () => {
   // Global Functions

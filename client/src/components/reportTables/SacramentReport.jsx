@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Tables.scss';
-import FetchData from '../../utiles/GlobalClientFunction';
 import axios from 'axios';
+import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
 
 const SacramentReport = () => {
   // Local state variable
