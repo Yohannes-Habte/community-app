@@ -1,12 +1,12 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import '../../../../styles/Variables.scss';
+@import '../../../../styles/Mixins.scss';
 
 .header {
+  width: 100%;
   height: 12rem;
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
-  background-image: url('../../assets/church.jpg');
+  background-image: url('../../../../assets/church.jpg');
   background-attachment: fixed;
   background-size: cover;
   position: relative;
@@ -29,20 +29,20 @@
 
     .logo {
       position: absolute;
-      top: 1rem;
-      width: 10rem;
-      height: 10rem;
+      bottom: 0;
+      left: 1rem;
+      width: 9rem;
+      height: 9rem;
       border-radius: 50%;
       object-fit: cover;
     }
 
     .devine-mercy {
       position: absolute;
-      top: 0;
-      right: 2rem;
-      width: 10rem;
-      height: 12rem;
-      border-radius: $radius;
+      bottom: 0;
+      right: 1rem;
+      width: 7rem;
+      height: 9rem;
       object-fit: cover;
     }
   }

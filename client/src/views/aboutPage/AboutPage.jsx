@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { aboutPage } from '../../data/Data';
 import './AboutPage.scss';
 import axios from 'axios';
+import Header from '../../components/user/layout/header/Header';
 const AboutPage = () => {
   // Local variables
   const [staff, setStaff] = useState([]);
@@ -30,7 +31,8 @@ const AboutPage = () => {
 
   return (
     <main className="about-page">
-      <section className="about-container">
+      <Header />
+      <section className="about-page-container">
         <h1 className="about-title"> {aboutPage.title} </h1>
         <article className="strategic-intent">
           <h2 className="sub-title"> Mission </h2>

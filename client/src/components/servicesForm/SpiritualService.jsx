@@ -8,7 +8,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
 
-
 const SpiritualService = () => {
   // Global state variables
   const { error, dispatch } = useContext(UserContext);
@@ -54,12 +53,12 @@ const SpiritualService = () => {
   };
 
   return (
-    <div className="church-service">
+    <section className="service-form-container">
+      <h1 className="service-form-title"> Spiritual Development Request </h1>
       <form onSubmit={handleSpiritualSubmit} action="" className="form">
         {serviceData.spiritualAdvice.map((input) => {
           return (
             <div key={input.id} className="input-container">
-              <label htmlFor={input.id}> {input.label} </label>
               <input
                 type={input.type}
                 name={input.name}
@@ -68,17 +67,20 @@ const SpiritualService = () => {
                 placeholder={input.placeholder}
                 className="input-field"
               />
+              <label className="input-label" htmlFor={input.id}>
+                {input.label}
+              </label>
+              <span className="input-highlight"></span>
             </div>
           );
         })}
 
         {/* Photos input */}
-        <div className="files-input-container">
+        <div className="file-container">
           <input
             type="file"
             name="file"
             id="file"
-            multiple
             onChange={(e) => setFiles(e.target.files)}
             className="file-field"
           />
@@ -88,9 +90,9 @@ const SpiritualService = () => {
             <FaCloudUploadAlt className="icon" />{' '}
           </label>
         </div>
-        <button className="btn">Send</button>
+        <button className="service-request-btn">Send</button>
       </form>
-    </div>
+    </section>
   );
 };
 

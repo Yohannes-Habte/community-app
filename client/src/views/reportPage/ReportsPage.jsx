@@ -4,6 +4,7 @@ import FinancialReport from '../../components/reportTables/FinancialReport';
 import SacramentReport from '../../components/reportTables/SacramentReport';
 import PrayerReport from '../../components/reportTables/PrayerReport';
 import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
+import Header from '../../components/user/layout/header/Header';
 
 const ReportsPage = () => {
   // Global Functions
@@ -13,7 +14,8 @@ const ReportsPage = () => {
 
   return (
     <main className="report-page">
-      <section className="report-container">
+      <Header />
+      <section className="report-page-container">
         <h1 className="report-title"> Annual Reports </h1>
 
         <article className="finance-report">

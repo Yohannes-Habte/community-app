@@ -1,0 +1,45 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.new-priest-delegation-wrapper {
+  width: 100%;
+
+  .new-priest-delegation-title {
+    @include subTitle;
+    margin-top: 1rem;
+  }
+
+  .new-priest-delegation-form {
+    @include flexColumn;
+
+    .input-container {
+      @include inputContainer;
+
+      .icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        top: -0.2rem;
+        font-size: $sfs;
+        color: $gray;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
+    }
+  }
+}

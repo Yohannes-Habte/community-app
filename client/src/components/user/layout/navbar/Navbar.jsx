@@ -3,55 +3,58 @@ import { NavLink } from 'react-router-dom';
 import './Navbar.scss';
 
 const Navbar = () => {
+  // Styling NavLink
+  const navbarNavLink = ({ isActive }) =>
+    isActive ? 'active-navbar-item' : 'passive-navbar-item';
   return (
-    <nav className="navbar">
+    <nav className="header-navbar">
       {/* Church logo */}
-      <NavLink to={'/'} className={'logo'}>
-        Eritean Roman Catholic Church in Hamburg
+      <NavLink to={'/'} className={'short-logo'}>
+        ERCCH
       </NavLink>
 
       {/* Navigation bar */}
-      <ul className="navigation-items">
-        <li className="item">
-          <NavLink to={'/'} className={'item-link'}>
+      <ul className="navbar-items">
+        <li className="navbar-item">
+          <NavLink to={'/'} className={navbarNavLink}>
             Home
           </NavLink>
         </li>
 
-        <li className="item">
-          <NavLink to={'/about'} className={'item-link'}>
+        <li className="navbar-item">
+          <NavLink to={'/about'} className={navbarNavLink}>
             About
           </NavLink>
         </li>
 
-        <li className="item">
-          <NavLink to={'/services'} className={'item-link'}>
+        <li className="navbar-item">
+          <NavLink to={'/services'} className={navbarNavLink}>
             Services
           </NavLink>
         </li>
 
-        <li className="item">
-          <NavLink to={'/reports'} className={'item-link'}>
+        <li className="navbar-item">
+          <NavLink to={'/reports'} className={navbarNavLink}>
             Reports
           </NavLink>
         </li>
 
-        <li>
-          <NavLink to={'/contact'} className={'item-link'}>
+        <li className="navbar-item">
+          <NavLink to={'/contact'} className={navbarNavLink}>
             Contact
           </NavLink>
         </li>
       </ul>
 
       <ul className="register-login">
-        <li className="item">
-          <NavLink to={'/register'} className={'item-link'}>
+        <li className="navbar-item">
+          <NavLink to={'/register'} className="link register">
             Register
           </NavLink>
         </li>
 
-        <li className="item">
-          <NavLink to={'/login'} className={'item-link'}>
+        <li className="navbar-item">
+          <NavLink to={'/login'} className="link login">
             Login
           </NavLink>
         </li>

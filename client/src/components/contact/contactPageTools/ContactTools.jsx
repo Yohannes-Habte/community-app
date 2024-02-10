@@ -1,10 +1,20 @@
 import React from 'react';
+import "./ContactTools.scss";
+import { ContactData } from '../../../data/Data';
 
 const ContactTools = () => {
   return (
-    <section>
-      <h1>sgsgsg</h1>
-    </section>
+    <section className="contact-media">
+        {ContactData.map(({ image, heading, link }, index) => {
+          return (
+            <article key={index} className="contact-media-items">
+              <figure className="contact-meida-icon-container"> {image}</figure>
+              <h3 className="contact-media-header"> {heading} </h3>
+              <p className="contact-media-link-to"> {link} </p>
+            </article>
+          );
+        })}
+      </section>
   );
 };
 

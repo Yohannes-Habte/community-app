@@ -1,0 +1,38 @@
+@import '../../../../styles/Variables.scss';
+@import '../../../../styles/Mixins.scss';
+
+.priest-dashboar-header {
+  @include flexSpaceBetween;
+  padding: 0 2rem;
+  background-color: $priest-header-bg;
+
+  .image-container {
+    .image {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .priest-dashboar-header-items {
+    @include flexRow;
+    .priest-dashboar-header-item {
+      .active-priest-dashboard-header-icon {
+        color: $red;
+        font-size: $aafs;
+        cursor: pointer;
+      }
+
+      .passive-priest-dashboard-header-icon {
+        color: $green;
+        font-size: $aafs;
+        cursor: pointer;
+
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,128 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './UserChangePassword.scss';
+import { AiFillEyeInvisible } from 'react-icons/ai';
+import { HiOutlineEye } from 'react-icons/hi';
+import { RiLockPasswordFill } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 
 const UserChangePassword = () => {
+  const navigate = useNavigate();
+  // Global state variables
+  // const { currentUser } = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
+
+  // Local state variables
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Update input data
+  const updateChange = (e) => {
+    switch (e.target.name) {
+      case 'oldPassword':
+        setOldPassword(e.target.value);
+        break;
+      case 'newPassword':
+        setNewPassword(e.target.value);
+        break;
+      case 'confirmPassword':
+        setConfirmPassword(e.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Function to show/hide password
+  const displayPassword = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
+  // Reset all state variables
+  const resetVariables = () => {
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+  };
+  // Handle change password
+  const passwordChangeHandler = async (e) => {
+    e.preventDefault();
+  };
   return (
-    <section>
-      <h1>sgsgsg</h1>
+    <section className="user-change-password-container">
+      <h2 className="user-change-password-title">Change Password</h2>
+      <form
+        onSubmit={passwordChangeHandler}
+        action=""
+        className="user-change-password-form"
+      >
+        <div className="input-container">
+          <RiLockPasswordFill className="icon" />
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name="oldPassword"
+            id="oldPassword"
+            autoComplete="current-password"
+            required
+            value={oldPassword}
+            onChange={updateChange}
+            placeholder="Enter Old Password"
+            className="input-field"
+          />
+          <label htmlFor="oldPassword" className="input-label">
+            Old Password
+          </label>
+          <span className="input-highlight"></span>
+          <span onClick={displayPassword} className="password-display">
+            {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
+          </span>
+        </div>
+
+        <div className="input-container">
+          <RiLockPasswordFill className="icon" />
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name="newPassword"
+            id="newPassword"
+            autoComplete="current-password"
+            value={newPassword}
+            onChange={updateChange}
+            placeholder="Enter New Password"
+            className="input-field"
+          />
+          <label htmlFor="password" className="input-label">
+            New Password
+          </label>
+          <span className="input-highlight"></span>
+          <span onClick={displayPassword} className="password-display">
+            {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
+          </span>
+        </div>
+
+        <div className="input-container">
+          <RiLockPasswordFill className="icon" />
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name="confirmPassword"
+            id="confirmPassword"
+            autoComplete="current-password"
+            value={confirmPassword}
+            onChange={updateChange}
+            placeholder="Confirm New Password"
+            className="input-field"
+          />
+          <label htmlFor="confirmPassword" className="input-label">
+            Confirm New Password
+          </label>
+          <span className="input-highlight"></span>
+          <span onClick={displayPassword} className="password-display">
+            {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
+          </span>
+        </div>
+
+        <button className="user-change-password-btn">Submit</button>
+      </form>
     </section>
   );
 };

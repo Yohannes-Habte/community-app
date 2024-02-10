@@ -3,7 +3,7 @@ import React from 'react';
 const UserInbox = () => {
   return (
     <section>
-      <h1>sgsgsg</h1>
+      <h1>User Inbox</h1>
     </section>
   );
 };

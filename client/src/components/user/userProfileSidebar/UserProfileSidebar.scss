@@ -1,0 +1,54 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.user-profile-sidebar-wrapper {
+  width: 18%;
+  min-height: 100vh;
+  @include shadow1;
+  border-radius: 0;
+  background-color: $userSidebar-bg;
+
+  .user-profile-sidebar-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    .user-profile-sidebar-item {
+      @include flexRow;
+      @include shadow1;
+      gap: 0.5rem;
+      font-size: $nfs;
+      padding: 0.5rem 0;
+
+      &:hover {
+        color: $red;
+        background: $userSidebar-hover;
+        border-radius: $radius;
+      }
+
+      .active-item-navLink {
+        color: $red;
+
+        .icon {
+          color: $red;
+        }
+      }
+
+      .passive-item-navLink {
+        color: $black;
+
+        &:hover {
+          color: $red;
+        }
+
+        .icon {
+          color: $green;
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.update-user-profile-container {
+  width: 70%;
+  margin: 1rem auto;
+  @include shadow2;
+
+  .update-user-profile-title {
+    @include subTitle;
+  }
+
+  .image-container {
+    .image {
+    }
+  }
+
+  .update-user-profile-fieldset {
+    @include fieldset;
+
+    .update-user-profile-legend {
+      @include legend;
+    }
+
+    .update-user-profile-form {
+      @include flexColumn;
+
+      .input-container {
+        @include inputContainer;
+
+        .icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          top: -0.4rem;
+          font-size: $sfs;
+          color: $gray;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .password-display {
+          @include passwordDisplay;
+        }
+      }
+
+      .input-consent {
+        @include inputContainer;
+        @include flexRow;
+        align-items: center;
+
+        .consent-checkbox {
+          height: 1.6rem;
+          width: 1.3rem;
+          cursor: pointer;
+        }
+
+        .accept {
+        }
+
+        .terms-of-user {
+        }
+      }
+
+      .update-user-profile-btn {
+        @include button1;
+      }
+    }
+  }
+}

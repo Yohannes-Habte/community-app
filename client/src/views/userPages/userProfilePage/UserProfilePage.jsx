@@ -1,13 +1,21 @@
-import React from 'react'
+import React from 'react';
+import "../UserProfilePage.scss"
+import UserProfileSidebar from '../../../components/user/userProfileSidebar/UserProfileSidebar';
+import UpdateUserProfile from '../../../components/user/updateUserProfile/UpdateUserProfile';
+
 
 const UserProfilePage = () => {
   return (
-    <main>
-      <section>
-        <h1>sgsgsg</h1>
+    <main className="user-profile-page">
+      <section className='user-profile-page-container'>
+        <h1 className='user-profile-page-title'>User Profile</h1>
+        <div className='user-profile-wrapper'>
+          <UserProfileSidebar />
+          <UpdateUserProfile />
+        </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default UserProfilePage
+export default UserProfilePage;

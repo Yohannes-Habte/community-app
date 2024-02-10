@@ -1,167 +1,64 @@
 @import '../../styles/Variables.scss';
 @import '../../styles/Mixins.scss';
 
-/* Mobile screen size */
-.church-service {
+/* Labtop screen size */
+.service-form-container {
+  width: $laptop;
+  margin: 1rem auto;
+  @include shadow1;
+
+  .service-form-title {
+    @include subTitle;
+  }
   .form {
-    @include shadow3;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 1rem;
+    @include flexColumn;
 
     .input-container {
-      position: relative;
-      width: 100%;
+      @include inputContainer;
+
+      .icon {
+        @include inputIcon;
+      }
 
       .input-field {
         @include inputField;
       }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        top: -0.4rem;
+        font-size: $sfs;
+        color: $gray;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
     }
 
-    .files-input-container {
-      position: relative;
-      margin-bottom: 5rem;
+    .file-container {
+      @include inputContainer;
 
       .file-field {
-        @include inputField;
-        position: absolute;
-        top: 1rem;
-        opacity: 0;
+        display: none;
       }
 
       .file-label {
-        position: absolute;
-        top: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 13px;
-        border: 2px solid #ccc;
+        display: block;
+        @include inputField;
         cursor: pointer;
-        font-size: 0.9rem;
-
-        .icon {
-          cursor: pointer;
-        }
       }
     }
 
-    .btn {
-      @include btn1;
-    }
-  }
-}
-
-/* Tablet screen size */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .church-service {
-    .form {
-      @include shadow3;
-      flex: 2;
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      gap: 1rem;
-
-      .input-container {
-        position: relative;
-        width: 48%;
-
-        .input-field {
-          @include inputField;
-        }
-      }
-
-      .files-input-container {
-        position: relative;
-        width: 48%;
-
-        .file-field {
-          @include inputField;
-          position: absolute;
-          top: 1rem;
-          opacity: 0;
-        }
-
-        .file-label {
-          position: absolute;
-          top: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 13px;
-          border: 2px solid #ccc;
-          cursor: pointer;
-          font-size: 0.9rem;
-
-          .icon {
-            cursor: pointer;
-          }
-        }
-      }
-
-      .btn {
-        @include btn1;
-      }
-    }
-  }
-}
-/* Labtop screen size */
-@media screen and (min-width: 1024px) {
-  .church-service {
-    .form {
-      @include shadow;
-      width: 68%;
-      margin: auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      margin-top: 1rem;
-
-      .input-container {
-        position: relative;
-        width: 48%;
-
-        .input-field {
-          @include inputField;
-        }
-      }
-
-      .files-input-container {
-        position: relative;
-        width: 50%;
-        padding-left: 1rem;
-
-        .file-field {
-          @include inputField;
-          position: absolute;
-          top: 1rem;
-          opacity: 0;
-        }
-
-        .file-label {
-          position: absolute;
-          top: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 13px 2.3rem;
-          border: 2px solid #ccc;
-          cursor: pointer;
-
-          .icon {
-            cursor: pointer;
-          }
-        }
-      }
-
-      .btn {
-        @include btn1;
-        margin-top: 1.5rem;
-      }
+    .service-request-btn {
+      @include button1;
     }
   }
 }

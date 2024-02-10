@@ -54,12 +54,12 @@ const PrayerRequest = () => {
   };
 
   return (
-    <div className="church-service">
+    <section className="service-form-container">
+      <h1 className="service-form-title"> Prayer Request </h1>
       <form onSubmit={handlePrayerSubmit} action="" className="form">
         {serviceData.prayerRequest.map((input) => {
           return (
             <div key={input.id} className="input-container">
-              <label htmlFor={input.id}> {input.label} </label>
               <input
                 type={input.type}
                 name={input.name}
@@ -68,29 +68,34 @@ const PrayerRequest = () => {
                 placeholder={input.placeholder}
                 className="input-field"
               />
+              <label className="input-label" htmlFor={input.id}>
+                {input.label}
+              </label>
+              <span className="input-highlight"></span>
             </div>
           );
         })}
 
         {/* Photos input */}
-        <div className="files-input-container">
+        <div className="file-container">
           <input
             type="file"
             name="file"
             id="file"
-            multiple
             onChange={(e) => setFiles(e.target.files)}
             className="file-field"
           />
 
           <label htmlFor="file" className="file-label">
-            Germany Religious Recognition Document{' '}
+            Upload Germany Religious Recognition Document{' '}
             <FaCloudUploadAlt className="icon" />
           </label>
+
+          <span className="input-highlight"></span>
         </div>
-        <button className="btn">Send</button>
+        <button className="service-request-btn">Send</button>
       </form>
-    </div>
+    </section>
   );
 };
 

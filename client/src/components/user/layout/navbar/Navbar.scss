@@ -1,38 +1,40 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import '../../../../styles/Variables.scss';
+@import '../../../../styles/Mixins.scss';
 
-.navbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.header-navbar {
+  width: 100%;
+  height: 3rem;
+  @include flexSpaceBetween;
   background-color: $navbar-bg;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
 
   // Logo
-  .logo {
+  .short-logo {
+    font-family: 'Rubik Beastly', system-ui;
+    font-weight: 400;
+    font-style: normal;
   }
 
   // navigation bar
-  .navigation-items {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
+  .navbar-items {
+    @include flexRow;
 
-    .item {
-      .item-link {
+    .navbar-item {
+      .active-navbar-item {
+        @include activeNavbar;
+      }
+
+      .passive-navbar-item {
+        @include passiveNavbar;
       }
     }
   }
 
   // register and login
   .register-login {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
+    @include flexRow;
 
-    .item {
-      .item-link {
-      }
+    .link {
     }
   }
 }
