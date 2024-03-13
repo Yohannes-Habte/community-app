@@ -1,16 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { serviceData } from '../../data/Data';
 import './Form.scss';
-import { UserContext } from '../../contexts/user/UserProvider';
-import { ACTION } from '../../contexts/user/UserReducer';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
 
 const SpiritualService = () => {
   // Global state variables
-  const { error, dispatch } = useContext(UserContext);
 
   // Local state variables
   const [spiritualInfo, setSpiritualInfo] = useState({});
@@ -25,8 +21,6 @@ const SpiritualService = () => {
   const handleSpiritualSubmit = async (event) => {
     event.preventDefault();
 
-    dispatch({ type: ACTION.SPIRITUAL_SEND_START });
-
     try {
       // The body
       const newSpiritualData = {
@@ -40,16 +34,7 @@ const SpiritualService = () => {
         'http://localhost:4000/api/spiritual-developments/new',
         newSpiritualData
       );
-
-      dispatch({ type: ACTION.SPIRITUAL_SEND_SUCCESS, payload: data });
-
-      localStorage.setItem('spiritual', JSON.stringify(data));
-    } catch (err) {
-      dispatch({
-        type: ACTION.SPIRITUAL_SEND_FAIL,
-        payload: toast.error(ErrorMessage(err)),
-      });
-    }
+    } catch (err) {}
   };
 
   return (

@@ -5,7 +5,11 @@
   width: $laptop;
   margin: 1rem auto;
   .user-service-request-title {
-    @include subTitle;
+    @include title;
+  }
+
+  .service-paragraph {
+    @include paragraph;
   }
 
   .user-service-request-tabs {

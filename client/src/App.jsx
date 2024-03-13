@@ -13,7 +13,6 @@ import AboutPage from './views/aboutPage/AboutPage';
 import ContactPage from './views/contactPage/ContactPage';
 import ReportsPage from './views/reportPage/ReportsPage';
 import HomePage from './views/homePage/HomePage';
-import ServicesPage from './views/servicesPage/ServicesPage';
 import UserProfilePage from './views/userPages/userProfilePage/UserProfilePage';
 import UserAddresspage from './views/userPages/userAddressPage/UserAddresspage';
 import ChangePasswordPage from './views/userPages/changePasswordPage/ChangePasswordPage';
@@ -32,7 +31,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/signup" element={<UserSignupPage />} />

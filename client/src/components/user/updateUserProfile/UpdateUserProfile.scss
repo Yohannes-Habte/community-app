@@ -10,8 +10,14 @@
     @include subTitle;
   }
 
-  .image-container {
-    .image {
+  .update_user-image-container {
+    @include flexColumnCenter;
+    .update-user-image {
+      @include userImage;
+    }
+
+    .update-user-legend {
+      @include legend;
     }
   }
 
@@ -24,11 +30,13 @@
 
     .update-user-profile-form {
       @include flexColumn;
-
+      .inputs-wrapper {
+       @include inputsWrapper;
+      }
       .input-container {
         @include inputContainer;
 
-        .icon {
+        .update-user-account-icon {
           @include inputIcon;
         }
 
@@ -45,9 +53,7 @@
         }
 
         .input-field:focus + .input-label {
-          top: -0.4rem;
-          font-size: $sfs;
-          color: $gray;
+         @include focusInputFieldAndInputLabel;
         }
 
         .input-field:focus + .input-label + .input-highlight {
@@ -74,6 +80,7 @@
         }
 
         .terms-of-user {
+          color: $blue;
         }
       }
 

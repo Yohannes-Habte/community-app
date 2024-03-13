@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible } from 'react-icons/ai';
@@ -10,13 +10,17 @@ import { toast } from 'react-toastify';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import './UserLoginPage.scss';
-import { UserContext } from '../../contexts/user/UserProvider';
-import { ACTION } from '../../contexts/user/UserReducer';
-import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  userLoginFailure,
+  userLoginStart,
+  userLoginSuccess,
+} from '../../redux/reducers/userReducer';
 
 const UserLoginPage = () => {
   // Global state variables
-  const { user, loading, error, dispatch } = useContext(UserContext);
+  const { loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -102,8 +106,6 @@ const UserLoginPage = () => {
   const submitLoginUser = async (event) => {
     event.preventDefault();
 
-    dispatch({ type: ACTION.USER_SIGNIN_START });
-
     if (!email) {
       toast.error('Please enter your email!');
     } else if (!password) {
@@ -111,27 +113,23 @@ const UserLoginPage = () => {
     }
 
     try {
+      dispatch(userLoginStart());
       // The body
       const loginUser = {
         email: email,
         password: password,
       };
       const { data } = await axios.post(
-        'http://localhost:4000/api/users/login',
+        `http://localhost:8000/api/auth/login`,
         loginUser
       );
 
-      dispatch({ type: ACTION.SACRMENT_SEND_SUCCESS, payload: data.details });
+      dispatch(userLoginSuccess(data.user));
 
-      //& 1. Save user in the local storage
-      localStorage.setItem('user', JSON.stringify(data));
       resetVariables();
-      navigate('/reports');
+      navigate('/user/profile');
     } catch (err) {
-      dispatch({
-        type: ACTION.USER_SIGNIN_FAIL,
-        payload: toast.error(ErrorMessage(err)),
-      });
+      dispatch(userLoginFailure(err.response.data.message));
     }
   };
 
@@ -209,7 +207,7 @@ const UserLoginPage = () => {
             {/* Do not have an account, Sign Up */}
             <p className="have-no-account">
               Don't have an account?
-              <NavLink className="sign-up" to="/register">
+              <NavLink className="sign-up" to="/signup">
                 Sign Up
               </NavLink>
             </p>

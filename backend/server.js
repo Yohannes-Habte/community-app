@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import cookieParser from 'cookie-parser';
 
 // Routes
 import globalErrorHandler from './middlewares/globalErrorHandler.js';
@@ -14,12 +15,18 @@ import spiritualDevelopmentRouter from './routes/spiritualDevelopmentRoutes.js';
 import commentRouter from './routes/commentRoutes.js';
 import memberRouter from './routes/memberRoutes.js';
 import committeeRouter from './routes/committesRoutes.js';
+import authUserRouter from './routes/authUserRoutes.js';
 
 // Express app
 const app = express();
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://church-app'],
+    credentials: true,
+  })
+);
 app.use(express.json());
-const PORT = process.env.PORT || 4000;
 
 // Security key holder
 dotenv.config();
@@ -38,6 +45,7 @@ const connectToDB = async () => {
 app.use(morgan('tiny'));
 
 // End points
+app.use('/api/auth', authUserRouter);
 app.use('/api/members', memberRouter);
 app.use('/api/committees', committeeRouter);
 app.use('/api/finances', financeRouter);
@@ -53,7 +61,8 @@ app.use(express.static('assets'));
 app.use(globalErrorHandler);
 
 // Server Listner
-app.listen(PORT, () => {
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
   connectToDB();
-  console.log(`The server starts on port ${PORT}`.blue.bold);
+  console.log(`The server starts on port ${port}`.blue.bold);
 });

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
@@ -16,14 +16,9 @@ import './UserSignupPage.scss';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
-import { UserContext } from '../../contexts/user/UserProvider';
-import { ACTION } from '../../contexts/user/UserReducer';
-import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
-
 
 const UserSignupPage = () => {
   // Global state variables
-  const { error, dispatch } = useContext(UserContext);
 
   // to navigate register page
   const navigate = useNavigate();
@@ -213,7 +208,6 @@ const UserSignupPage = () => {
   const SubmitRegisteredUser = async (event) => {
     event.preventDefault();
 
-    dispatch({ type: ACTION.USER_REGISTER_START });
     if (password !== confirmPassword) {
       toast.error('Emails did not match');
     } else if (email !== confirmEmail) {
@@ -236,21 +230,13 @@ const UserSignupPage = () => {
 
       try {
         const { data } = await axios.post(
-          'http://localhost:4000/api/users/register',
+          'http://localhost:8000/api/auth/register',
           userData
         );
 
-        dispatch({ type: ACTION.USER_REGISTER_SUCCESS, payload: data });
-
         resetAllEnteredData();
         navigate('/login');
-      } catch (err) {
-        console.log(err);
-        dispatch({
-          type: ACTION.USER_REGISTER_FAIL,
-          payload: toast.error(ErrorMessage(err)),
-        });
-      }
+      } catch (err) {}
     }
   };
 
@@ -261,15 +247,24 @@ const UserSignupPage = () => {
       </Helmet>
 
       <section className="register-container">
-        <h1 className="title"> Create Account</h1>
+        <h1 className="user-signup-title"> Create an Account for Free</h1>
         <fieldset className="register-field">
-          {/* <legend className="register-legend"> Sign Up for Free </legend> */}
+          <figure className="user-image-container">
+            <img
+              className="user-image"
+              src="https://i.ibb.co/4pDNDk1/avatar.png"
+              alt=""
+            />
+            <legend className="register-legend">User Name</legend>
+          </figure>
+
           <form
             action=""
             onSubmit={SubmitRegisteredUser}
             className="register-form"
           >
             <div className="register-input-fields-container">
+              {/* User first name */}
               <div className="input-container">
                 <FaUserAlt className="input-icon" />
                 <input
@@ -288,6 +283,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User last name */}
               <div className="input-container">
                 <FaUserAlt className="input-icon" />
                 <input
@@ -306,6 +302,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User email adddress */}
               <div className="input-container">
                 <MdEmail className="input-icon" />
                 <input
@@ -323,6 +320,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User confirm email adddress */}
               <div className="input-container">
                 <MdEmail className="input-icon" />
                 <input
@@ -340,6 +338,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User password */}
               <div className="input-container">
                 <RiLockPasswordFill className="input-icon" />
                 <input
@@ -364,6 +363,7 @@ const UserSignupPage = () => {
                 </span>
               </div>
 
+              {/* User confirm password */}
               <div className="input-container">
                 <RiLockPasswordFill className="input-icon" />
                 <input
@@ -391,6 +391,7 @@ const UserSignupPage = () => {
                 </span>
               </div>
 
+              {/* User phone number */}
               <div className="input-container">
                 <MdLocationPin className="input-icon" />
                 <input
@@ -409,6 +410,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User street adddress */}
               <div className="input-container">
                 <FaPhone className="input-icon" />
                 <input
@@ -427,6 +429,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User zip code */}
               <div className="input-container">
                 <FaLaptopCode className="input-icon" />
                 <input
@@ -445,6 +448,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User city */}
               <div className="input-container">
                 <MdLocationPin className="input-icon" />
                 <input
@@ -462,6 +466,7 @@ const UserSignupPage = () => {
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User state */}
               <div className="input-container">
                 <MdLocationPin className="input-icon" />
                 <input
@@ -470,15 +475,16 @@ const UserSignupPage = () => {
                   id="state"
                   value={state}
                   onChange={update}
-                  placeholder="State"
+                  placeholder="State Name"
                   className="input-field"
                 />
                 <label htmlFor="state" className="input-label">
-                  State
+                  State Name
                 </label>
                 <span className="input-highlight"></span>
               </div>
 
+              {/* User country */}
               <div className="input-container">
                 <FaMapMarker className="input-icon" />
                 <input
@@ -487,11 +493,11 @@ const UserSignupPage = () => {
                   id="country"
                   value={country}
                   onChange={update}
-                  placeholder="Country"
+                  placeholder="Country Name"
                   className="input-field"
                 />
                 <label htmlFor="country" className="input-label">
-                  Country
+                  Country Name
                 </label>
                 <span className="input-highlight"></span>
               </div>
@@ -510,10 +516,13 @@ const UserSignupPage = () => {
                   <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
                 </div>
 
-                <button className="register-button"> Register </button>
+                <button className="register-button"> Sign Up </button>
                 <p className="haveAccount">
                   Already have an account?
-                  <NavLink to="/login"> Log In </NavLink>
+                  <NavLink className="login-link" to="/login">
+                    {' '}
+                    Log In{' '}
+                  </NavLink>
                 </p>
               </div>
 

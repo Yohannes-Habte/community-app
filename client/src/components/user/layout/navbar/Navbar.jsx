@@ -28,12 +28,6 @@ const Navbar = () => {
         </li>
 
         <li className="navbar-item">
-          <NavLink to={'/services'} className={navbarNavLink}>
-            Services
-          </NavLink>
-        </li>
-
-        <li className="navbar-item">
           <NavLink to={'/reports'} className={navbarNavLink}>
             Reports
           </NavLink>
@@ -48,7 +42,7 @@ const Navbar = () => {
 
       <ul className="register-login">
         <li className="navbar-item">
-          <NavLink to={'/register'} className="link register">
+          <NavLink to={'/signup'} className="link register">
             Register
           </NavLink>
         </li>

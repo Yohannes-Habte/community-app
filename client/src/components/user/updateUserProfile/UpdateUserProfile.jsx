@@ -1,185 +1,333 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UpdateUserProfile.scss';
-import { AiFillEyeInvisible } from 'react-icons/ai';
-import { FaUser, FaUserAlt } from 'react-icons/fa';
-import { HiOutlineEye } from 'react-icons/hi';
-import { MdEmail } from 'react-icons/md';
+import { FaLaptopCode, FaMapMarker, FaPhone, FaUserAlt } from 'react-icons/fa';
+import { MdLocationPin } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { GrStatusInfo } from 'react-icons/gr';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  userUpdateFilure,
+  userUpdateStart,
+  userUpdateSuccess,
+} from '../../../redux/reducers/userReducer';
 
 const UpdateUserProfile = () => {
   const navigate = useNavigate();
   // Global state variables
-  // const { currentUser, loading, error } = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const { loading, error, currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   // Local State variables
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
+  // Local state variables
+  const [firstName, setFirstName] = useState(currentUser.firstName || '');
+  const [lastName, setLastName] = useState(currentUser.lastName || '');
   const [image, setImage] = useState('');
+  const [maritalStatus, setMaritalStatus] = useState(
+    currentUser.maritalStatus || ''
+  );
+  const [phone, setPhone] = useState(currentUser.phone || '');
+  const [street, setStreet] = useState(currentUser.street || '');
+  const [zipCode, setZipCode] = useState(currentUser.zipCode || '');
+  const [city, setCity] = useState(currentUser.city || '');
+  const [state, setState] = useState(currentUser.state || '');
+  const [country, setCountry] = useState(currentUser.country || '');
   const [agree, setAgree] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [agreeChanged, setAgreeChanged] = useState(false);
 
-  // Update input data
-  const updateChange = (e) => {
-    switch (e.target.name) {
-      case 'name':
-        setName(e.target.value);
-        break;
-      case 'email':
-        setEmail(e.target.value);
-        break;
-      case 'password':
-        setPassword(e.target.value);
-        break;
-      case 'phone':
-        setPhone(e.target.value);
-        break;
-      case 'agree':
-        setAgree(e.target.checked);
-        break;
-      default:
-        break;
-    }
-  };
+  useEffect(() => {
+    console.log(maritalStatus);
+  });
 
   // Update image
   const updateImage = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Function to show/hide password
-  const displayPassword = () => {
-    setShowPassword((prevState) => !prevState);
-  };
+  // Function that is used to update the state variables of the registration form
+  const update = (event) => {
+    switch (event.target.name) {
+      case 'firstName':
+        setFirstName(event.target.value);
+        break;
+      case 'lastName':
+        setLastName(event.target.value);
+        break;
+      case 'maritalStatus':
+        setMaritalStatus(event.target.value);
+        break;
+      case 'phone':
+        setPhone(event.target.value);
+        break;
+      case 'street':
+        setStreet(event.target.value);
+        break;
 
-  // Reset all state variables for the profile form
-  const resetVariables = () => {
-    setEmail('');
-    setPassword('');
+      case 'zipCode':
+        setZipCode(event.target.value);
+        break;
+
+      case 'city':
+        setCity(event.target.value);
+        break;
+
+      case 'state':
+        setState(event.target.value);
+        break;
+      case 'country':
+        setCountry(event.target.value);
+        break;
+      case 'agree':
+        setAgree(!agree);
+        setAgreeChanged(true);
+        break;
+      default:
+        break;
+    }
   };
 
   // Submit logged in user Function
   const submitUpdatedUserProfile = async (event) => {
     event.preventDefault();
+
+    try {
+      dispatch(userUpdateStart());
+      const updateUserInfo = {
+        firstName: firstName,
+        lastName: lastName,
+        image: image,
+        maritalStatus: maritalStatus,
+        phone: phone,
+        street: street,
+        zipCode: zipCode,
+        city: city,
+        state: state,
+        country: country,
+        agree: agree,
+      };
+
+      const { data } = await axios.put(
+        `http://localhost:8000/api/auth/update/${currentUser._id}`,
+        updateUserInfo
+      );
+
+      dispatch(userUpdateSuccess(data.user));
+    } catch (error) {
+      dispatch(userUpdateFilure(error.response.data.message));
+    }
   };
 
   return (
     <section className="update-user-profile-container">
-      <h1 className="update-user-profile-title">Update Your Profile</h1>
+      <h2 className="update-user-profile-title">Update Your Profile</h2>
 
       <figure className="image-container">
         <img className="image" src="" alt="" />
       </figure>
 
       <fieldset className="update-user-profile-fieldset">
-        <legend className="update-user-profile-legend">User Profile</legend>
+        <figure className="update_user-image-container">
+          <img
+            className="update-user-image"
+            src="https://i.ibb.co/4pDNDk1/avatar.png"
+            alt=""
+          />
+          <legend className="update-user-legend">User Name</legend>
+        </figure>
         <form
           onSubmit={submitUpdatedUserProfile}
           className="update-user-profile-form"
         >
-          <div className="input-container">
-            <FaUserAlt className="icon" />
-            <input
-              type="text"
-              name={'name'}
-              id={'name'}
-              autoComplete="name"
-              required
-              value={name}
-              onChange={updateChange}
-              placeholder="Enter First Name and Last Name"
-              className="input-field"
-            />
+          <div className="inputs-wrapper">
+            {/* User first name */}
+            <div className="input-container">
+              <FaUserAlt className="update-user-account-icon" />
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                value={firstName}
+                onChange={update}
+                placeholder="First Name"
+                className="input-field"
+              />
 
-            <label htmlFor={'firstName'} className="input-label">
-              First Name
-            </label>
-            <span className="input-highlight"></span>
+              <label htmlFor="firstName" className="input-label">
+                First Name
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User last name */}
+            <div className="input-container">
+              <FaUserAlt className="update-user-account-icon" />
+              <input
+                type="text"
+                name="lastName"
+                id="lastName"
+                value={lastName}
+                onChange={update}
+                placeholder="Last Name"
+                className="input-field"
+              />
+
+              <label htmlFor="lastName" className="input-label">
+                Last Name
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User Marital Status*/}
+            <div className="input-container">
+              <GrStatusInfo className="update-user-account-icon" />
+              <input
+                type="text"
+                name="maritalStatus"
+                id="maritalStatus"
+                value={maritalStatus}
+                onChange={update}
+                placeholder=" Marital Status"
+                className="input-field"
+              />
+
+              <label htmlFor="maritalStatus" className="input-label">
+                Marital Status
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User Image */}
+            <div className="input-container">
+              <RiLockPasswordFill className="update-user-account-icon" />
+              <input
+                type="file"
+                name="image"
+                id="image"
+                onChange={updateImage}
+                className="input-field"
+              />
+            </div>
+
+            {/* User phone number */}
+            <div className="input-container">
+              <MdLocationPin className="update-user-account-icon" />
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                value={phone}
+                onChange={update}
+                placeholder="Phone Number"
+                className="input-field"
+              />
+
+              <label htmlFor="phone" className="input-label">
+                Phone Number
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User street adddress */}
+            <div className="input-container">
+              <FaPhone className="update-user-account-icon" />
+              <input
+                type="text"
+                name="street"
+                id="street"
+                value={street}
+                onChange={update}
+                placeholder="Street Name"
+                className="input-field"
+              />
+
+              <label htmlFor="street" className="input-label">
+                Street Name
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User zip code */}
+            <div className="input-container">
+              <FaLaptopCode className="update-user-account-icon" />
+              <input
+                type="text"
+                name="zipCode"
+                id="zipCode"
+                value={zipCode}
+                onChange={update}
+                placeholder="Zip Code"
+                className="input-field"
+              />
+
+              <label htmlFor="zipCode" className="input-label">
+                Zip Code
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User city */}
+            <div className="input-container">
+              <MdLocationPin className="update-user-account-icon" />
+              <input
+                type="text"
+                name="city"
+                id="city"
+                value={city}
+                onChange={update}
+                placeholder="City Name"
+                className="input-field"
+              />
+              <label htmlFor="city" className="input-label">
+                City
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User state */}
+            <div className="input-container">
+              <MdLocationPin className="update-user-account-icon" />
+              <input
+                type="text"
+                name="state"
+                id="state"
+                value={state}
+                onChange={update}
+                placeholder="State Name"
+                className="input-field"
+              />
+              <label htmlFor="state" className="input-label">
+                State
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* User country */}
+            <div className="input-container">
+              <FaMapMarker className="update-user-account-icon" />
+              <input
+                type="text"
+                name="country"
+                id="country"
+                value={country}
+                onChange={update}
+                placeholder="Country Name"
+                className="input-field"
+              />
+              <label htmlFor="country" className="input-label">
+                Country
+              </label>
+              <span className="input-highlight"></span>
+            </div>
           </div>
 
-          <div className="input-container">
-            <MdEmail className="icon" />
-            <input
-              type="email"
-              name="email"
-              id="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={updateChange}
-              placeholder="Enter Email"
-              className="input-field"
-            />
-            <label htmlFor="email" className="input-label">
-              Email Address
-            </label>
-            <span className="input-highlight"></span>
-          </div>
-
-          <div className="input-container">
-            <RiLockPasswordFill className="icon" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              id="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={updateChange}
-              //onBlur={checkPasswordFormat}
-              placeholder="Enter Password"
-              className="input-field"
-            />
-            <label htmlFor="password" className="input-label">
-              Password
-            </label>
-            <span className="input-highlight"></span>
-            <span onClick={displayPassword} className="password-display">
-              {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
-            </span>
-          </div>
-
-          <div className="input-container">
-            <FaUserAlt className="icon" />
-            <input
-              type="text"
-              name={'phone'}
-              id={'phone'}
-              autoComplete="phone"
-              required
-              value={phone}
-              onChange={updateChange}
-              placeholder="Enter Phone Number"
-              className="input-field"
-            />
-
-            <label htmlFor={'phone'} className="input-label">
-              Phone Number
-            </label>
-            <span className="input-highlight"></span>
-          </div>
-
-          <div className="input-container">
-            <RiLockPasswordFill className="icon" />
-            <input
-              type="file"
-              name="image"
-              id="image"
-              onChange={updateImage}
-              className="input-field"
-            />
-          </div>
-
+          {/* User Consent */}
           <div className="input-consent">
             <input
               type="checkbox"
               name="agree"
               id="agree"
               checked={agree}
-              onChange={updateChange}
               className="consent-checkbox"
             />
             <label htmlFor="agree" className="accept">

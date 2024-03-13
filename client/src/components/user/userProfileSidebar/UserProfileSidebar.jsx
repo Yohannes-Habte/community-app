@@ -72,7 +72,7 @@ const UserProfileSidebar = () => {
             <MdMedicalServices className="icon" />
           </NavLink>
           <NavLink to={'/user/services'} className={activeItem}>
-            All Services
+            Offered Services
           </NavLink>
         </li>
 

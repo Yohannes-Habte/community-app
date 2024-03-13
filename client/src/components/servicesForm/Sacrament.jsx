@@ -1,17 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { serviceData } from '../../data/Data';
 import './Form.scss';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { UserContext } from '../../contexts/user/UserProvider';
-import { ACTION } from '../../contexts/user/UserReducer';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
-import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
 
 const Sacrament = () => {
   // Global state variables
-  const { user, loading, error, dispatch } = useContext(UserContext);
 
   // Local state variables
   const [sacramentInfo, setSacramentInfo] = useState({});
@@ -25,8 +21,6 @@ const Sacrament = () => {
   // Login and Submit Function
   const handleSacramentSubmit = async (event) => {
     event.preventDefault();
-
-    dispatch({ type: ACTION.SACRMENT_SEND_START });
 
     try {
       // The body
@@ -42,14 +36,8 @@ const Sacrament = () => {
         newSacrament
       );
 
-      dispatch({ type: ACTION.PRAYER_SEND_SUCCESS, payload: data });
-
-      localStorage.setItem('sacrament', JSON.stringify(data));
     } catch (err) {
-      dispatch({
-        type: ACTION.PRAYER_SEND_FAIL,
-        payload: toast.error(ErrorMessage(err)),
-      });
+     
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./ServiceRequest.scss"
+import './ServiceRequest.scss';
 import Sacrament from '../../servicesForm/Sacrament';
 import PrayerRequest from '../../servicesForm/PrayerRequest';
 import SpiritualService from '../../servicesForm/SpiritualService';
@@ -8,7 +8,14 @@ const ServiceRequest = () => {
   const [active, setActive] = useState(1);
   return (
     <section className="user-service-request-container">
-      <h1 className="user-service-request-title">User Service Request</h1>
+      <h1 className="user-service-request-title">WHAT ARE YOU LOOKING FOR?</h1>
+
+      <p className='service-paragraph'>
+        Jesus asked the women “What are you looking for?” In this spirit, Holy
+        Saviour will serve parishioners in all sacramental services, in prayer
+        on special occasions and in spiritual development. If you would like to
+        use at least one of these services, please complete the form below.
+      </p>
 
       <ul className="user-service-request-tabs">
         <li

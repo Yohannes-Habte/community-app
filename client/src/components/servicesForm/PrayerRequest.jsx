@@ -1,17 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import './Form.scss';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { UserContext } from '../../contexts/user/UserProvider';
-import { ACTION } from '../../contexts/user/UserReducer';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
 import { serviceData } from '../../data/Data';
-import ErrorMessage from '../../utiles/errorMessage/ErrorMessage';
 
 const PrayerRequest = () => {
   // Global state variables
-  const { error, dispatch } = useContext(UserContext);
 
   // Local state variables
   const [prayerInfo, setPrayerInfo] = useState({});
@@ -26,8 +22,6 @@ const PrayerRequest = () => {
   const handlePrayerSubmit = async (event) => {
     event.preventDefault();
 
-    dispatch({ type: ACTION.PRAYER_SEND_START });
-
     try {
       // The body
       const newPrayer = {
@@ -41,16 +35,7 @@ const PrayerRequest = () => {
         'http://localhost:4000/api/prayers/new-prayer-service',
         newPrayer
       );
-
-      dispatch({ type: ACTION.PRAYER_SEND_SUCCESS, payload: data });
-
-      localStorage.setItem('prayer', JSON.stringify(data));
-    } catch (err) {
-      dispatch({
-        type: ACTION.PRAYER_SEND_FAIL,
-        payload: toast.error(ErrorMessage(err)),
-      });
-    }
+    } catch (err) {}
   };
 
   return (

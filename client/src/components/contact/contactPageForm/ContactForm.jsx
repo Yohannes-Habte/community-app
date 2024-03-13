@@ -2,15 +2,13 @@ import axios from 'axios';
 import React, { useContext, useRef, useState } from 'react';
 import './ContactForm.scss';
 import { toast } from 'react-toastify';
-import { ACTION } from '../../../contexts/user/UserReducer';
-import { UserContext } from '../../../contexts/user/UserProvider';
 import { MdEmail } from 'react-icons/md';
 import { FaUserAlt } from 'react-icons/fa';
 import { BsCardText } from 'react-icons/bs';
 
 const ContactForm = () => {
   // Global state variables
-  const { user, loading, error, dispatch } = useContext(UserContext);
+
 
   // State variables
   const [fullName, setFullName] = useState('');
@@ -70,7 +68,6 @@ const ContactForm = () => {
   const submitComment = async (event) => {
     event.preventDefault();
 
-    dispatch({ type: ACTION.COMMENT_SEND_START });
 
     try {
       // The body
@@ -84,15 +81,9 @@ const ContactForm = () => {
         newComment
       );
 
-      dispatch({ type: ACTION.COMMENT_SEND_SUCCESS, payload: data });
-
-      localStorage.setItem('comment', JSON.stringify(data));
       reset();
     } catch (err) {
-      dispatch({
-        type: ACTION.COMMENT_SEND_FAIL,
-        payload: toast.error(err.response.data.message),
-      });
+     
     }
   };
   return (

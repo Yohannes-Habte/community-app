@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
 import { HelmetProvider } from 'react-helmet-async';
-import UserProvider from './contexts/user/UserProvider';
-
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Store, persistor } from './redux/store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </UserProvider>
+    <Provider store={Store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
