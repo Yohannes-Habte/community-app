@@ -1,11 +1,11 @@
 import createError from 'http-errors';
-import Sacrament from '../models/sacramentModel.js';
+import Spiritual from '../models/spiritualDevelopmentModel.js';
 import Member from '../models/memberModel.js';
 
 //==========================================================================
-// Create New Sacrament
+// Create New Spiritual Development
 //==========================================================================
-export const createSacrament = async (req, res, next) => {
+export const createSpiritual = async (req, res, next) => {
   try {
     const user = await Member.findById(req.params.userId);
 
@@ -13,25 +13,30 @@ export const createSacrament = async (req, res, next) => {
       return next(createError(400, 'User not found! Please login!'));
     }
 
-    const newSacrament = new Sacrament(req.body);
-    user.services = [...user.services, newSacrament];
+    const newSpiritual = new Spiritual(req.body);
+    user.services = [...user.services, newSpiritual];
 
     try {
       await user.save();
     } catch (error) {
-      return next(createError(400, 'Sacrament request is not saved!'));
+      return next(createError(400, 'Spiritual request is not saved!'));
     }
 
     return res.status(201).json({
       success: true,
-      sacrament: user,
-      message: 'Sacrament request is successfully completed!',
+      spiritual: user,
+      message: 'Spiritual request is successfully completed!',
     });
   } catch (error) {
     console.log(error);
     return next(
-      createError(400, 'New sacrament could not be created! Please try again')
+      createError(
+        400,
+        'New spiritual development could not be created! Please try again'
+      )
     );
   }
 };
+
+
 

@@ -29,7 +29,6 @@ const userReducer = createSlice({
       state.registerLoading = false;
     },
 
-
     // User Login
     userLoginStart: (state) => {
       state.loginLoading = true;
@@ -71,6 +70,11 @@ const userReducer = createSlice({
     userLogoutFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    },
+
+    // Clear errors
+    clearErrors: (state) => {
+      state.error = null;
     },
   },
 });

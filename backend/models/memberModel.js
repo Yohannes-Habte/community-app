@@ -30,15 +30,7 @@ const memberSchema = new Schema(
 
     comments: [],
 
-    services: [
-      {
-        serviceName: { type: String, required: true },
-        ServiceDate: { type: String, required: true },
-        userPhone: { type: String, required: true },
-        userStatus: { type: String, required: true },
-        serviceStatus: { type: String, default: 'Pending' },
-      },
-    ],
+    services: [],
 
     role: {
       type: String,

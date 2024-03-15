@@ -5,9 +5,25 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../utiles/securitiy/secreteKey';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  sacramentRequestFailure,
+  sacramentRequestStart,
+  sacramentRequestSuccess,
+} from '../../redux/reducers/sacramentReducer';
+import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
 
-const Sacrament = () => {
+const SacramentRequest = () => {
   // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.sacrament);
+  const dispatch = useDispatch();
 
   // Local state variables
   const [sacramentInfo, setSacramentInfo] = useState({});
@@ -15,7 +31,8 @@ const Sacrament = () => {
 
   // Handle change fuction
   const handleChange = (e) => {
-    setSacramentInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    const { name, value } = e.target;
+    setSacramentInfo({ ...sacramentInfo, [name]: value });
   };
 
   // Login and Submit Function
@@ -23,27 +40,42 @@ const Sacrament = () => {
     event.preventDefault();
 
     try {
+      dispatch(sacramentRequestStart());
+      // Image validation
+      const userFile = new FormData();
+      userFile.append('file', files);
+      userFile.append('cloud_name', cloud_name);
+      userFile.append('upload_preset', upload_preset);
+
+      // Save image to cloudinary
+      const response = await axios.post(cloud_URL, userFile);
+      const { url } = response.data;
       // The body
       const newSacrament = {
         name: sacramentInfo.name,
         date: sacramentInfo.date,
         phone: sacramentInfo.phone,
-        userStatus: sacramentInfo.userStatus,
+        userStatus: url,
       };
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/sacraments/new-sacrament',
+        `${API}/sacraments/${currentUser._id}/new-sacrament`,
         newSacrament
       );
-
+      dispatch(sacramentRequestSuccess(data.sacrament));
+      toast.success(data.message);
+      event.target.reset();
     } catch (err) {
-     
+      dispatch(sacramentRequestFailure(err.response.data.message));
     }
   };
 
   return (
     <section className="service-form-container">
       <h1 className="service-form-title"> Sacrament Service Request </h1>
+
+      {error ? <p className="error-message"> {error} </p> : null}
+
       {/* Right container */}
       <form onSubmit={handleSacramentSubmit} action="" className="form">
         {serviceData.sacraments.map((input) => {
@@ -72,7 +104,7 @@ const Sacrament = () => {
             type="file"
             name="file"
             id="file"
-            onChange={(e) => setFiles(e.target.files)}
+            onChange={(e) => setFiles(e.target.files[0])}
             className="file-field"
           />
 
@@ -81,10 +113,18 @@ const Sacrament = () => {
             <FaCloudUploadAlt className="icon" />
           </label>
         </div>
-        <button className="service-request-btn">Send</button>
+        <button className="service-request-btn" disabled={loading}>
+          {loading ? (
+            <span className="loading">
+              <ButtonLoader /> Loading...
+            </span>
+          ) : (
+            <span>Send</span>
+          )}
+        </button>
       </form>
     </section>
   );
 };
 
-export default Sacrament;
+export default SacramentRequest;

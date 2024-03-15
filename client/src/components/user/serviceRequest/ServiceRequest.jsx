@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './ServiceRequest.scss';
-import Sacrament from '../../servicesForm/Sacrament';
-import PrayerRequest from '../../servicesForm/PrayerRequest';
-import SpiritualService from '../../servicesForm/SpiritualService';
+import PrayerRequest from '../../servicesRequestForms/PrayerRequest';
+import SacramentRequest from '../../servicesRequestForms/SacramentRequest';
+import SpiritualService from '../../servicesRequestForms/SpiritualService';
 
 const ServiceRequest = () => {
   const [active, setActive] = useState(1);
@@ -51,7 +51,7 @@ const ServiceRequest = () => {
         </li>
       </ul>
 
-      {active === 1 && <Sacrament />}
+      {active === 1 && <SacramentRequest />}
       {active === 2 && <PrayerRequest />}
       {active === 3 && <SpiritualService />}
     </section>

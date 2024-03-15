@@ -9,13 +9,13 @@ import cookieParser from 'cookie-parser';
 // Routes
 import globalErrorHandler from './middlewares/globalErrorHandler.js';
 import financeRouter from './routes/financeRoutes.js';
-import prayerServiceRouter from './routes/prayerServiceRoutes.js';
-import sacramentRouter from './routes/sacramentRoutes.js';
-import spiritualDevelopmentRouter from './routes/spiritualDevelopmentRoutes.js';
 import commentRouter from './routes/commentRoutes.js';
 import memberRouter from './routes/memberRoutes.js';
 import committeeRouter from './routes/committesRoutes.js';
 import authUserRouter from './routes/authUserRoutes.js';
+import prayerRequestRouter from './routes/prayerRequestRoutes.js';
+import sacramentRouter from './routes/sacramentRoutes.js';
+import spiritualRouter from './routes/spiritualRoutes.js';
 
 // Express app
 const app = express();
@@ -49,9 +49,9 @@ app.use('/api/auth', authUserRouter);
 app.use('/api/members', memberRouter);
 app.use('/api/committees', committeeRouter);
 app.use('/api/finances', financeRouter);
-app.use('/api/prayers', prayerServiceRouter);
+app.use('/api/prayers', prayerRequestRouter);
 app.use('/api/sacraments', sacramentRouter);
-app.use('/api/spiritual-developments', spiritualDevelopmentRouter);
+app.use('/api/spirituals', spiritualRouter);
 app.use('/api/comments', commentRouter);
 
 // Static assets
