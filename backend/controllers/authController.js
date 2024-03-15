@@ -71,7 +71,11 @@ export const registerUser = async (req, res, next) => {
           secure: true,
         })
         .status(201)
-        .json({ success: true, user: newUser });
+        .json({
+          success: true,
+          user: newUser,
+          message: 'User account is successfully created!',
+        });
     }
   } catch (error) {
     console.log(error);
@@ -115,10 +119,13 @@ export const loginUser = async (req, res, next) => {
           secure: true,
         })
         .status(200)
-        .json({ user: { ...userDetails } });
+        .json({
+          success: true,
+          user: { ...userDetails },
+          message: 'User successfully logged in!',
+        });
     }
   } catch (error) {
-    console.log(error);
     return next(createError(400, 'You are unable to login! please try again!'));
   }
 };
@@ -161,12 +168,38 @@ export const updateUser = async (req, res, next) => {
     try {
       await user.save();
     } catch (error) {
-      return next(createError(500, 'User could not be saved'));
+      console.log(error);
+      return next(
+        createError(500, 'Update could not be saved! Please try again!')
+      );
     }
 
-    return res.status(201).json({ success: true, user: user });
+    return res.status(201).json({
+      success: true,
+      user: user,
+      message: 'User account successfully updated!',
+    });
   } catch (error) {
     console.log(error);
     next(createError(500, 'User account is not updated! Please try again!'));
+  }
+};
+
+//==========================================================================
+// User logout
+//==========================================================================
+export const userLogout = async (req, res, next) => {
+  try {
+    res.cookie('user_token', null, {
+      httpOnly: true,
+      expires: new Date(0),
+      sameSite: 'none',
+      secure: true,
+    });
+    res
+      .status(200)
+      .json({ success: true, message: `You have successfully logged out` });
+  } catch (error) {
+    next(createError(500, 'User could not logout. Please try again!'));
   }
 };
