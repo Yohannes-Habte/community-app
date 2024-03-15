@@ -376,3 +376,23 @@
   object-fit: cover;
   cursor: pointer;
 }
+
+// ===============================================
+// Loader styling
+// ===============================================
+@mixin loader {
+  @include flexCenter;
+  gap: 1rem;
+}
+
+
+// ===============================================
+// Error message styling
+// ===============================================
+
+@mixin errorMessage {
+  @include paragraph;
+  color: $red;
+  background-color: $orange;
+}
+

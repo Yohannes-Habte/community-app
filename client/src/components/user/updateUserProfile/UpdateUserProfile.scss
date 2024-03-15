@@ -10,6 +10,10 @@
     @include subTitle;
   }
 
+  .error-message {
+    @include errorMessage;
+  }
+
   .update_user-image-container {
     @include flexColumnCenter;
     .update-user-image {

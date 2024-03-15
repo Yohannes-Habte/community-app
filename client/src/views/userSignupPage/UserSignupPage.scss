@@ -11,6 +11,11 @@
       .user-signup-title {
         @include title;
       }
+
+      .error-message {
+        @include errorMessage;
+      }
+
       .register-field {
         @include fieldset;
 

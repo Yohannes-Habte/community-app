@@ -3,9 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   currentUser: null,
   error: null,
-  loading: false,
+  registerLoading: false,
+  loginLoading: false,
+  updateLoading: false,
+  logoutLoading: false,
+  deleteLoading: false,
   addressLoading: false,
-  successMessage: null,
 };
 
 // Destructure user reducer methods
@@ -13,19 +16,33 @@ const userReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    // Sign Up User
+    userRegisterStart: (state) => {
+      state.registerLoading = true;
+    },
+    userRegisterSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.registerLoading = false;
+    },
+    userRegisterFailure: (state, action) => {
+      state.error = action.payload;
+      state.registerLoading = false;
+    },
+
+
     // User Login
     userLoginStart: (state) => {
-      state.loading = true;
+      state.loginLoading = true;
     },
     userLoginSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.loading = false;
+      state.loginLoading = false;
       state.error = null;
     },
     userLoginFailure: (state, action) => {
       state.error = action.payload;
       state.currentUser = null;
-      state.loading = false;
+      state.loginLoading = false;
     },
 
     // Update user profile
@@ -37,7 +54,21 @@ const userReducer = createSlice({
       state.loading = false;
       state.error = null;
     },
-    userUpdateFilure: (state, action) => {
+    userUpdateFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
+    // Logout user
+    userLogoutStart: (state) => {
+      state.loading = true;
+    },
+    userLogoutSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    userLogoutFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
     },
@@ -46,13 +77,21 @@ const userReducer = createSlice({
 
 // Destructure user reducer methods
 export const {
+  userRegisterStart,
+  userRegisterSuccess,
+  userRegisterFailure,
+
   userLoginStart,
   userLoginSuccess,
   userLoginFailure,
-  
+
   userUpdateStart,
   userUpdateSuccess,
-  userUpdateFilure,
+  userUpdateFailure,
+
+  userLogoutStart,
+  userLogoutSuccess,
+  userLogoutFailure,
 } = userReducer.actions;
 
 // export userSlice

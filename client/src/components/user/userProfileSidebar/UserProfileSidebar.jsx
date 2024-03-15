@@ -1,6 +1,6 @@
 import React from 'react';
 import './UserProfileSidebar.scss';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import { FaAddressCard } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
@@ -9,8 +9,41 @@ import { MdOutlineSupportAgent } from 'react-icons/md';
 import { RiMoneyEuroBoxFill } from 'react-icons/ri';
 import { IoMdLogOut } from 'react-icons/io';
 import { MdOutlineMessage } from 'react-icons/md';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  userLogoutFailure,
+  userLogoutStart,
+  userLogoutSuccess,
+} from '../../../redux/reducers/userReducer';
+import { toast } from 'react-toastify';
+import { API } from '../../../utiles/securitiy/secreteKey';
 
 const UserProfileSidebar = () => {
+  // Navigate
+  const navigate = useNavigate();
+  // Global state variables
+  const { loading, error, currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // Sign out Function
+  const logoutUser = async () => {
+    try {
+      dispatch(userLogoutStart);
+      const { data } = await axios.get(`${API}/auth/logout`);
+
+      if (data.success) {
+        dispatch(userLogoutSuccess(data.message));
+        toast.success(data.message);
+        navigate('/login');
+      } else {
+        toast.error('User could not logout');
+      }
+    } catch (error) {
+      dispatch(userLogoutFailure(error.response.message));
+    }
+  };
+
   // Styling NavLink status
   const activeItem = ({ isActive }) =>
     isActive ? 'active-item-navLink' : 'passive-item-navLink';
@@ -96,14 +129,9 @@ const UserProfileSidebar = () => {
           </NavLink>
         </li>
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/login'} className={activeItem}>
-            <IoMdLogOut className="icon" />
-          </NavLink>
-
-          <NavLink to={'/login'} className={activeItem}>
-            Log Out
-          </NavLink>
+        <li className="user-profile-sidebar-item" onClick={logoutUser}>
+          <IoMdLogOut className="logout-icon" />
+          <span className="logout-text">Log Out</span>
         </li>
       </ul>
     </nav>

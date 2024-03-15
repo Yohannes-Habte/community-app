@@ -27,6 +27,23 @@
         border-radius: $radius;
       }
 
+      .logout-icon {
+        color: $green;
+        cursor: pointer;
+
+        &:hover {
+          color: $red;
+        }
+      }
+
+      .logout-text {
+        cursor: pointer;
+
+        &:hover {
+          color: $red;
+        }
+      }
+
       .active-item-navLink {
         color: $red;
 

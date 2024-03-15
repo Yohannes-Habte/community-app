@@ -16,10 +16,19 @@ import './UserSignupPage.scss';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  userRegisterFailure,
+  userRegisterStart,
+  userRegisterSuccess,
+} from '../../redux/reducers/userReducer';
+import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
+import { API } from '../../utiles/securitiy/secreteKey';
 
 const UserSignupPage = () => {
   // Global state variables
-
+  const { error, registerLoading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   // to navigate register page
   const navigate = useNavigate();
 
@@ -229,14 +238,17 @@ const UserSignupPage = () => {
       };
 
       try {
-        const { data } = await axios.post(
-          'http://localhost:8000/api/auth/register',
-          userData
-        );
+        dispatch(userRegisterStart());
 
+        const { data } = await axios.post(`${API}/auth/register`, userData);
+
+        dispatch(userRegisterSuccess(data.user));
+        toast.success(data.message);
         resetAllEnteredData();
         navigate('/login');
-      } catch (err) {}
+      } catch (err) {
+        dispatch(userRegisterFailure(err.response.message));
+      }
     }
   };
 
@@ -248,6 +260,9 @@ const UserSignupPage = () => {
 
       <section className="register-container">
         <h1 className="user-signup-title"> Create an Account for Free</h1>
+
+        {error ? <p className="error-message"> {error} </p> : null}
+
         <fieldset className="register-field">
           <figure className="user-image-container">
             <img
@@ -516,12 +531,19 @@ const UserSignupPage = () => {
                   <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
                 </div>
 
-                <button className="register-button"> Sign Up </button>
+                <button className="register-button" disabled={registerLoading}>
+                  {registerLoading ? (
+                    <span className="loading">
+                      <ButtonLoader /> Loading...
+                    </span>
+                  ) : (
+                    'Sign Up'
+                  )}{' '}
+                </button>
                 <p className="haveAccount">
                   Already have an account?
                   <NavLink className="login-link" to="/login">
-                    {' '}
-                    Log In{' '}
+                    Log In
                   </NavLink>
                 </p>
               </div>

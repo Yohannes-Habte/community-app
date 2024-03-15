@@ -5,8 +5,9 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { ToastContainer } from 'react-toastify';
 import UserSignupPage from './views/userSignupPage/UserSignupPage';
 import UserLoginPage from './views/userLoginPage/UserLoginPage';
 import AboutPage from './views/aboutPage/AboutPage';
@@ -26,8 +27,6 @@ const App = () => {
   return (
     <div>
       <Router>
-        <ToastContainer position="bottom-center" limit={1} />
-
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -49,6 +48,21 @@ const App = () => {
           {/* Parish Priest pages */}
           <Route path="/priest/dashboard" element={<PriestDashboardPage />} />
         </Routes>
+
+        {/* React toastify */}
+        <ToastContainer
+          position="top-right"
+          limit={1}
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </Router>
     </div>
   );

@@ -16,10 +16,12 @@ import {
   userLoginStart,
   userLoginSuccess,
 } from '../../redux/reducers/userReducer';
+import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
+import { API } from '../../utiles/securitiy/secreteKey';
 
 const UserLoginPage = () => {
   // Global state variables
-  const { loading, error } = useSelector((state) => state.user);
+  const { loginLoading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -119,13 +121,15 @@ const UserLoginPage = () => {
         email: email,
         password: password,
       };
-      const { data } = await axios.post(
-        `http://localhost:8000/api/auth/login`,
-        loginUser
-      );
+      const { data } = await axios.post(`${API}/auth/login`, loginUser);
+
+      if (data.success === false) {
+        dispatch(userLoginFailure(data.user.message));
+        return;
+      }
 
       dispatch(userLoginSuccess(data.user));
-
+      toast.success(data.message);
       resetVariables();
       navigate('/user/profile');
     } catch (err) {
@@ -141,9 +145,8 @@ const UserLoginPage = () => {
 
       <section className="login-page-container">
         <h1 className="login-page-title"> Welcome To Your Account </h1>
-        <figure className="login-icon-container">
-          <FaUserAlt className="login-icon" />
-        </figure>
+        {error ? <p className="error-message"> {error} </p> : null}
+
         <fieldset className="login-fieldset">
           <legend className="login-legend">User Login </legend>
           <form onSubmit={submitLoginUser} className="login-form">
@@ -202,7 +205,15 @@ const UserLoginPage = () => {
             </div>
 
             {/* Button for log in form */}
-            <button className="login-button"> Log In</button>
+            <button className="login-button" disabled={loginLoading}>
+              {loginLoading ? (
+                <span className="loading">
+                  <ButtonLoader /> Loading...
+                </span>
+              ) : (
+                'Log In'
+              )}
+            </button>
 
             {/* Do not have an account, Sign Up */}
             <p className="have-no-account">

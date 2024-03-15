@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './UpdateUserProfile.scss';
 import { FaLaptopCode, FaMapMarker, FaPhone, FaUserAlt } from 'react-icons/fa';
 import { MdLocationPin } from 'react-icons/md';
@@ -8,15 +8,25 @@ import { GrStatusInfo } from 'react-icons/gr';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  userUpdateFilure,
+  userUpdateFailure,
   userUpdateStart,
   userUpdateSuccess,
 } from '../../../redux/reducers/userReducer';
+import ButtonLoader from '../../../utiles/loader/buttonLoader/ButtonLoader';
+import { toast } from 'react-toastify';
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../../utiles/securitiy/secreteKey';
 
 const UpdateUserProfile = () => {
   const navigate = useNavigate();
   // Global state variables
-  const { loading, error, currentUser } = useSelector((state) => state.user);
+  const { updateLoading, error, currentUser } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
 
   // Local State variables
@@ -35,10 +45,6 @@ const UpdateUserProfile = () => {
   const [country, setCountry] = useState(currentUser.country || '');
   const [agree, setAgree] = useState(false);
   const [agreeChanged, setAgreeChanged] = useState(false);
-
-  useEffect(() => {
-    console.log(maritalStatus);
-  });
 
   // Update image
   const updateImage = (e) => {
@@ -78,25 +84,32 @@ const UpdateUserProfile = () => {
       case 'country':
         setCountry(event.target.value);
         break;
-      case 'agree':
-        setAgree(!agree);
-        setAgreeChanged(true);
-        break;
       default:
         break;
     }
   };
 
   // Submit logged in user Function
-  const submitUpdatedUserProfile = async (event) => {
+  const updateUserAccount = async (event) => {
     event.preventDefault();
 
     try {
       dispatch(userUpdateStart());
+
+      // Image validation
+      const userPhoto = new FormData();
+      userPhoto.append('file', image);
+      userPhoto.append('cloud_name', cloud_name);
+      userPhoto.append('upload_preset', upload_preset);
+
+      // Save image to cloudinary
+      const response = await axios.post(cloud_URL, userPhoto);
+      const { url } = response.data;
+
       const updateUserInfo = {
         firstName: firstName,
         lastName: lastName,
-        image: image,
+        image: url,
         maritalStatus: maritalStatus,
         phone: phone,
         street: street,
@@ -104,17 +117,17 @@ const UpdateUserProfile = () => {
         city: city,
         state: state,
         country: country,
-        agree: agree,
       };
 
       const { data } = await axios.put(
-        `http://localhost:8000/api/auth/update/${currentUser._id}`,
+        `${API}/auth/update/${currentUser._id}`,
         updateUserInfo
       );
 
       dispatch(userUpdateSuccess(data.user));
+      toast.success(data.message);
     } catch (error) {
-      dispatch(userUpdateFilure(error.response.data.message));
+      dispatch(userUpdateFailure(error.response.data.message));
     }
   };
 
@@ -122,23 +135,24 @@ const UpdateUserProfile = () => {
     <section className="update-user-profile-container">
       <h2 className="update-user-profile-title">Update Your Profile</h2>
 
-      <figure className="image-container">
-        <img className="image" src="" alt="" />
-      </figure>
+      {error ? <p className="error-message"> {error} </p> : null}
 
       <fieldset className="update-user-profile-fieldset">
         <figure className="update_user-image-container">
           <img
             className="update-user-image"
-            src="https://i.ibb.co/4pDNDk1/avatar.png"
-            alt=""
+            src={
+              currentUser
+                ? currentUser.image
+                : 'https://i.ibb.co/4pDNDk1/avatar.png'
+            }
+            alt={currentUser.firstName}
           />
-          <legend className="update-user-legend">User Name</legend>
+          <legend className="update-user-legend">
+            {currentUser.firstName} {currentUser.lastName}
+          </legend>
         </figure>
-        <form
-          onSubmit={submitUpdatedUserProfile}
-          className="update-user-profile-form"
-        >
+        <form onSubmit={updateUserAccount} className="update-user-profile-form">
           <div className="inputs-wrapper">
             {/* User first name */}
             <div className="input-container">
@@ -327,7 +341,6 @@ const UpdateUserProfile = () => {
               type="checkbox"
               name="agree"
               id="agree"
-              checked={agree}
               className="consent-checkbox"
             />
             <label htmlFor="agree" className="accept">
@@ -337,8 +350,18 @@ const UpdateUserProfile = () => {
             <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
           </div>
 
-          <button type="submit" className="update-user-profile-btn">
-            Update
+          <button
+            type="submit"
+            className="update-user-profile-btn"
+            disabled={updateLoading}
+          >
+            {updateLoading ? (
+              <span className="loading">
+                <ButtonLoader /> Loading...
+              </span>
+            ) : (
+              'Update'
+            )}
           </button>
         </form>
       </fieldset>
