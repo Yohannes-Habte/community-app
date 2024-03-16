@@ -24,6 +24,7 @@ import {
 } from '../../redux/reducers/userReducer';
 import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
 import { API } from '../../utiles/securitiy/secreteKey';
+import { validEmail, validPassword } from '../../utiles/validation/validate';
 
 const UserSignupPage = () => {
   // Global state variables
@@ -172,29 +173,6 @@ const UserSignupPage = () => {
     }
   };
 
-  // Function that handles consent of the user
-  const checkboxAgree = () => {
-    setAgreeChanged((prevAgree) => !prevAgree);
-  };
-
-  // useRef for the state variables
-  const passwordRef = useRef();
-
-  //Function handling Password validation
-  const checkPasswordFormat = () => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,24}$/.test(
-        password
-      );
-    if (passwordRegex) {
-      passwordRef.current.className = 'errorInvisible';
-      //passwordRef.current.style.display = "none"
-    } else {
-      passwordRef.current.className = 'errorVisible';
-      //passwordRef.current.style.display = "block"
-    }
-  };
-
   // Function to reset all the state variables
   const resetAllEnteredData = () => {
     setFirstName('');
@@ -219,9 +197,25 @@ const UserSignupPage = () => {
 
     if (password !== confirmPassword) {
       toast.error('Emails did not match');
-    } else if (email !== confirmEmail) {
+    }
+
+    if (email !== confirmEmail) {
       toast.error('Passwords did not match');
-    } else {
+    }
+
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
+
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
+
+    try {
+      dispatch(userRegisterStart());
+
       const userData = {
         firstName: firstName,
         lastName: lastName,
@@ -236,19 +230,14 @@ const UserSignupPage = () => {
         state: state,
         country: country,
       };
+      const { data } = await axios.post(`${API}/auth/register`, userData);
 
-      try {
-        dispatch(userRegisterStart());
-
-        const { data } = await axios.post(`${API}/auth/register`, userData);
-
-        dispatch(userRegisterSuccess(data.user));
-        toast.success(data.message);
-        resetAllEnteredData();
-        navigate('/login');
-      } catch (err) {
-        dispatch(userRegisterFailure(err.response.message));
-      }
+      dispatch(userRegisterSuccess(data.user));
+      toast.success(data.message);
+      resetAllEnteredData();
+      navigate('/login');
+    } catch (err) {
+      dispatch(userRegisterFailure(err.response.message));
     }
   };
 

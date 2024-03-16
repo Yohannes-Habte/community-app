@@ -16,16 +16,24 @@ export const createSpiritual = async (req, res, next) => {
     const newSpiritual = new Spiritual(req.body);
     user.services = [...user.services, newSpiritual];
 
+    // Save user after addingt the new spiritual to the user who has ordered it
     try {
       await user.save();
+    } catch (error) {
+      return next(createError(400, 'The new spiritual is not added to user!'));
+    }
+
+    // Save new spiritual
+    try {
+      await newSpiritual.save();
     } catch (error) {
       return next(createError(400, 'Spiritual request is not saved!'));
     }
 
     return res.status(201).json({
       success: true,
-      spiritual: user,
-      message: 'Spiritual request is successfully completed!',
+      spiritual: newSpiritual,
+      message: 'Spiritual request is successfully submitted!',
     });
   } catch (error) {
     console.log(error);
@@ -37,6 +45,3 @@ export const createSpiritual = async (req, res, next) => {
     );
   }
 };
-
-
-

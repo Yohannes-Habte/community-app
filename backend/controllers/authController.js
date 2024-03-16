@@ -203,3 +203,41 @@ export const userLogout = async (req, res, next) => {
     next(createError(500, 'User could not logout. Please try again!'));
   }
 };
+
+//==========================================================================
+// User logout
+//==========================================================================
+export const userChangePassword = async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  try {
+    const user = await Member.findById(req.params.id);
+
+    if (!user) {
+      return next(createError(400, 'User not found! Please login!'));
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isPasswordValid) {
+      return next(createError(400, 'Invalid old password! Please try again!'));
+    }
+
+    user.password = newPassword;
+
+    try {
+      await user.save();
+    } catch (error) {
+      return next(
+        createError(400, 'New password is not saved! Please try again!')
+      );
+    }
+
+    return res.status(200).json({
+      success: true,
+      changePassword: user,
+      message: 'Password is successfully updated!',
+    });
+  } catch (error) {
+    next(createError(500, 'User could not logout. Please try again!'));
+  }
+};

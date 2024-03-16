@@ -59,6 +59,10 @@
 
     .service-request-btn {
       @include button1;
+
+      .loading {
+        @include loader;
+      }
     }
   }
 }

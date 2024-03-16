@@ -17,15 +17,23 @@ export const createPrayerRequest = async (req, res, next) => {
 
     user.services = [...user.services, newPrayerRequest];
 
+    // Save new prayer reques to the user who has ordered it
     try {
       await user.save();
     } catch (error) {
-      return next(createError(400, 'Prayer request is not saved!'));
+      return next(createError(400, 'Prayer request is added to user!'));
+    }
+
+    // Save new prayer request
+    try {
+      await newPrayerRequest.save();
+    } catch (error) {
+      return next(createError(400, 'Sacrament request is not saved!'));
     }
 
     return res.status(201).json({
       success: true,
-      prayer: user,
+      prayer: newPrayerRequest,
       message: 'Prayer request is successfully completed!',
     });
   } catch (error) {

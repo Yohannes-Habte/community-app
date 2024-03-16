@@ -97,7 +97,6 @@
   color: #cccccc00;
 }
 
-
 @mixin focusInputFieldAndInputLabel {
   top: 0;
   font-size: $sfs;
@@ -382,9 +381,8 @@
 // ===============================================
 @mixin loader {
   @include flexCenter;
-  gap: 1rem;
+  gap: 0.5rem;
 }
-
 
 // ===============================================
 // Error message styling
@@ -395,4 +393,3 @@
   color: $red;
   background-color: $orange;
 }
-

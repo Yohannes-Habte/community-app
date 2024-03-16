@@ -4,17 +4,30 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import { validPassword } from '../../../utiles/validation/validate';
+import { toast } from 'react-toastify';
+import { API } from '../../../utiles/securitiy/secreteKey';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import {
+  userChangePasswordFailure,
+  userChangePasswordStart,
+  userChangePasswordSuccess,
+} from '../../../redux/reducers/userReducer';
+import ButtonLoader from '../../../utiles/loader/buttonLoader/ButtonLoader';
 
 const UserChangePassword = () => {
   const navigate = useNavigate();
   // Global state variables
-  // const { currentUser } = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const { changePasswordLoading, error, currentUser } = useSelector(
+    (state) => state.user
+  );
+  const dispatch = useDispatch();
 
   // Local state variables
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   // Update input data
@@ -26,8 +39,8 @@ const UserChangePassword = () => {
       case 'newPassword':
         setNewPassword(e.target.value);
         break;
-      case 'confirmPassword':
-        setConfirmPassword(e.target.value);
+      case 'confirmNewPassword':
+        setConfirmNewPassword(e.target.value);
         break;
       default:
         break;
@@ -43,15 +56,54 @@ const UserChangePassword = () => {
   const resetVariables = () => {
     setOldPassword('');
     setNewPassword('');
-    setConfirmPassword('');
+    setConfirmNewPassword('');
   };
+
   // Handle change password
   const passwordChangeHandler = async (e) => {
     e.preventDefault();
+
+    if (newPassword !== confirmNewPassword) {
+      return toast.error('Passwords did not match!');
+    }
+
+    if (!validPassword(oldPassword)) {
+      return toast.error('Old password is invalid!');
+    }
+
+    if (!validPassword(newPassword)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
+
+    try {
+      dispatch(userChangePasswordStart());
+
+      const changeUserpassword = {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+        confirmNewPassword: confirmNewPassword,
+      };
+      const { data } = await axios.put(
+        `${API}/auth/change-password/${currentUser._id}`,
+        changeUserpassword
+      );
+      dispatch(userChangePasswordSuccess(data.changePassword));
+      toast.success(data.message);
+      resetVariables();
+      navigate('/login');
+    } catch (error) {
+      dispatch(userChangePasswordFailure(error.response.data.message));
+    }
   };
+
   return (
     <section className="user-change-password-container">
       <h2 className="user-change-password-title">Change Password</h2>
+
+      {error ? <p className="error-message"> {error} </p> : null}
+
       <form
         onSubmit={passwordChangeHandler}
         action=""
@@ -104,15 +156,15 @@ const UserChangePassword = () => {
           <RiLockPasswordFill className="icon" />
           <input
             type={showPassword ? 'text' : 'password'}
-            name="confirmPassword"
-            id="confirmPassword"
+            name="confirmNewPassword"
+            id="confirmNewPassword"
             autoComplete="current-password"
-            value={confirmPassword}
+            value={confirmNewPassword}
             onChange={updateChange}
             placeholder="Confirm New Password"
             className="input-field"
           />
-          <label htmlFor="confirmPassword" className="input-label">
+          <label htmlFor="confirmNewPassword" className="input-label">
             Confirm New Password
           </label>
           <span className="input-highlight"></span>
@@ -121,7 +173,18 @@ const UserChangePassword = () => {
           </span>
         </div>
 
-        <button className="user-change-password-btn">Submit</button>
+        <button
+          className="user-change-password-btn"
+          disabled={changePasswordLoading}
+        >
+          {changePasswordLoading ? (
+            <span className="loading">
+              <ButtonLoader /> Loading...
+            </span>
+          ) : (
+            'Submit'
+          )}
+        </button>
       </form>
     </section>
   );

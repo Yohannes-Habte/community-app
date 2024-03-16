@@ -18,6 +18,7 @@ import {
 } from '../../redux/reducers/userReducer';
 import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
 import { API } from '../../utiles/securitiy/secreteKey';
+import { validEmail, validPassword } from '../../utiles/validation/validate';
 
 const UserLoginPage = () => {
   // Global state variables
@@ -110,8 +111,20 @@ const UserLoginPage = () => {
 
     if (!email) {
       toast.error('Please enter your email!');
-    } else if (!password) {
+    }
+
+    if (!password) {
       toast.error('Please enter password!');
+    }
+
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
+
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
     }
 
     try {

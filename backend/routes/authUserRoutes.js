@@ -3,6 +3,7 @@ import {
   loginUser,
   registerUser,
   updateUser,
+  userChangePassword,
   userLogout,
 } from '../controllers/authController.js';
 
@@ -14,6 +15,7 @@ authUserRouter.post('/register', registerUser);
 authUserRouter.post('/login', loginUser);
 authUserRouter.put('/update/:userId', updateUser);
 authUserRouter.get('/logout', userLogout);
+authUserRouter.put('/change-password/:id', userChangePassword);
 
 // Export Auth User Router
 export default authUserRouter;

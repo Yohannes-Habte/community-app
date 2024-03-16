@@ -89,7 +89,7 @@
           @include button1;
 
           .loading {
-            @include flexCenter;
+            @include loader;
           }
         }
 

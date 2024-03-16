@@ -7,8 +7,9 @@ const initialState = {
   loginLoading: false,
   updateLoading: false,
   logoutLoading: false,
-  deleteLoading: false,
+  changePasswordLoading: false,
   addressLoading: false,
+  deleteLoading: false,
 };
 
 // Destructure user reducer methods
@@ -46,30 +47,42 @@ const userReducer = createSlice({
 
     // Update user profile
     userUpdateStart: (state) => {
-      state.loading = true;
+      state.updateLoading = true;
     },
     userUpdateSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.loading = false;
+      state.updateLoading = false;
       state.error = null;
     },
     userUpdateFailure: (state, action) => {
       state.error = action.payload;
-      state.loading = false;
+      state.updateLoading = false;
     },
 
     // Logout user
     userLogoutStart: (state) => {
-      state.loading = true;
+      state.logoutLoading = true;
     },
     userLogoutSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.loading = false;
+      state.logoutLoading = false;
       state.error = null;
     },
     userLogoutFailure: (state, action) => {
       state.error = action.payload;
-      state.loading = false;
+      state.logoutLoading = false;
+    },
+
+    userChangePasswordStart: (state) => {
+      state.changePasswordLoading = true;
+    },
+    userChangePasswordSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.changePasswordLoading = false;
+    },
+    userChangePasswordFailure: (state, action) => {
+      state.error = action.payload;
+      state.changePasswordLoading = false;
     },
 
     // Clear errors
@@ -96,6 +109,10 @@ export const {
   userLogoutStart,
   userLogoutSuccess,
   userLogoutFailure,
+
+  userChangePasswordStart,
+  userChangePasswordSuccess,
+  userChangePasswordFailure,
 } = userReducer.actions;
 
 // export userSlice

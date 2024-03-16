@@ -104,6 +104,10 @@
 
               .register-button {
                 @include button1;
+
+                .loading {
+                  @include loader;
+                }
               }
 
               .haveAccount {

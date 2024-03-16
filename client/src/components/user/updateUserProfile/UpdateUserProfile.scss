@@ -35,7 +35,7 @@
     .update-user-profile-form {
       @include flexColumn;
       .inputs-wrapper {
-       @include inputsWrapper;
+        @include inputsWrapper;
       }
       .input-container {
         @include inputContainer;
@@ -57,7 +57,7 @@
         }
 
         .input-field:focus + .input-label {
-         @include focusInputFieldAndInputLabel;
+          @include focusInputFieldAndInputLabel;
         }
 
         .input-field:focus + .input-label + .input-highlight {
@@ -90,6 +90,10 @@
 
       .update-user-profile-btn {
         @include button1;
+
+        .loading {
+          @include loader;
+        }
       }
     }
   }
