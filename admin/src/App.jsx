@@ -15,6 +15,7 @@ import Finance from './views/financePage/Finance';
 import Spirituals from './views/spiritualpage/Spirituals';
 import Members from './views/memberPage/Members';
 import Committe from './views/committeePage/Committee';
+import AddressType from './views/addressType/AddressType';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/sacraments/:id" element={<SingleSacrament />} />
           <Route path="/spirituals" element={<Spirituals />} />
           <Route path="/finance" element={<Finance />} />
+          <Route path="/address-type" element={<AddressType />} />
           <Route path="*" element={<Navigate to={'/'} />} />
         </Routes>
       </Router>

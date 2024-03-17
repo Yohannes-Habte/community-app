@@ -1,0 +1,40 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.address-type-page {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  .address-type-page-container {
+    width: $laptop;
+
+    .address-type-title {
+      @include title;
+    }
+
+    .address-type-form {
+      width: 50%;
+      margin: 1rem auto;
+      @include shadow;
+
+      .input-container {
+        padding: 1rem;
+
+        .input-label {
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+
+        .input-field {
+          @include inputField3;
+        }
+      }
+
+      .add-address-type-btn {
+        @include btn2;
+      }
+    }
+  }
+}

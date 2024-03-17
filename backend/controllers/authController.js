@@ -80,7 +80,7 @@ export const registerUser = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return next(
-      createError(400, 'You are unable to create an account! please try again!')
+      createError(500, 'You are unable to create an account! please try again!')
     );
   }
 };

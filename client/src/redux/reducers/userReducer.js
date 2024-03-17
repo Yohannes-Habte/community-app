@@ -9,7 +9,8 @@ const initialState = {
   logoutLoading: false,
   changePasswordLoading: false,
   addressLoading: false,
-  deleteLoading: false,
+  deleteAddressLoading: false,
+  
 };
 
 // Destructure user reducer methods
@@ -85,6 +86,32 @@ const userReducer = createSlice({
       state.changePasswordLoading = false;
     },
 
+    // User Addresses
+    userAddressStart: (state) => {
+      state.addressLoading = true;
+    },
+    userAddressSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.addressLoading = false;
+    },
+    userAddressFailure: (state, action) => {
+      state.error = action.payload;
+      state.addressLoading = false;
+    },
+
+    // Delete User Addresses
+    userAddressDeleteStart: (state) => {
+      state.deleteAddressLoading = true;
+    },
+    userAddressDeleteSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.deleteAddressLoading = false;
+    },
+    userAddressDeleteFailure: (state, action) => {
+      state.error = action.payload;
+      state.deleteAddressLoading = false;
+    },
+
     // Clear errors
     clearErrors: (state) => {
       state.error = null;
@@ -113,6 +140,14 @@ export const {
   userChangePasswordStart,
   userChangePasswordSuccess,
   userChangePasswordFailure,
+
+  userAddressStart,
+  userAddressSuccess,
+  userAddressFailure,
+
+  userAddressDeleteStart,
+  userAddressDeleteSuccess,
+  userAddressDeleteFailure,
 } = userReducer.actions;
 
 // export userSlice

@@ -19,19 +19,20 @@ const memberSchema = new Schema(
     country: { type: String, required: true },
     maritalStatus: { type: String, default: 'Single' },
 
-    monthlyContribution: [
+    addresses: [
       {
-        amount: { type: Number, required: true },
-        month: { type: String, required: true },
-        phone: { type: String, required: true },
-        userStatus: { type: String, required: true },
+        country: { type: String, required: true },
+        state: { type: String, required: true },
+        city: { type: String, required: true },
+        address: { type: String, required: true },
+        zipCode: { type: String, required: true },
+        addressType: { type: String, required: true, unique: true },
       },
     ],
 
+    monthlyContribution: [],
     comments: [],
-
     services: [],
-
     role: {
       type: String,
       default: 'member',

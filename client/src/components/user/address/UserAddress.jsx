@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserAddress.scss';
 import { Country, State, City } from 'country-state-city';
-import { MdClose, MdLocationPin } from 'react-icons/md';
+import { MdClose, MdDelete } from 'react-icons/md';
 import { RiFileZipFill } from 'react-icons/ri';
 import { FaAddressCard } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  userAddressDeleteFailure,
+  userAddressDeleteStart,
+  userAddressDeleteSuccess,
+  userAddressFailure,
+  userAddressStart,
+  userAddressSuccess,
+} from '../../../redux/reducers/userReducer';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { API } from '../../../utiles/securitiy/secreteKey';
 
 const UserAddress = () => {
   // Global state variables
-  // const { currentUser, error } = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const { currentUser, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   // Local state variables
   const [open, setOpen] = useState(false);
@@ -18,19 +30,22 @@ const UserAddress = () => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
+  const [addressTypes, setAddressTypes] = useState([]);
 
   // Address type
-  const addressTypeData = [
-    {
-      name: 'Default',
-    },
-    {
-      name: 'Home',
-    },
-    {
-      name: 'Office',
-    },
-  ];
+  useEffect(() => {
+    const fetchAddressTypes = async () => {
+      try {
+        const { data } = await axios.get(`${API}/addressTypes`);
+
+        setAddressTypes(data.addresses);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAddressTypes();
+  });
 
   // Update input variables
   const updateChange = (e) => {
@@ -73,13 +88,60 @@ const UserAddress = () => {
     setZipCode(null);
     setAddressType('');
   };
-  // Handle Submit
-  const handleSubmit = async (e) => {
+
+  // Handle user address
+  const handleSubmitOfUserAddress = async (e) => {
     e.preventDefault();
+
+    try {
+      if (
+        addressType === '' ||
+        country === '' ||
+        state === '' ||
+        city === '' ||
+        address === '' ||
+        zipCode === ''
+      ) {
+        toast.error('Please fill all the fields!');
+      } else {
+        dispatch(userAddressStart());
+
+        const newAddress = {
+          country: country,
+          state: state,
+          city: city,
+          address: address,
+          zipCode: zipCode,
+          addressType: addressType,
+        };
+
+        const { data } = await axios.put(
+          `${API}/members/${currentUser._id}/update-address`,
+          newAddress
+        );
+
+        dispatch(userAddressSuccess(data.address));
+        toast.success(data.message);
+        reset();
+      }
+    } catch (error) {
+      dispatch(userAddressFailure(error.response.data.message));
+    }
   };
 
   // Delete user address
-  const handleDelete = async (address) => {};
+  const handleDeleteAddress = async (address) => {
+    try {
+      dispatch(userAddressDeleteStart());
+      const { data } = await axios.delete(
+        `${API}/members/${currentUser._id}/address/${address._id}`
+      );
+      dispatch(userAddressDeleteSuccess(data.address));
+      toast.success(data.message);
+    } catch (error) {
+      dispatch(userAddressDeleteFailure(error.response.data.message));
+    }
+  };
 
   return (
     <div className="user-addresses-wrapper">
@@ -93,7 +155,7 @@ const UserAddress = () => {
             <h2 className="new-user-address-title"> Add New Address </h2>
 
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmitOfUserAddress}
               action=""
               className="user-addresses-form"
             >
@@ -140,13 +202,13 @@ const UserAddress = () => {
                   >
                     <option value=""> Choose your state </option>
                     {State &&
-                      State.getStatesOfCountry(country).map((item) => (
+                      State.getStatesOfCountry(country).map((state) => (
                         <option
                           className="option"
-                          key={item.isoCode}
-                          value={item.isoCode}
+                          key={state.isoCode}
+                          value={state.isoCode}
                         >
-                          {item.name}
+                          {state.name}
                         </option>
                       ))}
                   </select>
@@ -168,13 +230,13 @@ const UserAddress = () => {
                   >
                     <option value=""> Choose your city </option>
                     {City &&
-                      City.getCitiesOfCountry(country).map((item) => (
+                      City.getCitiesOfCountry(country).map((city) => (
                         <option
                           className="option"
-                          key={item.isoCode}
-                          value={item.isoCode}
+                          key={city.isoCode}
+                          value={city.isoCode}
                         >
-                          {item.name}
+                          {city.name}
                         </option>
                       ))}
                   </select>
@@ -195,14 +257,14 @@ const UserAddress = () => {
                     className="select-options"
                   >
                     <option value=""> Choose Address Type </option>
-                    {addressTypeData &&
-                      addressTypeData.map((address) => (
+                    {addressTypes &&
+                      addressTypes.map((address) => (
                         <option
                           className="option"
-                          key={address.name}
-                          value={address.name}
+                          key={address._id}
+                          value={address.addressType}
                         >
-                          {address.name}
+                          {address.addressType}
                         </option>
                       ))}
                   </select>
@@ -258,7 +320,7 @@ const UserAddress = () => {
       </div>
 
       <section className="previous-address">
-        {/* {error && <h2 className="error"> {error} </h2>} */}
+        {error ? <h4 className="error-message"> {error} </h4> : null}
         <article className="title-add-new-address-wrapper">
           <h2 className="address-title">My Addresses</h2>
           <button onClick={() => setOpen(true)} className="add-new-address-btn">
@@ -267,7 +329,6 @@ const UserAddress = () => {
         </article>
 
         {/* Table addresses */}
-        {/* 
         <table className="table-address">
           <thead className="table-head">
             <tr className="head-row">
@@ -279,9 +340,9 @@ const UserAddress = () => {
             </tr>
           </thead>
           <tbody className="table-body">
-            {'currentUser' &&
-              ' currentUser.addresses ' &&
-              'currentUser'?.addresses.map((address) => {
+            {currentUser &&
+              currentUser.addresses &&
+              currentUser?.addresses.map((address) => {
                 return (
                   <tr key={address._id} className="body-row">
                     <td className="body-cell"> {address.addressType} </td>
@@ -291,22 +352,18 @@ const UserAddress = () => {
                     <td className="body-cell">
                       {address.address2} {address.zipCode}
                     </td>
-                    <td className="body-cell"> {'currentUser.phone'} </td>
+                    <td className="body-cell"> {currentUser.phone} </td>
                     <td className="body-cell">
                       <MdDelete
                         className="delete-icon"
-                        onClick={() => handleDelete(address)}
+                        onClick={() => handleDeleteAddress(address)}
                       />
                     </td>
                   </tr>
                 );
               })}
           </tbody>
-        </table> */}
-
-        {/* {currentUser && currentUser?.addresses.length === 0 && (
-          <h5 className="subTitle">You do not have any saved address!</h5>
-        )} */}
+        </table>
       </section>
     </div>
   );

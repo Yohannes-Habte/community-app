@@ -90,7 +90,7 @@
 
   .previous-address {
     width: $laptop;
-    margin: auto;
+    margin: 1rem auto;
 
     .title-add-new-address-wrapper {
       @include flexSpaceBetween;
@@ -101,6 +101,38 @@
 
       .add-new-address-btn {
         @include button2;
+      }
+    }
+
+    .table-address {
+      width: 100%;
+      margin-top: 1rem;
+
+      .table-head {
+        background-color: $modal-bg;
+        .head-row {
+          .head-cell {
+            text-align: start;
+            font-size: $afs;
+            padding: 1rem;
+            border-bottom: 1px solid $blue;
+          }
+        }
+      }
+
+      .table-body {
+        .body-row {
+          .body-cell {
+            text-align: start;
+            font-size: $afs;
+            padding: 1rem;
+            border-bottom: 1px solid $gray;
+
+            .delete-icon {
+              @include deleteIcon;
+            }
+          }
+        }
       }
     }
   }

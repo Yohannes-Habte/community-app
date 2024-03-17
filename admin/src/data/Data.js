@@ -1,21 +1,11 @@
 import { BiHomeHeart } from 'react-icons/bi';
 import { BiUserCircle } from 'react-icons/bi';
 import { BsFillFileEarmarkPostFill } from 'react-icons/bs';
-import {
-  FaCalendarAlt,
-  FaFirstOrderAlt,
-  FaShoppingCart,
-  FaUserAlt,
-  FaUsers,
-  FaWpforms,
-} from 'react-icons/fa';
+import { FaFirstOrderAlt } from 'react-icons/fa';
+import { FaShoppingCart, FaUserAlt } from 'react-icons/fa';
 import { FiSettings } from 'react-icons/fi';
-import { PiNotePencilBold } from 'react-icons/pi';
-import { SiElement, SiLogstash } from 'react-icons/si';
 import { MdBackup } from 'react-icons/md';
-import { HiOutlineChartBar } from 'react-icons/hi';
-import { MdDelete } from 'react-icons/md';
-import { HiViewList } from 'react-icons/hi';
+import { FaAddressCard } from 'react-icons/fa';
 
 export const menu = [
   {
@@ -70,6 +60,13 @@ export const menu = [
         itemName: 'Finance',
         url: '/finance',
         icon: <BsFillFileEarmarkPostFill className="icon" />,
+      },
+
+      {
+        id: 6,
+        itemName: 'Address Type',
+        url: '/address-type',
+        icon: <FaAddressCard className="icon" />,
       },
     ],
   },

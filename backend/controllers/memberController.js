@@ -1,63 +1,120 @@
 import createError from 'http-errors';
 import Member from '../models/memberModel.js';
 
-//==========================================================================
-// Get single user
-//==========================================================================
-export const getUser = async (req, res, next) => {
+//====================================================================
+// Update user address
+//====================================================================
+
+export const updateUserAddress = async (req, res, next) => {
+  const { country, state, city, address, zipCode, addressType } = req.body;
   try {
-    const user = await Member.findById(req.params.id);
-    return res.status(200).json(user);
+    const userId = req.params.id;
+    const user = await Member.findById(userId);
+
+    if (!user) {
+      return next(createError(400, 'User not found! Please login!'));
+    }
+
+    // Add Address
+    const addAddress = {
+      country: country,
+      state: state,
+      city: city,
+      address: address,
+      zipCode: zipCode,
+      addressType: addressType,
+    };
+
+    // Check the same address type
+    const isSameAddressType = user.addresses.find(
+      (address) => address.addressType === addressType
+    );
+
+    if (isSameAddressType) {
+      return next(createError(400, `${addressType} address already exist!`));
+    }
+
+    // Check existence of address in the database
+    const isAddressExist = user.addresses.find(
+      (address) => address._id === req.body._id
+    );
+
+    // If address exist, update the exist address. Otherwise, you need to add new address
+    if (isAddressExist) {
+      // update the exist address
+      Object.assign(isAddressExist, addAddress);
+    } else {
+      // Add new Address to the array
+      user.addresses.push(addAddress);
+    }
+
+    // Save addres to the user model
+    try {
+      await user.save();
+    } catch (error) {
+      console.log(error);
+      return next(
+        createError(400, 'User address is not saved! Please try again!')
+      );
+    }
+
+    return res.status(200).json({
+      success: true,
+      address: user,
+      message: 'Address is successfully updated!',
+    });
   } catch (error) {
     console.log(error);
-    return next(
-      createError(400, 'You ar unable to get the user info! please try again!')
+    next(
+      createError(500, 'The address could not be updated! Please try again!')
     );
   }
 };
 
-//==========================================================================
-// Delete a user
-//==========================================================================
-export const deleteUser = async (req, res, next) => {
-  try {
-    const user = await Member.findById(req.params.id);
-    await Member.findByIdAndDelete(req.params.id);
-    return res
-      .status(200)
-      .json(`${user.firstName} ${user.lastName} has been successfully deleted`);
-  } catch (error) {
-    console.log(error);
-    return next(createError(400, 'User is not deleted! please try again!'));
-  }
-};
+//====================================================================
+// Delete user address
+//====================================================================
 
-//==========================================================================
-// Get all users
-//==========================================================================
-export const getAllUsers = async (req, res, next) => {
+export const deleteUserAddress = async (req, res, next) => {
   try {
-    const user = await Member.find();
-    return res.status(200).json(user);
+    const userId = req.params.userId;
+    const addressId = req.params.addressId;
+
+    const user = await Member.findById(userId);
+
+    if (!user) {
+      return next(createError(400, 'User not found! Please login!'));
+    }
+
+    // Delete user address using addressId
+    await Member.findByIdAndUpdate(
+      {
+        _id: userId,
+      },
+      { $pull: { addresses: { _id: addressId } } }
+    );
+
+    // Save updated addres to the user model
+    try {
+      await user.save();
+    } catch (error) {
+      console.log(error);
+      return next(
+        createError(400, 'User address is not saved! Please try again!')
+      );
+    }
+
+    return res.status(200).json({
+      success: true,
+      address: user,
+      message: 'Address is successfully deleted!',
+    });
   } catch (error) {
     console.log(error);
-    return next(
-      createError(400, 'Users could not be accessed! please try again!')
+    next(
+      createError(500, 'The address could not be deleted! Please try again!')
     );
   }
 };
 
-//==========================================================================
-// Count all users
-//==========================================================================
-export const userCount = async (req, res, next) => {
-  try {
-    const user = await Member.countDocuments();
-    return res.status(200).json(user);
-  } catch (error) {
-    console.log(error);
-    return next(
-      createError(400, 'Users could not be accessed! please try again!')
-    );
-  }
-};
+
