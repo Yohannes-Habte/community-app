@@ -2,10 +2,9 @@
 @import '../../../styles/Mixins.scss';
 
 .parish-priest-dashboard-page {
+
   .parish-priest-dashboard-page-container {
     width: 100%;
-    @include flexColumn;
-    gap: 0;
 
     .parish-priest-dashboard-page-title {
       @include title;

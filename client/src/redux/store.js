@@ -5,6 +5,7 @@ import userReducer from './reducers/userReducer';
 import sacramentReducer from './reducers/sacramentReducer';
 import spiritualReducer from './reducers/spiritualReducer';
 import prayerReducer from './reducers/prayerReducer';
+import priestReducer from './reducers/priestReducer';
 
 // Store items in the local storage
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   sacrament: sacramentReducer,
   spiritual: spiritualReducer,
   prayer: prayerReducer,
+  priest: priestReducer,
 });
 
 const persistConfig = {

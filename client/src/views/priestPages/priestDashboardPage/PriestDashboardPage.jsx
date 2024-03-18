@@ -10,6 +10,7 @@ const PriestDashboardPage = () => {
   return (
     <main className="parish-priest-dashboard-page">
       <PriestDashboardHeader active={active} setActive={setActive} />
+
       <section className="parish-priest-dashboard-page-container">
         <h1 className="parish-priest-dashboard-page-title">
           Parish Priest Dashboard
@@ -20,6 +21,7 @@ const PriestDashboardPage = () => {
           <PriestDashboardOverview active={active} />
         </div>
       </section>
+      
     </main>
   );
 };

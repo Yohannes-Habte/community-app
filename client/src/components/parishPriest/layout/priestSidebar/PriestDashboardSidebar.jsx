@@ -68,7 +68,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         />
 
         <h4 className={active === 4 ? 'active-text' : 'passive-text'}>
-          New Priest
+          Priest Delegation
         </h4>
       </aside>
 

@@ -35,7 +35,7 @@
     .update-user-profile-form {
       @include flexColumn;
       .inputs-wrapper {
-        @include inputsWrapper;
+        @include twoGridTemplateEqualColumns;
       }
       .input-container {
         @include inputContainer;

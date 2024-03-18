@@ -33,7 +33,7 @@
 
         .register-form {
           .register-input-fields-container {
-            @include inputsWrapper;
+            @include twoGridTemplateEqualColumns;
 
             .input-container {
               @include inputContainer;
@@ -69,7 +69,7 @@
           }
 
           .consent-and-others-container {
-            @include inputsWrapper;
+            @include twoGridTemplateEqualColumns;
 
             .consent-terms-button-login-container {
               display: flex;

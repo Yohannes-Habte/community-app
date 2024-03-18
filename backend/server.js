@@ -17,6 +17,7 @@ import prayerRequestRouter from './routes/prayerRequestRoutes.js';
 import sacramentRouter from './routes/sacramentRoutes.js';
 import spiritualRouter from './routes/spiritualRoutes.js';
 import addressTypeRouter from './routes/addressTypeRoutes.js';
+import priestDelegationRouter from './routes/priestDelegationRoutes.js';
 
 // Express app
 const app = express();
@@ -55,6 +56,7 @@ app.use('/api/prayers', prayerRequestRouter);
 app.use('/api/sacraments', sacramentRouter);
 app.use('/api/spirituals', spiritualRouter);
 app.use('/api/comments', commentRouter);
+app.use('/api/priests', priestDelegationRouter);
 
 // Static assets
 app.use(express.static('assets'));

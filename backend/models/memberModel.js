@@ -33,6 +33,8 @@ const memberSchema = new Schema(
     monthlyContribution: [],
     comments: [],
     services: [],
+    delegatedPriests: [{ type: mongoose.Types.ObjectId, ref: 'Priest' }],
+
     role: {
       type: String,
       default: 'member',

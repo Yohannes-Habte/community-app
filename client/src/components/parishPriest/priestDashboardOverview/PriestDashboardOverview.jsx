@@ -1,24 +1,22 @@
 import React from 'react';
+import './PriestDashboardOverview.scss';
 import AllParishioners from '../allParishioners/AllParishioners';
 import AllChurchServices from '../allServices/AllChurchServices';
-import NewPriest from '../newPriest/NewPriest';
 import AllChurchEvents from '../allChurchEvents/AllChurchEvents';
 import ChurchCommittee from '../churchCommittee/ChurchCommittee';
+import PriestDelegation from '../priestDelegation/PriestDelegation';
+import DashboardSummary from '../dashboardSummary/DashboardSummary';
 
 const PriestDashboardOverview = ({ active }) => {
   return (
-    <article>
-      {active === 1 && (
-        <section className="parish-priest-dashboard-overview">
-          <h1>Parish Priest Dashboard Overview</h1>
-        </section>
-      )}
+    <article className="priest-dashboard-overview-wrapper">
+      {active === 1 && <DashboardSummary />}
 
       {active === 2 && <AllParishioners />}
 
       {active === 3 && <AllChurchServices />}
 
-      {active === 4 && <NewPriest />}
+      {active === 4 && <PriestDelegation />}
 
       {active === 5 && <AllChurchEvents />}
 

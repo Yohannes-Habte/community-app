@@ -58,7 +58,7 @@
   font-size: $afs;
 }
 
-@mixin inputsWrapper {
+@mixin twoGridTemplateEqualColumns {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 1rem;
