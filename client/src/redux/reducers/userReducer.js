@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentUser: null,
+  parishioners: [],
   error: null,
   registerLoading: false,
   loginLoading: false,
@@ -10,7 +11,7 @@ const initialState = {
   changePasswordLoading: false,
   addressLoading: false,
   deleteAddressLoading: false,
-  
+  loading: false,
 };
 
 // Destructure user reducer methods
@@ -112,6 +113,19 @@ const userReducer = createSlice({
       state.deleteAddressLoading = false;
     },
 
+    // Delete User Addresses
+    usersFetchStart: (state) => {
+      state.loading = true;
+    },
+    usersFetchSuccess: (state, action) => {
+      state.parishioners = action.payload;
+      state.loading = false;
+    },
+    usersFetchFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
     // Clear errors
     clearErrors: (state) => {
       state.error = null;
@@ -148,6 +162,10 @@ export const {
   userAddressDeleteStart,
   userAddressDeleteSuccess,
   userAddressDeleteFailure,
+
+  usersFetchStart,
+  usersFetchSuccess,
+  usersFetchFailure,
 } = userReducer.actions;
 
 // export userSlice

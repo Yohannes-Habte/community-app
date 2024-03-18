@@ -376,6 +376,19 @@
   cursor: pointer;
 }
 
+@mixin loggedInUserImage {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+@mixin loggedInUserName {
+  font-size: $nfs;
+  font-weight: $aafw;
+}
+
 // ==============================================================================================
 // Loader styling
 // ==============================================================================================

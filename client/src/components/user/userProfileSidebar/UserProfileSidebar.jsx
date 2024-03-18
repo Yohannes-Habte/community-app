@@ -29,7 +29,7 @@ const UserProfileSidebar = () => {
   // Sign out Function
   const logoutUser = async () => {
     try {
-      dispatch(userLogoutStart);
+      dispatch(userLogoutStart());
       const { data } = await axios.get(`${API}/auth/logout`);
 
       if (data.success) {
@@ -118,16 +118,18 @@ const UserProfileSidebar = () => {
             User Inbox
           </NavLink>
         </li>
+        
+        {currentUser.role === 'priest' && (
+          <li className="user-profile-sidebar-item">
+            <NavLink to={'/priest/dashboard'} className={activeItem}>
+              <RiMoneyEuroBoxFill className="icon" />
+            </NavLink>
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/priest/dashboard'} className={activeItem}>
-            <RiMoneyEuroBoxFill className="icon" />
-          </NavLink>
-
-          <NavLink to={'/priest/dashboard'} className={activeItem}>
-            Parish Priest
-          </NavLink>
-        </li>
+            <NavLink to={'/priest/dashboard'} className={activeItem}>
+              Parish Priest
+            </NavLink>
+          </li>
+        )}
 
         <li className="user-profile-sidebar-item" onClick={logoutUser}>
           <IoMdLogOut className="logout-icon" />

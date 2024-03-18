@@ -46,3 +46,45 @@ export const createPrayerRequest = async (req, res, next) => {
     );
   }
 };
+
+//==========================================================================
+// Get Single Prayer request
+//==========================================================================
+
+export const getSinglePrayer = async (req, res, next) => {
+  try {
+    const prayer = await Prayer.findById(req.params.id);
+
+    if (!prayer) {
+      return next(createError(400, 'Proyer does not found!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      prayer: prayer,
+    });
+  } catch (error) {
+    next(createError(500, 'Prayer could not be accessed! Please try again!'));
+  }
+};
+
+//==========================================================================
+// Get all Prayers request
+//==========================================================================
+
+export const getAllPrayers = async (req, res, next) => {
+  try {
+    const prayers = await Prayer.find();
+
+    if (!prayers) {
+      return next(createError(400, 'Proyers not found!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      prayers: prayers,
+    });
+  } catch (error) {
+    next(createError(500, 'Prayers could not be accessed! Please try again!'));
+  }
+};

@@ -2,10 +2,10 @@ import React from 'react';
 import './PriestDashboardOverview.scss';
 import AllParishioners from '../allParishioners/AllParishioners';
 import AllChurchServices from '../allServices/AllChurchServices';
-import AllChurchEvents from '../allChurchEvents/AllChurchEvents';
 import ChurchCommittee from '../churchCommittee/ChurchCommittee';
 import PriestDelegation from '../priestDelegation/PriestDelegation';
 import DashboardSummary from '../dashboardSummary/DashboardSummary';
+import AllEvents from '../allEvents/AllEvents';
 
 const PriestDashboardOverview = ({ active }) => {
   return (
@@ -16,9 +16,9 @@ const PriestDashboardOverview = ({ active }) => {
 
       {active === 3 && <AllChurchServices />}
 
-      {active === 4 && <PriestDelegation />}
+      {active === 4 && <AllEvents />}
 
-      {active === 5 && <AllChurchEvents />}
+      {active === 5 && <PriestDelegation />}
 
       {active === 6 && <ChurchCommittee />}
     </article>

@@ -27,6 +27,7 @@ export const createSpiritual = async (req, res, next) => {
     try {
       await newSpiritual.save();
     } catch (error) {
+      console.log(error)
       return next(createError(400, 'Spiritual request is not saved!'));
     }
 
@@ -42,6 +43,52 @@ export const createSpiritual = async (req, res, next) => {
         400,
         'New spiritual development could not be created! Please try again'
       )
+    );
+  }
+};
+
+//==========================================================================
+// Get Single Sacrament
+//==========================================================================
+
+export const getSingleSpiritual = async (req, res, next) => {
+  try {
+    const spiritual = await Spiritual.findById(req.params.id);
+
+    if (!spiritual) {
+      return next(createError(400, 'Spiritual does not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      spiritual: spiritual,
+    });
+  } catch (error) {
+    next(
+      createError(500, 'Spiritual could not be accessed! Please try again!')
+    );
+  }
+};
+
+//==========================================================================
+// Get all Prayers request
+//==========================================================================
+
+export const getAllSpirituals = async (req, res, next) => {
+  try {
+    const spirituals = await Spiritual.find();
+
+    if (!spirituals) {
+      return next(createError(400, 'Spirituals not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      spirituals: spirituals,
+    });
+  } catch (error) {
+    next(
+      createError(500, 'Spirituals could not be accessed! Please try again!')
     );
   }
 };

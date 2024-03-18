@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   spiritualRequest: null,
+  spirituals: [],
   error: null,
   loading: false,
 };
@@ -23,6 +24,19 @@ const sacramentReducer = createSlice({
       state.loading = false;
     },
 
+    // Fetch all Spritual Developments
+    spiritualsFetchStart: (state) => {
+      state.loading = true;
+    },
+    spiritualsFetchSuccess: (state, action) => {
+      state.spirituals = action.payload;
+      state.loading = false;
+    },
+    spiritualsFetchFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
     // Clear errors
     clearErrors: (state) => {
       state.error = null;
@@ -34,6 +48,10 @@ export const {
   spiritualRequestStart,
   spiritualRequestSuccess,
   spiritualRequestFailure,
+
+  spiritualsFetchStart,
+  spiritualsFetchSuccess,
+  spiritualsFetchFailure,
 } = sacramentReducer.actions;
 
 export default sacramentReducer.reducer;

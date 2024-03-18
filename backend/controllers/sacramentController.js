@@ -42,3 +42,49 @@ export const createSacrament = async (req, res, next) => {
     );
   }
 };
+
+//==========================================================================
+// Get Single Sacrament
+//==========================================================================
+
+export const getSingleSacrament = async (req, res, next) => {
+  try {
+    const sacrament = await Sacrament.findById(req.params.id);
+
+    if (!sacrament) {
+      return next(createError(400, 'Sacrament does not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      sacrament: sacrament,
+    });
+  } catch (error) {
+    next(
+      createError(500, 'Sacrament could not be accessed! Please try again!')
+    );
+  }
+};
+
+//==========================================================================
+// Get all Prayers request
+//==========================================================================
+
+export const getAllSacraments = async (req, res, next) => {
+  try {
+    const sacraments = await Sacrament.find();
+
+    if (!sacraments) {
+      return next(createError(400, 'Sacraments not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      sacraments: sacraments,
+    });
+  } catch (error) {
+    next(
+      createError(500, 'Sacraments could not be accessed! Please try again!')
+    );
+  }
+};

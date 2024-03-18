@@ -11,13 +11,13 @@ import globalErrorHandler from './middlewares/globalErrorHandler.js';
 import financeRouter from './routes/financeRoutes.js';
 import commentRouter from './routes/commentRoutes.js';
 import memberRouter from './routes/memberRoutes.js';
-import committeeRouter from './routes/committesRoutes.js';
 import authUserRouter from './routes/authUserRoutes.js';
 import prayerRequestRouter from './routes/prayerRequestRoutes.js';
 import sacramentRouter from './routes/sacramentRoutes.js';
 import spiritualRouter from './routes/spiritualRoutes.js';
 import addressTypeRouter from './routes/addressTypeRoutes.js';
 import priestDelegationRouter from './routes/priestDelegationRoutes.js';
+import committeeRouter from './routes/committeesRoutes.js';
 
 // Express app
 const app = express();

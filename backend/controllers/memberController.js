@@ -4,7 +4,6 @@ import Member from '../models/memberModel.js';
 //====================================================================
 // Update user address
 //====================================================================
-
 export const updateUserAddress = async (req, res, next) => {
   const { country, state, city, address, zipCode, addressType } = req.body;
   try {
@@ -74,7 +73,6 @@ export const updateUserAddress = async (req, res, next) => {
 //====================================================================
 // Delete user address
 //====================================================================
-
 export const deleteUserAddress = async (req, res, next) => {
   try {
     const userId = req.params.userId;
@@ -110,11 +108,48 @@ export const deleteUserAddress = async (req, res, next) => {
       message: 'Address is successfully deleted!',
     });
   } catch (error) {
-    console.log(error);
     next(
       createError(500, 'The address could not be deleted! Please try again!')
     );
   }
 };
 
+//====================================================================
+// Get single user
+//====================================================================
+export const getSingleUser = async (req, res, next) => {
+  try {
+    const user = await Member.findById(req.params.id);
 
+    if (!user) {
+      return next(createError(400, 'User not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    next(createError(500, 'User could not be deleted! Please try again!'));
+  }
+};
+
+//====================================================================
+// Get all users
+//====================================================================
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await Member.find();
+
+    if (!users) {
+      return next(createError(400, 'User not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      users: users,
+    });
+  } catch (error) {
+    next(createError(500, 'Users could not be deleted! Please try again!'));
+  }
+};

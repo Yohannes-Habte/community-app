@@ -30,6 +30,20 @@
     }
   }
 
+  // Logged in user
+  .logged-in-user-wrapper {
+    @include flexRow;
+    align-items: center;
+
+    .logged-in-user-image {
+      @include loggedInUserImage;
+    }
+
+    .logged-in-user-name {
+      @include loggedInUserName;
+    }
+  }
+
   // register and login
   .register-login {
     @include flexRow;

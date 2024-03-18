@@ -62,13 +62,13 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         onClick={() => setActive(4)}
         className="parish-priest-dashboard-sidebar-item"
       >
-        <GiSunPriest
-          title="New Priest"
+        <SiEventstore
+          title="Events"
           className={active === 4 ? 'active-icon' : 'passive-icon'}
         />
 
         <h4 className={active === 4 ? 'active-text' : 'passive-text'}>
-          Priest Delegation
+          Events
         </h4>
       </aside>
 
@@ -76,13 +76,13 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         onClick={() => setActive(5)}
         className="parish-priest-dashboard-sidebar-item"
       >
-        <SiEventstore
-          title="Events"
+        <GiSunPriest
+          title="New Priest"
           className={active === 5 ? 'active-icon' : 'passive-icon'}
         />
 
         <h4 className={active === 5 ? 'active-text' : 'passive-text'}>
-          Events
+          Priest Delegation
         </h4>
       </aside>
 
@@ -117,7 +117,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
       <aside className="parish-priest-dashboard-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={active === 6 ? 'active-icon' : 'passive-icon'}
+          className={active === 8 ? 'active-icon' : 'passive-icon'}
         />
 
         <h4>

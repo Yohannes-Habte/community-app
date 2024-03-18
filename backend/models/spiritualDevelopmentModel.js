@@ -8,7 +8,7 @@ const spiritualDevelopmentSchema = new Schema(
     name: { type: String, required: true },
     date: { type: String, required: true },
     phone: { type: String, required: true },
-    userStatus: { type: String },
+    userStatus: { type: String, required: true },
   },
   {
     timestamps: true,

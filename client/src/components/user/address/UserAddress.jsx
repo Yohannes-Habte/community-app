@@ -45,7 +45,7 @@ const UserAddress = () => {
     };
 
     fetchAddressTypes();
-  });
+  }, []);
 
   // Update input variables
   const updateChange = (e) => {

@@ -54,7 +54,7 @@ const SpiritualService = () => {
         name: spiritualInfo.name,
         date: spiritualInfo.date,
         phone: spiritualInfo.phone,
-        userStatus: spiritualInfo.userStatus,
+        userStatus: url,
       };
 
       const { data } = await axios.post(

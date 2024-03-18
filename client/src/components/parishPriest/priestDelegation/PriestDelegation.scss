@@ -26,6 +26,7 @@
 
         .input-field {
           @include inputField;
+          border: 1px solid $green;
         }
 
         .input-label {
@@ -55,6 +56,7 @@
 
       .textarea-field {
         @include inputField;
+        border: 1px solid $green;
       }
 
       .textarea-label {
