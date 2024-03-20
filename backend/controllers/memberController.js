@@ -153,3 +153,25 @@ export const getAllUsers = async (req, res, next) => {
     next(createError(500, 'Users could not be deleted! Please try again!'));
   }
 };
+
+//====================================================================
+// Total Number of parishioners
+//====================================================================
+export const totalNumberOfParishioners = async (req, res, next) => {
+  try {
+    const membersCounts = await Member.countDocuments();
+    console.log("count:", membersCounts)
+
+    if (!membersCounts) {
+      return next(createError(400, 'Parishioners not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      counts: membersCounts,
+    });
+  } catch (error) {
+    console.log(error)
+    next(createError(500, 'Database could not be queried. Please try again'));
+  }
+};

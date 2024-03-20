@@ -3,6 +3,7 @@ import {
   createPrayerRequest,
   getAllPrayers,
   getSinglePrayer,
+  totalNumberOfPrayerRequests,
 } from '../controllers/prayerRequestController.js';
 
 // Prayer Service Router
@@ -12,6 +13,7 @@ const prayerRequestRouter = express.Router();
 prayerRequestRouter.post('/:userId/new-prayer-request', createPrayerRequest);
 prayerRequestRouter.get('/:id', getSinglePrayer);
 prayerRequestRouter.get('/', getAllPrayers);
+prayerRequestRouter.get('/size/total', totalNumberOfPrayerRequests);
 
 // Export prayer service router
 export default prayerRequestRouter;

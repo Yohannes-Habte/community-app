@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AllParishioners.scss';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,15 +16,19 @@ const AllParishioners = () => {
   const { loading, error, parishioners } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  // Local state variables
+  const [members, setMembers] = useState([]);
+
   // Display all users
   useEffect(() => {
     const getAllParishioners = async () => {
       try {
-        dispatch(usersFetchStart());
+        // dispatch(usersFetchStart());
         const { data } = await axios.get(`${API}/members`);
-        dispatch(usersFetchSuccess(data.users));
+        // dispatch(usersFetchSuccess(data.users));
+        setMembers(data.users);
       } catch (error) {
-        dispatch(usersFetchFailure(error.response.data.message));
+        // dispatch(usersFetchFailure(error.response.data.message));
       }
     };
 
@@ -57,8 +61,8 @@ const AllParishioners = () => {
 
   const rows = [];
 
-  parishioners &&
-    parishioners.forEach((parishioner) => {
+  members &&
+    members.forEach((parishioner) => {
       rows.push({
         id: parishioner._id,
         firstName: parishioner.firstName,

@@ -2,9 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   sacramentRequest: null,
-  sacraments: [],
   error: null,
   loading: false,
+
+  sacraments: [],
+  sacError: null,
+  sacLoading: false,
+
+  count: null,
+  counError: null,
+  counLoading: false,
 };
 
 const sacramentReducer = createSlice({
@@ -26,15 +33,28 @@ const sacramentReducer = createSlice({
 
     // Fetch all sacraments
     sacramentsFetchStart: (state) => {
-      state.loading = true;
+      state.sacLoading = true;
     },
     sacramentsFetchSuccess: (state, action) => {
       state.sacraments = action.payload;
-      state.loading = false;
+      state.sacLoading = false;
     },
     sacramentsFetchFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
+      state.sacError = action.payload;
+      state.sacLoading = false;
+    },
+
+    // count all sacraments
+    sacramentsCountStart: (state) => {
+      state.counLoading = true;
+    },
+    sacramentsCountSuccess: (state, action) => {
+      state.count = action.payload;
+      state.counLoading = false;
+    },
+    sacramentsCountFailure: (state, action) => {
+      state.counError = action.payload;
+      state.counLoading = false;
     },
 
     // Clear errors
@@ -52,6 +72,10 @@ export const {
   sacramentsFetchStart,
   sacramentsFetchSuccess,
   sacramentsFetchFailure,
+
+  sacramentsCountStart,
+  sacramentsCountSuccess,
+  sacramentsCountFailure,
 } = sacramentReducer.actions;
 
 export default sacramentReducer.reducer;

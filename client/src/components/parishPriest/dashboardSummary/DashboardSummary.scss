@@ -1,0 +1,50 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.priest-dashboard-summary {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .priest-dashboard-summary-title {
+    @include subTitle;
+  }
+
+  .parishioners-pariciaption-wrapper {
+    .box-text {
+      @include flexRow;
+
+      .box-title {
+        padding-left: 2rem;
+      }
+      .box-count {
+      }
+
+      .box-link {
+        color: $blue;
+      }
+    }
+  }
+
+  .summary-wrapper {
+    @include twoGridTemplateEqualColumns;
+
+    .box {
+      @include shadow1;
+      @include flexColumn;
+
+      .box-text {
+        @include flexRow;
+
+        .box-title {
+          padding-left: 2rem;
+        }
+        .box-count {
+        }
+
+        .box-link {
+          color: $blue;
+        }
+      }
+    }
+  }
+}

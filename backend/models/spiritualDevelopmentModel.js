@@ -9,6 +9,7 @@ const spiritualDevelopmentSchema = new Schema(
     date: { type: String, required: true },
     phone: { type: String, required: true },
     userStatus: { type: String, required: true },
+    serviceStatus: { type: String, default: 'Pending' },
   },
   {
     timestamps: true,

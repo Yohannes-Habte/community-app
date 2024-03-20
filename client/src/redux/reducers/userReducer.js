@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   currentUser: null,
   parishioners: [],
+  count: null,
   error: null,
   registerLoading: false,
   loginLoading: false,
@@ -126,6 +127,19 @@ const userReducer = createSlice({
       state.loading = false;
     },
 
+    // count all users
+    usersCountStart: (state) => {
+      state.loading = true;
+    },
+    usersCountSuccess: (state, action) => {
+      state.count = action.payload;
+      state.loading = false;
+    },
+    usersCountFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
     // Clear errors
     clearErrors: (state) => {
       state.error = null;
@@ -166,6 +180,10 @@ export const {
   usersFetchStart,
   usersFetchSuccess,
   usersFetchFailure,
+
+  usersCountStart,
+  usersCountSuccess,
+  usersCountFailure,
 } = userReducer.actions;
 
 // export userSlice

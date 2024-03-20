@@ -27,7 +27,7 @@ export const createSpiritual = async (req, res, next) => {
     try {
       await newSpiritual.save();
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return next(createError(400, 'Spiritual request is not saved!'));
     }
 
@@ -90,5 +90,25 @@ export const getAllSpirituals = async (req, res, next) => {
     next(
       createError(500, 'Spirituals could not be accessed! Please try again!')
     );
+  }
+};
+
+//====================================================================
+// Total Number of spiritual development teachings for parishioners
+//====================================================================
+export const totalNumberOfSpirituals = async (req, res, next) => {
+  try {
+    const spiritualsCounts = await Spiritual.countDocuments();
+
+    if (!spiritualsCounts) {
+      return next(createError(400, 'Spirituals not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      counts: spiritualsCounts,
+    });
+  } catch (error) {
+    next(createError(500, 'Database could not be queried. Please try again'));
   }
 };

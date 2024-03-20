@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -22,14 +22,17 @@ import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
 
 const AllChurchServices = () => {
   // Global state variables
-  const { loading, error, sacraments } = useSelector(
+  const { sacLoading, sacError, sacraments } = useSelector(
     (state) => state.sacrament
   );
   const { prayers } = useSelector((state) => state.prayer);
   const { spirituals } = useSelector((state) => state.spiritual);
   const dispatch = useDispatch();
 
-  console.log('Sacraments are', sacraments);
+  // Local state variables
+  // const [allSacraments, setAllSacraments] = useState([]);
+  // const [allPrayers, setAllPrayers] = useState([]);
+  // const [allSpirituals, setAllSpirituals] = useState([]);
 
   // Display all sacrament
   useEffect(() => {
@@ -83,6 +86,7 @@ const AllChurchServices = () => {
     { field: 'date', headerName: 'Service Date', width: 200 },
     { field: 'phone', headerName: 'Phone Number', width: 200 },
     { field: 'userStatus', headerName: 'User Status', width: 200 },
+    { field: 'serviceStatus', headerName: 'Service Status', width: 150 },
     {
       field: 'action',
       headerName: 'Action',
@@ -104,6 +108,7 @@ const AllChurchServices = () => {
         date: sacrament.date,
         phone: sacrament.phone,
         userStatus: sacrament.userStatus,
+        serviceStatus: sacrament.serviceStatus,
       });
     });
 
@@ -116,6 +121,7 @@ const AllChurchServices = () => {
         date: prayer.date,
         phone: prayer.phone,
         userStatus: prayer.userStatus,
+        serviceStatus: prayer.serviceStatus,
       });
     });
 
@@ -128,6 +134,7 @@ const AllChurchServices = () => {
         date: spiritual.date,
         phone: spiritual.phone,
         userStatus: spiritual.userStatus,
+        serviceStatus: spiritual.serviceStatus,
       });
     });
 
@@ -135,11 +142,11 @@ const AllChurchServices = () => {
     <section>
       <h1> Church Services </h1>
 
-      {loading && <PageLoader />}
+      {sacLoading && <PageLoader />}
 
-      {error ? <p className="error-message"> {error} </p> : null}
+      {sacError ? <p className="error-message"> {sacError} </p> : null}
 
-      {!loading && !error && (
+      {!sacLoading && !sacError && (
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid
             // Rows

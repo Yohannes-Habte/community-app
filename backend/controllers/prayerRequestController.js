@@ -88,3 +88,23 @@ export const getAllPrayers = async (req, res, next) => {
     next(createError(500, 'Prayers could not be accessed! Please try again!'));
   }
 };
+
+//====================================================================
+// Total Number of paryer requests by parishioners
+//====================================================================
+export const totalNumberOfPrayerRequests = async (req, res, next) => {
+  try {
+    const prayerCounts = await Prayer.countDocuments();
+
+    if (!prayerCounts) {
+      return next(createError(400, 'Prayer requests not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      counts: prayerCounts,
+    });
+  } catch (error) {
+    next(createError(500, 'Database could not be queried. Please try again'));
+  }
+};

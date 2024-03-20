@@ -88,3 +88,23 @@ export const getAllSacraments = async (req, res, next) => {
     );
   }
 };
+
+//====================================================================
+// Total Number of sacraments requests by parishioners
+//====================================================================
+export const totalNumberOfSacraments = async (req, res, next) => {
+  try {
+    const sacramentsCounts = await Sacrament.countDocuments();
+
+    if (!sacramentsCounts) {
+      return next(createError(400, 'Sacraments not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      counts: sacramentsCounts,
+    });
+  } catch (error) {
+    next(createError(500, 'Database could not be queried. Please try again'));
+  }
+};

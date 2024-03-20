@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   prayerRequest: null,
   prayers: [],
+  count: null,
   error: null,
   loading: false,
 };
@@ -37,6 +38,19 @@ const prayerReducer = createSlice({
       state.loading = false;
     },
 
+    // count all prayers
+    prayersCountStart: (state) => {
+      state.loading = true;
+    },
+    prayersCountSuccess: (state, action) => {
+      state.count = action.payload;
+      state.loading = false;
+    },
+    prayersCountFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
     // Clear errors
     clearErrors: (state) => {
       state.error = null;
@@ -52,6 +66,10 @@ export const {
   prayersFetchStart,
   prayersFetchSuccess,
   prayersFetchFailure,
+
+  prayersCountStart,
+  prayersCountSuccess,
+  prayersCountFailure,
 } = prayerReducer.actions;
 
 export default prayerReducer.reducer;

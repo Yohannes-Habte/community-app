@@ -1,5 +1,5 @@
 import React from 'react';
-import './BarChart.scss';
+import './Barcharts.scss';
 import {
   BarChart,
   Bar,
@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const BarChart1 = (props) => {
+const ParishionersBarChart = () => {
   const data = [
     {
       month: 'January',
@@ -84,35 +84,33 @@ const BarChart1 = (props) => {
     },
   ];
   return (
-    <section className="barchart">
-      <h1 className="title"> {props.title} </h1>
-      <div className="chart">
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data} barSize={15}>
-            <XAxis
-              dataKey="month"
-              scale="point"
-              padding={{ left: 10, right: 10 }}
-            />
-            <YAxis />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: '#ffefd5',
-                borderRadius: '5px',
-                color: 'dark',
-              }}
-              labelStyle={{ display: 'none' }}
-              cursor={{ fill: 'none' }}
-            />
+    <section className="parishioners-barchart-container">
+      <h4 className="chart-title"> Parishioners Participation Barchart </h4>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data} barSize={15}>
+          <XAxis
+            dataKey="month"
+            scale="point"
+            padding={{ left: 10, right: 10 }}
+          />
+          <YAxis />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#ffefd5',
+              borderRadius: '5px',
+              color: 'dark',
+            }}
+            labelStyle={{ display: 'none' }}
+            cursor={{ fill: 'none' }}
+          />
 
-            <Bar dataKey="baptism" fill="#8884d8" />
-            <Bar dataKey="marriage" fill="#82ca9d" />
-            <Bar dataKey="prayer" fill="#82ca9d" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+          <Bar dataKey="baptism" fill="#8884d8" />
+          <Bar dataKey="marriage" fill="#82ca9d" />
+          <Bar dataKey="prayer" fill="#82ca9d" />
+        </BarChart>
+      </ResponsiveContainer>
     </section>
   );
 };
 
-export default BarChart1;
+export default ParishionersBarChart;
