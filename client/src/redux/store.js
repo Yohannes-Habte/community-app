@@ -6,6 +6,9 @@ import sacramentReducer from './reducers/sacramentReducer';
 import spiritualReducer from './reducers/spiritualReducer';
 import prayerReducer from './reducers/prayerReducer';
 import priestReducer from './reducers/priestReducer';
+import contributionReducer from './reducers/contributionReducer';
+import eventReducer from './reducers/eventReducer';
+import committeeReducer from './reducers/committeeReducer';
 
 // Store items in the local storage
 const rootReducer = combineReducers({
@@ -14,6 +17,9 @@ const rootReducer = combineReducers({
   spiritual: spiritualReducer,
   prayer: prayerReducer,
   priest: priestReducer,
+  contributions: contributionReducer,
+  event: eventReducer,
+  committee: committeeReducer,
 });
 
 const persistConfig = {

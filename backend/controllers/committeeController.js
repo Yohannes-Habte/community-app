@@ -6,61 +6,28 @@ import Committee from '../models/committeeModel.js';
 // Register new committee member
 //==========================================================================
 export const registerCommitteMember = async (req, res, next) => {
-  const {
-    fullName,
-    email,
-    password,
-    title,
-    phone,
-    image,
-    year,
-    isAdmin,
-    isPriest,
-  } = req.body;
-
   try {
-    const committeeMember = await Committee.findOne({ email: email });
+    const committeeAccount = new Committee(req.body);
 
-    // If user exists in the database
-    if (committeeMember) {
-      return next(
-        createError(400, 'Email has been taken. Please try another one!')
-      );
+    // Save new committee account
+    try {
+      await committeeAccount.save();
+    } catch (error) {
+      return next(createError(400, 'Committe account is not saved!'));
     }
 
-    // If user does exist in the database
-    if (!committeeMember) {
-      const newCommittee = new Committee({
-        fullName: fullName,
-        email: email,
-        password: password,
-        title: title,
-        phone: phone,
-        year: year,
-        image: image,
-        isAdmin: isAdmin,
-        isPriest: isPriest,
-      });
-
-      const saveCommittee = await newCommittee.save();
-
-      return res.status(201).json({
-        _id: saveCommittee._id,
-        fullName: saveCommittee.fullName,
-        email: saveCommittee.email,
-        password: saveCommittee.password,
-        title: saveCommittee.title,
-        phone: saveCommittee.phone,
-        image: saveCommittee.image,
-        year: saveCommittee.year,
-        isAdmin: saveCommittee.isAdmin,
-        isPriest: saveCommittee.isPriest,
-      });
-    }
+    return res.status(201).json({
+      success: true,
+      committee: committeeAccount,
+      message: 'Account is successfully created.',
+    });
   } catch (error) {
     console.log(error);
     return next(
-      createError(400, 'You are unable to create an account! please try again!')
+      createError(
+        400,
+        'Database has problem to create an account for a committee member! please try again!'
+      )
     );
   }
 };

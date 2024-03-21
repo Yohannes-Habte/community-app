@@ -1,0 +1,82 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.committee-members-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+  @include shadow2;
+
+  .committee-members-title {
+    @include subTitle;
+  }
+
+
+  .committee-members-fieldset {
+    @include fieldset;
+
+    .committee-members-legend {
+      @include legend;
+      text-align: center;
+    }
+
+    .committee-members-form{
+      @include flexColumn;
+      margin-top: 0;
+
+      .inputs-wrapper {
+        @include twoGridTemplateEqualColumns;
+      }
+      .input-container {
+        @include inputContainer;
+
+        .input-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .password-display {
+          @include passwordDisplay;
+        }
+      }
+
+      .input-consent {
+        @include inputContainer;
+        @include flexRow;
+        align-items: center;
+
+        .consent-checkbox {
+          height: 1.6rem;
+          width: 1.3rem;
+          cursor: pointer;
+        }
+
+        .terms-of-user {
+          color: $blue;
+        }
+      }
+
+      .add-committee-btn {
+        @include button1;
+      }
+    }
+  }
+}

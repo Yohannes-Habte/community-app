@@ -12,6 +12,7 @@ const initialState = {
   changePasswordLoading: false,
   addressLoading: false,
   deleteAddressLoading: false,
+  membersLoading: false,
   loading: false,
 };
 
@@ -114,17 +115,17 @@ const userReducer = createSlice({
       state.deleteAddressLoading = false;
     },
 
-    // Delete User Addresses
-    usersFetchStart: (state) => {
-      state.loading = true;
+    // Get all members
+    membersFetchStart: (state) => {
+      state.membersLoading = true;
     },
-    usersFetchSuccess: (state, action) => {
+    membersFetchSuccess: (state, action) => {
       state.parishioners = action.payload;
-      state.loading = false;
+      state.membersLoading = false;
     },
-    usersFetchFailure: (state, action) => {
+    membersFetchFailure: (state, action) => {
       state.error = action.payload;
-      state.loading = false;
+      state.membersLoading = false;
     },
 
     // count all users
@@ -177,9 +178,9 @@ export const {
   userAddressDeleteSuccess,
   userAddressDeleteFailure,
 
-  usersFetchStart,
-  usersFetchSuccess,
-  usersFetchFailure,
+  membersFetchStart,
+  membersFetchSuccess,
+  membersFetchFailure,
 
   usersCountStart,
   usersCountSuccess,

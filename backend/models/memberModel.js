@@ -34,11 +34,12 @@ const memberSchema = new Schema(
     comments: [],
     services: [],
     delegatedPriests: [{ type: mongoose.Types.ObjectId, ref: 'Priest' }],
+    userCode: { type: String, default: 'none' },
 
     role: {
       type: String,
       default: 'member',
-      enum: ['member', 'admin', 'priest'],
+      enum: ['member', 'admin', 'priest', 'financeManager'],
     },
 
     agree: { type: Boolean, default: false },

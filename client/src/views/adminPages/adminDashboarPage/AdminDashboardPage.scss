@@ -1,0 +1,20 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.admin-dashboard-page {
+
+  .admin-dashboard-page-container {
+    width: 100%;
+
+    .admin-dashboard-page-title {
+      @include title;
+      background-color: $priestSidebar-bg;
+    }
+
+    .admin-dashboarw-sections-wrapper {
+      width: 80%;
+      @include flexRow;
+      width: 100%;
+    }
+  }
+}

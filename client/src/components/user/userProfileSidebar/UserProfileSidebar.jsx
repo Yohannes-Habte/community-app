@@ -23,7 +23,7 @@ const UserProfileSidebar = () => {
   // Navigate
   const navigate = useNavigate();
   // Global state variables
-  const { loading, error, currentUser } = useSelector((state) => state.user);
+  const { error, currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Sign out Function
@@ -118,7 +118,7 @@ const UserProfileSidebar = () => {
             User Inbox
           </NavLink>
         </li>
-        
+
         {currentUser.role === 'priest' && (
           <li className="user-profile-sidebar-item">
             <NavLink to={'/priest/dashboard'} className={activeItem}>
@@ -127,6 +127,30 @@ const UserProfileSidebar = () => {
 
             <NavLink to={'/priest/dashboard'} className={activeItem}>
               Parish Priest
+            </NavLink>
+          </li>
+        )}
+
+        {currentUser.role === 'admin' && (
+          <li className="user-profile-sidebar-item">
+            <NavLink to={'/admin/dashboard'} className={activeItem}>
+              <RiMoneyEuroBoxFill className="icon" />
+            </NavLink>
+
+            <NavLink to={'/admin/dashboard'} className={activeItem}>
+              Parish Admin
+            </NavLink>
+          </li>
+        )}
+
+        {currentUser.role === 'financeManager' && (
+          <li className="user-profile-sidebar-item">
+            <NavLink to={'/finace/dashboard'} className={activeItem}>
+              <RiMoneyEuroBoxFill className="icon" />
+            </NavLink>
+
+            <NavLink to={'/finance/dashboard'} className={activeItem}>
+              Finance Manager
             </NavLink>
           </li>
         )}

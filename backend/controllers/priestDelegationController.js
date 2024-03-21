@@ -44,3 +44,28 @@ export const createPriestDelegation = async (req, res, next) => {
     );
   }
 };
+
+
+//==========================================================================
+// Get all delegated priests
+//==========================================================================
+
+export const getAllDelegatedPriests = async (req, res, next) => {
+  try {
+    const delegatedPriests = await Priest.find();
+
+    if (!delegatedPriests) {
+      return next(createError(400, 'Delegated Priest not found! Please login!'));
+    }
+
+    return res.status(200).json({
+      success: true,
+      priests: delegatedPriests,
+    });
+  } catch (error) {
+    console.log(error)
+    next(
+      createError(500, 'Spirituals could not be accessed! Please try again!')
+    );
+  }
+};

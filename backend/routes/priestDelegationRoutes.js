@@ -1,11 +1,15 @@
 import express from 'express';
-import { createPriestDelegation } from '../controllers/priestDelegationController.js';
+import {
+  createPriestDelegation,
+  getAllDelegatedPriests,
+} from '../controllers/priestDelegationController.js';
 
 // Priest Delegation Router
 const priestDelegationRouter = express.Router();
 
 // Priest Delegation routes
 priestDelegationRouter.post('/:priestId/delegate', createPriestDelegation);
+priestDelegationRouter.get('/priests', getAllDelegatedPriests);
 
 // Export Priest Delegation router
 export default priestDelegationRouter;

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import './AllParishioners.scss';
+
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
-import {
-  usersFetchFailure,
-  usersFetchStart,
-  usersFetchSuccess,
-} from '../../../redux/reducers/userReducer';
 import axios from 'axios';
 import { API } from '../../../utiles/securitiy/secreteKey';
+import {
+  membersFetchFailure,
+  membersFetchStart,
+  membersFetchSuccess,
+} from '../../../redux/reducers/userReducer';
 
-const AllParishioners = () => {
+const Members = () => {
   // Global state variables
-  const { loading, error, parishioners } = useSelector((state) => state.user);
+  const { membersLoading, error, parishioners } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -23,12 +23,12 @@ const AllParishioners = () => {
   useEffect(() => {
     const getAllParishioners = async () => {
       try {
-        // dispatch(usersFetchStart());
+        // dispatch(membersFetchStart());
         const { data } = await axios.get(`${API}/members`);
-        // dispatch(usersFetchSuccess(data.users));
+        // dispatch(membersFetchSuccess(data.users));
         setMembers(data.users);
       } catch (error) {
-        // dispatch(usersFetchFailure(error.response.data.message));
+        // dispatch(membersFetchFailure(error.response.data.message));
       }
     };
 
@@ -79,17 +79,15 @@ const AllParishioners = () => {
       });
     });
 
-
-
   return (
     <section>
       <h1>Current Members of the Eritrean Roman Catholic Church in Hamburg</h1>
 
-      {loading && <PageLoader />}
+      {membersLoading && <PageLoader />}
 
       {error ? <p className="error-message"> {error} </p> : null}
 
-      {!loading && !error && (
+      {!membersLoading && !error && (
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid
             // Rows
@@ -123,4 +121,4 @@ const AllParishioners = () => {
   );
 };
 
-export default AllParishioners;
+export default Members;

@@ -18,6 +18,8 @@ import spiritualRouter from './routes/spiritualRoutes.js';
 import addressTypeRouter from './routes/addressTypeRoutes.js';
 import priestDelegationRouter from './routes/priestDelegationRoutes.js';
 import committeeRouter from './routes/committeesRoutes.js';
+import contributionRouter from './routes/contributionRoutes.js';
+import eventRouter from './routes/eventRoutes.js';
 
 // Express app
 const app = express();
@@ -56,7 +58,9 @@ app.use('/api/prayers', prayerRequestRouter);
 app.use('/api/sacraments', sacramentRouter);
 app.use('/api/spirituals', spiritualRouter);
 app.use('/api/comments', commentRouter);
-app.use('/api/priests', priestDelegationRouter);
+app.use('/api/delegations', priestDelegationRouter);
+app.use('/api/contributions', contributionRouter);
+app.use('/api/events', eventRouter);
 
 // Static assets
 app.use(express.static('assets'));

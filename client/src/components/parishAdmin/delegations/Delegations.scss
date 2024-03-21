@@ -1,0 +1,11 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.delegated-priests-wrapper{
+  width: $laptop;
+  margin: 1rem auto;
+
+  .delegated-priests {
+    @include subTitle;
+  }
+}

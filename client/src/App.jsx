@@ -22,6 +22,9 @@ import UserInboxPage from './views/userPages/userInboxPage/UserInboxPage';
 import AllUserServicespage from './views/userPages/allUserServicesPage/AllUserServicespage';
 import ServiceRequestPage from './views/userPages/serviceRequestPage/ServiceRequestPage';
 import PriestDashboardPage from './views/priestPages/priestDashboardPage/PriestDashboardPage';
+import AdminDashboardPage from './views/adminPages/adminDashboarPage/AdminDashboardPage';
+import FinancialReport from './components/reportTables/FinancialReport';
+import FinacneManagerPage from './views/financePages/financeManagerPage/FinacneManagerPage';
 
 const App = () => {
   return (
@@ -47,6 +50,13 @@ const App = () => {
 
           {/* Parish Priest pages */}
           <Route path="/priest/dashboard" element={<PriestDashboardPage />} />
+
+          {/* Admin Dashboard */}
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+
+          {/* Finance Manager pages */}
+          <Route path="/finance/dashboard" element={<FinacneManagerPage />} />
+          <Route path="/finance/reports" element={<FinancialReport />} />
         </Routes>
 
         {/* React toastify */}
