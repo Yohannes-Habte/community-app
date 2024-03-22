@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import './Contribution.scss';
+import './MemberContributionForm.scss';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-import { FaUserAlt } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { RiLockPasswordFill } from 'react-icons/ri';
+import { FaMoneyBill } from 'react-icons/fa';
 import { API } from '../../../utiles/securitiy/secreteKey';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -14,7 +12,7 @@ import {
 } from '../../../redux/reducers/contributionReducer';
 import { toast } from 'react-toastify';
 
-const Contribution = () => {
+const MemberContributionForm = () => {
   // Global state variables
   const { error } = useSelector((state) => state.contributions);
   const dispatch = useDispatch();
@@ -71,7 +69,6 @@ const Contribution = () => {
       dispatch(constributionFailure(error.response.data.message));
     }
   };
-
   return (
     <section className="member-contribution-wrapper">
       <h3 className="member-contributions-title"> Members Contribution </h3>
@@ -90,7 +87,7 @@ const Contribution = () => {
         >
           {/* User Code */}
           <div className="input-container">
-            <FaUserAlt className="input-icon" />
+            <FaMoneyBill className="input-icon" />
             <input
               type="text"
               name="userCode"
@@ -108,7 +105,7 @@ const Contribution = () => {
 
           {/* Donation */}
           <div className="input-container">
-            <MdEmail className="input-icon" />
+            <FaMoneyBill className="input-icon" />
             <input
               type="number"
               name="donation"
@@ -128,7 +125,7 @@ const Contribution = () => {
 
           {/* Date */}
           <div className="input-container">
-            <RiLockPasswordFill className="input-icon" />
+            <FaMoneyBill className="input-icon" />
             <input
               type="date"
               name="date"
@@ -167,4 +164,4 @@ const Contribution = () => {
   );
 };
 
-export default Contribution;
+export default MemberContributionForm;

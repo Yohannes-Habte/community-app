@@ -62,6 +62,7 @@ export const createFinanceReport = async (req, res, next) => {
       try {
         await newFinanceReport.save();
       } catch (err) {
+        console.log(err);
         return next(
           createError(500, 'Financial report is not saved. Please try again.')
         );
@@ -131,7 +132,6 @@ export const financialReports = async (req, res, next) => {
   }
 };
 
-
 //==========================================================================
 // Get total fincial report
 //==========================================================================
@@ -156,4 +156,3 @@ export const totalIncome = async (req, res, next) => {
     );
   }
 };
-

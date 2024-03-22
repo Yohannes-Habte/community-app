@@ -63,12 +63,12 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         className="admin-dashboard-sidebar-item"
       >
         <MdSupport
-          title="Contribution"
+          title="Contributions"
           className={isActive === 4 ? 'active-icon' : 'passive-icon'}
         />
 
         <h4 className={isActive === 4 ? 'active-text' : 'passive-text'}>
-          Contribution
+          Contributions
         </h4>
       </aside>
 

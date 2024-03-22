@@ -3,10 +3,10 @@ import "./AdminDashboarView.scss"
 import AdminDashboardSummary from '../../adminDashboardSummary/AdminDashboardSummary';
 import Members from '../../members/Members';
 import Committee from '../../committee/Committee';
-import Contribution from '../../contribution/Contribution';
 import Events from '../../events/Events';
 import Delegations from '../../delegations/Delegations';
 import AdminInBox from '../../inbox/AdminInBox';
+import MembersContribution from '../../membersContribution/MembersContribution';
 
 const AdminDashboarView = ({ isActive }) => {
   return (
@@ -17,7 +17,7 @@ const AdminDashboarView = ({ isActive }) => {
 
       {isActive === 3 && <Committee />}
 
-      {isActive === 4 && <Contribution />}
+      {isActive === 4 && <MembersContribution />}
 
       {isActive === 5 && <Events />}
 
