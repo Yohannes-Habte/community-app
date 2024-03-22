@@ -3,26 +3,46 @@ import React, { useState } from 'react';
 import './ExpenseReportForm.scss';
 import { FaMoneyBill } from 'react-icons/fa';
 import { CgCalendarDates } from 'react-icons/cg';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import {
+  financialReportFailure,
+  financialReportStart,
+  financialReportSuccess,
+} from '../../../redux/reducers/financeReducer';
+import { API } from '../../../utiles/securitiy/secreteKey';
+import ButtonLoader from '../../../utiles/loader/buttonLoader/ButtonLoader';
 
 const ExpenseReportForm = ({ setOpen }) => {
+  // Global state variables
+  const { loading, error } = useSelector((state) => state.finance);
+  const dispatch = useDispatch();
+
   // Local state variables
+  const [contribution, setContribution] = useState('');
   const [offer, setOffer] = useState('');
-  const [donation, setDonation] = useState('');
+  const [servicePayment, setServicePayment] = useState('');
   const [frekdasie, setFrekdasie] = useState('');
   const [choirExpense, setChoirExpense] = useState('');
   const [eventExpense, setEventExpense] = useState('');
   const [priestExpense, setPriestExpense] = useState('');
+  const [guestExpense, setGuestExpense] = useState('');
+  const [presentExpense, setPresetExpense] = useState('');
+  const [tripExpense, setTripExpense] = useState('');
   const [otherExpense, setOtherExpense] = useState('');
   const [date, setDate] = useState('');
 
   // Function to update login user data
   const updateData = (event) => {
     switch (event.target.name) {
+      case 'contribution':
+        setContribution(event.target.value);
+        break;
       case 'offer':
         setOffer(event.target.value);
         break;
-      case 'donation':
-        setDonation(event.target.value);
+      case 'servicePayment':
+        setServicePayment(event.target.value);
         break;
       case 'frekdasie':
         setFrekdasie(event.target.value);
@@ -35,6 +55,15 @@ const ExpenseReportForm = ({ setOpen }) => {
         break;
       case 'priestExpense':
         setPriestExpense(event.target.value);
+        break;
+      case 'guestExpense':
+        setGuestExpense(event.target.value);
+        break;
+      case 'presentExpense':
+        setPresetExpense(event.target.value);
+        break;
+      case 'tripExpense':
+        setTripExpense(event.target.value);
         break;
       case 'otherExpense':
         setOtherExpense(event.target.value);
@@ -49,12 +78,16 @@ const ExpenseReportForm = ({ setOpen }) => {
 
   // Reset all state variables for the login form
   const reset = () => {
+    setContribution('');
     setOffer('');
-    setDonation('');
+    setServicePayment('');
     setFrekdasie('');
     setChoirExpense('');
     setEventExpense('');
     setPriestExpense('');
+    setGuestExpense('');
+    setPresetExpense('');
+    setTripExpense('');
     setOtherExpense('');
     setDate('');
   };
@@ -64,25 +97,31 @@ const ExpenseReportForm = ({ setOpen }) => {
     e.preventDefault();
 
     try {
+      dispatch(financialReportStart());
       // The body
-      const newFinance = {
-        donation: donation,
+      const newReport = {
+        contribution: contribution,
         offer: offer,
+        servicePayment: servicePayment,
         frekdasie: frekdasie,
         choirExpense: choirExpense,
         eventExpense: eventExpense,
         priestExpense: priestExpense,
+        guestExpense: guestExpense,
+        presentExpense: presentExpense,
+        tripExpense: tripExpense,
         otherExpense: otherExpense,
         date: date,
       };
 
-      const { data } = await axios.post(
-        'http://localhost:4000/api/finances/new-expense',
-        newFinance
-      );
+      const { data } = await axios.post(`${API}/reports/new-report`, newReport);
+
+      dispatch(financialReportSuccess(data.report));
+      toast.success(data.success);
+
       reset();
     } catch (error) {
-      console.log(error);
+      dispatch(financialReportFailure(error.response.data.message));
     }
   };
   return (
@@ -99,16 +138,16 @@ const ExpenseReportForm = ({ setOpen }) => {
               <FaMoneyBill className="input-icon" />
               <input
                 type="number"
-                name="donation"
-                id="donation"
-                value={donation}
+                name="contribution"
+                id="contribution"
+                value={contribution}
                 onChange={updateData}
-                placeholder="Enter Donation"
+                placeholder="Enter Monthly Contribution"
                 className="input-field"
               />
 
-              <label htmlFor="donation" className="input-label">
-                Monthly Donation
+              <label htmlFor="contribution" className="input-label">
+                Monthly Contribution
               </label>
 
               <span className="input-highlight"></span>
@@ -129,6 +168,25 @@ const ExpenseReportForm = ({ setOpen }) => {
 
               <label htmlFor="offer" className="input-label">
                 Offer
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* Service Payment */}
+            <div className="input-container">
+              <FaMoneyBill className="input-icon" />
+              <input
+                type="number"
+                name="servicePayment"
+                id="servicePayment"
+                value={servicePayment}
+                onChange={updateData}
+                placeholder="Enter service payment"
+                className="input-field"
+              />
+
+              <label htmlFor="servicePayment" className="input-label">
+                Service Payment
               </label>
               <span className="input-highlight"></span>
             </div>
@@ -209,6 +267,63 @@ const ExpenseReportForm = ({ setOpen }) => {
               <span className="input-highlight"></span>
             </div>
 
+            {/* Guest Expense */}
+            <div className="input-container">
+              <FaMoneyBill className="input-icon" />
+              <input
+                type="number"
+                name="guestExpense"
+                value={guestExpense}
+                onChange={updateData}
+                id="guestExpense"
+                placeholder="Enter Guest Expense"
+                className="input-field"
+              />
+
+              <label htmlFor="guestExpense" className="input-label">
+                Guest Expense
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* Present Expense */}
+            <div className="input-container">
+              <FaMoneyBill className="input-icon" />
+              <input
+                type="number"
+                name="presentExpense"
+                id="presentExpense"
+                value={presentExpense}
+                onChange={updateData}
+                placeholder="Enter Present Expense"
+                className="input-field"
+              />
+
+              <label htmlFor="presentExpense" className="input-label">
+                Present Expense
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
+            {/* Trip Expense */}
+            <div className="input-container">
+              <FaMoneyBill className="input-icon" />
+              <input
+                type="number"
+                name="tripExpense"
+                id="tripExpense"
+                value={tripExpense}
+                onChange={updateData}
+                placeholder="Enter Trip Expense"
+                className="input-field"
+              />
+
+              <label htmlFor="tripExpense" className="input-label">
+                Trip Expense
+              </label>
+              <span className="input-highlight"></span>
+            </div>
+
             {/* Other Expense */}
 
             <div className="input-container">
@@ -249,7 +364,15 @@ const ExpenseReportForm = ({ setOpen }) => {
             </div>
           </div>
 
-          <button className="add-btn"> Submit </button>
+          <button disabled={loading} className="add-btn">
+            {loading ? (
+              <span className="loading">
+                <ButtonLoader /> Loading...
+              </span>
+            ) : (
+              'Submit'
+            )}{' '}
+          </button>
         </form>
       </section>
     </div>

@@ -53,7 +53,7 @@ app.use('/api/auth', authUserRouter);
 app.use('/api/members', memberRouter);
 app.use('/api/addressTypes', addressTypeRouter);
 app.use('/api/committees', committeeRouter);
-app.use('/api/finances', financeRouter);
+app.use('/api/reports', financeRouter);
 app.use('/api/prayers', prayerRequestRouter);
 app.use('/api/sacraments', sacramentRouter);
 app.use('/api/spirituals', spiritualRouter);

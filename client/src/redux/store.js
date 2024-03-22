@@ -9,6 +9,7 @@ import priestReducer from './reducers/priestReducer';
 import contributionReducer from './reducers/contributionReducer';
 import eventReducer from './reducers/eventReducer';
 import committeeReducer from './reducers/committeeReducer';
+import financeReducer from './reducers/financeReducer';
 
 // Store items in the local storage
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   contributions: contributionReducer,
   event: eventReducer,
   committee: committeeReducer,
+  finance: financeReducer,
 });
 
 const persistConfig = {

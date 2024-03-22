@@ -5,104 +5,28 @@
   width: $laptop;
   margin: 1rem auto;
 
-  .user-addresses-modal {
-    @include modal;
+  .user-address-title {
+    @include title;
+  }
 
-    .new-user-address {
-      @include popupBox;
+  .add-user-address {
+    @include flexSpaceBetween;
+    width: $tablet;
+    margin: 1rem auto;
+    padding-right: 1rem;
 
-      .address-close-icon {
-        @include closeModal;
-      }
+    .add-title {
+      @include subTitle;
+    }
 
-      .new-user-address-title {
-        @include subTitle;
-      }
-
-      .user-addresses-form {
-        @include flexColumn;
-
-        .select-container {
-          width: 100%;
-          @include flexRow;
-          gap: 0.5rem;
-
-          .select-icon {
-            font-size: $afs;
-          }
-
-          .select-label-wrapper {
-            width: 100%;
-            @include flexRow;
-            gap: 0.5rem;
-
-            .select-label {
-              width: 20%;
-            }
-
-            .select-options {
-              width: 80%;
-              @include inputField;
-              width: 100%;
-
-              .option {
-                display: block;
-              }
-            }
-          }
-        }
-
-        .input-container {
-          @include inputContainer;
-          .icon {
-            @include inputIcon;
-          }
-
-          .input-field {
-            @include inputField;
-          }
-
-          .input-label {
-            @include inputLabel;
-          }
-
-          .input-highlight {
-            @include inputHighlight;
-          }
-
-          .input-field:focus + .input-label {
-            top: -0.4rem;
-            font-size: $sfs;
-            color: $gray;
-          }
-
-          .input-field:focus + .input-label + .input-highlight {
-            width: 100%;
-          }
-        }
-
-        .user-address-btn {
-          @include button2;
-        }
-      }
+    .add-new-address-btn {
+      @include button2;
     }
   }
 
-  .previous-address {
-    width: $laptop;
+  .addresses-list-container {
+    width: $tablet;
     margin: 1rem auto;
-
-    .title-add-new-address-wrapper {
-      @include flexSpaceBetween;
-
-      .address-title {
-        @include subTitle;
-      }
-
-      .add-new-address-btn {
-        @include button2;
-      }
-    }
 
     .table-address {
       width: 100%;

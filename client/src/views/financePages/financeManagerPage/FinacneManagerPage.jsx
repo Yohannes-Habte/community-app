@@ -1,25 +1,39 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './FinacneManagerPage.scss';
-import { NavLink } from 'react-router-dom';
 import ExpenseReportForm from '../../../components/financeManager/financeReportForm/ExpenseReportForm';
 import Header from '../../../components/user/layout/header/Header';
+import { API } from '../../../utiles/securitiy/secreteKey';
+import { useDispatch, useSelector } from 'react-redux';
+import { FaTrashAlt } from 'react-icons/fa';
+import {
+  getALLFinancialReportFailure,
+  getALLFinancialReportStart,
+  getALLFinancialReportSuccess,
+} from '../../../redux/reducers/financeReducer';
+import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
 
 const FinacneManagerPage = () => {
+  // Global state variables
+  const { reportsLoading, reportsError, financialReports } = useSelector(
+    (state) => state.finance
+  );
+  const dispatch = useDispatch();
+
   // Local state variables
   const [total, setTotal] = useState();
-  const [finances, setFinances] = useState([]);
   const [open, setOpen] = useState(false);
 
   // Display financial income and expenses in the table
   useEffect(() => {
     const fechFinancialData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:4000/api/finances');
+        dispatch(getALLFinancialReportStart());
+        const { data } = await axios.get(`${API}/reports/financial-reports`);
 
-        setFinances(data);
+        dispatch(getALLFinancialReportSuccess(data.reports));
       } catch (error) {
-        console.log(error);
+        dispatch(getALLFinancialReportFailure(error.response.data.message));
       }
     };
     fechFinancialData();
@@ -28,9 +42,7 @@ const FinacneManagerPage = () => {
   // Handle delete
   const handleDelete = async (Id) => {
     try {
-      const { data } = await axios.delete(
-        `http://localhost:4000/api/finances/${Id}`
-      );
+      const { data } = await axios.delete(`${API}/reports/${Id}`);
     } catch (error) {
       console.log(error);
     }
@@ -52,12 +64,16 @@ const FinacneManagerPage = () => {
             <thead className="table-head">
               <tr className="table-head-row">
                 <th className="head-cell"> Date </th>
-                <th className="head-cell"> Donation </th>
+                <th className="head-cell"> Contribution </th>
                 <th className="head-cell"> Offer </th>
                 <th className="head-cell"> Mass </th>
+                <th className="head-cell"> Services </th>
                 <th className="head-cell"> Choir </th>
                 <th className="head-cell"> Event </th>
                 <th className="head-cell"> Priest </th>
+                <th className="head-cell"> Guest </th>
+                <th className="head-cell"> Present </th>
+                <th className="head-cell"> Trip </th>
                 <th className="head-cell"> Other </th>
                 <th className="head-cell"> Total </th>
                 <th className="head-cell"> Action </th>
@@ -65,36 +81,38 @@ const FinacneManagerPage = () => {
             </thead>
 
             <tbody className="table-body">
-              {finances.map((expense) => {
-                return (
-                  <tr key={expense._id} className="table-body-row">
-                    <td className="body-cell"> {expense.date} </td>
-                    <td className="body-cell"> €{expense.donation} </td>
-                    <td className="body-cell"> €{expense.offer} </td>
-                    <td className="body-cell"> €{expense.frekdasie} </td>
-                    <td className="body-cell"> €{expense.choirExpense} </td>
-                    <td className="body-cell"> €{expense.eventExpense} </td>
-                    <td className="body-cell">€{expense.priestExpense} </td>
-                    <td className="body-cell"> €{expense.otherExpense} </td>
-                    <td className={expense.total < 0 ? 'negative' : 'positive'}>
-                      <strong>€{expense.total}</strong>{' '}
-                    </td>
-                    <td className="body-cell-action">
-                      <div className="action-wrapper">
-                        <NavLink to={'/users/userId'} className={'link'}>
-                          View
-                        </NavLink>
-                        <button
-                          onClick={() => handleDelete(expense._id)}
-                          className="button"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {reportsLoading ? (
+                <PageLoader />
+              ) : reportsError ? (
+                <p>{reportsError} </p>
+              ) : (
+                financialReports.map((report) => {
+                  return (
+                    <tr key={report._id} className="table-body-row">
+                      <td className="body-cell"> {report.date} </td>
+                      <td className="body-cell"> €{report.contribution} </td>
+                      <td className="body-cell"> €{report.offer} </td>
+                      <td className="body-cell"> €{report.servicePayment} </td>
+                      <td className="body-cell"> €{report.frekdasie} </td>
+                      <td className="body-cell"> €{report.choirExpense} </td>
+                      <td className="body-cell"> €{report.eventExpense} </td>
+                      <td className="body-cell">€{report.priestExpense} </td>
+                      <td className="body-cell">€{report.guestExpense} </td>
+                      <td className="body-cell">€{report.presentExpense} </td>
+                      <td className="body-cell">€{report.tripExpense} </td>
+                      <td className="body-cell"> €{report.otherExpense} </td>
+                      <td
+                        className={report.total < 0 ? 'negative' : 'positive'}
+                      >
+                        <strong>€{report.total}</strong>{' '}
+                      </td>
+                      <td className="body-cell-action">
+                        <FaTrashAlt onClick={() => handleDelete(report._id)} />
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
 

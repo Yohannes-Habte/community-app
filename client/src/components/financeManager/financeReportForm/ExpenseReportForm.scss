@@ -7,7 +7,7 @@
   .modal {
     @include popupBox;
     width: 700px;
-    height: 450px;
+    height: 600px;
 
     .close {
       @include closeModal;
@@ -54,6 +54,10 @@
       .add-btn {
         @include button1;
         margin-top: 2rem;
+
+        .loading {
+          @include loader;
+        }
       }
     }
   }

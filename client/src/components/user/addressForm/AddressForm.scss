@@ -1,0 +1,91 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.user-addresses-modal {
+  @include modal;
+
+  .new-user-address-popup-Box {
+    @include popupBox;
+    width: 700px;
+    height: 550px;
+
+    .user-address-popup-title {
+      @include title;
+    }
+
+    .address-close-icon {
+      @include closeModal;
+    }
+
+    .new-user-address-title {
+      @include subTitle;
+    }
+
+    .user-addresses-form {
+      @include flexColumn;
+
+      .select-container {
+        width: 100%;
+        @include flexRow;
+        gap: 0.5rem;
+
+        .select-icon {
+          font-size: $afs;
+        }
+
+        .select-label-wrapper {
+          width: 100%;
+          @include flexRow;
+          gap: 0.5rem;
+
+          .select-label {
+            width: 20%;
+          }
+
+          .select-options {
+            width: 80%;
+            @include inputField;
+            width: 100%;
+
+            .option {
+              display: block;
+            }
+          }
+        }
+      }
+
+      .input-container {
+        @include inputContainer;
+        .icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          top: -0.4rem;
+          font-size: $sfs;
+          color: $gray;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+
+      .user-address-btn {
+        @include button2;
+      }
+    }
+  }
+}

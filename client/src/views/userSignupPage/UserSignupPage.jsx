@@ -527,7 +527,7 @@ const UserSignupPage = () => {
                     </span>
                   ) : (
                     'Sign Up'
-                  )}{' '}
+                  )}
                 </button>
                 <p className="haveAccount">
                   Already have an account?
