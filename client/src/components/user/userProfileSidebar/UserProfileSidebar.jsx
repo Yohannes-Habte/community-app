@@ -1,14 +1,15 @@
 import React from 'react';
 import './UserProfileSidebar.scss';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import { FaAddressCard } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { MdMedicalServices } from 'react-icons/md';
-import { MdOutlineSupportAgent } from 'react-icons/md';
+import { RiAdminFill } from 'react-icons/ri';
 import { RiMoneyEuroBoxFill } from 'react-icons/ri';
 import { IoMdLogOut } from 'react-icons/io';
 import { MdOutlineMessage } from 'react-icons/md';
+import { GiSunPriest } from 'react-icons/gi';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,7 +20,7 @@ import {
 import { toast } from 'react-toastify';
 import { API } from '../../../utiles/securitiy/secreteKey';
 
-const UserProfileSidebar = () => {
+const UserProfileSidebar = ({ isActive, setIsActive }) => {
   // Navigate
   const navigate = useNavigate();
   // Global state variables
@@ -44,123 +45,173 @@ const UserProfileSidebar = () => {
     }
   };
 
-  // Styling NavLink status
-  const activeItem = ({ isActive }) =>
-    isActive ? 'active-item-navLink' : 'passive-item-navLink';
-
   return (
-    <nav className="user-profile-sidebar-wrapper">
-      <ul className="user-profile-sidebar-items">
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/profile'} className={activeItem}>
-            <FaUser className="icon" />
-          </NavLink>
+    <section className="user-profile-sidebar-wrapper">
+      <h2 className="user-profile-sidebar-title">Dashboard</h2>
 
-          <NavLink to={'/user/profile'} className={activeItem}>
-            Update Profile
-          </NavLink>
-        </li>
+      <aside
+        onClick={() => setIsActive(1)}
+        className="user-profile-sidebar-item"
+      >
+        <FaUser
+          title="User Profile"
+          className={isActive === 1 ? 'active-icon' : 'passive-icon'}
+        />
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/address'} className={activeItem}>
-            <FaAddressCard className="icon" />
-          </NavLink>
+        <h4 className={isActive === 1 ? 'active-text' : 'passive-text'}>
+          User Profile
+        </h4>
+      </aside>
 
-          <NavLink to={'/user/address'} className={activeItem}>
-            User Address
-          </NavLink>
-        </li>
+      <aside
+        onClick={() => setIsActive(2)}
+        className="user-profile-sidebar-item"
+      >
+        <FaAddressCard
+          title="User Address"
+          className={isActive === 2 ? 'active-icon' : 'passive-icon'}
+        />
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/changePassword'} className={activeItem}>
-            <RiLockPasswordFill className="icon" />
-          </NavLink>
+        <h4 className={isActive === 2 ? 'active-text' : 'passive-text'}>
+          User Address
+        </h4>
+      </aside>
 
-          <NavLink to={'/user/changePassword'} className={activeItem}>
-            Change Password
-          </NavLink>
-        </li>
+      <aside
+        onClick={() => setIsActive(3)}
+        className="user-profile-sidebar-item"
+      >
+        <FaAddressCard
+          title="Change Password"
+          className={isActive === 3 ? 'active-icon' : 'passive-icon'}
+        />
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/contribution'} className={activeItem}>
-            <RiMoneyEuroBoxFill className="icon" />
-          </NavLink>
+        <h4 className={isActive === 3 ? 'active-text' : 'passive-text'}>
+          Change Password
+        </h4>
+      </aside>
 
-          <NavLink to={'/user/contribution'} className={activeItem}>
-            Monthly Contribution
-          </NavLink>
-        </li>
+      <aside
+        onClick={() => setIsActive(4)}
+        className="user-profile-sidebar-item"
+      >
+        <RiLockPasswordFill
+          title="Monthly Contribution"
+          className={isActive === 4 ? 'active-icon' : 'passive-icon'}
+        />
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/serviceRequest'} className={activeItem}>
-            <MdOutlineSupportAgent className="icon" />
-          </NavLink>
-          <NavLink to={'/user/serviceRequest'} className={activeItem}>
-            Service Request
-          </NavLink>
-        </li>
+        <h4 className={isActive === 4 ? 'active-text' : 'passive-text'}>
+          Monthly Contribution
+        </h4>
+      </aside>
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/services'} className={activeItem}>
-            <MdMedicalServices className="icon" />
-          </NavLink>
-          <NavLink to={'/user/services'} className={activeItem}>
-            Offered Services
-          </NavLink>
-        </li>
+      <aside
+        onClick={() => setIsActive(5)}
+        className="user-profile-sidebar-item"
+      >
+        <RiMoneyEuroBoxFill
+          title="Service Request"
+          className={isActive === 5 ? 'active-icon' : 'passive-icon'}
+        />
 
-        <li className="user-profile-sidebar-item">
-          <NavLink to={'/user/inbox'} className={activeItem}>
-            <MdOutlineMessage className="icon" />
-          </NavLink>
+        <h4 className={isActive === 5 ? 'active-text' : 'passive-text'}>
+          Service Request
+        </h4>
+      </aside>
 
-          <NavLink to={'/user/inbox'} className={activeItem}>
-            User Inbox
-          </NavLink>
-        </li>
+      <aside
+        onClick={() => setIsActive(6)}
+        className="user-profile-sidebar-item"
+      >
+        <MdMedicalServices
+          title="Offered Services"
+          className={isActive === 6 ? 'active-icon' : 'passive-icon'}
+        />
 
-        {currentUser.role === 'priest' && (
-          <li className="user-profile-sidebar-item">
-            <NavLink to={'/priest/dashboard'} className={activeItem}>
-              <RiMoneyEuroBoxFill className="icon" />
-            </NavLink>
+        <h4 className={isActive === 6 ? 'active-text' : 'passive-text'}>
+          Offered Services
+        </h4>
+      </aside>
 
-            <NavLink to={'/priest/dashboard'} className={activeItem}>
+      <aside
+        onClick={() => setIsActive(7)}
+        className="user-profile-sidebar-item"
+      >
+        <MdOutlineMessage
+          title="User Inbox"
+          className={isActive === 7 ? 'active-icon' : 'passive-icon'}
+        />
+
+        <h4 className={isActive === 7 ? 'active-text' : 'passive-text'}>
+          User Inbox
+        </h4>
+      </aside>
+
+      {currentUser.role === 'priest' && (
+        <Link to={'/priest/dashboard'}>
+          <aside
+            onClick={() => setIsActive(8)}
+            className="user-profile-sidebar-item"
+          >
+            <GiSunPriest
+              title="Parish Priest"
+              className={isActive === 8 ? 'active-icon' : 'passive-icon'}
+            />
+
+            <h4 className={isActive === 8 ? 'active-text' : 'passive-text'}>
               Parish Priest
-            </NavLink>
-          </li>
-        )}
+            </h4>
+          </aside>
+        </Link>
+      )}
 
-        {currentUser.role === 'admin' && (
-          <li className="user-profile-sidebar-item">
-            <NavLink to={'/admin/dashboard'} className={activeItem}>
-              <RiMoneyEuroBoxFill className="icon" />
-            </NavLink>
+      {currentUser.role === 'admin' && (
+        <Link to={'/admin/dashboard'}>
+          <aside
+            onClick={() => setIsActive(9)}
+            className="user-profile-sidebar-item"
+          >
+            <RiMoneyEuroBoxFill
+              title="Parish Admin"
+              className={isActive === 9 ? 'active-icon' : 'passive-icon'}
+            />
 
-            <NavLink to={'/admin/dashboard'} className={activeItem}>
+            <h4 className={isActive === 9 ? 'active-text' : 'passive-text'}>
               Parish Admin
-            </NavLink>
-          </li>
-        )}
+            </h4>
+          </aside>
+        </Link>
+      )}
 
-        {currentUser.role === 'financeManager' && (
-          <li className="user-profile-sidebar-item">
-            <NavLink to={'/finace/dashboard'} className={activeItem}>
-              <RiMoneyEuroBoxFill className="icon" />
-            </NavLink>
+      {currentUser.role === 'financeManager' && (
+        <Link to={'/finance/dashboard'}>
+          <aside
+            onClick={() => setIsActive(10)}
+            className="user-profile-sidebar-item"
+          >
+            <RiAdminFill
+              title="Parish Admin"
+              className={isActive === 10 ? 'active-icon' : 'passive-icon'}
+            />
 
-            <NavLink to={'/finance/dashboard'} className={activeItem}>
+            <h4 className={isActive === 10 ? 'active-text' : 'passive-text'}>
               Finance Manager
-            </NavLink>
-          </li>
-        )}
+            </h4>
+          </aside>
+        </Link>
+      )}
 
-        <li className="user-profile-sidebar-item" onClick={logoutUser}>
-          <IoMdLogOut className="logout-icon" />
-          <span className="logout-text">Log Out</span>
-        </li>
-      </ul>
-    </nav>
+      <aside onClick={logoutUser} className="user-profile-sidebar-item">
+        <IoMdLogOut
+          title="Log Out"
+          className={isActive === 12 ? 'active-icon' : 'passive-icon'}
+        />
+
+        <h4 className={isActive === 12 ? 'active-text' : 'passive-text'}>
+          Log Out
+        </h4>
+      </aside>
+    </section>
   );
 };
 

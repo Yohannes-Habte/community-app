@@ -1,98 +1,103 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.update-user-profile-container {
-  width: 70%;
+.user-profile-container {
+  width: $laptop;
   margin: 1rem auto;
-  @include shadow2;
+  
+  .update-user-profile-wrapper {
+    width: 70%;
+    margin: 1rem auto;
+    @include shadow2;
 
-  .update-user-profile-title {
-    @include subTitle;
-  }
-
-  .error-message {
-    @include errorMessage;
-  }
-
-  .update_user-image-container {
-    @include flexColumnCenter;
-    .update-user-image {
-      @include userImage;
+    .update-user-profile-title {
+      @include subTitle;
     }
 
-    .update-user-legend {
-      @include legend;
-    }
-  }
-
-  .update-user-profile-fieldset {
-    @include fieldset;
-
-    .update-user-profile-legend {
-      @include legend;
+    .error-message {
+      @include errorMessage;
     }
 
-    .update-user-profile-form {
-      @include flexColumn;
-      .inputs-wrapper {
-        @include twoGridTemplateEqualColumns;
-      }
-      .input-container {
-        @include inputContainer;
-
-        .update-user-account-icon {
-          @include inputIcon;
-        }
-
-        .input-field {
-          @include inputField;
-        }
-
-        .input-label {
-          @include inputLabel;
-        }
-
-        .input-highlight {
-          @include inputHighlight;
-        }
-
-        .input-field:focus + .input-label {
-          @include focusInputFieldAndInputLabel;
-        }
-
-        .input-field:focus + .input-label + .input-highlight {
-          width: 100%;
-        }
-
-        .password-display {
-          @include passwordDisplay;
-        }
+    .update_user-image-container {
+      @include flexColumnCenter;
+      .update-user-image {
+        @include userImage;
       }
 
-      .input-consent {
-        @include inputContainer;
-        @include flexRow;
-        align-items: center;
+      .update-user-legend {
+        @include legend;
+      }
+    }
 
-        .consent-checkbox {
-          height: 1.6rem;
-          width: 1.3rem;
-          cursor: pointer;
-        }
+    .update-user-profile-fieldset {
+      @include fieldset;
 
-        .accept {
-        }
-
-        .terms-of-user {
-          color: $blue;
-        }
+      .update-user-profile-legend {
+        @include legend;
       }
 
-      .update-user-profile-btn {
-        @include button1;
+      .update-user-profile-form {
+        @include flexColumn;
+        .inputs-wrapper {
+          @include twoGridTemplateEqualColumns;
+        }
+        .input-container {
+          @include inputContainer;
 
-        .loading {
-          @include loader;
+          .update-user-account-icon {
+            @include inputIcon;
+          }
+
+          .input-field {
+            @include inputField;
+          }
+
+          .input-label {
+            @include inputLabel;
+          }
+
+          .input-highlight {
+            @include inputHighlight;
+          }
+
+          .input-field:focus + .input-label {
+            @include focusInputFieldAndInputLabel;
+          }
+
+          .input-field:focus + .input-label + .input-highlight {
+            width: 100%;
+          }
+
+          .password-display {
+            @include passwordDisplay;
+          }
+        }
+
+        .input-consent {
+          @include inputContainer;
+          @include flexRow;
+          align-items: center;
+
+          .consent-checkbox {
+            height: 1.6rem;
+            width: 1.3rem;
+            cursor: pointer;
+          }
+
+          .accept {
+          }
+
+          .terms-of-user {
+            color: $blue;
+          }
+        }
+
+        .update-user-profile-btn {
+          @include button1;
+
+          .loading {
+            @include loader;
+          }
         }
       }
     }

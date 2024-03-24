@@ -8,63 +8,48 @@
   border-radius: 0;
   background-color: $userSidebar-bg;
 
-  .user-profile-sidebar-items {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 1rem;
+  .user-profile-sidebar-title {
+    @include subTitle;
+  }
 
-    .user-profile-sidebar-item {
-      @include flexRow;
-      @include shadow1;
-      gap: 0.5rem;
-      font-size: $nfs;
-      padding: 0.5rem 0;
+  .user-profile-sidebar-item {
+    @include flexRow;
+    @include shadow1;
+    align-items: center;
+    font-size: $nfs;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $red;
+      background: $userSidebar-hover;
+      border-radius: $radius;
+    }
+
+    .active-text {
+      color: $red;
+    }
+
+    .passive-text {
+      color: $black;
 
       &:hover {
         color: $red;
-        background: $userSidebar-hover;
-        border-radius: $radius;
       }
+    }
 
-      .logout-icon {
-        color: $green;
-        cursor: pointer;
+    .active-icon {
+      color: $red;
+      font-size: $afs;
+    }
 
-        &:hover {
-          color: $red;
-        }
-      }
+    .passive-icon {
+      color: $green;
+      font-size: $afs;
 
-      .logout-text {
-        cursor: pointer;
-
-        &:hover {
-          color: $red;
-        }
-      }
-
-      .active-item-navLink {
+      &:hover {
         color: $red;
-
-        .icon {
-          color: $red;
-        }
-      }
-
-      .passive-item-navLink {
-        color: $black;
-
-        &:hover {
-          color: $red;
-        }
-
-        .icon {
-          color: $green;
-          &:hover {
-            color: $red;
-          }
-        }
       }
     }
   }

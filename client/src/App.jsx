@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import UserSignupPage from './views/userSignupPage/UserSignupPage';
@@ -15,16 +15,14 @@ import ContactPage from './views/contactPage/ContactPage';
 import ReportsPage from './views/reportPage/ReportsPage';
 import HomePage from './views/homePage/HomePage';
 import UserProfilePage from './views/userPages/userProfilePage/UserProfilePage';
-import UserAddresspage from './views/userPages/userAddressPage/UserAddresspage';
-import ChangePasswordPage from './views/userPages/changePasswordPage/ChangePasswordPage';
-import ContributionPage from './views/userPages/userContributionPage/ContributionPage';
 import UserInboxPage from './views/userPages/userInboxPage/UserInboxPage';
-import AllUserServicespage from './views/userPages/allUserServicesPage/AllUserServicespage';
-import ServiceRequestPage from './views/userPages/serviceRequestPage/ServiceRequestPage';
 import PriestDashboardPage from './views/priestPages/priestDashboardPage/PriestDashboardPage';
 import AdminDashboardPage from './views/adminPages/adminDashboarPage/AdminDashboardPage';
-import FinancialReport from './components/reportTables/FinancialReport';
 import FinacneManagerPage from './views/financePages/financeManagerPage/FinacneManagerPage';
+import UserProtectedRoutes from './protectedRoutes/UserProtectedRoutes';
+import PriestProtectedRoutes from './protectedRoutes/PriestProtectedRoutes';
+import AdminProtectedRoutes from './protectedRoutes/AdminProtectedRoutes';
+import FinanceMgtProtectedRoutes from './protectedRoutes/FinanceMgtProtectedRoutes';
 
 const App = () => {
   return (
@@ -40,23 +38,53 @@ const App = () => {
           <Route path="*" element={<Navigate to={'/'} />} />
 
           {/* User pages */}
-          <Route path="/user/profile" element={<UserProfilePage />} />
-          <Route path="/user/address" element={<UserAddresspage />} />
-          <Route path="/user/changePassword" element={<ChangePasswordPage />} />
-          <Route path="/user/contribution" element={<ContributionPage />} />
-          <Route path="/user/serviceRequest" element={<ServiceRequestPage />} />
-          <Route path="/user/services" element={<AllUserServicespage />} />
-          <Route path="/user/inbox" element={<UserInboxPage />} />
+          <Route
+            path="/user/profile"
+            element={
+              <UserProtectedRoutes>
+                <UserProfilePage />
+              </UserProtectedRoutes>
+            }
+          />
+
+          <Route
+            path="/user/inbox"
+            element={
+              <UserProtectedRoutes>
+                <UserInboxPage />
+              </UserProtectedRoutes>
+            }
+          />
 
           {/* Parish Priest pages */}
-          <Route path="/priest/dashboard" element={<PriestDashboardPage />} />
+          <Route
+            path="/priest/dashboard"
+            element={
+              <PriestProtectedRoutes>
+                <PriestDashboardPage />
+              </PriestProtectedRoutes>
+            }
+          />
 
           {/* Admin Dashboard */}
-          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminProtectedRoutes>
+                <AdminDashboardPage />
+              </AdminProtectedRoutes>
+            }
+          />
 
           {/* Finance Manager pages */}
-          <Route path="/finance/dashboard" element={<FinacneManagerPage />} />
-          <Route path="/finance/reports" element={<FinancialReport />} />
+          <Route
+            path="/finance/dashboard"
+            element={
+              <FinanceMgtProtectedRoutes>
+                <FinacneManagerPage />
+              </FinanceMgtProtectedRoutes>
+            }
+          />
         </Routes>
 
         {/* React toastify */}

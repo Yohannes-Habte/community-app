@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UpdateUserProfile.scss';
 import { FaLaptopCode, FaMapMarker, FaPhone, FaUserAlt } from 'react-icons/fa';
 import { MdLocationPin } from 'react-icons/md';
@@ -8,6 +8,7 @@ import { GrStatusInfo } from 'react-icons/gr';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  clearErrors,
   userUpdateFailure,
   userUpdateStart,
   userUpdateSuccess,
@@ -20,8 +21,14 @@ import {
   cloud_name,
   upload_preset,
 } from '../../../utiles/securitiy/secreteKey';
+import UserAddress from '../address/UserAddress';
+import UserChangePassword from '../changePassword/UserChangePassword';
+import MonthlyContribution from '../contribution/MonthlyContribution';
+import AllUserServices from '../userServices/AllUserServices';
+import ServiceRequest from '../serviceRequest/ServiceRequest';
+import UserInbox from '../inbox/UserInbox';
 
-const UpdateUserProfile = () => {
+const UpdateUserProfile = ({ isActive }) => {
   const navigate = useNavigate();
   // Global state variables
   const { updateLoading, error, currentUser } = useSelector(
@@ -30,7 +37,6 @@ const UpdateUserProfile = () => {
   const dispatch = useDispatch();
 
   // Local State variables
-  // Local state variables
   const [firstName, setFirstName] = useState(currentUser.firstName || '');
   const [lastName, setLastName] = useState(currentUser.lastName || '');
   const [image, setImage] = useState('');
@@ -45,6 +51,23 @@ const UpdateUserProfile = () => {
   const [country, setCountry] = useState(currentUser.country || '');
   const [agree, setAgree] = useState(false);
   const [agreeChanged, setAgreeChanged] = useState(false);
+
+  // If user is not logged in, user will not access profile page
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+  });
+
+  // Display error on browser
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+
+      // To clear error
+      dispatch(clearErrors());
+    }
+  });
 
   // Update image
   const updateImage = (e) => {
@@ -132,240 +155,259 @@ const UpdateUserProfile = () => {
   };
 
   return (
-    <section className="update-user-profile-container">
-      <h2 className="update-user-profile-title">Update Your Profile</h2>
+    <article className="user-profile-container">
+      {isActive === 1 && (
+        <section className="update-user-profile-wrapper">
+          <h2 className="update-user-profile-title">Update Your Profile</h2>
 
-      {error ? <p className="error-message"> {error} </p> : null}
+          {error ? <p className="error-message"> {error} </p> : null}
 
-      <fieldset className="update-user-profile-fieldset">
-        <figure className="update_user-image-container">
-          <img
-            className="update-user-image"
-            src={
-              currentUser
-                ? currentUser.image
-                : 'https://i.ibb.co/4pDNDk1/avatar.png'
-            }
-            alt={currentUser.firstName}
-          />
-          <legend className="update-user-legend">
-            {currentUser.firstName} {currentUser.lastName}
-          </legend>
-        </figure>
-        <form onSubmit={updateUserAccount} className="update-user-profile-form">
-          <div className="inputs-wrapper">
-            {/* User first name */}
-            <div className="input-container">
-              <FaUserAlt className="update-user-account-icon" />
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                value={firstName}
-                onChange={update}
-                placeholder="First Name"
-                className="input-field"
+          <fieldset className="update-user-profile-fieldset">
+            <figure className="update_user-image-container">
+              <img
+                className="update-user-image"
+                src={
+                  currentUser
+                    ? currentUser.image
+                    : 'https://i.ibb.co/4pDNDk1/avatar.png'
+                }
+                alt={currentUser.firstName}
               />
+              <legend className="update-user-legend">
+                {currentUser.firstName} {currentUser.lastName}
+              </legend>
+            </figure>
+            <form
+              onSubmit={updateUserAccount}
+              className="update-user-profile-form"
+            >
+              <div className="inputs-wrapper">
+                {/* User first name */}
+                <div className="input-container">
+                  <FaUserAlt className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    value={firstName}
+                    onChange={update}
+                    placeholder="First Name"
+                    className="input-field"
+                  />
 
-              <label htmlFor="firstName" className="input-label">
-                First Name
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                  <label htmlFor="firstName" className="input-label">
+                    First Name
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User last name */}
-            <div className="input-container">
-              <FaUserAlt className="update-user-account-icon" />
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                value={lastName}
-                onChange={update}
-                placeholder="Last Name"
-                className="input-field"
-              />
+                {/* User last name */}
+                <div className="input-container">
+                  <FaUserAlt className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    value={lastName}
+                    onChange={update}
+                    placeholder="Last Name"
+                    className="input-field"
+                  />
 
-              <label htmlFor="lastName" className="input-label">
-                Last Name
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                  <label htmlFor="lastName" className="input-label">
+                    Last Name
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User Marital Status*/}
-            <div className="input-container">
-              <GrStatusInfo className="update-user-account-icon" />
-              <input
-                type="text"
-                name="maritalStatus"
-                id="maritalStatus"
-                value={maritalStatus}
-                onChange={update}
-                placeholder=" Marital Status"
-                className="input-field"
-              />
+                {/* User Marital Status*/}
+                <div className="input-container">
+                  <GrStatusInfo className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="maritalStatus"
+                    id="maritalStatus"
+                    value={maritalStatus}
+                    onChange={update}
+                    placeholder=" Marital Status"
+                    className="input-field"
+                  />
 
-              <label htmlFor="maritalStatus" className="input-label">
-                Marital Status
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                  <label htmlFor="maritalStatus" className="input-label">
+                    Marital Status
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User Image */}
-            <div className="input-container">
-              <RiLockPasswordFill className="update-user-account-icon" />
-              <input
-                type="file"
-                name="image"
-                id="image"
-                onChange={updateImage}
-                className="input-field"
-              />
-            </div>
+                {/* User Image */}
+                <div className="input-container">
+                  <RiLockPasswordFill className="update-user-account-icon" />
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    onChange={updateImage}
+                    className="input-field"
+                  />
+                </div>
 
-            {/* User phone number */}
-            <div className="input-container">
-              <MdLocationPin className="update-user-account-icon" />
-              <input
-                type="text"
-                name="phone"
-                id="phone"
-                value={phone}
-                onChange={update}
-                placeholder="Phone Number"
-                className="input-field"
-              />
+                {/* User phone number */}
+                <div className="input-container">
+                  <MdLocationPin className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    value={phone}
+                    onChange={update}
+                    placeholder="Phone Number"
+                    className="input-field"
+                  />
 
-              <label htmlFor="phone" className="input-label">
-                Phone Number
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                  <label htmlFor="phone" className="input-label">
+                    Phone Number
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User street adddress */}
-            <div className="input-container">
-              <FaPhone className="update-user-account-icon" />
-              <input
-                type="text"
-                name="street"
-                id="street"
-                value={street}
-                onChange={update}
-                placeholder="Street Name"
-                className="input-field"
-              />
+                {/* User street adddress */}
+                <div className="input-container">
+                  <FaPhone className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="street"
+                    id="street"
+                    value={street}
+                    onChange={update}
+                    placeholder="Street Name"
+                    className="input-field"
+                  />
 
-              <label htmlFor="street" className="input-label">
-                Street Name
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                  <label htmlFor="street" className="input-label">
+                    Street Name
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User zip code */}
-            <div className="input-container">
-              <FaLaptopCode className="update-user-account-icon" />
-              <input
-                type="text"
-                name="zipCode"
-                id="zipCode"
-                value={zipCode}
-                onChange={update}
-                placeholder="Zip Code"
-                className="input-field"
-              />
+                {/* User zip code */}
+                <div className="input-container">
+                  <FaLaptopCode className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="zipCode"
+                    id="zipCode"
+                    value={zipCode}
+                    onChange={update}
+                    placeholder="Zip Code"
+                    className="input-field"
+                  />
 
-              <label htmlFor="zipCode" className="input-label">
-                Zip Code
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                  <label htmlFor="zipCode" className="input-label">
+                    Zip Code
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User city */}
-            <div className="input-container">
-              <MdLocationPin className="update-user-account-icon" />
-              <input
-                type="text"
-                name="city"
-                id="city"
-                value={city}
-                onChange={update}
-                placeholder="City Name"
-                className="input-field"
-              />
-              <label htmlFor="city" className="input-label">
-                City
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                {/* User city */}
+                <div className="input-container">
+                  <MdLocationPin className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    value={city}
+                    onChange={update}
+                    placeholder="City Name"
+                    className="input-field"
+                  />
+                  <label htmlFor="city" className="input-label">
+                    City
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User state */}
-            <div className="input-container">
-              <MdLocationPin className="update-user-account-icon" />
-              <input
-                type="text"
-                name="state"
-                id="state"
-                value={state}
-                onChange={update}
-                placeholder="State Name"
-                className="input-field"
-              />
-              <label htmlFor="state" className="input-label">
-                State
-              </label>
-              <span className="input-highlight"></span>
-            </div>
+                {/* User state */}
+                <div className="input-container">
+                  <MdLocationPin className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="state"
+                    id="state"
+                    value={state}
+                    onChange={update}
+                    placeholder="State Name"
+                    className="input-field"
+                  />
+                  <label htmlFor="state" className="input-label">
+                    State
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
 
-            {/* User country */}
-            <div className="input-container">
-              <FaMapMarker className="update-user-account-icon" />
-              <input
-                type="text"
-                name="country"
-                id="country"
-                value={country}
-                onChange={update}
-                placeholder="Country Name"
-                className="input-field"
-              />
-              <label htmlFor="country" className="input-label">
-                Country
-              </label>
-              <span className="input-highlight"></span>
-            </div>
-          </div>
+                {/* User country */}
+                <div className="input-container">
+                  <FaMapMarker className="update-user-account-icon" />
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    value={country}
+                    onChange={update}
+                    placeholder="Country Name"
+                    className="input-field"
+                  />
+                  <label htmlFor="country" className="input-label">
+                    Country
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
+              </div>
 
-          {/* User Consent */}
-          <div className="input-consent">
-            <input
-              type="checkbox"
-              name="agree"
-              id="agree"
-              className="consent-checkbox"
-            />
-            <label htmlFor="agree" className="accept">
-              I accept
-            </label>
+              {/* User Consent */}
+              <div className="input-consent">
+                <input
+                  type="checkbox"
+                  name="agree"
+                  id="agree"
+                  className="consent-checkbox"
+                />
+                <label htmlFor="agree" className="accept">
+                  I accept
+                </label>
 
-            <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
-          </div>
+                <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
+              </div>
 
-          <button
-            type="submit"
-            className="update-user-profile-btn"
-            disabled={updateLoading}
-          >
-            {updateLoading ? (
-              <span className="loading">
-                <ButtonLoader /> Loading...
-              </span>
-            ) : (
-              'Update'
-            )}
-          </button>
-        </form>
-      </fieldset>
-    </section>
+              <button
+                type="submit"
+                className="update-user-profile-btn"
+                disabled={updateLoading}
+              >
+                {updateLoading ? (
+                  <span className="loading">
+                    <ButtonLoader /> Loading...
+                  </span>
+                ) : (
+                  'Update'
+                )}
+              </button>
+            </form>
+          </fieldset>
+        </section>
+      )}
+
+      {isActive === 2 && <UserAddress />}
+
+      {isActive === 3 && <UserChangePassword />}
+
+      {isActive === 4 && <MonthlyContribution />}
+
+      {isActive === 5 && <ServiceRequest />}
+
+      {isActive === 6 && <AllUserServices />}
+
+      {isActive === 7 && <UserInbox />}
+    </article>
   );
 };
 

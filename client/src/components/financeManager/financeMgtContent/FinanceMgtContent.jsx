@@ -9,9 +9,10 @@ const FinanceMgtContent = ({ active }) => {
     <article className="finance-mgt-dashboard-right-box-wrapper">
       {active === 1 && <FinancialReports />}
 
-      {active === 2 && <MembersContributionStatus />}
+      {active === 2 && <MemberContributionForm />}
 
-      {active === 3 && <MemberContributionForm />}
+      {active === 3 && <MembersContributionStatus />}
+
     </article>
   );
 };

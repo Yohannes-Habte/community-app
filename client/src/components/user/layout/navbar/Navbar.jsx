@@ -32,6 +32,7 @@ const Navbar = () => {
   // Styling NavLink
   const navbarNavLink = ({ isActive }) =>
     isActive ? 'active-navbar-item' : 'passive-navbar-item';
+
   return (
     <nav className="header-navbar">
       {/* Church logo */}
@@ -65,20 +66,30 @@ const Navbar = () => {
           </NavLink>
         </li>
       </ul>
+      {currentUser ? (
+        <aside className="logged-in-user">
+          <img
+            className="image"
+            src={currentUser.image}
+            alt={currentUser.firstName}
+          />
+          <h4 className="user-name"> {currentUser.firstName} </h4>
+        </aside>
+      ) : (
+        <ul className="register-login">
+          <li className="navbar-item">
+            <NavLink to={'/signup'} className="link register">
+              Register
+            </NavLink>
+          </li>
 
-      <ul className="register-login">
-        <li className="navbar-item">
-          <NavLink to={'/signup'} className="link register">
-            Register
-          </NavLink>
-        </li>
-
-        <li className="navbar-item">
-          <NavLink to={'/login'} className="link login">
-            Login
-          </NavLink>
-        </li>
-      </ul>
+          <li className="navbar-item">
+            <NavLink to={'/login'} className="link login">
+              Login
+            </NavLink>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 };

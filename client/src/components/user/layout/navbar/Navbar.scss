@@ -15,6 +15,16 @@
     font-style: normal;
   }
 
+  .logged-in-user {
+    @include flexRow;
+    align-items: center;
+
+    .image {
+      @include loggedInUserImage;
+    }
+    .user-name {}
+  }
+
   // navigation bar
   .navbar-items {
     @include flexRow;

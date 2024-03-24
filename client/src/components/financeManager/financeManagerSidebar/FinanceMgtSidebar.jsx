@@ -36,7 +36,7 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
         />
 
         <h4 className={active === 2 ? 'active-text' : 'passive-text'}>
-          Contribution Form
+          Contribution
         </h4>
       </aside>
 
@@ -45,12 +45,12 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
         className="finance-manager-dashboard-sidebar-item"
       >
         <MdSupport
-          title="Members Contribution"
+          title="Contributions"
           className={active === 3 ? 'active-icon' : 'passive-icon'}
         />
 
         <h4 className={active === 3 ? 'active-text' : 'passive-text'}>
-          Members Contribution
+          Contributions
         </h4>
       </aside>
 

@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
-import { FaUserAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
@@ -22,7 +21,9 @@ import { validEmail, validPassword } from '../../utiles/validation/validate';
 
 const UserLoginPage = () => {
   // Global state variables
-  const { loginLoading, error } = useSelector((state) => state.user);
+  const { loginLoading, error, currentUser } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -33,49 +34,15 @@ const UserLoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // If a user is logged in, they cannot access the login page
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  });
   // Function to show/hide password
   const displayPassword = () => {
     setShowPassword((prevState) => !prevState);
-  };
-
-  // Function that display and hide the fonfirm password
-  const displayConfirmPassword = () => {
-    setShowConfirmPassword((prevState) => !prevState);
-  };
-
-  // Validation of the login form
-  const [emailChange, setEmailChange] = useState(false);
-  const [passwordChange, setPasswordChange] = useState(false);
-
-  // useRef hook to focus on specific issues
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
-  // Function handling Email Validation
-  const checkEmailFormat = () => {
-    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email);
-    if (emailRegex) {
-      emailRef.current.className = 'errorInvisible';
-      //emailRef.current.style.display = "none"
-    } else {
-      emailRef.current.className = 'errorVisible';
-      //passwordRef.current.style.display = "block"
-    }
-  };
-
-  // Function handling Password validation
-  const checkPasswordFormat = () => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        password
-      );
-    if (passwordRegex) {
-      passwordRef.current.className = 'errorInvisible';
-      //passwordRef.current.style.display = "none"
-    } else {
-      passwordRef.current.className = 'errorVisible';
-      //passwordRef.current.style.display = "block"
-    }
   };
 
   // Function to update login user data
@@ -83,11 +50,9 @@ const UserLoginPage = () => {
     switch (event.target.name) {
       case 'email':
         setEmail(event.target.value);
-        setEmailChange(true);
         break;
       case 'password':
         setPassword(event.target.value);
-        setPasswordChange(true);
         break;
       case 'showPassword':
         setShowPassword(false);
@@ -100,9 +65,7 @@ const UserLoginPage = () => {
   // Reset all state variables for the login form
   const resetVariables = () => {
     setEmail('');
-    setEmailChange(false);
     setPassword('');
-    setPasswordChange(false);
   };
 
   // Login and Submit Function
@@ -135,11 +98,6 @@ const UserLoginPage = () => {
         password: password,
       };
       const { data } = await axios.post(`${API}/auth/login`, loginUser);
-
-      if (data.success === false) {
-        dispatch(userLoginFailure(data.user.message));
-        return;
-      }
 
       dispatch(userLoginSuccess(data.user));
       toast.success(data.message);

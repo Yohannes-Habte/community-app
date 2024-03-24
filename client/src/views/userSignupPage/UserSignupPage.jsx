@@ -28,7 +28,9 @@ import { validEmail, validPassword } from '../../utiles/validation/validate';
 
 const UserSignupPage = () => {
   // Global state variables
-  const { error, registerLoading } = useSelector((state) => state.user);
+  const { error, registerLoading, currentUser } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
   // to navigate register page
   const navigate = useNavigate();
@@ -52,6 +54,13 @@ const UserSignupPage = () => {
   const [agreeChanged, setAgreeChanged] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // If a user is logged in, they cannot access the login page
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  });
 
   // Function to show/hide password
   const displayPassword = () => {

@@ -56,7 +56,6 @@ const userReducer = createSlice({
     userUpdateSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.updateLoading = false;
-      state.error = null;
     },
     userUpdateFailure: (state, action) => {
       state.error = action.payload;
@@ -185,6 +184,8 @@ export const {
   usersCountStart,
   usersCountSuccess,
   usersCountFailure,
+
+  clearErrors
 } = userReducer.actions;
 
 // export userSlice
