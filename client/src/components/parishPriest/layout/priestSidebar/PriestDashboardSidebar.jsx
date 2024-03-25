@@ -8,10 +8,42 @@ import { SiEventstore } from 'react-icons/si';
 import { IoSettings } from 'react-icons/io5';
 import { GiSunPriest } from 'react-icons/gi';
 import { ImUsers } from 'react-icons/im';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoMdLogOut } from 'react-icons/io';
+import {
+  userLogoutFailure,
+  userLogoutStart,
+  userLogoutSuccess,
+} from '../../../../redux/reducers/userReducer';
+import axios from 'axios';
+import { API } from '../../../../utiles/securitiy/secreteKey';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const PriestDashboardSidebar = ({ active, setActive }) => {
+  const navigate = useNavigate();
+  // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // Log out user
+  const logoutUser = async () => {
+    try {
+      dispatch(userLogoutStart());
+      const { data } = await axios.get(`${API}/auth/logout`);
+
+      if (data.success) {
+        dispatch(userLogoutSuccess(data.message));
+        toast.success(data.message);
+        navigate('/login');
+      } else {
+        toast.error('User could not logout');
+      }
+    } catch (error) {
+      dispatch(userLogoutFailure(error.response.data.message));
+    }
+  };
+
   return (
     <section className="parish-priest-dashboard-sidebar-wrapper">
       <h1 className="parish-priest-dashboard-sidebar-title">Dashboard</h1>
@@ -121,7 +153,9 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         />
 
         <h4>
-          <Link to={'/login'}> Log Out </Link>
+          <Link to={'/login'} onClick={logoutUser}>
+            Log Out
+          </Link>
         </h4>
       </aside>
     </section>

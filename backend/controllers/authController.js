@@ -200,7 +200,7 @@ export const userLogout = async (req, res, next) => {
       .status(200)
       .json({ success: true, message: `You have successfully logged out` });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(createError(500, 'User could not logout. Please try again!'));
   }
 };

@@ -34,7 +34,7 @@
           border-radius: 1rem;
 
           .head-cell {
-            padding: 0.5rem 0.3rem;
+            padding: 1rem 0.3rem;
           }
         }
       }
@@ -42,42 +42,34 @@
       .table-body {
         .table-body-row {
           .body-cell {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid $table_border;
             padding: 0 0.5rem;
+            padding: 1rem 0.5rem;
           }
 
           .negative {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid $table_border;
             padding: 0 0.5rem;
             color: tomato;
           }
 
           .positive {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid $table_border;
             padding: 0 0.5rem;
             color: $green;
           }
 
           .body-cell-action {
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid $table_border;
             padding: 0 0.5rem;
             width: 150px;
 
-            .action-wrapper {
-              display: flex;
-              justify-content: space-between;
+            .delete-icon {
+              font-size: $afs;
+              color: $tomato;
+              cursor: pointer;
 
-              .link {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                @include button1;
-                padding: 0;
-                text-decoration: none;
-              }
-
-              .button {
-                @include button1;
+              &:hover {
                 color: $red;
               }
             }
@@ -87,8 +79,11 @@
     }
 
     .total-income {
+      font-size: $afs;
+      padding: 1rem 0;
       .total {
-        color: blue;
+        color: $blue;
+        font-size: $aafs;
       }
     }
   }

@@ -41,7 +41,7 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
         toast.error('User could not logout');
       }
     } catch (error) {
-      dispatch(userLogoutFailure(error.response.message));
+      dispatch(userLogoutFailure(error.response.data.message));
     }
   };
 

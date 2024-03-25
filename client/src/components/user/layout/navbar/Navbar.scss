@@ -15,16 +15,6 @@
     font-style: normal;
   }
 
-  .logged-in-user {
-    @include flexRow;
-    align-items: center;
-
-    .image {
-      @include loggedInUserImage;
-    }
-    .user-name {}
-  }
-
   // navigation bar
   .navbar-items {
     @include flexRow;
@@ -41,9 +31,10 @@
   }
 
   // Logged in user
-  .logged-in-user-wrapper {
+  .logged-in-user-info {
     @include flexRow;
     align-items: center;
+    position: relative;
 
     .logged-in-user-image {
       @include loggedInUserImage;
@@ -51,6 +42,26 @@
 
     .logged-in-user-name {
       @include loggedInUserName;
+    }
+
+    .logged-in-user-menu {
+      position: absolute;
+      right: -2rem;
+      top: 2.5rem;
+      background-color: $navbar-bg;
+      @include shadow1;
+      height: fit-content;
+      width: 20rem;
+
+      .menu-item {
+        @include shadow1;
+
+        .link {
+          &:hover {
+            color: $red;
+          }
+        }
+      }
     }
   }
 

@@ -133,7 +133,7 @@ export const financialReports = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get total fincial report
+//! Get total fincial report
 //==========================================================================
 export const totalIncome = async (req, res, next) => {
   try {
@@ -145,7 +145,10 @@ export const totalIncome = async (req, res, next) => {
       0
     );
 
-    return res.status(200).json(annualTatalIncome);
+    return res.status(200).json({
+      success: true,
+      totalSum: annualTatalIncome,
+    });
   } catch (error) {
     console.log(error);
     return next(
@@ -153,6 +156,32 @@ export const totalIncome = async (req, res, next) => {
         400,
         'The monthly financial reports could not be accessed! Please try again'
       )
+    );
+  }
+};
+
+//==========================================================================
+// Get Finance
+//==========================================================================
+export const deleteFinanceReport = async (req, res, next) => {
+  try {
+    const financialReportId = req.params.id;
+    const report = await Finance.findByIdAndDelete(financialReportId);
+
+    if (!report) {
+      return next(
+        createError(400, 'Such report does not exists. Please try again.')
+      );
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Financial report is successfully deleted!',
+    });
+  } catch (error) {
+    console.log(error);
+    return next(
+      createError(400, 'The finance could not be accessed! Please try again')
     );
   }
 };

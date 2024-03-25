@@ -5,9 +5,40 @@ import { IoSettings } from 'react-icons/io5';
 import { SiEventstore } from 'react-icons/si';
 import { MdSupport } from 'react-icons/md';
 import { SiGooglemessages } from 'react-icons/si';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  userLogoutFailure,
+  userLogoutStart,
+  userLogoutSuccess,
+} from '../../../redux/reducers/userReducer';
+import axios from 'axios';
+import { API } from '../../../utiles/securitiy/secreteKey';
+import { toast } from 'react-toastify';
 
 const FinanceMgtSidebar = ({ active, setActive }) => {
+  const navigate = useNavigate();
+  // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // Log out user
+  const logoutUser = async () => {
+    try {
+      dispatch(userLogoutStart());
+      const { data } = await axios.get(`${API}/auth/logout`);
+
+      if (data.success) {
+        dispatch(userLogoutSuccess(data.message));
+        toast.success(data.message);
+        navigate('/login');
+      } else {
+        toast.error('User could not logout');
+      }
+    } catch (error) {
+      dispatch(userLogoutFailure(error.response.data.message));
+    }
+  };
   return (
     <section className="finance-manager-dashboard-sidebar-wrapper">
       <h2 className="finance-manager-dashboard-sidebar-title">Dashboard</h2>
@@ -86,7 +117,9 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
         />
 
         <h4>
-          <Link to={'/login'}> Log Out </Link>
+          <Link to={'/login'} onClick={logoutUser}>
+            Log Out
+          </Link>
         </h4>
       </aside>
     </section>

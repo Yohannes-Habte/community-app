@@ -11,6 +11,7 @@ import {
   getALLFinancialReportStart,
   getALLFinancialReportSuccess,
 } from '../../../redux/reducers/financeReducer';
+import { toast } from 'react-toastify';
 
 const FinancialReports = () => {
   // Global state variables
@@ -23,7 +24,7 @@ const FinancialReports = () => {
   const [total, setTotal] = useState();
   const [open, setOpen] = useState(false);
 
-  // Display financial income and expenses in the table
+  // Display all financial income and expenses in the table
   useEffect(() => {
     const fechFinancialData = async () => {
       try {
@@ -31,6 +32,7 @@ const FinancialReports = () => {
         const { data } = await axios.get(`${API}/reports/financial-reports`);
 
         dispatch(getALLFinancialReportSuccess(data.reports));
+        console.log('Financial Reports:', data.totalSum);
       } catch (error) {
         dispatch(getALLFinancialReportFailure(error.response.data.message));
       }
@@ -38,10 +40,28 @@ const FinancialReports = () => {
     fechFinancialData();
   }, []);
 
-  // Handle delete
-  const handleDelete = async (Id) => {
+  // Total Income
+  useEffect(() => {
+    const totalSum = async () => {
+      try {
+        const { data } = await axios.get(
+          `${API}/reports/total/surplus-or-deficit`
+        );
+        setTotal(data.totalSum);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    totalSum();
+  }, []);
+
+  // Handle delete for each report
+  const handleDelete = async (id) => {
     try {
-      const { data } = await axios.delete(`${API}/reports/${Id}`);
+      const { data } = await axios.delete(
+        `${API}/reports/delete-report/${id}`
+      );
+      console.log("delete:", data.message)
     } catch (error) {
       console.log(error);
     }
@@ -102,7 +122,10 @@ const FinancialReports = () => {
                       <strong>€{report.total}</strong>{' '}
                     </td>
                     <td className="body-cell-action">
-                      <FaTrashAlt onClick={() => handleDelete(report._id)} />
+                      <FaTrashAlt
+                        className="delete-icon"
+                        onClick={() => handleDelete(report._id)}
+                      />
                     </td>
                   </tr>
                 );
