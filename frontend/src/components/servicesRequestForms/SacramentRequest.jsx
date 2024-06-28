@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
-import { serviceData } from '../../data/Data';
-import './Form.scss';
-import { FaCloudUploadAlt } from 'react-icons/fa';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Helmet } from 'react-helmet-async';
+import { useState } from "react";
+import "./Form.scss";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
 import {
   API,
   cloud_URL,
   cloud_name,
   upload_preset,
-} from '../../utiles/securitiy/secreteKey';
-import { useDispatch, useSelector } from 'react-redux';
+} from "../../utiles/securitiy/secreteKey";
+import { useDispatch, useSelector } from "react-redux";
 import {
   sacramentRequestFailure,
   sacramentRequestStart,
   sacramentRequestSuccess,
-} from '../../redux/reducers/sacramentReducer';
-import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
+} from "../../redux/reducers/sacramentReducer";
+import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 
-const SacramentRequest = () => {
+const SacramentRequest = ({ data }) => {
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
   const { loading, error } = useSelector((state) => state.sacrament);
@@ -27,7 +25,7 @@ const SacramentRequest = () => {
 
   // Local state variables
   const [sacramentInfo, setSacramentInfo] = useState({});
-  const [files, setFiles] = useState('');
+  const [files, setFiles] = useState("");
 
   // Handle change fuction
   const handleChange = (e) => {
@@ -43,9 +41,9 @@ const SacramentRequest = () => {
       dispatch(sacramentRequestStart());
       // Image validation
       const userFile = new FormData();
-      userFile.append('file', files);
-      userFile.append('cloud_name', cloud_name);
-      userFile.append('upload_preset', upload_preset);
+      userFile.append("file", files);
+      userFile.append("cloud_name", cloud_name);
+      userFile.append("upload_preset", upload_preset);
 
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, userFile);
@@ -78,7 +76,7 @@ const SacramentRequest = () => {
 
       {/* Right container */}
       <form onSubmit={handleSacramentSubmit} action="" className="form">
-        {serviceData.sacraments.map((input) => {
+        {data?.sacraments.map((input) => {
           return (
             <div key={input.id} className="input-container">
               <input
@@ -91,7 +89,7 @@ const SacramentRequest = () => {
               />
 
               <label className="input-label" htmlFor={input.id}>
-                {input.label}{' '}
+                {input.label}{" "}
               </label>
               <span className="input-highlight"></span>
             </div>
@@ -109,7 +107,7 @@ const SacramentRequest = () => {
           />
 
           <label htmlFor="file" className="file-label">
-            Upload Germany Religious Recognition Document{' '}
+            Upload Germany Religious Recognition Document{" "}
             <FaCloudUploadAlt className="icon" />
           </label>
         </div>

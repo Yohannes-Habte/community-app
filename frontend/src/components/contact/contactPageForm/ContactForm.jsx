@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import "./ContactForm.scss";
 import { toast } from "react-toastify";
 import { MdEmail } from "react-icons/md";
@@ -11,6 +11,7 @@ import {
   commentPostStart,
   commentPostSuccess,
 } from "../../../redux/reducers/commentReducer";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const initialState = {
   fullName: "",
@@ -20,7 +21,6 @@ const initialState = {
 const ContactForm = () => {
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
-  const { comment } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
 
   // State variables
@@ -56,7 +56,7 @@ const ContactForm = () => {
         message: message,
       };
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/comments/${currentUser._id}/new-comment`,
+        `${API}/comments/${currentUser._id}/new-comment`,
         newComment
       );
       dispatch(commentPostSuccess(data.comment));
@@ -82,8 +82,8 @@ const ContactForm = () => {
             placeholder="First Name, Last Name"
             className="input-field"
           />
-
           <label htmlFor="fullName" className="input-label">
+            {" "}
             Full Name
           </label>
           <span className="input-highlight"></span>

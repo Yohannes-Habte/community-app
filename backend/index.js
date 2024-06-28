@@ -21,6 +21,7 @@ import priestDelegationRouter from "./routes/priestDelegation/index.js";
 import contributionRouter from "./routes/contribution/index.js";
 import eventRouter from "./routes/event/index.js";
 import globalErrorHandler from "./middlewares/error/index.js";
+import staticRouter from "./routes/staticData/index.js";
 
 // Express app
 const app = express();
@@ -52,6 +53,7 @@ app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/delegations", priestDelegationRouter);
 app.use("/api/v1/contributions", contributionRouter);
 app.use("/api/v1/events", eventRouter);
+app.use("/api/v1/data", staticRouter);
 
 // Static assets
 app.use(express.static("assets"));

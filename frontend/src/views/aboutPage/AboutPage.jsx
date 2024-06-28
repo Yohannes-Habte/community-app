@@ -1,27 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { aboutPage } from '../../data/Data';
-import './AboutPage.scss';
-import axios from 'axios';
-import Header from '../../components/user/layout/header/Header';
+import { useEffect, useState } from "react";
+import "./AboutPage.scss";
+import axios from "axios";
+import Header from "../../components/user/layout/header/Header";
+import { API } from "../../utiles/securitiy/secreteKey";
 const AboutPage = () => {
   // Local variables
   const [staff, setStaff] = useState([]);
   const [toggle, setToggle] = useState(0);
+  const [aboutInfos, setAboutInfos] = useState(null);
 
   // Function to manage tabs using index number
   const tabsToggle = (index) => {
     setToggle(index);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${API}/data/about`);
+        setAboutInfos(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   // Display staff members in the browser
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const { data } = await axios.get(
-          'http://localhost:4000/api/committees'
-        );
+        const { data } = await axios.get(`${API}/committees`);
         setStaff(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -33,22 +43,22 @@ const AboutPage = () => {
     <main className="about-page">
       <Header />
       <section className="about-page-container">
-        <h1 className="about-title"> {aboutPage.title} </h1>
+        <h1 className="about-title"> {aboutInfos?.title} </h1>
         <article className="strategic-intent">
           <h2 className="sub-title"> Mission </h2>
-          <p className='paragraph'> {aboutPage.mission} </p>
+          <p className="paragraph"> {aboutInfos?.mission} </p>
         </article>
 
         <article className="strategic-intent">
           <h2 className="sub-title"> Vision </h2>
-          <p className='paragraph'> {aboutPage.vision} </p>
+          <p className="paragraph"> {aboutInfos?.vision} </p>
         </article>
 
         <article className="strategic-intent">
           <h2 className="sub-title">Values</h2>
-          {aboutPage.values.map((value) => {
+          {aboutInfos?.values.map((value) => {
             return (
-              <section className='value'>
+              <section key={value.id} className="value">
                 <h3 className="value-title"> {value.name}</h3>
                 <p className="description"> {value.desc}</p>
               </section>
@@ -61,7 +71,7 @@ const AboutPage = () => {
           <div className="staff-container">
             {staff.map((member) => {
               return (
-                <section className="member-info">
+                <section key={member._id} className="member-info">
                   <figure className="photo-container ">
                     <img
                       className="photo"
@@ -87,26 +97,26 @@ const AboutPage = () => {
             {/* Holy Savior Mission */}
             <div
               onClick={() => tabsToggle(0)}
-              className={toggle === 0 ? 'content active-content' : 'content'}
+              className={toggle === 0 ? "content active-content" : "content"}
             >
-              {aboutPage.mission}
+              {aboutInfos?.mission}
             </div>
 
             {/* Holy Savior Vision */}
             <div
               onClick={() => tabsToggle(1)}
-              className={toggle === 1 ? 'content active-content' : 'content'}
+              className={toggle === 1 ? "content active-content" : "content"}
             >
-              {aboutPage.vision}
+              {aboutInfos?.vision}
             </div>
 
             {/* Holy Savior Values */}
             <div
               onClick={() => tabsToggle(2)}
-              className={toggle === 2 ? 'content active-content' : 'content'}
+              className={toggle === 2 ? "content active-content" : "content"}
             >
               <section className="values">
-                {aboutPage.values.map((value, index) => {
+                {aboutInfos?.values.map((value, index) => {
                   return (
                     <article key={index} className="value">
                       <h4 className="subtitle"> {value.name} </h4>
@@ -120,7 +130,7 @@ const AboutPage = () => {
             {/* Council of the Holy Redeemer Parish */}
             <div
               onClick={() => tabsToggle(3)}
-              className={toggle === 3 ? 'content active-content' : 'content'}
+              className={toggle === 3 ? "content active-content" : "content"}
             >
               <section className="members">
                 {staff.map((member) => {

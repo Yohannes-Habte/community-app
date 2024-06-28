@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
-import axios from 'axios';
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 
 const FetchData = (url) => {
   // Global State variables for fetching array data
@@ -16,7 +16,7 @@ const FetchData = (url) => {
       setLoading(true);
       try {
         const { data } = await axios.get(url);
-        setData(data);
+        setData(data.data);
       } catch (err) {
         setError(err);
       }
@@ -26,35 +26,7 @@ const FetchData = (url) => {
     fetchDataFromBackend();
   }, [url]);
 
-  // ==============================================
-  // Global Function to refetch data
-  // ==============================================
-  const reFetching = async () => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(url);
-      setData(data);
-    } catch (err) {
-      setError(err);
-    }
-    setLoading(false);
-  };
-
-  // ==============================================
-  // Global Function to delete data
-  // ==============================================
-
-  const deleteData = async () => {
-    setLoading(true);
-    try {
-      await axios.delete(url);
-    } catch (err) {
-      setError(err);
-    }
-    setLoading(false);
-  };
-
-  return { data, loading, error, reFetching, deleteData };
+  return { data, loading, error };
 };
 
 export default FetchData;

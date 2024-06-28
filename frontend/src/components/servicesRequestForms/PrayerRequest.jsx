@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
-import './Form.scss';
-import { FaCloudUploadAlt } from 'react-icons/fa';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Helmet } from 'react-helmet-async';
-import { serviceData } from '../../data/Data';
+import { useState } from "react";
+import "./Form.scss";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
 import {
   API,
   cloud_URL,
   cloud_name,
   upload_preset,
-} from '../../utiles/securitiy/secreteKey';
-import { useDispatch, useSelector } from 'react-redux';
+} from "../../utiles/securitiy/secreteKey";
+import { useDispatch, useSelector } from "react-redux";
 import {
   prayerRequestFailure,
   prayerRequestStart,
   prayerRequestSuccess,
-} from '../../redux/reducers/prayerReducer';
-import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
+} from "../../redux/reducers/prayerReducer";
+import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 
-const PrayerRequest = () => {
+const PrayerRequest = ({ data }) => {
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
   const { loading, error } = useSelector((state) => state.prayer);
@@ -27,7 +25,7 @@ const PrayerRequest = () => {
 
   // Local state variables
   const [prayerInfo, setPrayerInfo] = useState({});
-  const [files, setFiles] = useState('');
+  const [files, setFiles] = useState("");
 
   // Handle change fuction
   const handleChange = (e) => {
@@ -45,9 +43,9 @@ const PrayerRequest = () => {
       dispatch(prayerRequestStart());
       // Image validation
       const userFile = new FormData();
-      userFile.append('file', files);
-      userFile.append('cloud_name', cloud_name);
-      userFile.append('upload_preset', upload_preset);
+      userFile.append("file", files);
+      userFile.append("cloud_name", cloud_name);
+      userFile.append("upload_preset", upload_preset);
 
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, userFile);
@@ -79,7 +77,7 @@ const PrayerRequest = () => {
       {error ? <p className="error-message"> {error} </p> : null}
 
       <form onSubmit={handlePrayerSubmit} action="" className="form">
-        {serviceData.prayerRequest.map((input) => {
+        {data?.prayerRequest.map((input) => {
           return (
             <div key={input.id} className="input-container">
               <input
@@ -109,7 +107,7 @@ const PrayerRequest = () => {
           />
 
           <label htmlFor="file" className="file-label">
-            Upload Germany Religious Recognition Document{' '}
+            Upload Germany Religious Recognition Document{" "}
             <FaCloudUploadAlt className="icon" />
           </label>
 

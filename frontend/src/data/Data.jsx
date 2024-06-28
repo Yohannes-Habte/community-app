@@ -75,10 +75,12 @@ export const landingPageFiveBishops = [
 
 export const landingPageEritreanBishops = [
   {
+    id: 1,
     image: Bishops,
     link: "https://amber-myrilla-1.tiiny.site/",
   },
   {
+    id: 2,
     image: HawkaAbeyAllo,
     link: youTube,
   },

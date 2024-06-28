@@ -8,4 +8,4 @@ export const cloud_URL = `https://api.cloudinary.com/v1_1/${cloud_name}/image/up
 //=================================================================
 // The URL portion
 //=================================================================
-export const API = import.meta.env.VITE_REACT_APP_BACKEND_UR;
+export const API = import.meta.env.VITE_REACT_APP_BACKEND_URL;

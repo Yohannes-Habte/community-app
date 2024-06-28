@@ -11,7 +11,6 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import "./UserLoginPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  userLoginFailure,
   userLoginStart,
   userLoginSuccess,
 } from "../../redux/reducers/userReducer";
@@ -32,7 +31,6 @@ const UserLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // If a user is logged in, they cannot access the login page
   useEffect(() => {
@@ -97,7 +95,7 @@ const UserLoginPage = () => {
         email: email,
         password: password,
       };
-      const { data } = await axios.post(`http://localhost:8000/api/v1/auth/login`, loginUser);
+      const { data } = await axios.post(`${API}/auth/login`, loginUser);
 
       dispatch(userLoginSuccess(data.user));
       toast.success(data.message);
@@ -189,7 +187,7 @@ const UserLoginPage = () => {
 
             {/* Do not have an account, Sign Up */}
             <p className="have-no-account">
-              Don't have an account?
+              {"Don't have an account?"}
               <NavLink className="sign-up" to="/signup">
                 Sign Up
               </NavLink>

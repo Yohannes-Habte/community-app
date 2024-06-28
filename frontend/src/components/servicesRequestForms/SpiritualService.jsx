@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import { FaCloudUploadAlt } from 'react-icons/fa';
-import { serviceData } from '../../data/Data';
-import './Form.scss';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import "./Form.scss";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import {
   spiritualRequestFailure,
   spiritualRequestStart,
   spiritualRequestSuccess,
-} from '../../redux/reducers/spiritualReducer';
+} from "../../redux/reducers/spiritualReducer";
 import {
   API,
   cloud_URL,
   cloud_name,
   upload_preset,
-} from '../../utiles/securitiy/secreteKey';
-import ButtonLoader from '../../utiles/loader/buttonLoader/ButtonLoader';
+} from "../../utiles/securitiy/secreteKey";
+import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 
-const SpiritualService = () => {
+const SpiritualService = ({ data }) => {
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
   const { loading, error } = useSelector((state) => state.spiritual);
@@ -26,7 +25,7 @@ const SpiritualService = () => {
 
   // Local state variables
   const [spiritualInfo, setSpiritualInfo] = useState({});
-  const [files, setFiles] = useState('');
+  const [files, setFiles] = useState("");
 
   // Handle change fuction
   const handleChange = (e) => {
@@ -41,9 +40,9 @@ const SpiritualService = () => {
       dispatch(spiritualRequestStart());
       // Image validation
       const userFile = new FormData();
-      userFile.append('file', files);
-      userFile.append('cloud_name', cloud_name);
-      userFile.append('upload_preset', upload_preset);
+      userFile.append("file", files);
+      userFile.append("cloud_name", cloud_name);
+      userFile.append("upload_preset", upload_preset);
 
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, userFile);
@@ -76,7 +75,7 @@ const SpiritualService = () => {
       {error ? <p className="error-message"> {error} </p> : null}
 
       <form onSubmit={handleSpiritualSubmit} action="" className="form">
-        {serviceData.spiritualAdvice.map((input) => {
+        {data?.spiritualAdvice.map((input) => {
           return (
             <div key={input.id} className="input-container">
               <input
@@ -106,8 +105,8 @@ const SpiritualService = () => {
           />
 
           <label htmlFor="file" className="file-label">
-            Germany Religious Recognition Document{' '}
-            <FaCloudUploadAlt className="icon" />{' '}
+            Germany Religious Recognition Document{" "}
+            <FaCloudUploadAlt className="icon" />{" "}
           </label>
         </div>
         <button className="service-request-btn" disabled={loading}>

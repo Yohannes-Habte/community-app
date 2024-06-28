@@ -1,17 +1,34 @@
-import React from 'react';
-import logo from '../../../../assets/logo.jpg';
-import devineMercy from '../../../../assets/devineMercy.png';
-import './Header.scss';
-import Navbar from '../navbar/Navbar';
+import "./Header.scss";
+import Navbar from "../navbar/Navbar";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { API } from "../../../../utiles/securitiy/secreteKey";
 
 const Header = () => {
+  const [images, setImages] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${API}/data/header`);
+        setImages(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <header className="header">
-      <h1 className="header-title">Eritean Roman Catholic Church in Hamburg (ERCCH)</h1>
-      <figure className="logo-container">
-        <img src={logo} alt="Logo" className="logo" />
+      <h1 className="header-title">
+        Eritean Roman Catholic Church in Hamburg (ERCCH)
+      </h1>
 
-        <img src={devineMercy} alt="Logo" className="devine-mercy" />
+      <figure className="logo-container">
+        <img src={images?.logo} alt="Logo" className="logo" />
+
+        <img src={images?.deviceMercy} alt="Logo" className="divine-mercy" />
       </figure>
 
       <Navbar />

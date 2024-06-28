@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
-import './ServiceRequest.scss';
-import PrayerRequest from '../../servicesRequestForms/PrayerRequest';
-import SacramentRequest from '../../servicesRequestForms/SacramentRequest';
-import SpiritualService from '../../servicesRequestForms/SpiritualService';
+import { useEffect, useState } from "react";
+import "./ServiceRequest.scss";
+import PrayerRequest from "../../servicesRequestForms/PrayerRequest";
+import SacramentRequest from "../../servicesRequestForms/SacramentRequest";
+import SpiritualService from "../../servicesRequestForms/SpiritualService";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const ServiceRequest = () => {
   const [active, setActive] = useState(1);
+  const [serviceInfos, setServiceInfos] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${API}/data/services`);
+        setServiceInfos(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <section className="user-service-request-container">
-      <h1 className="user-service-request-title">WHAT ARE YOU LOOKING FOR?</h1>
+      <h1 className="user-service-request-title"> {serviceInfos?.title} </h1>
 
-      <p className='service-paragraph'>
-        Jesus asked the women “What are you looking for?” In this spirit, Holy
-        Saviour will serve parishioners in all sacramental services, in prayer
-        on special occasions and in spiritual development. If you would like to
-        use at least one of these services, please complete the form below.
-      </p>
+      <p className="service-paragraph">{serviceInfos?.desc}</p>
 
       <ul className="user-service-request-tabs">
         <li
           onClick={() => setActive(1)}
           className={
             active === 1
-              ? 'active-user-service-request-tab'
-              : 'passive-user-service-request-tab'
+              ? "active-user-service-request-tab"
+              : "passive-user-service-request-tab"
           }
         >
           Sacrament Services
@@ -33,8 +44,8 @@ const ServiceRequest = () => {
           onClick={() => setActive(2)}
           className={
             active === 2
-              ? 'active-user-service-request-tab'
-              : 'passive-user-service-request-tab'
+              ? "active-user-service-request-tab"
+              : "passive-user-service-request-tab"
           }
         >
           Prayer Request
@@ -43,17 +54,17 @@ const ServiceRequest = () => {
           onClick={() => setActive(3)}
           className={
             active === 3
-              ? 'active-user-service-request-tab'
-              : 'passive-user-service-request-tab'
+              ? "active-user-service-request-tab"
+              : "passive-user-service-request-tab"
           }
         >
           Spiritual Development
         </li>
       </ul>
 
-      {active === 1 && <SacramentRequest />}
-      {active === 2 && <PrayerRequest />}
-      {active === 3 && <SpiritualService />}
+      {active === 1 && <SacramentRequest data={serviceInfos} />}
+      {active === 2 && <PrayerRequest data={serviceInfos} />}
+      {active === 3 && <SpiritualService data={serviceInfos} />}
     </section>
   );
 };
