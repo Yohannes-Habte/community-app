@@ -1,0 +1,95 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.financial-report-container {
+  .financial-report-title {
+    @include title;
+  }
+
+  .financial-reports-table {
+    .add-expense {
+      width: $tablet;
+      margin: 1rem auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .add-title {
+        @include subTitle;
+      }
+
+      .link {
+        @include button1;
+      }
+    }
+
+    .financial-report-table {
+      width: 100%;
+
+      .table-head {
+        background-color: #b0c4de;
+        text-align: left;
+
+        .table-head-row {
+          border-radius: 1rem;
+
+          .head-cell {
+            padding: 1rem 0.3rem;
+          }
+        }
+      }
+
+      .table-body {
+        .table-body-row {
+          .body-cell {
+            border-bottom: 1px solid $table_border;
+            padding: 0 0.5rem;
+            padding: 1rem 0.5rem;
+          }
+
+          .negative {
+            border-bottom: 1px solid $table_border;
+            padding: 0 0.5rem;
+            color: tomato;
+          }
+
+          .positive {
+            border-bottom: 1px solid $table_border;
+            padding: 0 0.5rem;
+            color: $green;
+          }
+
+          .body-cell-action {
+            border-bottom: 1px solid $table_border;
+            padding: 0 0.5rem;
+            width: 150px;
+
+            .delete-icon {
+              font-size: $afs;
+              color: $tomato;
+              cursor: pointer;
+
+              &:hover {
+                color: $red;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .total-income-status {
+      font-size: $afs;
+      padding: 1rem 0;
+      .total-surplus {
+        color: $blue;
+        font-size: $aafs;
+      }
+
+      .total-deficit {
+        color: $tomato;
+        font-size: $aafs;
+      }
+    }
+  }
+}

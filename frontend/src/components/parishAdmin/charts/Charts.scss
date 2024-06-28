@@ -1,0 +1,27 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.chart-wrapper {
+  position: relative;
+
+  .chart-title {
+    @include subTitle;
+    color: $green;
+    margin-top: 2rem;
+  }
+
+  .year-form {
+    position: absolute;
+    top: 0;
+    right: 2rem;
+
+    .year-input-field {
+      @include button2;
+      cursor: none;
+    }
+
+    .year-form-btn {
+      @include button2;
+    }
+  }
+}

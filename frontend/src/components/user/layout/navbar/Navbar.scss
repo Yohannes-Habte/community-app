@@ -1,0 +1,75 @@
+@import '../../../../styles/Variables.scss';
+@import '../../../../styles/Mixins.scss';
+
+.header-navbar {
+  width: 100%;
+  height: 3rem;
+  @include flexSpaceBetween;
+  background-color: $navbar-bg;
+  padding: 0.5rem 2rem;
+
+  // Logo
+  .short-logo {
+    font-family: 'Rubik Beastly', system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  // navigation bar
+  .navbar-items {
+    @include flexRow;
+
+    .navbar-item {
+      .active-navbar-item {
+        @include activeNavbar;
+      }
+
+      .passive-navbar-item {
+        @include passiveNavbar;
+      }
+    }
+  }
+
+  // Logged in user
+  .logged-in-user-info {
+    @include flexRow;
+    align-items: center;
+    position: relative;
+
+    .logged-in-user-image {
+      @include loggedInUserImage;
+    }
+
+    .logged-in-user-name {
+      @include loggedInUserName;
+    }
+
+    .logged-in-user-menu {
+      position: absolute;
+      right: -2rem;
+      top: 2.5rem;
+      background-color: $navbar-bg;
+      @include shadow1;
+      height: fit-content;
+      width: 20rem;
+
+      .menu-item {
+        @include shadow1;
+
+        .link {
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+  }
+
+  // register and login
+  .register-login {
+    @include flexRow;
+
+    .link {
+    }
+  }
+}

@@ -1,0 +1,39 @@
+@import '../../../../styles/Variables.scss';
+@import '../../../../styles/Mixins.scss';
+
+.admin-dashboard-header {
+  @include flexSpaceBetween;
+  padding: 0 2rem;
+  background-color: $priest-header-bg;
+
+  .admin-image-container {
+    .image {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .admin-dashboard-header-items {
+    @include flexRow;
+
+    .admin-dashboard-header-item {
+      .active-admin-dashboard-header-icon {
+        color: $red;
+        font-size: $aafs;
+        cursor: pointer;
+      }
+
+      .passive-admin-dashboard-header-icon {
+        color: $green;
+        font-size: $aafs;
+        cursor: pointer;
+
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+}

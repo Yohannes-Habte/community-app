@@ -1,0 +1,176 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.contact-page-form {
+  width: $laptop;
+  margin: 1rem auto;
+  padding-bottom: 1rem;
+  @include shadow1;
+  border-radius: 0.2rem;
+
+  .contact-page-form-title {
+    @include subTitle;
+  }
+
+  .contact-form {
+    .contact-form-input-container {
+      @include inputContainer;
+
+      .input-icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        top: -5px;
+        font-size: 12px;
+        color: #81a3e6;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
+    }
+
+    .contact-form-button-container {
+      width: 16%;
+      margin: auto;
+
+      .contact-form-btn {
+        @include button1;
+
+        &:hover {
+          background-color: $button-hover;
+          color: $red;
+        }
+      }
+    }
+  }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .contact-page-form {
+    width: $laptop;
+    margin: 1rem auto;
+    padding-bottom: 1rem;
+    @include shadow1;
+    border-radius: 0.2rem;
+
+    .contact-page-form-title {
+      @include subTitle;
+    }
+
+    .contact-form {
+      .contact-form-input-container {
+        @include inputContainer;
+
+        .input-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          top: -5px;
+          font-size: 12px;
+          color: #81a3e6;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+
+      .contact-form-button-container {
+        width: 16%;
+        margin: auto;
+
+        .contact-form-btn {
+          @include button1;
+
+          &:hover {
+            background-color: $button-hover;
+            color: $red;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
+  .contact-page-form {
+    width: $laptop;
+    margin: 1rem auto;
+    padding-bottom: 1rem;
+    @include shadow1;
+    border-radius: 0.2rem;
+
+    .contact-page-form-title {
+      @include subTitle;
+    }
+
+    // Form styling
+    .contact-form {
+      @include flexColumn;
+
+      .contact-form-input-container {
+        @include inputContainer;
+
+        .input-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          top: -5px;
+          font-size: 12px;
+          color: #81a3e6;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+
+      // Button
+      .contact-form-btn {
+        @include button1;
+      }
+    }
+  }
+}

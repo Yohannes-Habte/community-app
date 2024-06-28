@@ -1,0 +1,49 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.finance-manager-dashboard-sidebar-wrapper {
+  width: 16%;
+  min-height: 100vh;
+  background-color: $priestSidebar-bg;
+
+  .finance-manager-dashboard-sidebar-title {
+    @include subTitle;
+  }
+
+  .finance-manager-dashboard-sidebar-item {
+    @include flexRow;
+    @include shadow1;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $priestSidebar-hover;
+    }
+
+    .active-icon {
+      color: $red;
+      font-size: $afs;
+    }
+
+    .passive-icon {
+      color: $green;
+      font-size: $afs;
+
+      &:hover {
+        color: $red;
+      }
+    }
+
+    .active-text {
+      color: $red;
+    }
+
+    .passive-text {
+      color: $black;
+
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+}

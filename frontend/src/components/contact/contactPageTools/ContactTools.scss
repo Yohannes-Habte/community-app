@@ -1,0 +1,72 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.contact-media-wrapper {
+  width: $mobile;
+  margin: auto;
+  @include shadow1;
+  border-radius: 0.2rem;
+  padding: 1rem 2rem;
+  @include flexColumn;
+
+  .contact-media-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact-media-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .contact-media-link-to {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 2rem;
+  }
+
+  .contact-icon {
+    font-size: 2.5rem;
+    color: $green;
+  }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .contact-media-wrapper {
+    @include flexColumn;
+    @include shadow1;
+
+    .contact-media-items {
+      @include shadow1;
+    }
+  }
+}
+
+/* Laptop screen size */
+@media screen and (min-width: 1024px) {
+  .contact-media-wrapper {
+    @include flexColumn;
+    @include shadow1;
+
+    .contact-media-items {
+      @include shadow1;
+    }
+  }
+}
+
+// Additional styling
+.errorVisible {
+  display: block;
+  color: red;
+  margin-top: -0.8rem;
+  padding: 0.3rem;
+}
+
+.errorInvisible {
+  display: none;
+}

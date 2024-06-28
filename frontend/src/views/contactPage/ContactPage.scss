@@ -1,0 +1,47 @@
+@import "../../styles/Variables.scss";
+@import "../../styles/Mixins.scss";
+
+.contact-page {
+  .contact-page-container {
+    width: $mobile;
+    margin: 1rem auto;
+
+    .contact-page-title {
+      @include title;
+    }
+  }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .contact-page {
+    .contact-page-container {
+      width: $tablet;
+      margin: 1rem auto;
+
+      .contact-page-title {
+        @include title;
+      }
+    }
+  }
+}
+
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
+  .contact-page {
+    .contact-page-container {
+      width: $laptop;
+      margin: 1rem auto;
+
+      .contact-page-title {
+        @include title;
+      }
+
+      .tools-form-wrapper {
+        display: grid;
+        grid-template-columns: 30% 70%;
+        column-gap: 1rem;
+      }
+    }
+  }
+}

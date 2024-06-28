@@ -1,0 +1,30 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.user-service-request-container {
+  width: $laptop;
+  margin: 1rem auto;
+  .user-service-request-title {
+    @include title;
+  }
+
+  .service-paragraph {
+    @include paragraph;
+  }
+
+  .user-service-request-tabs {
+    @include flexCenter;
+    gap: 0.1rem;
+
+    .active-user-service-request-tab {
+      @include tab;
+      background-color: $userSidebar-bg;
+      cursor: pointer;
+    }
+
+    .passive-user-service-request-tab {
+      @include tab;
+      cursor: pointer;
+    }
+  }
+}

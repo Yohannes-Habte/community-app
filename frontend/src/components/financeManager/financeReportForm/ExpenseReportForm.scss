@@ -1,0 +1,63 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.add-financial-expense {
+  @include modal;
+
+  .modal {
+    @include popupBox;
+    width: 700px;
+
+    .close {
+      @include closeModal;
+    }
+
+    .title {
+      @include title;
+      margin-bottom: 1rem;
+    }
+
+    .expense-form {
+      .inputs-wrapper {
+        @include twoGridTemplateEqualColumns;
+
+        .input-container {
+          @include inputContainer;
+
+          .input-icon {
+            @include inputIcon;
+          }
+
+          .input-field {
+            @include inputField;
+          }
+
+          .input-label {
+            @include inputLabel;
+          }
+
+          .input-highlight {
+            @include inputHighlight;
+          }
+
+          .input-field:focus + .input-label {
+            @include focusInputFieldAndInputLabel;
+          }
+
+          .input-field:focus + .input-label + .input-highlight {
+            width: 100%;
+          }
+        }
+      }
+
+      .add-btn {
+        @include button1;
+        margin-top: 2rem;
+
+        .loading {
+          @include loader;
+        }
+      }
+    }
+  }
+}

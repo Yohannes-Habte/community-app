@@ -1,0 +1,56 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.user-profile-sidebar-wrapper {
+  width: 18%;
+  min-height: 100vh;
+  @include shadow1;
+  border-radius: 0;
+  background-color: $userSidebar-bg;
+
+  .user-profile-sidebar-title {
+    @include subTitle;
+  }
+
+  .user-profile-sidebar-item {
+    @include flexRow;
+    @include shadow1;
+    align-items: center;
+    font-size: $nfs;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $red;
+      background: $userSidebar-hover;
+      border-radius: $radius;
+    }
+
+    .active-text {
+      color: $red;
+    }
+
+    .passive-text {
+      color: $black;
+
+      &:hover {
+        color: $red;
+      }
+    }
+
+    .active-icon {
+      color: $red;
+      font-size: $afs;
+    }
+
+    .passive-icon {
+      color: $green;
+      font-size: $afs;
+
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+}

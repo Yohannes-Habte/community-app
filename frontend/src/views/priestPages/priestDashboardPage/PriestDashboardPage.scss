@@ -1,0 +1,20 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.parish-priest-dashboard-page {
+
+  .parish-priest-dashboard-page-container {
+    width: 100%;
+
+    .parish-priest-dashboard-page-title {
+      @include title;
+      background-color: $priestSidebar-bg;
+    }
+
+    .parish-priest-dashboard-wrapper {
+      width: 80%;
+      @include flexRow;
+      width: 100%;
+    }
+  }
+}

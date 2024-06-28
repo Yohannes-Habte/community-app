@@ -1,0 +1,31 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.report-page {
+  .report-page-container {
+    width: $laptop;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .report-title {
+      @include title;
+    }
+
+    .finance-report {
+      @include shadow1;
+
+      .title {
+        @include subTitle;
+      }
+    }
+
+    .other-report {
+      @include shadow1;
+      .title {
+        @include subTitle;
+      }
+    }
+  }
+}

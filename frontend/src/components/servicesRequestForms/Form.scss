@@ -1,0 +1,68 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+/* Labtop screen size */
+.service-form-container {
+  width: $laptop;
+  margin: 1rem auto;
+  @include shadow1;
+
+  .service-form-title {
+    @include subTitle;
+  }
+  .form {
+    @include flexColumn;
+
+    .input-container {
+      @include inputContainer;
+
+      .icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        top: -0.4rem;
+        font-size: $sfs;
+        color: $gray;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
+    }
+
+    .file-container {
+      @include inputContainer;
+
+      .file-field {
+        display: none;
+      }
+
+      .file-label {
+        display: block;
+        @include inputField;
+        cursor: pointer;
+      }
+    }
+
+    .service-request-btn {
+      @include button1;
+
+      .loading {
+        @include loader;
+      }
+    }
+  }
+}

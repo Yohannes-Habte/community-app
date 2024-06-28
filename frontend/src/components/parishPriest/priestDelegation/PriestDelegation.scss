@@ -1,0 +1,83 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.new-priest-delegation-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .new-priest-delegation-title {
+    @include subTitle;
+    margin-top: 1rem;
+  }
+
+  .new-priest-delegation-form {
+    @include flexColumn;
+    @include shadow1;
+
+    .priest-delegation-form-inputs-wrapper {
+      @include twoGridTemplateEqualColumns;
+
+      .input-container {
+        @include inputContainer;
+
+        .icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+          border: 1px solid $green;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+    }
+
+    .textarea-container {
+      @include inputContainer;
+
+      .textarea-icon {
+        @include inputIcon;
+      }
+
+      .textarea-field {
+        @include inputField;
+        border: 1px solid $green;
+      }
+
+      .textarea-label {
+        @include inputLabel;
+      }
+
+      .textarea-highlight {
+        @include inputHighlight;
+      }
+
+      .textarea-field:focus + .textarea-label {
+        @include focusInputFieldAndInputLabel;
+      }
+
+      .textarea-field:focus + .textarea-label + .textarea-highlight {
+        width: 100%;
+      }
+    }
+
+    .priest-delegation-btn {
+      @include button1;
+    }
+  }
+}

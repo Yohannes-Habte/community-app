@@ -1,0 +1,63 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.user-addresses-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .user-address-title {
+    @include title;
+  }
+
+  .add-user-address {
+    @include flexSpaceBetween;
+    width: $tablet;
+    margin: 1rem auto;
+    padding-right: 1rem;
+
+    .add-title {
+      @include subTitle;
+    }
+
+    .add-new-address-btn {
+      @include button2;
+    }
+  }
+
+  .addresses-list-container {
+    width: $tablet;
+    margin: 1rem auto;
+
+    .table-address {
+      width: 100%;
+      margin-top: 1rem;
+
+      .table-head {
+        background-color: $modal-bg;
+        .head-row {
+          .head-cell {
+            text-align: start;
+            font-size: $afs;
+            padding: 1rem;
+            border-bottom: 1px solid $blue;
+          }
+        }
+      }
+
+      .table-body {
+        .body-row {
+          .body-cell {
+            text-align: start;
+            font-size: $afs;
+            padding: 1rem;
+            border-bottom: 1px solid $gray;
+
+            .delete-icon {
+              @include deleteIcon;
+            }
+          }
+        }
+      }
+    }
+  }
+}

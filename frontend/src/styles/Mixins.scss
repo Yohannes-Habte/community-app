@@ -1,0 +1,425 @@
+@import './Variables.scss';
+
+// =====================================================================================
+// Title styling
+// =====================================================================================
+@mixin title {
+  text-align: center;
+  color: $green;
+  font-size: $aafs;
+  font-weight: $aafw;
+  padding: 1rem 0;
+  text-transform: uppercase;
+}
+
+@mixin subTitle {
+  font-size: $afs;
+  font-weight: $aafw;
+  padding: $textPadding;
+  margin: 0.5rem 0;
+}
+
+// =====================================================================================
+// Paragraph
+// =====================================================================================
+@mixin paragraph {
+  font-size: $afs;
+  line-height: 2rem;
+  padding: $textPadding;
+}
+
+// =====================================================================================
+// Three variety of Shadows
+// =====================================================================================
+
+@mixin shadow1 {
+  box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+  padding: 1rem;
+  border-radius: $radius;
+  line-height: 1.5rem;
+}
+
+@mixin shadow2 {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 1rem;
+  border-radius: $radius;
+  line-height: 1.5rem;
+}
+
+// ==============================================================================================
+// Form input and label styling
+// ==============================================================================================
+@mixin fieldset {
+  padding: 1rem;
+  border: none;
+}
+
+@mixin legend {
+  font-size: $afs;
+}
+
+@mixin twoGridTemplateEqualColumns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1rem;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+
+@mixin inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin inputField {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: $nfs;
+  font-weight: $afw;
+  line-height: $afs;
+  color: $black;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 1px solid $borderColor;
+  appearance: none;
+  border-radius: $radius;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  &:focus {
+    outline: 0;
+  }
+}
+
+@mixin inputLabel {
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  color: #cccccc00;
+}
+
+@mixin focusInputFieldAndInputLabel {
+  top: 0;
+  font-size: $sfs;
+  color: $gray;
+}
+
+@mixin inputHighlight {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: $green;
+  transition: all 0.3s ease;
+}
+
+@mixin inputIcon {
+  position: absolute;
+  top: 1rem;
+  left: 0.5rem;
+  font-size: $afs;
+  color: $green;
+}
+
+@mixin passwordDisplay {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translatey(-50%);
+  font-size: $aafs;
+  cursor: pointer;
+}
+
+// ==============================================================================================
+// Button styling
+// ==============================================================================================
+
+@mixin button1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  cursor: pointer;
+  width: 150px;
+  height: 50px;
+  background-image: linear-gradient(
+    to top,
+    #d8d9db 0%,
+    $white 80%,
+    #fdfdfd 100%
+  );
+  border-radius: 30px;
+  border: 1px solid #8f9092;
+  transition: all 0.2s ease;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #606060;
+  text-shadow: 0 1px $white;
+
+  &:hover {
+    box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1,
+      0 -6px 4px #fefefe, inset 0 0 3px 3px #cecfd1;
+    color: $red;
+  }
+
+  &:active {
+    box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1,
+      0 -6px 4px #fefefe, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+  }
+
+  &:focus {
+    box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1,
+      0 -6px 4px #fefefe, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+  }
+}
+
+@mixin button2 {
+  width: fit-content;
+  min-width: 60px;
+  height: 45px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 2.5px solid #e0e1e4;
+  box-shadow: 0px 0px 20px -20px;
+  cursor: pointer;
+  background-color: $white;
+  transition: all 0.2s ease-in-out 0ms;
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: #f2f2f2;
+    box-shadow: 0px 0px 20px -18px;
+    color: $red;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+@mixin googleButton {
+  width: 100%;
+  background-color: $google-button-bg;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid $green;
+  font-weight: $aafs;
+  font-size: $afs;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: $google-button-hover;
+    color: $red;
+  }
+}
+
+// ==============================================================================================
+// tab styling
+// ==============================================================================================
+
+@mixin tab {
+  background-color: $tab-bg;
+  margin-top: 2rem;
+  padding: 0.5rem 1rem;
+  font-weight: $aafs;
+  font-size: $afs;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    color: $red;
+  }
+}
+
+// ==============================================================================================
+// Steps styling
+// ==============================================================================================
+
+@mixin step {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: #090909;
+  padding: 0.7em 1.7em;
+  margin: 1rem 0;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+// ==============================================================================================
+// Search styling
+// ==============================================================================================
+@mixin search {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: #f4f2f2;
+  border: none;
+  color: #646464;
+  padding: 0.7rem 1rem;
+  border-radius: 30px;
+  transition: all ease-in-out 0.5s;
+  margin-right: -2rem;
+}
+
+// ==============================================================================================
+// Flex styling
+// ==============================================================================================
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flexSpaceBetween {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flexRow {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+@mixin flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@mixin flexColumnCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+// ==============================================================================================
+// Navbar styling
+// ==============================================================================================
+
+@mixin activeNavbar {
+  position: relative;
+  color: $red;
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    height: 0.15rem;
+    width: 100%;
+    background-color: $red;
+  }
+}
+
+@mixin passiveNavbar {
+  color: $black;
+
+  &:hover {
+    color: $red;
+  }
+}
+
+// ==============================================================================================
+// Modal styling
+// ==============================================================================================
+
+@mixin modal {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $modal-bg;
+  @include flexCenter();
+  padding: 2rem 0;
+  z-index: 99;
+}
+
+@mixin popupBox {
+  position: relative;
+  padding: 0 3rem;
+  border-radius: 0.5rem;
+  background-color: $main-bg;
+  @include shadow1;
+}
+
+@mixin closeModal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    color: $tomato;
+  }
+}
+
+// ==============================================================================================
+// Modal styling
+// ==============================================================================================
+@mixin userImage {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+@mixin loggedInUserImage {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+@mixin loggedInUserName {
+  font-size: $nfs;
+  font-weight: $aafw;
+}
+
+// ==============================================================================================
+// Loader styling
+// ==============================================================================================
+@mixin loader {
+  @include flexCenter;
+  gap: 0.5rem;
+}
+
+// ==============================================================================================
+// Error message styling
+// ==============================================================================================
+
+@mixin errorMessage {
+  @include paragraph;
+  color: $red;
+  background-color: $orange;
+}
+
+// ==============================================================================================
+// Delte Icon styling
+// ==============================================================================================
+
+@mixin deleteIcon {
+  color: $tomato;
+  font-size: $lfs;
+  cursor: pointer;
+
+  &:hover {
+    color: $red;
+  }
+}

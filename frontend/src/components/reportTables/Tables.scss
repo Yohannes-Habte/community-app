@@ -1,0 +1,52 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.report-table-container {
+  width: 100%;
+
+  .title {
+    @include subTitle;
+  }
+
+  .report-table {
+    width: 100%;
+
+    .table-head {
+      background-color: #b0c4de;
+      text-align: left;
+
+      .table-head-row {
+        .head-cell {
+          padding: 0.5rem;
+        }
+      }
+    }
+
+    .table-body {
+      .table-body-row {
+        .body-cell {
+          border-bottom: 1px solid #ddd;
+          padding: 0.5rem;
+        }
+
+        .negative {
+          border-bottom: 1px solid #ddd;
+          padding: 0 0.5rem;
+          color: tomato;
+        }
+
+        .positive {
+          border-bottom: 1px solid #ddd;
+          padding: 0 0.5rem;
+          color: $green;
+        }
+      }
+    }
+  }
+
+  .total-income {
+    .total {
+      color: blue;
+    }
+  }
+}

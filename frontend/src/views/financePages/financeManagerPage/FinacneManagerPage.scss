@@ -1,0 +1,17 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.financial-manager-wrapper {
+  .financial-manager-container {
+    .financial-manager-title {
+      @include title;
+      background-color: $priestSidebar-bg;
+    }
+
+    .financial-manager-contents {
+      width: 80%;
+      @include flexRow;
+      width: 100%;
+    }
+  }
+}
