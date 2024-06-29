@@ -1,7 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentUser: null,
+  currentUser: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null,
+
   parishioners: [],
   count: null,
   error: null,
@@ -18,7 +21,7 @@ const initialState = {
 
 // Destructure user reducer methods
 const userReducer = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     // Sign Up User
@@ -185,7 +188,7 @@ export const {
   usersCountSuccess,
   usersCountFailure,
 
-  clearErrors
+  clearErrors,
 } = userReducer.actions;
 
 // export userSlice

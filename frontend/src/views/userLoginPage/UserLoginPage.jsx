@@ -101,6 +101,9 @@ const UserLoginPage = () => {
       toast.success(data.message);
       resetVariables();
       navigate("/user/profile");
+      window.location.reload()
+      localStorage.setItem("user", JSON.stringify(data.user));
+     
     } catch (err) {
       // dispatch(userLoginFailure(err.response.data.message));
       console.log(err);

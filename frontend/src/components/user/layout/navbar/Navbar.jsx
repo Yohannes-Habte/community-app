@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import './Navbar.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import "./Navbar.scss";
+import { useDispatch, useSelector } from "react-redux";
 import {
   userLogoutFailure,
   userLogoutStart,
   userLogoutSuccess,
-} from '../../../../redux/reducers/userReducer';
-import axios from 'axios';
-import { API } from '../../../../utiles/securitiy/secreteKey';
-import { toast } from 'react-toastify';
+} from "../../../../redux/reducers/userReducer";
+import axios from "axios";
+import { API } from "../../../../utiles/securitiy/secreteKey";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -34,9 +34,11 @@ const Navbar = () => {
       if (data.success) {
         dispatch(userLogoutSuccess(data.message));
         toast.success(data.message);
-        navigate('/login');
+        localStorage.removeItem("user");
+        window.location.reload();
+        navigate("/login");
       } else {
-        toast.error('User could not logout');
+        toast.error("User could not logout");
       }
     } catch (error) {
       dispatch(userLogoutFailure(error.response.data.message));
@@ -45,37 +47,37 @@ const Navbar = () => {
 
   // Styling NavLink
   const navbarNavLink = ({ isActive }) =>
-    isActive ? 'active-navbar-item' : 'passive-navbar-item';
+    isActive ? "active-navbar-item" : "passive-navbar-item";
 
   return (
     <nav className="header-navbar">
       {/* Church logo */}
-      <NavLink to={'/'} className={'short-logo'}>
-        ERCCH
+      <NavLink to={"/"} className={"short-logo"}>
+        <h1>ERCCH</h1>
       </NavLink>
 
       {/* Navigation bar */}
       <ul className="navbar-items">
         <li className="navbar-item">
-          <NavLink to={'/'} className={navbarNavLink}>
+          <NavLink to={"/"} className={navbarNavLink}>
             Home
           </NavLink>
         </li>
 
         <li className="navbar-item">
-          <NavLink to={'/about'} className={navbarNavLink}>
+          <NavLink to={"/about"} className={navbarNavLink}>
             About
           </NavLink>
         </li>
 
         <li className="navbar-item">
-          <NavLink to={'/reports'} className={navbarNavLink}>
+          <NavLink to={"/reports"} className={navbarNavLink}>
             Reports
           </NavLink>
         </li>
 
         <li className="navbar-item">
-          <NavLink to={'/contact'} className={navbarNavLink}>
+          <NavLink to={"/contact"} className={navbarNavLink}>
             Contact
           </NavLink>
         </li>
@@ -90,37 +92,37 @@ const Navbar = () => {
           <h4 className="logged-in-user-name"> {currentUser.firstName} </h4>
           {open && (
             <ul className="logged-in-user-menu">
-              {currentUser && currentUser.role === 'priest' && (
+              {currentUser && currentUser.role === "priest" && (
                 <li className="menu-item">
-                  <NavLink to={'/priest/dashboard'} className={'link'}>
+                  <NavLink to={"/priest/dashboard"} className={"link"}>
                     Priest Dashboard
                   </NavLink>
                 </li>
               )}
-              {currentUser && currentUser.role === 'admin' && (
+              {currentUser && currentUser.role === "admin" && (
                 <li className="menu-item">
-                  <NavLink to={'/admin/dashboard'} className={'link'}>
+                  <NavLink to={"/admin/dashboard"} className={"link"}>
                     Admin Dashboard
                   </NavLink>
                 </li>
               )}
 
-              {currentUser && currentUser.role === 'financeManager' && (
+              {currentUser && currentUser.role === "financeManager" && (
                 <li className="menu-item">
-                  <NavLink to={'/finance/dashboard'} className={'link'}>
+                  <NavLink to={"/finance/dashboard"} className={"link"}>
                     Finance Dashboard
                   </NavLink>
                 </li>
               )}
 
               <li className="menu-item">
-                <NavLink to={'/user/profile'} className={'link'}>
+                <NavLink to={"/user/profile"} className={"link"}>
                   User Profile
                 </NavLink>
               </li>
 
               <li className="menu-item">
-                <NavLink to={'/login'} onClick={logoutUser} className={'link'}>
+                <NavLink to={"/login"} onClick={logoutUser} className={"link"}>
                   Log Out
                 </NavLink>
               </li>
@@ -130,13 +132,13 @@ const Navbar = () => {
       ) : (
         <ul className="register-login">
           <li className="navbar-item">
-            <NavLink to={'/signup'} className="link register">
+            <NavLink to={"/signup"} className="link register">
               Register
             </NavLink>
           </li>
 
           <li className="navbar-item">
-            <NavLink to={'/login'} className="link login">
+            <NavLink to={"/login"} className="link login">
               Login
             </NavLink>
           </li>

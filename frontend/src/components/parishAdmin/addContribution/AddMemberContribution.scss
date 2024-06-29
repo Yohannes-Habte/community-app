@@ -1,0 +1,48 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.add-contribution-modal {
+  @include modal;
+
+  .member-contribution-popup-Box {
+    @include popupBox;
+    width: 600px;
+    padding: 2rem;
+
+    .close-modal {
+      @include closeModal;
+    }
+
+    .member-contribution-title {
+      @include subTitle;
+    }
+
+    .member-contribution-form {
+      @include flexColumn;
+
+      .input-container {
+        @include inputContainer;
+
+        .input-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+      }
+
+      .add-member-contribution-btn {
+        @include button1;
+      }
+    }
+  }
+}

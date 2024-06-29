@@ -1,30 +1,29 @@
-import React from 'react';
-import './UserProfileSidebar.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa';
-import { FaAddressCard } from 'react-icons/fa';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { MdMedicalServices } from 'react-icons/md';
-import { RiAdminFill } from 'react-icons/ri';
-import { RiMoneyEuroBoxFill } from 'react-icons/ri';
-import { IoMdLogOut } from 'react-icons/io';
-import { MdOutlineMessage } from 'react-icons/md';
-import { GiSunPriest } from 'react-icons/gi';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import "./UserProfileSidebar.scss";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { FaAddressCard } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { MdMedicalServices } from "react-icons/md";
+import { RiAdminFill } from "react-icons/ri";
+import { RiMoneyEuroBoxFill } from "react-icons/ri";
+import { IoMdLogOut } from "react-icons/io";
+import { MdOutlineMessage } from "react-icons/md";
+import { GiSunPriest } from "react-icons/gi";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import {
   userLogoutFailure,
   userLogoutStart,
   userLogoutSuccess,
-} from '../../../redux/reducers/userReducer';
-import { toast } from 'react-toastify';
-import { API } from '../../../utiles/securitiy/secreteKey';
+} from "../../../redux/reducers/userReducer";
+import { toast } from "react-toastify";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const UserProfileSidebar = ({ isActive, setIsActive }) => {
   // Navigate
   const navigate = useNavigate();
   // Global state variables
-  const { error, currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Sign out Function
@@ -36,9 +35,11 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       if (data.success) {
         dispatch(userLogoutSuccess(data.message));
         toast.success(data.message);
-        navigate('/login');
+        localStorage.removeItem("user");
+        window.location.reload();
+        navigate("/login");
       } else {
-        toast.error('User could not logout');
+        toast.error("User could not logout");
       }
     } catch (error) {
       dispatch(userLogoutFailure(error.response.data.message));
@@ -55,10 +56,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <FaUser
           title="User Profile"
-          className={isActive === 1 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 1 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 1 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 1 ? "active-text" : "passive-text"}>
           User Profile
         </h4>
       </aside>
@@ -69,10 +70,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <FaAddressCard
           title="User Address"
-          className={isActive === 2 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 2 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 2 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 2 ? "active-text" : "passive-text"}>
           User Address
         </h4>
       </aside>
@@ -83,10 +84,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <FaAddressCard
           title="Change Password"
-          className={isActive === 3 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 3 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 3 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 3 ? "active-text" : "passive-text"}>
           Change Password
         </h4>
       </aside>
@@ -97,10 +98,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <RiLockPasswordFill
           title="Monthly Contribution"
-          className={isActive === 4 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 4 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 4 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 4 ? "active-text" : "passive-text"}>
           Monthly Contribution
         </h4>
       </aside>
@@ -111,10 +112,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <RiMoneyEuroBoxFill
           title="Service Request"
-          className={isActive === 5 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 5 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 5 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 5 ? "active-text" : "passive-text"}>
           Service Request
         </h4>
       </aside>
@@ -125,10 +126,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <MdMedicalServices
           title="Offered Services"
-          className={isActive === 6 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 6 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 6 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 6 ? "active-text" : "passive-text"}>
           Offered Services
         </h4>
       </aside>
@@ -139,62 +140,62 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       >
         <MdOutlineMessage
           title="User Inbox"
-          className={isActive === 7 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 7 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 7 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 7 ? "active-text" : "passive-text"}>
           User Inbox
         </h4>
       </aside>
 
-      {currentUser.role === 'priest' && (
-        <Link to={'/priest/dashboard'}>
+      {currentUser.role === "priest" && (
+        <Link to={"/priest/dashboard"}>
           <aside
             onClick={() => setIsActive(8)}
             className="user-profile-sidebar-item"
           >
             <GiSunPriest
               title="Parish Priest"
-              className={isActive === 8 ? 'active-icon' : 'passive-icon'}
+              className={isActive === 8 ? "active-icon" : "passive-icon"}
             />
 
-            <h4 className={isActive === 8 ? 'active-text' : 'passive-text'}>
+            <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
               Parish Priest
             </h4>
           </aside>
         </Link>
       )}
 
-      {currentUser.role === 'admin' && (
-        <Link to={'/admin/dashboard'}>
+      {currentUser.role === "admin" && (
+        <Link to={"/admin/dashboard"}>
           <aside
             onClick={() => setIsActive(9)}
             className="user-profile-sidebar-item"
           >
             <RiMoneyEuroBoxFill
               title="Parish Admin"
-              className={isActive === 9 ? 'active-icon' : 'passive-icon'}
+              className={isActive === 9 ? "active-icon" : "passive-icon"}
             />
 
-            <h4 className={isActive === 9 ? 'active-text' : 'passive-text'}>
+            <h4 className={isActive === 9 ? "active-text" : "passive-text"}>
               Parish Admin
             </h4>
           </aside>
         </Link>
       )}
 
-      {currentUser.role === 'financeManager' && (
-        <Link to={'/finance/dashboard'}>
+      {currentUser.role === "financeManager" && (
+        <Link to={"/finance/dashboard"}>
           <aside
             onClick={() => setIsActive(10)}
             className="user-profile-sidebar-item"
           >
             <RiAdminFill
               title="Parish Admin"
-              className={isActive === 10 ? 'active-icon' : 'passive-icon'}
+              className={isActive === 10 ? "active-icon" : "passive-icon"}
             />
 
-            <h4 className={isActive === 10 ? 'active-text' : 'passive-text'}>
+            <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
               Finance Manager
             </h4>
           </aside>
@@ -204,10 +205,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       <aside onClick={logoutUser} className="user-profile-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={isActive === 12 ? 'active-icon' : 'passive-icon'}
+          className={isActive === 12 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 12 ? 'active-text' : 'passive-text'}>
+        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
           Log Out
         </h4>
       </aside>

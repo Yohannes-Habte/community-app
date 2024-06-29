@@ -1,6 +1,5 @@
-import createError from 'http-errors';
-import Member from '../../models/member/index.js';
-
+import createError from "http-errors";
+import Member from "../../models/member/index.js";
 
 //====================================================================
 // Update user address
@@ -12,7 +11,7 @@ export const updateUserAddress = async (req, res, next) => {
     const user = await Member.findById(userId);
 
     if (!user) {
-      return next(createError(400, 'User not found! Please login!'));
+      return next(createError(400, "User not found! Please login!"));
     }
 
     // Add Address
@@ -54,19 +53,19 @@ export const updateUserAddress = async (req, res, next) => {
     } catch (error) {
       console.log(error);
       return next(
-        createError(400, 'User address is not saved! Please try again!')
+        createError(400, "User address is not saved! Please try again!")
       );
     }
 
     return res.status(200).json({
       success: true,
       address: user,
-      message: 'Address is successfully updated!',
+      message: "Address is successfully updated!",
     });
   } catch (error) {
     console.log(error);
     next(
-      createError(500, 'The address could not be updated! Please try again!')
+      createError(500, "The address could not be updated! Please try again!")
     );
   }
 };
@@ -82,7 +81,7 @@ export const deleteUserAddress = async (req, res, next) => {
     const user = await Member.findById(userId);
 
     if (!user) {
-      return next(createError(400, 'User not found! Please login!'));
+      return next(createError(400, "User not found! Please login!"));
     }
 
     // Delete user address using addressId
@@ -99,18 +98,18 @@ export const deleteUserAddress = async (req, res, next) => {
     } catch (error) {
       console.log(error);
       return next(
-        createError(400, 'User address is not saved! Please try again!')
+        createError(400, "User address is not saved! Please try again!")
       );
     }
 
     return res.status(200).json({
       success: true,
       address: user,
-      message: 'Address is successfully deleted!',
+      message: "Address is successfully deleted!",
     });
   } catch (error) {
     next(
-      createError(500, 'The address could not be deleted! Please try again!')
+      createError(500, "The address could not be deleted! Please try again!")
     );
   }
 };
@@ -123,7 +122,7 @@ export const getSingleUser = async (req, res, next) => {
     const user = await Member.findById(req.params.id);
 
     if (!user) {
-      return next(createError(400, 'User not found! Please login!'));
+      return next(createError(400, "User not found! Please login!"));
     }
 
     return res.status(200).json({
@@ -131,7 +130,7 @@ export const getSingleUser = async (req, res, next) => {
       user: user,
     });
   } catch (error) {
-    next(createError(500, 'User could not be deleted! Please try again!'));
+    next(createError(500, "User could not be deleted! Please try again!"));
   }
 };
 
@@ -143,7 +142,7 @@ export const getAllUsers = async (req, res, next) => {
     const users = await Member.find();
 
     if (!users) {
-      return next(createError(400, 'User not found! Please login!'));
+      return next(createError(400, "User not found! Please login!"));
     }
 
     return res.status(200).json({
@@ -151,28 +150,39 @@ export const getAllUsers = async (req, res, next) => {
       users: users,
     });
   } catch (error) {
-    next(createError(500, 'Users could not be deleted! Please try again!'));
+    next(createError(500, "Users could not be deleted! Please try again!"));
   }
 };
 
 //====================================================================
-// Total Number of parishioners
+// Create member monthly contribution
 //====================================================================
-export const totalNumberOfParishioners = async (req, res, next) => {
+export const addContribution = async (req, res, next) => {
   try {
-    const membersCounts = await Member.countDocuments();
-    console.log("count:", membersCounts)
+    // const user = await User.findById(req.user._id);
+    const user = await Member.findById(req.params.id);
 
-    if (!membersCounts) {
-      return next(createError(400, 'Parishioners not found! Please login!'));
+    if (!user) {
+      return next(createError(404, "User not found"));
     }
 
-    return res.status(200).json({
-      success: true,
-      counts: membersCounts,
-    });
+    // Check if there is the same monthly contribution in the database
+    const sameContribution = user.monthlyContributions.find(
+      (contribution) => contribution._id.toString() === req.body._id
+    );
+
+    if (sameContribution) {
+      return next(createError(400, `Contribution already exist!`));
+    }
+
+    // Add new contribution to the monthly contribution array
+    user.monthlyContributions.push(req.body);
+
+    await user.save();
+
+    res.status(200).json({ success: true, user: user });
   } catch (error) {
-    console.log(error)
-    next(createError(500, 'Database could not be queried. Please try again'));
+    console.log(error);
+    next(createError(500, "Server error!"));
   }
 };

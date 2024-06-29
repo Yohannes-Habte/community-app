@@ -1,4 +1,23 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
+.members-contribution-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+  .members-contribution-title {
+    @include subTitle;
+    text-align: center;
+  }
 
+  .add-contribution-aside {
+    @include flexSpaceBetween;
+
+    .add-contribution-aside-title {
+      @include subTitle;
+    }
+
+    .add-contribution-btn {
+      @include button2;
+    }
+  }
+}
