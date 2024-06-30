@@ -2,7 +2,7 @@
 @import "../../../styles/Mixins.scss";
 
 .members-contribution-wrapper {
-  width: $laptop;
+  width: $mobile;
   margin: 1rem auto;
   .members-contribution-title {
     @include subTitle;

@@ -14,14 +14,6 @@ export const createSpiritual = async (req, res, next) => {
     }
 
     const newSpiritual = new Spiritual(req.body);
-    user.services = [...user.services, newSpiritual];
-
-    // Save user after adding the new spiritual to the user who has ordered it
-    try {
-      await user.save();
-    } catch (error) {
-      return next(createError(400, "The new spiritual is not added to user!"));
-    }
 
     // Save new spiritual
     try {
@@ -31,6 +23,14 @@ export const createSpiritual = async (req, res, next) => {
       return next(createError(400, "Spiritual request is not saved!"));
     }
 
+    user.services.push(newSpiritual._id);
+
+    try {
+      await user.save();
+    } catch (error) {
+      return next(createError(400, "Server error!"));
+    }
+
     return res.status(201).json({
       success: true,
       spiritual: newSpiritual,
@@ -38,12 +38,7 @@ export const createSpiritual = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    return next(
-      createError(
-        400,
-        "New spiritual development could not be created! Please try again"
-      )
-    );
+    return next(createError(400, "Something went wrong!"));
   }
 };
 
@@ -119,5 +114,51 @@ export const totalNumberOfSpirituals = async (req, res, next) => {
     });
   } catch (error) {
     next(createError(500, "Database could not be queried. Please try again"));
+  }
+};
+
+//==========================================================================
+// Delete Spiritual
+//==========================================================================
+export const deleteSpiritual = async (req, res, next) => {
+  const userId = req.params.userId;
+  const spiritualId = req.params.id;
+  try {
+    const user = await Member.findById(userId);
+
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    // Update user
+    await Member.findByIdAndUpdate(
+      {
+        _id: userId,
+      },
+      { $pull: { services: { _id: spiritualId } } }
+    );
+
+    // Save user after the spiritual is added in the database
+    try {
+      await user.save();
+    } catch (error) {
+      return next(createError(500, "Something went wrong!"));
+    }
+
+    const spiritual = await Spiritual.findById(spiritualId);
+
+    if (!spiritual) {
+      return next(createError(404, "Spiritual not found"));
+    }
+
+    await Spiritual.findByIdAndDelete(spiritualId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Spiritual has been successfully deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    return next(createError(500, "Something went wrong!"));
   }
 };

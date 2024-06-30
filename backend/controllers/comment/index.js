@@ -16,47 +16,34 @@ export const createComment = async (req, res, next) => {
 
     const comment = new Comment(req.body);
 
-    // sujestion 
-    // ========================================
-    // const newComment={
-    //   id: toSting(user.comments.length),
-    //   text: req.body
-    // }
-    // user.comments = [...user.comments, newComment];
-    
-    // TODO remember to use comment.text when you want to render the comments
-    // user.comments.map(e=>e.text)
-    
-    // ========================================
-    // user.comments = [...user?.comments, comment];
+    // Save comment in the database
+    try {
+      await comment.save();
+    } catch (error) {
+      console.log(error);
+      return next(createError(500, "Something went wrong!"));
+    }
 
-    user.comments.push(comment);
+    user.comments.push(comment._id);
 
     // Save user after the comment is added in the database
+
+    try {
       await user.save();
-      // console.log(comment)
-          // await comment.save();
+    } catch (error) {
+      console.log(error);
+      return next(createError(500, "Something went wrong!"));
+    }
 
-    
-    // Save comment in the database
-    // try {
-    //     await comment.save();
-    //   } catch (error) {
-    //       console.log(error)
-    //       return next(createError(500, "Something went wrong!"));
-    //     }
-        
-        res.status(201).json({
-          success: true,
-          comment,
-          message: "Comment has been successfully sent",
-        });
-      } catch (error) {
-        return next(createError(500, "Comment could not be saved"));
-      }
+    res.status(201).json({
+      success: true,
+      comment,
+      message: "Comment has been successfully sent",
+    });
+  } catch (error) {
+    return next(createError(500, "Comment could not be saved"));
+  }
 };
-
-
 
 //==========================================================================
 // Get Comment

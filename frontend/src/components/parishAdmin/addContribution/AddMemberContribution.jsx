@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const initialState = {
   userId: "",
-  amount: "",
+  amount: 5,
   date: "",
 };
 const AddMemberContribution = ({ setOpen }) => {
@@ -27,7 +27,7 @@ const AddMemberContribution = ({ setOpen }) => {
   const handleReset = () => {
     setContributionInfos({
       userId: "",
-      amount: "",
+      amount: 5,
       date: "",
     });
   };
@@ -41,8 +41,8 @@ const AddMemberContribution = ({ setOpen }) => {
         amount: amount,
         date: date,
       };
-      const { data } = await axios.put(
-        `${API}/members/${currentUser._id}/contribution/new`,
+      const { data } = await axios.post(
+        `${API}/contributions/${currentUser._id}/new-contribution`,
         newContribution
       );
       toast.success(data.message);

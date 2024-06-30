@@ -50,6 +50,7 @@ const PrayerRequest = ({ data }) => {
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, userFile);
       const { url } = response.data;
+
       // The body
       const newPrayer = {
         name: prayerInfo.name,

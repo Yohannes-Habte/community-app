@@ -5,7 +5,7 @@ import { createContribution } from "../../controllers/contribution/index.js";
 const contributionRouter = express.Router();
 
 // Contribution Routes
-contributionRouter.post("/new-contribution", createContribution);
+contributionRouter.post("/:id/new-contribution", createContribution);
 
 // Export Contribution Router
 export default contributionRouter;

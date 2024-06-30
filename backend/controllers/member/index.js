@@ -154,35 +154,3 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-//====================================================================
-// Create member monthly contribution
-//====================================================================
-export const addContribution = async (req, res, next) => {
-  try {
-    // const user = await User.findById(req.user._id);
-    const user = await Member.findById(req.params.id);
-
-    if (!user) {
-      return next(createError(404, "User not found"));
-    }
-
-    // Check if there is the same monthly contribution in the database
-    const sameContribution = user.monthlyContributions.find(
-      (contribution) => contribution._id.toString() === req.body._id
-    );
-
-    if (sameContribution) {
-      return next(createError(400, `Contribution already exist!`));
-    }
-
-    // Add new contribution to the monthly contribution array
-    user.monthlyContributions.push(req.body);
-
-    await user.save();
-
-    res.status(200).json({ success: true, user: user });
-  } catch (error) {
-    console.log(error);
-    next(createError(500, "Server error!"));
-  }
-};

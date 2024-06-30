@@ -1,7 +1,6 @@
-import createError from 'http-errors';
-import Member from '../../models/member/index.js';
-import Sacrament from '../../models/sacrament/index.js';
-
+import createError from "http-errors";
+import Member from "../../models/member/index.js";
+import Sacrament from "../../models/sacrament/index.js";
 
 //==========================================================================
 // Create New Sacrament
@@ -11,7 +10,7 @@ export const createSacrament = async (req, res, next) => {
     const user = await Member.findById(req.params.userId);
 
     if (!user) {
-      return next(createError(400, 'User not found! Please login!'));
+      return next(createError(400, "User not found! Please login!"));
     }
 
     const newSacrament = new Sacrament(req.body);
@@ -21,25 +20,27 @@ export const createSacrament = async (req, res, next) => {
     try {
       await user.save();
     } catch (error) {
-      return next(createError(400, 'Sacrament request is added to user!'));
+      console.log(error);
+      return next(createError(400, "Sacrament request is added to user!"));
     }
 
     // Save new sacrament
     try {
       await newSacrament.save();
     } catch (error) {
-      return next(createError(400, 'Sacrament request is not saved!'));
+      console.log(error);
+      return next(createError(400, "Sacrament request is not saved!"));
     }
 
     return res.status(201).json({
       success: true,
       sacrament: newSacrament,
-      message: 'Sacrament request is successfully completed!',
+      message: "Sacrament request is successfully completed!",
     });
   } catch (error) {
     console.log(error);
     return next(
-      createError(400, 'New sacrament could not be created! Please try again')
+      createError(400, "New sacrament could not be created! Please try again")
     );
   }
 };
@@ -53,7 +54,7 @@ export const getSingleSacrament = async (req, res, next) => {
     const sacrament = await Sacrament.findById(req.params.id);
 
     if (!sacrament) {
-      return next(createError(400, 'Sacrament does not found! Please login!'));
+      return next(createError(400, "Sacrament does not found! Please login!"));
     }
 
     return res.status(200).json({
@@ -62,7 +63,7 @@ export const getSingleSacrament = async (req, res, next) => {
     });
   } catch (error) {
     next(
-      createError(500, 'Sacrament could not be accessed! Please try again!')
+      createError(500, "Sacrament could not be accessed! Please try again!")
     );
   }
 };
@@ -76,7 +77,7 @@ export const getAllSacraments = async (req, res, next) => {
     const sacraments = await Sacrament.find();
 
     if (!sacraments) {
-      return next(createError(400, 'Sacraments not found! Please login!'));
+      return next(createError(400, "Sacraments not found! Please login!"));
     }
 
     return res.status(200).json({
@@ -85,7 +86,7 @@ export const getAllSacraments = async (req, res, next) => {
     });
   } catch (error) {
     next(
-      createError(500, 'Sacraments could not be accessed! Please try again!')
+      createError(500, "Sacraments could not be accessed! Please try again!")
     );
   }
 };
@@ -98,7 +99,7 @@ export const totalNumberOfSacraments = async (req, res, next) => {
     const sacramentsCounts = await Sacrament.countDocuments();
 
     if (!sacramentsCounts) {
-      return next(createError(400, 'Sacraments not found! Please login!'));
+      return next(createError(400, "Sacraments not found! Please login!"));
     }
 
     return res.status(200).json({
@@ -106,6 +107,52 @@ export const totalNumberOfSacraments = async (req, res, next) => {
       counts: sacramentsCounts,
     });
   } catch (error) {
-    next(createError(500, 'Database could not be queried. Please try again'));
+    next(createError(500, "Database could not be queried. Please try again"));
+  }
+};
+
+//==========================================================================
+// Delete Sacrament
+//==========================================================================
+export const deleteSacrament = async (req, res, next) => {
+  const userId = req.params.userId;
+  const sacramentId = req.params.id;
+  try {
+    const user = await Member.findById(userId);
+
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    // Update user
+    await Member.findByIdAndUpdate(
+      {
+        _id: userId,
+      },
+      { $pull: { services: { _id: sacramentId } } }
+    );
+
+    // Save user after the spiritual is added in the database
+    try {
+      await user.save();
+    } catch (error) {
+      return next(createError(500, "Something went wrong!"));
+    }
+
+    const sacrament = await Sacrament.findById(sacramentId);
+
+    if (!sacrament) {
+      return next(createError(404, "Spiritual not found"));
+    }
+
+    await Sacrament.findByIdAndDelete(sacramentId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Sacrament has been successfully deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    return next(createError(500, "Something went wrong!"));
   }
 };

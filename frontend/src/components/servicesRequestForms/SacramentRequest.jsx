@@ -47,6 +47,7 @@ const SacramentRequest = ({ data }) => {
 
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, userFile);
+      console.log("response:", response);
       const { url } = response.data;
       // The body
       const newSacrament = {

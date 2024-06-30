@@ -31,17 +31,22 @@ const memberSchema = new Schema(
     ],
 
     monthlyContributions: [
+      { _id: { type: mongoose.Types.ObjectId, ref: "Contribution" } },
+    ],
+
+    comments: [{ _id: { type: mongoose.Types.ObjectId, ref: "Comment" } }],
+
+    services: [
       {
-        userId: { type: String, required: true },
-        amount: { type: Number, required: true },
-        date: { type: String, required: true },
+        _id: { type: mongoose.Types.ObjectId, ref: "Prayer" },
+        _id: { type: mongoose.Types.ObjectId, ref: "Sacrament" },
+        _id: { type: mongoose.Types.ObjectId, ref: "Spiritual" },
       },
     ],
-    comments: [],
 
-    services: [],
-    delegatedPriests: [{ type: mongoose.Types.ObjectId, ref: "Priest" }],
-    userCode: { type: String, default: "none" },
+    delegatedPriests: [
+      { _id: { type: mongoose.Types.ObjectId, ref: "Priest" } },
+    ],
 
     role: {
       type: String,

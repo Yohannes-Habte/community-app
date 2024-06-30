@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createSpiritual,
+  deleteSpiritual,
   getAllSpirituals,
   getSingleSpiritual,
   totalNumberOfSpirituals,
@@ -13,6 +14,7 @@ const spiritualRouter = express.Router();
 spiritualRouter.post("/:userId/new", createSpiritual);
 spiritualRouter.get("/:id", getSingleSpiritual);
 spiritualRouter.get("/", getAllSpirituals);
+spiritualRouter.delete("/:userId/:id", deleteSpiritual);
 spiritualRouter.get("/size/total", totalNumberOfSpirituals);
 
 // Export spiritual development router

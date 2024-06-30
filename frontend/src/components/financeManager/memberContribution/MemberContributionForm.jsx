@@ -1,79 +1,64 @@
-import React, { useState } from 'react';
-import './MemberContributionForm.scss';
-import axios from 'axios';
-import { NavLink } from 'react-router-dom';
-import { FaMoneyBill } from 'react-icons/fa';
-import { API } from '../../../utiles/securitiy/secreteKey';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  constributionFailure,
-  constributionStart,
-  constributionSuccess,
-} from '../../../redux/reducers/contributionReducer';
-import { toast } from 'react-toastify';
+import { useState } from "react";
+import "./MemberContributionForm.scss";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import { FaMoneyBill } from "react-icons/fa";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
+const initialState = {
+  userId: "",
+  amount: 5,
+  date: "",
+};
 const MemberContributionForm = () => {
   // Global state variables
-  const { error } = useSelector((state) => state.contributions);
-  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   // Local state variables
-  const [userCode, setUserCode] = useState('');
-  const [donation, setDonation] = useState(5);
-  const [date, setDate] = useState('');
+  const [contributionInfos, setContributionInfos] = useState(initialState);
 
-  // Function to update login user data
-  const updateData = (event) => {
-    switch (event.target.name) {
-      case 'userCode':
-        setUserCode(event.target.value);
-        break;
-      case 'donation':
-        setDonation(event.target.value);
-        break;
-      case 'date':
-        setDate(event.target.value);
-        break;
-      default:
-        break;
-    }
+  const { userId, amount, date } = contributionInfos;
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContributionInfos({ ...contributionInfos, [name]: value });
   };
 
-  // Reset all state variables for the login form
-  const reset = () => {
-    setUserCode('');
-    setDonation(5);
-    setDate('');
+  // Handle reset
+  const handleReset = () => {
+    setContributionInfos({
+      userId: "",
+      amount: 5,
+      date: "",
+    });
   };
 
-  // handle submit
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      dispatch(constributionStart());
-      // body
       const newContribution = {
-        userCode: userCode,
-        donation: donation,
+        userId: userId,
+        amount: amount,
         date: date,
       };
       const { data } = await axios.post(
-        `${API}/contributions/new-contribution`,
+        `${API}/contributions/${currentUser._id}/new-contribution`,
         newContribution
       );
-      constributionSuccess(data.contribution);
       toast.success(data.message);
-      reset();
+      handleReset();
     } catch (error) {
-      dispatch(constributionFailure(error.response.data.message));
+      toast.error(error);
     }
   };
+
   return (
     <section className="member-contribution-wrapper">
       <h3 className="member-contributions-title"> Members Contribution </h3>
-
-      {error ? <p className="error-message"> {error} </p> : null}
 
       <fieldset className="member-contribution-fieldset">
         <legend className="member-contribution-legend">
@@ -88,13 +73,13 @@ const MemberContributionForm = () => {
           {/* User Code */}
           <div className="input-container">
             <FaMoneyBill className="input-icon" />
+
             <input
               type="text"
-              name="userCode"
-              id="userCode"
-              value={userCode}
-              onChange={updateData}
-              placeholder="Enter User Code"
+              name="userId"
+              value={userId}
+              onChange={handleChange}
+              placeholder="User ID"
               className="input-field"
             />
 
@@ -108,11 +93,10 @@ const MemberContributionForm = () => {
             <FaMoneyBill className="input-icon" />
             <input
               type="number"
-              name="donation"
-              id="donation"
-              value={donation}
-              onChange={updateData}
-              placeholder="Enter Amount"
+              name="amount"
+              value={amount}
+              onChange={handleChange}
+              placeholder="Monthly Contribution Amount"
               className="input-field"
             />
 
@@ -126,12 +110,13 @@ const MemberContributionForm = () => {
           {/* Date */}
           <div className="input-container">
             <FaMoneyBill className="input-icon" />
+
             <input
               type="date"
               name="date"
-              id="date"
               value={date}
-              onChange={updateData}
+              onChange={handleChange}
+              placeholder="Contribution Date"
               className="input-field"
             />
 
@@ -154,7 +139,7 @@ const MemberContributionForm = () => {
               I accept
             </label>
 
-            <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
+            <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
           </div>
 
           <button className="member-contribution-btn">Send</button>
