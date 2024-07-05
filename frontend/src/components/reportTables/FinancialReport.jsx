@@ -1,31 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import './Tables.scss';
-import axios from 'axios';
-import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
+import { useEffect, useState } from "react";
+import "./Tables.scss";
+import axios from "axios";
+import { API } from "../../utiles/securitiy/secreteKey";
+import { FaTrashAlt } from "react-icons/fa";
+import {
+  getALLFinancialReportFailure,
+  getALLFinancialReportStart,
+  getALLFinancialReportSuccess,
+} from "../../redux/reducers/financeReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const FinancialReport = () => {
+  const { financialReports } = useSelector((state) => state.finance);
+  const dispatch = useDispatch();
   // Global Functions
-  const { data, loading, error, reFetching, deleteData } = FetchData(
-    'http://localhost:4000/api/finances'
-  );
+  useEffect(() => {
+    const fetchAllFinancialReportData = async () => {
+      try {
+        dispatch(getALLFinancialReportStart());
+        const { data } = await axios.get(`${API}/reports/financial-reports`);
+
+        dispatch(getALLFinancialReportSuccess(data.reports));
+      } catch (error) {
+        dispatch(getALLFinancialReportFailure(error.response.data.message));
+      }
+    };
+    fetchAllFinancialReportData();
+  }, []);
 
   // Local state variable
   const [total, setTotal] = useState();
 
   // Display surplus or deficit from the financial report table
   useEffect(() => {
-    const totalSuplusOrDeficit = async () => {
+    const totalSurplusOrDeficit = async () => {
       try {
         const { data } = await axios.get(
-          'http://localhost:4000/api/finances/total/surplus-or-deficit'
+          `${API}/reports/total/surplus-or-deficit`
         );
-        setTotal(data);
+        setTotal(data.totalSum);
       } catch (error) {
         console.log(error);
       }
     };
-    totalSuplusOrDeficit();
+    totalSurplusOrDeficit();
   }, []);
+
+  // Handle delete for each report
+  const handleDelete = async (id) => {
+    try {
+      const { data } = await axios.delete(`${API}/reports/delete-report/${id}`);
+      console.log("delete:", data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="report-table-container">
@@ -34,39 +63,55 @@ const FinancialReport = () => {
           <tr className="table-head-row">
             <th className="head-cell"> Date </th>
             <th className="head-cell"> Offer </th>
-            <th className="head-cell"> Donation </th>
-            <th className="head-cell"> Mass </th>
-            <th className="head-cell"> Choir </th>
+            <th className="head-cell"> Contribution </th>
+            <th className="head-cell"> Frekdassie </th>
             <th className="head-cell"> Event </th>
+            <th className="head-cell"> Services </th>
+            <th className="head-cell"> Choir </th>
             <th className="head-cell"> Priest </th>
+            <th className="head-cell"> Guest </th>
+            <th className="head-cell"> Present </th>
+            <th className="head-cell"> Trip </th>
             <th className="head-cell"> Other </th>
             <th className="head-cell"> Total </th>
+            <th className="head-cell"> Action </th>
           </tr>
         </thead>
 
         <tbody className="table-body">
-          {data.map((expense) => {
-            return (
-              <tr key={expense._id} className="table-body-row">
-                <td className="body-cell"> {expense.date} </td>
-                <td className="body-cell"> €{expense.offer} </td>
-                <td className="body-cell"> €{expense.donation} </td>
-                <td className="body-cell"> €{expense.frekdasie} </td>
-                <td className="body-cell"> €{expense.choirExpense} </td>
-                <td className="body-cell"> €{expense.eventExpense} </td>
-                <td className="body-cell">€{expense.priestExpense} </td>
-                <td className="body-cell"> €{expense.otherExpense} </td>
-                <td className={expense.total < 0 ? 'negative' : 'positive'}>
-                  <strong>€{expense.total}</strong>{' '}
-                </td>
-              </tr>
-            );
-          })}
+          {financialReports &&
+            financialReports.map((report) => {
+              return (
+                <tr key={report._id} className="table-body-row">
+                  <td className="body-cell"> {report.date} </td>
+                  <td className="body-cell"> €{report.offer} </td>
+                  <td className="body-cell"> €{report.contribution} </td>
+                  <td className="body-cell"> €{report.frekdasie} </td>
+                  <td className="body-cell"> €{report.eventExpense} </td>
+                  <td className="body-cell"> €{report.servicePayment} </td>
+                  <td className="body-cell"> €{report.choirExpense} </td>
+                  <td className="body-cell">€{report.priestExpense} </td>
+                  <td className="body-cell">€{report.guestExpense} </td>
+                  <td className="body-cell">€{report.presentExpense} </td>
+                  <td className="body-cell">€{report.tripExpense} </td>
+                  <td className="body-cell"> €{report.otherExpense} </td>
+                  <td className={report.total < 0 ? "negative" : "positive"}>
+                    <strong>€{report.total}</strong>{" "}
+                  </td>
+                  <td className="body-cell-action">
+                    <FaTrashAlt
+                      className="delete-icon"
+                      onClick={() => handleDelete(report._id)}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
 
       <h4 className="total-income">
-        Total Income for the year 2022 was{' '}
+        Total Income for the year 2022 was{" "}
         <span className="total">€ {total},00 </span>
       </h4>
     </section>

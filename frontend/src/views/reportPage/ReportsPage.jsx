@@ -1,17 +1,10 @@
-import React from 'react';
-import './ReportsPage.scss';
-import FinancialReport from '../../components/reportTables/FinancialReport';
-import SacramentReport from '../../components/reportTables/SacramentReport';
-import PrayerReport from '../../components/reportTables/PrayerReport';
-import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
-import Header from '../../components/user/layout/header/Header';
+import "./ReportsPage.scss";
+import FinancialReport from "../../components/reportTables/FinancialReport";
+import SacramentReport from "../../components/reportTables/SacramentReport";
+import PrayerReport from "../../components/reportTables/PrayerReport";
+import Header from "../../components/user/layout/header/Header";
 
 const ReportsPage = () => {
-  // Global Functions
-  const { data, loading, error, reFetching, deleteData } = FetchData(
-    'http://localhost:4500/api/users'
-  );
-
   return (
     <main className="report-page">
       <Header />

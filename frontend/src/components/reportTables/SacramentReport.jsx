@@ -1,31 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import './Tables.scss';
-import axios from 'axios';
-import FetchData from '../../utiles/globalFunctions/GlobalClientFunction';
+import { useEffect, useState } from "react";
+import "./Tables.scss";
+import axios from "axios";
+import FetchData from "../../utiles/globalFunctions/GlobalClientFunction";
+import { API } from "../../utiles/securitiy/secreteKey";
 
 const SacramentReport = () => {
   // Local state variable
   const [total, setTotal] = useState();
-  const id = '64e8a320c470c731d3d7c1dd';
-
-  // Global Functions for service facilitator
-  const { data: facilitator } = FetchData(
-    `http://localhost:4000/api/committees/${id}/facilitator`
-  );
 
   // Global Functions
-  const { data, loading, error, reFetching, deleteData } = FetchData(
-    'http://localhost:4000/api/sacraments'
-  );
+  const { data } = FetchData(`${API}/sacraments`);
 
   // Display surplus or deficit from the financial report table
   useEffect(() => {
     const totalSacramentService = async () => {
       try {
         const { data } = await axios.get(
-          'http://localhost:4000/api/sacraments/count/all-sacraments'
+          `${API}/sacraments/size/total`
         );
-        setTotal(data);
+        setTotal(data.counts);
       } catch (error) {
         console.log(error);
       }
@@ -46,12 +39,11 @@ const SacramentReport = () => {
         </thead>
 
         <tbody className="table-body">
-          {data.map((sacrament) => {
+          {data && data.sacraments && data.map((sacrament) => {
             return (
               <tr key={sacrament._id} className="table-body-row">
                 <td className="body-cell"> {sacrament.date} </td>
                 <td className="body-cell"> {sacrament.name} </td>
-                <td className="body-cell"> {facilitator} </td>
                 <td className="body-cell"> {sacrament._id} </td>
               </tr>
             );

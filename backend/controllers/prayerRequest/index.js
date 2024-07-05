@@ -90,7 +90,7 @@ export const getAllPrayers = async (req, res, next) => {
 };
 
 //====================================================================
-// Total Number of paryer requests by parishioners
+// Total Number of prayer requests by parishioners
 //====================================================================
 export const totalNumberOfPrayerRequests = async (req, res, next) => {
   try {
