@@ -38,7 +38,7 @@ app.use(express.json());
 dotenv.config();
 
 // Display tiny changes
-app.use(morgan("tiny"));
+app.use(morgan("tiny")); 
 
 // End points
 app.use("/api/v1/auth", authUserRouter);

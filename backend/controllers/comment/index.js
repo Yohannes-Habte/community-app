@@ -10,6 +10,7 @@ export const createComment = async (req, res, next) => {
   try {
     const user = await Member.findById(userId);
 
+
     if (!user) {
       return next(createError(400, "User not found!"));
     }
@@ -26,6 +27,7 @@ export const createComment = async (req, res, next) => {
 
     user.comments.push(comment._id);
 
+    console.log("user", user)
     // Save user after the comment is added in the database
 
     try {
@@ -35,6 +37,7 @@ export const createComment = async (req, res, next) => {
       return next(createError(500, "Something went wrong!"));
     }
 
+   
     res.status(201).json({
       success: true,
       comment,

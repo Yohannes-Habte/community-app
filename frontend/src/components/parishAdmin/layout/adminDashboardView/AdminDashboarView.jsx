@@ -1,12 +1,13 @@
-import React from 'react';
-import "./AdminDashboarView.scss"
-import AdminDashboardSummary from '../../adminDashboardSummary/AdminDashboardSummary';
-import Members from '../../members/Members';
-import Committee from '../../committee/Committee';
-import Events from '../../events/Events';
-import Delegations from '../../delegations/Delegations';
-import AdminInBox from '../../inbox/AdminInBox';
-import MembersContribution from '../../membersContribution/MembersContribution';
+
+import "./AdminDashboarView.scss";
+import AdminDashboardSummary from "../../adminDashboardSummary/AdminDashboardSummary";
+import Members from "../../members/Members";
+import Committee from "../../committee/Committee";
+import Events from "../../events/Events";
+import Delegations from "../../delegations/Delegations";
+import AdminInBox from "../../inbox/AdminInBox";
+import MembersContribution from "../../membersContribution/MembersContribution";
+import Register from "../../../registerForm/Register";
 
 const AdminDashboarView = ({ isActive }) => {
   return (
@@ -24,6 +25,8 @@ const AdminDashboarView = ({ isActive }) => {
       {isActive === 6 && <Delegations />}
 
       {isActive === 7 && <AdminInBox />}
+
+      {isActive === 10 && <Register />}
     </article>
   );
 };

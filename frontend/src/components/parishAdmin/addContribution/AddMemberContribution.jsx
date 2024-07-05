@@ -1,21 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import "./AddMemberContribution.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
-import { useSelector } from "react-redux";
 
 const initialState = {
-  userId: "",
+  user: "",
   amount: 5,
   date: "",
 };
 const AddMemberContribution = ({ setOpen }) => {
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
   const [contributionInfos, setContributionInfos] = useState(initialState);
+  const [userNames, setUserNames] = useState([]);
+  const { user, amount, date } = contributionInfos;
 
-  const { userId, amount, date } = contributionInfos;
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axios.get(`${API}/members//search/user`);
+      setUserNames(data.members);
+    };
+    getUser();
+  }, []);
 
   // Handle input change
   const handleChange = (e) => {
@@ -26,7 +33,7 @@ const AddMemberContribution = ({ setOpen }) => {
   // Handle reset
   const handleReset = () => {
     setContributionInfos({
-      userId: "",
+      user: "",
       amount: 5,
       date: "",
     });
@@ -37,12 +44,12 @@ const AddMemberContribution = ({ setOpen }) => {
     e.preventDefault();
     try {
       const newContribution = {
-        userId: userId,
+        user: user,
         amount: amount,
         date: date,
       };
       const { data } = await axios.post(
-        `${API}/contributions/${currentUser._id}/new-contribution`,
+        `${API}/contributions/new-contribution`,
         newContribution
       );
       toast.success(data.message);
@@ -70,16 +77,28 @@ const AddMemberContribution = ({ setOpen }) => {
           {/* User ID*/}
           <div className="input-container">
             <FaUserAlt className="input-icon" />
-            <input
-              type="text"
-              name="userId"
-              value={userId}
+
+            <select
+              name="user"
+              id="user"
+              value={user}
               onChange={handleChange}
-              placeholder="User ID"
               className="input-field"
-            />
-            <label htmlFor="fullName" className="input-label">
-              User ID
+            >
+              <option value="default">Select User</option>
+              {userNames &&
+                userNames.map((userName) => {
+                  console.log("single user=", userName);
+                  return (
+                    <option key={userName.value} value={userName.value}>
+                      {userName.label}
+                    </option>
+                  );
+                })}
+            </select>
+
+            <label htmlFor="user" className="input-label">
+              User
             </label>
             <span className="input-highlight"></span>
           </div>

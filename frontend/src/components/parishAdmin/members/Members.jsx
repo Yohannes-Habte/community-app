@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import {  useSelector } from 'react-redux';
-import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
-
+import { useEffect, useState } from "react";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useSelector } from "react-redux";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import "./Members.scss";
+import AddMember from "../addMember/AddMember";
 
 const Members = () => {
   // Global state variables
-  const { membersLoading, error, } = useSelector((state) => state.user);
-
+  const { membersLoading, error } = useSelector((state) => state.user);
 
   // Local state variables
   const [members, setMembers] = useState([]);
+  const [open, setOpen] = useState(false);
 
   // Display all users
   useEffect(() => {
@@ -32,21 +33,21 @@ const Members = () => {
 
   // Parishioners header
   const columns = [
-    { field: 'id', headerName: 'User ID', width: 130 },
-    { field: 'firstName', headerName: 'First Name', width: 100 },
-    { field: 'lastName', headerName: 'Last Name', width: 100 },
-    { field: 'maritalStatus', headerName: 'Status', width: 100 },
-    { field: 'email', headerName: 'Email', width: 150 },
-    { field: 'phone', headerName: 'Phone', width: 100 },
-    { field: 'street', headerName: 'Street Name', type: 'number', width: 100 },
-    { field: 'zipCode', headerName: 'Zip Code', width: 100 },
-    { field: 'city', headerName: 'City', width: 100 },
-    { field: 'state', headerName: 'State', width: 100 },
-    { field: 'country', headerName: 'Country', width: 100 },
-    { field: 'role', headerName: 'Role', width: 100 },
+    { field: "id", headerName: "User ID", width: 130 },
+    { field: "firstName", headerName: "First Name", width: 100 },
+    { field: "lastName", headerName: "Last Name", width: 100 },
+    { field: "maritalStatus", headerName: "Status", width: 100 },
+    { field: "email", headerName: "Email", width: 150 },
+    { field: "phone", headerName: "Phone", width: 100 },
+    { field: "street", headerName: "Street Name", type: "number", width: 100 },
+    { field: "zipCode", headerName: "Zip Code", width: 100 },
+    { field: "city", headerName: "City", width: 100 },
+    { field: "state", headerName: "State", width: 100 },
+    { field: "country", headerName: "Country", width: 100 },
+    { field: "role", headerName: "Role", width: 100 },
     {
-      field: 'action',
-      headerName: 'Action',
+      field: "action",
+      headerName: "Action",
       width: 70,
       renderCell: () => {
         return <div className="action-wrapper"></div>;
@@ -75,15 +76,24 @@ const Members = () => {
     });
 
   return (
-    <section>
-      <h1>Current Members of the Eritrean Roman Catholic Church in Hamburg</h1>
+    <section className="members-container">
+      <h1 className="members-title">
+        Current Members of the Eritrean Roman Catholic Church in Hamburg
+      </h1>
+
+      <aside className="new-member-wrapper">
+        <h3 className="title"> Add New Member</h3>
+        <button onClick={() => setOpen(true)} className="add-member">
+          Add New
+        </button>
+      </aside>
 
       {membersLoading && <PageLoader />}
 
       {error ? <p className="error-message"> {error} </p> : null}
 
       {!membersLoading && !error && (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             // Rows
             rows={rows}
@@ -112,6 +122,8 @@ const Members = () => {
           />
         </div>
       )}
+
+      {open && <AddMember setOpen={setOpen} />}
     </section>
   );
 };

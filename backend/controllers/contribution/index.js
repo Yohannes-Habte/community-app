@@ -8,8 +8,7 @@ import Member from "../../models/member/index.js";
 
 export const createContribution = async (req, res, next) => {
   try {
-    // const user = await User.findById(req.user._id);
-    const user = await Member.findById(req.params.id);
+    const user = await Member.findById(req.body.user);
 
     if (!user) {
       return next(createError(404, "User not found"));
@@ -35,9 +34,9 @@ export const createContribution = async (req, res, next) => {
     }
 
     // Add new contribution to the monthly contribution array
-    user.monthlyContributions.push(newContribution._id);
+    user.monthlyContributions.push(newContribution);
 
-    // Save user update
+    //Save user update
     try {
       await user.save();
     } catch (error) {

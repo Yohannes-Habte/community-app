@@ -1,5 +1,5 @@
-@import '../../styles/Variables.scss';
-@import '../../styles/Mixins.scss';
+@import "../../styles/Variables.scss";
+@import "../../styles/Mixins.scss";
 
 .lagin-page {
   .login-page-container {
@@ -20,88 +20,88 @@
       margin: auto;
     }
 
-    .login-fieldset {
-      @include fieldset;
+    .login-form {
+      @include flexColumn;
 
-      .login-legend {
-        @include legend;
+      .input-container {
+        @include inputContainer;
+
+        .input-field {
+          @include inputField;
+
+          &::placeholder {
+            color: $gray;
+          }
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .icon {
+          @include inputIcon;
+        }
+
+        // displaying password
+        .password-display {
+          @include passwordDisplay;
+        }
       }
 
-      .login-form {
-        @include flexColumn;
+      .show-password-container {
+       @include display;
 
-        .input-container {
-          @include inputContainer;
+        .show-password-checkbox {
+          width: $sfs;
+        }
+      }
 
-          .input-field {
-            @include inputField;
+      .login-checkbox-forgot-password {
+        @include flexSpaceBetween;
 
-            &::placeholder {
-              color: $gray;
-            }
-          }
+        .login-checkbox-keep-signed-in {
+          @include flexRow;
 
-          .input-label {
-            @include inputLabel;
-          }
-
-          .input-highlight {
-            @include inputHighlight;
-          }
-
-          .input-field:focus + .input-label {
-            @include focusInputFieldAndInputLabel;
-          }
-
-          .input-field:focus + .input-label + .input-highlight {
-            width: 100%;
-          }
-
-          .icon {
-            @include inputIcon;
-          }
-
-          // displaying password
-          .password-display {
-            @include passwordDisplay;
+          .login-checkbox {
+            width: $afs;
           }
         }
 
-        .login-checkbox-forgot-password {
-          @include flexSpaceBetween;
-
-          .login-checkbox-keep-signed-in {
-            @include flexRow;
-
-            .login-checkbox {
-              width: $afs;
-            }
-          }
-
-          .forgot-password {
-            margin-top: 1rem;
-            font-size: $nfs;
-            color: $blue;
-          }
-        }
-
-        .login-button {
-          @include button1;
-
-          .loading {
-            @include loader;
-          }
-        }
-
-        .have-no-account {
-          font-size: $nfs;
+        .forgot-password {
           margin-top: 1rem;
+          font-size: $nfs;
+          color: $blue;
+        }
+      }
 
-          .sign-up {
-            font-weight: bold;
-            color: $blue;
-            padding-left: 0.5rem;
-          }
+      .login-button {
+        @include button1;
+
+        .loading {
+          @include loader;
+        }
+      }
+
+      .have-no-account {
+        font-size: $nfs;
+        margin-top: 1rem;
+
+        .sign-up {
+          font-weight: bold;
+          color: $blue;
+          padding-left: 0.5rem;
         }
       }
     }

@@ -1,0 +1,121 @@
+@import "../../../styles/Mixins.scss";
+@import "../../../styles/Variables.scss";
+
+/* Laptop screen size */
+@media screen and (min-width: 1024px) {
+  .modal {
+    @include modal;
+    .popup {
+      @include popupBox;
+      .close-popup {
+        @include closeModal;
+      }
+
+      .register-form {
+        .register-input-fields-container {
+          @include twoGridTemplateEqualColumns;
+
+          .input-container {
+            @include inputContainer;
+
+            .input-icon {
+              @include inputIcon;
+            }
+
+            .input-field {
+              @include inputField;
+            }
+
+            .input-label {
+              @include inputLabel;
+            }
+
+            .input-highlight {
+              @include inputHighlight;
+            }
+
+            .input-field:focus + .input-label {
+              @include focusInputFieldAndInputLabel;
+            }
+
+            .input-field:focus + .input-label + .input-highlight {
+              width: 100%;
+            }
+
+            .icon {
+              @include passwordDisplay;
+            }
+          }
+        }
+
+        .show-password-container {
+          @include display;
+          margin: 1rem 0;
+
+          .show-password-checkbox {
+            width: $sfs;
+          }
+        }
+
+        .consent-and-others-container {
+          @include twoGridTemplateEqualColumns;
+
+          .consent-terms-button-login-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .register-consent {
+              display: flex;
+              flex-direction: row;
+              margin-bottom: 1rem;
+
+              .register-consent-input {
+                margin-right: 0.3rem;
+              }
+
+              // styling the checkbox
+              .register-consent-input[type="checkbox"] {
+                width: 30px;
+                height: 20px;
+              }
+
+              .accept {
+                font-size: $nfs;
+              }
+
+              .terms-of-user {
+                font-size: $nfs;
+                color: $blue;
+                padding-left: 0.5rem;
+              }
+            }
+
+            .register-button {
+              @include button1;
+
+              .loading {
+                @include loader;
+              }
+            }
+
+            .error-message {
+              @include errorMessage;
+            }
+
+            .haveAccount {
+              font-size: $nfs;
+              margin-top: 1.5rem;
+
+              .login-link {
+                font-weight: bold;
+                font-size: $afs;
+                color: $blue;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

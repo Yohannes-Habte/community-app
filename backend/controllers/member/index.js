@@ -154,3 +154,111 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
+//====================================================================
+// Get members by search
+//====================================================================
+const getMembersBySearch = async (search, limit = 5) => {
+  try {
+    const members = await User.find({
+      $or: [
+        {
+          firstName: { $regex: search, $options: "i" },
+          type: { $in: ["what", "ever"] },
+        },
+        {
+          lastName: { $regex: search, $options: "i" },
+          type: { $in: ["what", "ever"] },
+        },
+      ],
+    })
+      .limit(limit)
+      .select("firstName lastName")
+      .lean();
+
+    const membersList = members.map((c) => ({
+      label: `${c.firstName} ${c.lastName}`,
+      value: c._id,
+    }));
+
+    return { members };
+  } catch (error) {
+    return { members: [] };
+  }
+};
+
+export const getMemberBySearch = async (req, res, next) => {
+  try {
+    // Get search term from query parameters
+    const search = req.query.search || "";
+
+    // Limit
+    const limit = parseInt(req.query.limit) || 55;
+
+    // Define the query
+    const query = {
+      $or: [
+        {
+          firstName: { $regex: search, $options: "i" },
+        },
+        {
+          lastName: { $regex: search, $options: "i" },
+        },
+      ],
+    };
+
+    // Find members
+    const members = await Member.find(query)
+      .limit(limit)
+      .select("firstName lastName")
+      .lean();
+
+    // Format members list
+    const membersList = members.map((c) => ({
+      label: `${c.firstName} ${c.lastName}`,
+      value: c._id,
+    }));
+
+    // Send response
+    res.json({ members: membersList });
+  } catch (error) {
+    // Handle error
+    next(error);
+  }
+};
+
+const findUserBySearch = async (req, res, next) => {
+  try {
+    // Get search term from query parameters
+    const search = req.query.search || "";
+
+    // Define the query
+    const query = {
+      $or: [
+        { firstName: { $regex: search, $options: "i" } },
+        { lastName: { $regex: search, $options: "i" } },
+      ],
+    };
+
+    // Find one member
+    const member = await Member.findOne(query)
+      .select("firstName lastName")
+      .lean();
+
+    // If no member is found
+    if (!member) {
+      return res.status(404).json({ message: "Member not found" });
+    }
+
+    // Format the member
+    const memberData = {
+      label: `${member.firstName} ${member.lastName}`,
+      value: member._id,
+    };
+
+    // Send response
+    res.json({ member: memberData });
+  } catch (error) {
+    // Handle error
+    next(error);
+  }
+};

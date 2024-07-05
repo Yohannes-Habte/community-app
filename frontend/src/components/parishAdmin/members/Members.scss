@@ -1,0 +1,19 @@
+
+@import "../../../styles/Mixins.scss";
+@import "../../../styles/Variables.scss";
+
+.members-container {
+  .members-title {
+  }
+
+  .new-member-wrapper {
+    @include flexSpaceBetween;
+    .title {
+      @include subTitle;
+    }
+
+    .add-member {
+      @include button2;
+    }
+  }
+}
