@@ -54,3 +54,45 @@ export const createContribution = async (req, res, next) => {
     next(createError(500, "Server error!"));
   }
 };
+
+// =============================================================================
+// Get all contribution for all members
+// =============================================================================
+
+export const getAllContributions = async (req, res, next) => {
+  try {
+    const contributions = await Contribution.find();
+
+    if (!contributions) {
+      return next(createError(400, "contributions not found!"));
+    }
+    res.status(200).json({
+      success: true,
+      contributions: contributions,
+    });
+  } catch (error) {
+    next(createError(500, "Server error!"));
+  }
+};
+
+// =============================================================================
+// Get all contribution for a single member
+// =============================================================================
+
+export const getAllMemberContribution = async (req, res, next) => {
+  const id = req.params.userId;
+  try {
+    // Fetch the member with the specified ID and only the 'monthlyContributions' field
+    const member = await Member.findById(id, "monthlyContributions");
+
+    if (!member) {
+      return next(createError(400, "User not found!"));
+    }
+    res.status(200).json({
+      success: true,
+      memberContributions: member.monthlyContributions,
+    });
+  } catch (error) {
+    next(createError(500, "Server error!"));
+  }
+};

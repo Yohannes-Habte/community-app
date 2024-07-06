@@ -1,20 +1,19 @@
-import React from 'react';
-import './FinanceMgtSidebar.scss';
-import { IoMdLogOut } from 'react-icons/io';
-import { IoSettings } from 'react-icons/io5';
-import { SiEventstore } from 'react-icons/si';
-import { MdSupport } from 'react-icons/md';
-import { SiGooglemessages } from 'react-icons/si';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import "./FinanceMgtSidebar.scss";
+import { IoMdLogOut } from "react-icons/io";
+import { IoSettings } from "react-icons/io5";
+import { SiEventstore } from "react-icons/si";
+import { MdSupport } from "react-icons/md";
+import { SiGooglemessages } from "react-icons/si";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   userLogoutFailure,
   userLogoutStart,
   userLogoutSuccess,
-} from '../../../redux/reducers/userReducer';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
-import { toast } from 'react-toastify';
+} from "../../../redux/reducers/userReducer";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import { toast } from "react-toastify";
 
 const FinanceMgtSidebar = ({ active, setActive }) => {
   const navigate = useNavigate();
@@ -31,9 +30,9 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
       if (data.success) {
         dispatch(userLogoutSuccess(data.message));
         toast.success(data.message);
-        navigate('/login');
+        navigate("/login");
       } else {
-        toast.error('User could not logout');
+        toast.error("User could not logout");
       }
     } catch (error) {
       dispatch(userLogoutFailure(error.response.data.message));
@@ -49,10 +48,10 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
       >
         <SiEventstore
           title="Events"
-          className={active === 1 ? 'active-icon' : 'passive-icon'}
+          className={active === 1 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={active === 1 ? 'active-text' : 'passive-text'}>
+        <h4 className={active === 1 ? "active-text" : "passive-text"}>
           Financial Reports
         </h4>
       </aside>
@@ -62,12 +61,12 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
         className="finance-manager-dashboard-sidebar-item"
       >
         <MdSupport
-          title="Contribution Form"
-          className={active === 2 ? 'active-icon' : 'passive-icon'}
+          title="Contributions"
+          className={active === 2 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={active === 2 ? 'active-text' : 'passive-text'}>
-          Contribution
+        <h4 className={active === 2 ? "active-text" : "passive-text"}>
+          Contributions
         </h4>
       </aside>
 
@@ -75,37 +74,23 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
         onClick={() => setActive(3)}
         className="finance-manager-dashboard-sidebar-item"
       >
-        <MdSupport
-          title="Contributions"
-          className={active === 3 ? 'active-icon' : 'passive-icon'}
-        />
-
-        <h4 className={active === 3 ? 'active-text' : 'passive-text'}>
-          Contributions
-        </h4>
-      </aside>
-
-      <aside
-        onClick={() => setActive(4)}
-        className="finance-manager-dashboard-sidebar-item"
-      >
         <SiGooglemessages
           title="Inbox"
-          className={active === 4 ? 'active-icon' : 'passive-icon'}
+          className={active === 3 ? "active-icon" : "passive-icon"}
         />
-        <h4 className={active === 4 ? 'active-text' : 'passive-text'}>Inbox</h4>
+        <h4 className={active === 3 ? "active-text" : "passive-text"}>Inbox</h4>
       </aside>
 
       <Link
-        to={'/user/profile'}
+        to={"/user/profile"}
         className="finance-manager-dashboard-sidebar-item"
       >
         <IoSettings
           title="Settings"
-          className={active === 5 ? 'active-icon' : 'passive-icon'}
+          className={active === 4 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={active === 5 ? 'active-text' : 'passive-text'}>
+        <h4 className={active === 4 ? "active-text" : "passive-text"}>
           Settings
         </h4>
       </Link>
@@ -113,11 +98,11 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
       <aside className="finance-manager-dashboard-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={active === 6 ? 'active-icon' : 'passive-icon'}
+          className={active === 5 ? "active-icon" : "passive-icon"}
         />
 
         <h4>
-          <Link to={'/login'} onClick={logoutUser}>
+          <Link to={"/login"} onClick={logoutUser}>
             Log Out
           </Link>
         </h4>

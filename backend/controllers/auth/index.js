@@ -66,7 +66,7 @@ export const registerUser = async (req, res, next) => {
         .cookie("user_token", userRegistrationToken, {
           path: "/",
           httpOnly: true,
-          expires: new Date(Date.now() + 2 * 60 * 60 * 1000),
+          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           sameSite: "none",
           secure: true,
         })
@@ -114,7 +114,7 @@ export const loginUser = async (req, res, next) => {
         .cookie("user_token", userLoginToken, {
           path: "/",
           httpOnly: true,
-          expires: new Date(Date.now() + 2 * 60 * 60 * 1000),
+          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           sameSite: "none",
           secure: true,
         })

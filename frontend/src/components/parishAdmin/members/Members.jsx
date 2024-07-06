@@ -93,7 +93,7 @@ const Members = () => {
       {error ? <p className="error-message"> {error} </p> : null}
 
       {!membersLoading && !error && (
-        <div style={{ height: 400, width: "100%" }}>
+   
           <DataGrid
             // Rows
             rows={rows}
@@ -120,7 +120,7 @@ const Members = () => {
             disableRowSelectionOnClick
             //
           />
-        </div>
+     
       )}
 
       {open && <AddMember setOpen={setOpen} />}

@@ -30,9 +30,7 @@ const memberSchema = new Schema(
       },
     ],
 
-    monthlyContributions: [
-      { _id: { type: mongoose.Types.ObjectId, ref: "Contribution" } },
-    ],
+    monthlyContributions: [],
 
     comments: [{ _id: { type: mongoose.Types.ObjectId, ref: "Comment" } }],
 

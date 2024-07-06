@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import "./AddMemberContribution.scss";
+import "./AddContribution.scss"
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
@@ -10,7 +10,7 @@ const initialState = {
   amount: 5,
   date: "",
 };
-const AddMemberContribution = ({ setOpen }) => {
+const AddContribution = ({ setOpen }) => {
   // const { currentUser } = useSelector((state) => state.user);
   const [contributionInfos, setContributionInfos] = useState(initialState);
   const [userNames, setUserNames] = useState([]);
@@ -146,4 +146,5 @@ const AddMemberContribution = ({ setOpen }) => {
   );
 };
 
-export default AddMemberContribution;
+
+export default AddContribution
