@@ -1,4 +1,4 @@
-@import './Variables.scss';
+@import "./Variables.scss";
 
 // =====================================================================================
 // Title styling
@@ -156,7 +156,7 @@
   border-radius: 30px;
   border: 1px solid #8f9092;
   transition: all 0.2s ease;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 14px;
   font-weight: 600;
   color: #606060;
@@ -191,7 +191,7 @@
   background-color: $white;
   transition: all 0.2s ease-in-out 0ms;
   user-select: none;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 
   &:hover {
     background-color: #f2f2f2;
@@ -319,7 +319,7 @@
   color: $red;
 
   &::after {
-    content: ' ';
+    content: " ";
     position: absolute;
     bottom: -1rem;
     left: 0;
@@ -416,15 +416,29 @@
 }
 
 // ==============================================================================================
-// Delte Icon styling
+// Delete Icon styling
 // ==============================================================================================
 
 @mixin deleteIcon {
   color: $tomato;
-  font-size: $lfs;
+  font-size: $afs;
+  border: none;
+  background: none;
   cursor: pointer;
 
   &:hover {
     color: $red;
+  }
+}
+
+@mixin editIcon {
+  color: $green;
+  font-size: $afs;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #29da29;
   }
 }

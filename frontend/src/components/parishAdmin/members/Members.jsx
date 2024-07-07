@@ -5,7 +5,7 @@ import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import "./Members.scss";
-import AddMember from "../addMember/AddMember";
+import Register from "../../forms/registerForm/Register";
 
 const Members = () => {
   // Global state variables
@@ -13,7 +13,7 @@ const Members = () => {
 
   // Local state variables
   const [members, setMembers] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [addUser, setAddUser] = useState(false);
 
   // Display all users
   useEffect(() => {
@@ -83,8 +83,8 @@ const Members = () => {
 
       <aside className="new-member-wrapper">
         <h3 className="title"> Add New Member</h3>
-        <button onClick={() => setOpen(true)} className="add-member">
-          Add New
+        <button onClick={() => setAddUser(true)} className="add-member">
+          Add User
         </button>
       </aside>
 
@@ -93,37 +93,35 @@ const Members = () => {
       {error ? <p className="error-message"> {error} </p> : null}
 
       {!membersLoading && !error && (
-   
-          <DataGrid
-            // Rows
-            rows={rows}
-            // Columns
-            columns={columns}
-            // Initial state
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            // Create search bar
-            slots={{ toolbar: GridToolbar }}
-            // Search a specific user
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
-            }}
-            // Page size optons
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            //
-          />
-     
+        <DataGrid
+          // Rows
+          rows={rows}
+          // Columns
+          columns={columns}
+          // Initial state
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          // Create search bar
+          slots={{ toolbar: GridToolbar }}
+          // Search a specific user
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          // Page size optons
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          //
+        />
       )}
 
-      {open && <AddMember setOpen={setOpen} />}
+      {addUser && <Register addMember={"add Member"} setAddUser={setAddUser} />}
     </section>
   );
 };

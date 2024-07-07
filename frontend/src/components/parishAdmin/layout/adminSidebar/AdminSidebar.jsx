@@ -75,20 +75,6 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
       </aside>
 
       <aside
-        onClick={() => setIsActive(10)}
-        className="admin-dashboard-sidebar-item"
-      >
-        <FaUsers
-          title="Member"
-          className={isActive === 10 ? "active-icon" : "passive-icon"}
-        />
-
-        <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
-          Add Member
-        </h4>
-      </aside>
-
-      <aside
         onClick={() => setIsActive(3)}
         className="admin-dashboard-sidebar-item"
       >
@@ -177,8 +163,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
 
         <h4>
           <Link to={"/login"} onClick={logoutUser}>
-            {" "}
-            Log Out{" "}
+            Log Out
           </Link>
         </h4>
       </aside>

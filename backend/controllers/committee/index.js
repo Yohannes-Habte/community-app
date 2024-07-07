@@ -14,6 +14,7 @@ export const createCommittee = async (req, res, next) => {
     try {
       await committeeAccount.save();
     } catch (error) {
+      console.log(error)
       return next(createError(400, 'Committee account is not saved!'));
     }
 

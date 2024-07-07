@@ -7,14 +7,21 @@ import Member from "../../models/member/index.js";
 // =============================================================================
 
 export const createContribution = async (req, res, next) => {
+  const { user, date, amount } = req.body;
   try {
-    const user = await Member.findById(req.body.user);
+    const foundUser = await Member.findById(user);
 
-    if (!user) {
+    if (!foundUser) {
       return next(createError(404, "User not found"));
     }
 
-    const newContribution = new Contribution(req.body);
+    const newContribution = new Contribution({
+      user: user,
+      date: date,
+      amount: amount,
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+    });
 
     // Save new contribution
     try {
@@ -25,7 +32,7 @@ export const createContribution = async (req, res, next) => {
     }
 
     // Check if there is the same monthly contribution in the database
-    const sameContribution = user.monthlyContributions.find(
+    const sameContribution = foundUser.monthlyContributions.find(
       (contribution) => contribution._id.toString() === newContribution._id
     );
 
@@ -34,19 +41,20 @@ export const createContribution = async (req, res, next) => {
     }
 
     // Add new contribution to the monthly contribution array
-    user.monthlyContributions.push(newContribution);
+    foundUser.monthlyContributions.push(newContribution);
 
     //Save user update
     try {
-      await user.save();
+      await foundUser.save();
     } catch (error) {
       console.log(error);
       return next(createError(400, "Contribution is not saved!"));
     }
 
+
     return res.status(201).json({
       success: true,
-      contribution: newContribution,
+      result: newContribution,
       message: "The contribution is successful.",
     });
   } catch (error) {
@@ -68,7 +76,7 @@ export const getAllContributions = async (req, res, next) => {
     }
     res.status(200).json({
       success: true,
-      contributions: contributions,
+      result: contributions,
     });
   } catch (error) {
     next(createError(500, "Server error!"));

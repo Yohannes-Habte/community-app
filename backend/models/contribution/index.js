@@ -6,6 +6,8 @@ const { Schema } = mongoose;
 const contributionSchema = new Schema(
   {
     user: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     amount: { type: Number, required: true },
     date: { type: String, required: true },
   },

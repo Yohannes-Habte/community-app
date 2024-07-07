@@ -41,8 +41,6 @@ const MonthlyContribution = () => {
   // Row data
   const rows = [];
 
-  console.log("rows", rows);
-
   contributions &&
     contributions.map((contribution) => {
       return rows.push({
@@ -55,7 +53,9 @@ const MonthlyContribution = () => {
   console.log("rows=", rows);
   return (
     <section>
-      <h1>User Monthly Contribution</h1>
+      <h1>
+        {currentUser ? currentUser.firstName : "User"} Monthly Contribution
+      </h1>
 
       <DataGrid
         // Rows
@@ -65,7 +65,7 @@ const MonthlyContribution = () => {
         // Initial state
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
         // Create search bar

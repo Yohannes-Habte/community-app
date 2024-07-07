@@ -19,6 +19,7 @@ export const registerUser = async (req, res, next) => {
     city,
     state,
     country,
+    agree,
     isAdmin,
     isPriest,
   } = req.body;
@@ -46,9 +47,10 @@ export const registerUser = async (req, res, next) => {
         city: city,
         state: state,
         country: country,
+        agree: agree,
         isAdmin: isAdmin,
         isPriest: isPriest,
-        image: image,
+        
       });
 
       // Save user in the database

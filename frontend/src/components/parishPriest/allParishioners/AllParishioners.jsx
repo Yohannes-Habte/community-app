@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
-import './AllParishioners.scss';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useSelector } from 'react-redux';
-import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
+import { useEffect, useState } from "react";
+import "./AllParishioners.scss";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useSelector } from "react-redux";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const AllParishioners = () => {
   // Global state variables
-  const { loading, error,  } = useSelector((state) => state.user);
-
+  const { loading, error } = useSelector((state) => state.user);
 
   // Local state variables
   const [members, setMembers] = useState([]);
@@ -33,26 +32,17 @@ const AllParishioners = () => {
 
   // Parishioners header
   const columns = [
-    { field: 'id', headerName: 'User ID', width: 130 },
-    { field: 'firstName', headerName: 'First Name', width: 100 },
-    { field: 'lastName', headerName: 'Last Name', width: 100 },
-    { field: 'maritalStatus', headerName: 'Status', width: 100 },
-    { field: 'email', headerName: 'Email', width: 150 },
-    { field: 'phone', headerName: 'Phone', width: 100 },
-    { field: 'street', headerName: 'Street Name', type: 'number', width: 100 },
-    { field: 'zipCode', headerName: 'Zip Code', width: 100 },
-    { field: 'city', headerName: 'City', width: 100 },
-    { field: 'state', headerName: 'State', width: 100 },
-    { field: 'country', headerName: 'Country', width: 100 },
-    { field: 'role', headerName: 'Role', width: 100 },
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 70,
-      renderCell: () => {
-        return <div className="action-wrapper"></div>;
-      },
-    },
+    { field: "firstName", headerName: "First Name", width: 150 },
+    { field: "lastName", headerName: "Last Name", width: 150 },
+    { field: "maritalStatus", headerName: "Status", width: 100 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "phone", headerName: "Phone", width: 150 },
+    { field: "street", headerName: "Street Name", type: "number", width: 200 },
+    { field: "zipCode", headerName: "Zip Code", width: 100 },
+    { field: "city", headerName: "City", width: 150 },
+    { field: "state", headerName: "State", width: 200 },
+    { field: "country", headerName: "Country", width: 150 },
+    { field: "role", headerName: "Role", width: 100 },
   ];
 
   const rows = [];
@@ -75,8 +65,6 @@ const AllParishioners = () => {
       });
     });
 
-
-
   return (
     <section>
       <h1>Current Members of the Eritrean Roman Catholic Church in Hamburg</h1>
@@ -86,7 +74,7 @@ const AllParishioners = () => {
       {error ? <p className="error-message"> {error} </p> : null}
 
       {!loading && !error && (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             // Rows
             rows={rows}
@@ -95,7 +83,7 @@ const AllParishioners = () => {
             // Initial state
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             // Create search bar

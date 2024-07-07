@@ -2,9 +2,8 @@ import Event from "../../models/event/index.js";
 import Member from "../../models/member/index.js";
 import createError from "http-errors";
 
-
 // =============================================================================
-// Create member contribution
+// Create An Event
 // =============================================================================
 
 export const createEvent = async (req, res, next) => {
@@ -31,5 +30,26 @@ export const createEvent = async (req, res, next) => {
     });
   } catch (error) {
     next(createError(500, "Event could not be posted! Please try again!"));
+  }
+};
+
+// =============================================================================
+// Get all events
+// =============================================================================
+
+export const getAllEvents = async (req, res, next) => {
+  try {
+    const events = await Event.find();
+
+    if (!events) {
+      return next(createError(400, `Events not found!`));
+    }
+
+    return res.status(201).json({
+      success: true,
+      result: events,
+    });
+  } catch (error) {
+    next(createError(500, "Server Error!"));
   }
 };

@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import './Delegations.scss';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useDispatch, useSelector } from 'react-redux';
-import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
+import { useEffect } from "react";
+import "./Delegations.scss";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import {
   allDelegatedPriestsFailure,
   allDelegatedPriestsStart,
   allDelegatedPriestsSuccess,
-} from '../../../redux/reducers/priestReducer';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
+} from "../../../redux/reducers/priestReducer";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const Delegations = () => {
   // Global state variables
@@ -37,19 +37,11 @@ const Delegations = () => {
 
   // Parishioners header
   const columns = [
-    { field: 'id', headerName: 'User ID', width: 250 },
-    { field: 'fullName', headerName: 'Full Name', width: 200 },
-    { field: 'email', headerName: 'Email', width: 200 },
-    { field: 'phoneNumber', headerName: 'Phone', width: 200 },
-    { field: 'serviceDate', headerName: 'Date', width: 200 },
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 200,
-      renderCell: (params) => {
-        return <div className="action-wrapper"></div>;
-      },
-    },
+    { field: "id", headerName: "User ID", width: 250 },
+    { field: "fullName", headerName: "Full Name", width: 200 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "phoneNumber", headerName: "Phone", width: 200 },
+    { field: "serviceDate", headerName: "Date", width: 200 },
   ];
 
   const rows = [];
@@ -76,7 +68,7 @@ const Delegations = () => {
       ) : null}
 
       {!delegationLoading && !delegationError && (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             // Rows
             rows={rows}
@@ -85,7 +77,7 @@ const Delegations = () => {
             // Initial state
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             // Create search bar

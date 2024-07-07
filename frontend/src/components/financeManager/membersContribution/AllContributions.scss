@@ -1,0 +1,20 @@
+@import "../../../styles/Mixins.scss";
+@import "../../../styles/Variables.scss";
+
+.action-wrapper {
+  @include flexRow;
+  align-items: center;
+
+  .edit {
+    @include editIcon;
+  }
+
+  .delete {
+    @include deleteIcon;
+  }
+}
+
+.MuiDataGrid-cell {
+    @include flexRow;
+    align-items: center;
+}

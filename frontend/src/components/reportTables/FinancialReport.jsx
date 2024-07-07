@@ -30,6 +30,7 @@ const FinancialReport = () => {
 
   // Local state variable
   const [total, setTotal] = useState();
+  
 
   // Display surplus or deficit from the financial report table
   useEffect(() => {
@@ -46,6 +47,7 @@ const FinancialReport = () => {
     totalSurplusOrDeficit();
   }, []);
 
+  
   // Handle delete for each report
   const handleDelete = async (id) => {
     try {

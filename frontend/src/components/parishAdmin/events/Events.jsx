@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import './Events.scss';
-import axios from 'axios';
-import { NavLink } from 'react-router-dom';
-import { FaUserAlt } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { RiAdminFill } from 'react-icons/ri';
-import { useDispatch, useSelector } from 'react-redux';
+import  { useState } from "react";
+import "./Events.scss";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { RiAdminFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import {
   eventPostFailure,
   eventPostStart,
   eventPostSuccess,
-} from '../../../redux/reducers/eventReducer';
-import { toast } from 'react-toastify';
-import { API } from '../../../utiles/securitiy/secreteKey';
+} from "../../../redux/reducers/eventReducer";
+import { toast } from "react-toastify";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const Events = () => {
   // Global state variables
@@ -21,32 +21,32 @@ const Events = () => {
   const dispatch = useDispatch();
 
   // Local state variables
-  const [eventName, setEventName] = useState('');
-  const [eventPurpose, setEventPurpose] = useState('');
-  const [eventOrganizer, setEventOrganizer] = useState('');
-  const [eventFacilitator, setevEntFacilitator] = useState('');
-  const [eventAddress, setEventAddress] = useState('');
-  const [eventDate, setEventDate] = useState('');
+  const [eventName, setEventName] = useState("");
+  const [eventPurpose, setEventPurpose] = useState("");
+  const [eventOrganizer, setEventOrganizer] = useState("");
+  const [eventFacilitator, setEventFacilitator] = useState("");
+  const [eventAddress, setEventAddress] = useState("");
+  const [eventDate, setEventDate] = useState("");
 
   // Function to update login user data
   const updateData = (event) => {
     switch (event.target.name) {
-      case 'eventName':
+      case "eventName":
         setEventName(event.target.value);
         break;
-      case 'eventPurpose':
+      case "eventPurpose":
         setEventPurpose(event.target.value);
         break;
-      case 'eventOrganizer':
+      case "eventOrganizer":
         setEventOrganizer(event.target.value);
         break;
-      case 'eventFacilitator':
-        setevEntFacilitator(event.target.value);
+      case "eventFacilitator":
+        setEventFacilitator(event.target.value);
         break;
-      case 'eventAddress':
+      case "eventAddress":
         setEventAddress(event.target.value);
         break;
-      case 'eventDate':
+      case "eventDate":
         setEventDate(event.target.value);
         break;
       default:
@@ -56,12 +56,12 @@ const Events = () => {
 
   // Reset all state variables for the login form
   const reset = () => {
-    setEventName('');
-    setEventPurpose('');
-    setEventOrganizer('');
-    setevEntFacilitator('');
-    setEventAddress('');
-    setEventDate('');
+    setEventName("");
+    setEventPurpose("");
+    setEventOrganizer("");
+    setEventFacilitator("");
+    setEventAddress("");
+    setEventDate("");
   };
 
   // handle submit
@@ -229,7 +229,7 @@ const Events = () => {
               I accept
             </label>
 
-            <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
+            <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
           </div>
 
           <button className="add-event-btn">Send</button>
