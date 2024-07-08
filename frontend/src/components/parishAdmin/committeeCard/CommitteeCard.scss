@@ -1,0 +1,34 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.committee-card-container {
+  @include flexRow;
+  @include shadow2;
+
+  .image-container {
+    .image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .figcaption {
+      font-size: $sfs;
+    }
+  }
+
+  .user-details {
+    .user-title {
+      @include subTitle;
+    }
+
+    .user-info {
+      @include paragraph;
+      font-size: $sfs;
+
+      strong {
+        color: $green;
+      }
+    }
+  }
+}

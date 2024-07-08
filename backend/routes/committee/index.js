@@ -4,6 +4,7 @@ import {
   deleteCommitteeMember,
   getAllCommitteeMembers,
   getCommitteeMember,
+  getCommitteesByServiceYearRange,
   loginCommitteeMember,
   serviceFacilitator,
   updateCommitteeMember,
@@ -14,12 +15,13 @@ const committeeRouter = express.Router();
 
 // committee Routes
 committeeRouter.post("/register", createCommittee);
+committeeRouter.get("/", getAllCommitteeMembers);
+committeeRouter.get("/committee", getCommitteesByServiceYearRange);
 committeeRouter.post("/login", loginCommitteeMember);
 committeeRouter.put("/:id", updateCommitteeMember);
 committeeRouter.get("/:id", getCommitteeMember);
 committeeRouter.delete("/:id", deleteCommitteeMember);
 committeeRouter.get("/:id/facilitator", serviceFacilitator);
-committeeRouter.get("/", getAllCommitteeMembers);
 
 // Export Committee Router
 export default committeeRouter;

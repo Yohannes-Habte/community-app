@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { API } from '../../../utiles/securitiy/secreteKey';
 import {
@@ -26,7 +26,7 @@ import FinancialReportChart from '../charts/FinancialReportChart';
 
 const AdminDashboardSummary = () => {
   // Global state variables
-  const { loading, error, count } = useSelector((state) => state.user);
+  const { count } = useSelector((state) => state.user);
   const { count: sacraments } = useSelector((state) => state.sacrament);
   const { count: prayers } = useSelector((state) => state.prayer);
   const { count: spirituals } = useSelector((state) => state.spiritual);

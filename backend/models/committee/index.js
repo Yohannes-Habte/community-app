@@ -11,8 +11,8 @@ const committeeSchema = new Schema(
     password: { type: String, required: true },
     title: { type: String, required: true },
     phone: { type: String, required: true },
-    startingTime: { type: String, required: true },
-    endingTime: { type: String, required: true },
+    startingTime: { type: Date, required: true },
+    endingTime: { type: Date, required: true },
     image: { type: String, required: true },
   },
   {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './Committee.scss';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';

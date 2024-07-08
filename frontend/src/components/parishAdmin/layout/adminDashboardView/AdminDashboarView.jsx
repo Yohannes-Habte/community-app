@@ -7,6 +7,7 @@ import Events from "../../events/Events";
 import Delegations from "../../delegations/Delegations";
 import AdminInBox from "../../inbox/AdminInBox";
 import MembersContribution from "../../membersContribution/MembersContribution";
+import CommitteeList from "../../committees/Committees";
 
 
 const AdminDashboarView = ({ isActive }) => {
@@ -16,15 +17,17 @@ const AdminDashboarView = ({ isActive }) => {
 
       {isActive === 2 && <Members />}
 
-      {isActive === 3 && <Committee />}
+      {isActive === 3 && <CommitteeList />}
 
-      {isActive === 4 && <MembersContribution />}
+      {isActive === 4 && <Committee />}
 
-      {isActive === 5 && <Events />}
+      {isActive === 5 && <MembersContribution />}
 
-      {isActive === 6 && <Delegations />}
+      {isActive === 6 && <Events />}
 
-      {isActive === 7 && <AdminInBox />}
+      {isActive === 7 && <Delegations />}
+
+      {isActive === 8 && <AdminInBox />}
     </article>
   );
 };

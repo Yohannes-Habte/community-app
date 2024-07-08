@@ -84,7 +84,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4 className={isActive === 3 ? "active-text" : "passive-text"}>
-          Committee
+          Committees
         </h4>
       </aside>
 
@@ -92,13 +92,13 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         onClick={() => setIsActive(4)}
         className="admin-dashboard-sidebar-item"
       >
-        <MdSupport
-          title="Contributions"
+        <RiAdminFill
+          title="Committee"
           className={isActive === 4 ? "active-icon" : "passive-icon"}
         />
 
         <h4 className={isActive === 4 ? "active-text" : "passive-text"}>
-          Contributions
+          Add Committee
         </h4>
       </aside>
 
@@ -106,13 +106,13 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         onClick={() => setIsActive(5)}
         className="admin-dashboard-sidebar-item"
       >
-        <SiEventstore
-          title="Events"
+        <MdSupport
+          title="Contributions"
           className={isActive === 5 ? "active-icon" : "passive-icon"}
         />
 
         <h4 className={isActive === 5 ? "active-text" : "passive-text"}>
-          Events
+          Contributions
         </h4>
       </aside>
 
@@ -120,13 +120,13 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         onClick={() => setIsActive(6)}
         className="admin-dashboard-sidebar-item"
       >
-        <GiSunPriest
-          title="Delegation"
+        <SiEventstore
+          title="Events"
           className={isActive === 6 ? "active-icon" : "passive-icon"}
         />
 
         <h4 className={isActive === 6 ? "active-text" : "passive-text"}>
-          Delegation
+          Events
         </h4>
       </aside>
 
@@ -134,12 +134,26 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         onClick={() => setIsActive(7)}
         className="admin-dashboard-sidebar-item"
       >
-        <SiGooglemessages
-          title="Inbox"
+        <GiSunPriest
+          title="Delegation"
           className={isActive === 7 ? "active-icon" : "passive-icon"}
         />
 
         <h4 className={isActive === 7 ? "active-text" : "passive-text"}>
+          Delegation
+        </h4>
+      </aside>
+
+      <aside
+        onClick={() => setIsActive(8)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
+          className={isActive === 8 ? "active-icon" : "passive-icon"}
+        />
+
+        <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
           Inbox
         </h4>
       </aside>
