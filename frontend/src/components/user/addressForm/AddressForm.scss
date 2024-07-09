@@ -1,13 +1,12 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
 .user-addresses-modal {
   @include modal;
 
   .new-user-address-popup-Box {
     @include popupBox;
-    width: 700px;
-    height: 550px;
+    width: 900px;
 
     .user-address-popup-title {
       @include title;

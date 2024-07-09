@@ -56,7 +56,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4 className={isActive === 1 ? "active-text" : "passive-text"}>
-          Dashboard Overview
+          Overview
         </h4>
       </aside>
 
@@ -179,6 +179,20 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           <Link to={"/login"} onClick={logoutUser}>
             Log Out
           </Link>
+        </h4>
+      </aside>
+
+      <aside
+        onClick={() => setIsActive(10)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
+          className={isActive === 10 ? "active-icon" : "passive-icon"}
+        />
+
+        <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
+          Church Committees
         </h4>
       </aside>
     </section>

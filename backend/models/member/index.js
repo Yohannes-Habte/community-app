@@ -52,7 +52,7 @@ const memberSchema = new Schema(
       enum: ["member", "admin", "priest", "financeManager"],
     },
 
-    agree: { type: Boolean, required: true, default: false },
+    agree: { type: Boolean, required: true },
   },
   {
     timestamps: true,

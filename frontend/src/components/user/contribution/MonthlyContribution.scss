@@ -1,0 +1,10 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.user-monthly-contribution-container {
+  width: $laptop;
+  margin: 1rem auto;
+  .user-monthly-contribution-title {
+    @include subTitle;
+  }
+}

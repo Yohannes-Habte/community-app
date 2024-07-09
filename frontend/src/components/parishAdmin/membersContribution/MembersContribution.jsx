@@ -22,12 +22,12 @@ const MembersContribution = () => {
   }, []);
 
   const columns = [
-    { field: "id", headerName: "Contribution ID", width: 350 },
-    { field: "user", headerName: "User ID", width: 350 },
+    { field: "id", headerName: "Contribution ID", width: 250 },
+    { field: "user", headerName: "User ID", width: 250 },
     { field: "firstName", headerName: "First Name", width: 200 },
     { field: "lastName", headerName: "Last Name", width: 200 },
-    { field: "date", headerName: "Contribution Date", width: 200 },
-    { field: "amount", headerName: "Contribution Amount", width: 200 },
+    { field: "date", headerName: "Date", width: 150 },
+    { field: "amount", headerName: "Amount", width: 100 },
   ];
 
   const rows = [];

@@ -1,22 +1,24 @@
-import React from 'react';
-import './AdminHeader.scss';
-import { FaCross, FaUsers } from 'react-icons/fa';
-import { GiSunPriest } from 'react-icons/gi';
-import { ImUsers } from 'react-icons/im';
-import { SiEventstore, SiGooglemessages } from 'react-icons/si';
-import { RiAdminFill } from 'react-icons/ri';
-import { MdSupport } from 'react-icons/md';
-import { IoSettings } from 'react-icons/io5';
-import { IoMdLogOut } from 'react-icons/io';
+import "./AdminHeader.scss";
+import { FaUsers } from "react-icons/fa";
+import { GiSunPriest } from "react-icons/gi";
+import { SiEventstore, SiGooglemessages } from "react-icons/si";
+import { RiAdminFill } from "react-icons/ri";
+import { MdSupport } from "react-icons/md";
+import { IoSettings } from "react-icons/io5";
+import { IoMdLogOut } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const AdminHeader = ({ isActive, setIsActive }) => {
+  // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+  console.log("admin=", currentUser);
   return (
     <header className="admin-dashboard-header">
       <figure className="admin-image-container">
         <img
           className="image"
-          src="https://i.ibb.co/4pDNDk1/avatar.png"
-          alt=""
+          src={currentUser && currentUser?.image}
+          alt={currentUser.firstName}
         />
       </figure>
 
@@ -27,8 +29,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Members"
             className={
               isActive === 2
-                ? 'active-admin-dashboard-header-icon'
-                : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -39,8 +41,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Committee"
             className={
               isActive === 3
-              ? 'active-admin-dashboard-header-icon'
-              : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -51,8 +53,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Contribution"
             className={
               isActive === 4
-              ? 'active-admin-dashboard-header-icon'
-              : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -63,8 +65,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Events"
             className={
               isActive === 5
-              ? 'active-admin-dashboard-header-icon'
-                : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -75,8 +77,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Delegation"
             className={
               isActive === 6
-              ? 'active-admin-dashboard-header-icon'
-              : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -87,8 +89,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Delegation"
             className={
               isActive === 7
-              ? 'active-admin-dashboard-header-icon'
-              : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -99,8 +101,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Delegation"
             className={
               isActive === 8
-              ? 'active-admin-dashboard-header-icon'
-              : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>
@@ -111,8 +113,8 @@ const AdminHeader = ({ isActive, setIsActive }) => {
             title="Delegation"
             className={
               isActive === 9
-              ? 'active-admin-dashboard-header-icon'
-              : 'passive-admin-dashboard-header-icon'
+                ? "active-admin-dashboard-header-icon"
+                : "passive-admin-dashboard-header-icon"
             }
           />
         </li>

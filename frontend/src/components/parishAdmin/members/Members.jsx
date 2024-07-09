@@ -101,7 +101,7 @@ const Members = () => {
           // Initial state
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
           // Create search bar

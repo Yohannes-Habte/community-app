@@ -15,7 +15,7 @@ export const updateUserAddress = async (req, res, next) => {
     }
 
     // Add Address
-    const addAddress = {
+    const newAddress = {
       country: country,
       state: state,
       city: city,
@@ -41,13 +41,13 @@ export const updateUserAddress = async (req, res, next) => {
     // If address exist, update the exist address. Otherwise, you need to add new address
     if (isAddressExist) {
       // update the exist address
-      Object.assign(isAddressExist, addAddress);
+      Object.assign(isAddressExist, newAddress);
     } else {
       // Add new Address to the array
-      user.addresses.push(addAddress);
+      user.addresses.push(newAddress);
     }
 
-    // Save addres to the user model
+    // Save address to the user model
     try {
       await user.save();
     } catch (error) {

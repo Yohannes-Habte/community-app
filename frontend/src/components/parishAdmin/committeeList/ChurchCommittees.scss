@@ -11,31 +11,14 @@
 
   .committee-query-form {
     @include flexRow;
-
+   
     .input-container {
-      @include inputContainer;
-      .icon {
-        @include inputIcon;
-      }
-
-      .input-field {
-        @include inputField;
-      }
-
-      .input-label {
-        @include inputLabel;
-      }
-
-      .input-highlight {
-        @include inputHighlight;
-      }
-
-      .input-field:focus + .input-label {
-        @include focusInputFieldAndInputLabel;
-      }
-
-      .input-field:focus + .input-label + .input-highlight {
-        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        
+      .select-field {
+        padding: 0.5rem 1rem;
       }
     }
 

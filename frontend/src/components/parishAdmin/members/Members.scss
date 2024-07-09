@@ -1,13 +1,18 @@
-
 @import "../../../styles/Mixins.scss";
 @import "../../../styles/Variables.scss";
 
 .members-container {
+  width: $mobile;
+  margin: 1rem auto;
+
   .members-title {
+    @include subTitle;
+    text-align: center
   }
 
   .new-member-wrapper {
     @include flexSpaceBetween;
+    margin-bottom: 1rem;
     .title {
       @include subTitle;
     }

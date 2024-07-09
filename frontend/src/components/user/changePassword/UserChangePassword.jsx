@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './UserChangePassword.scss';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
@@ -80,14 +80,14 @@ const UserChangePassword = () => {
     try {
       dispatch(userChangePasswordStart());
 
-      const changeUserpassword = {
+      const changeUserPassword = {
         oldPassword: oldPassword,
         newPassword: newPassword,
         confirmNewPassword: confirmNewPassword,
       };
       const { data } = await axios.put(
         `${API}/auth/change-password/${currentUser._id}`,
-        changeUserpassword
+        changeUserPassword
       );
       dispatch(userChangePasswordSuccess(data.changePassword));
       toast.success(data.message);

@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react';
-import './UpdateUserProfile.scss';
-import { FaLaptopCode, FaMapMarker, FaPhone, FaUserAlt } from 'react-icons/fa';
-import { MdLocationPin } from 'react-icons/md';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { GrStatusInfo } from 'react-icons/gr';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import "./UpdateUserProfile.scss";
+import { FaLaptopCode, FaMapMarker, FaPhone, FaUserAlt } from "react-icons/fa";
+import { MdLocationPin } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { NavLink, useNavigate } from "react-router-dom";
+import { GrStatusInfo } from "react-icons/gr";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearErrors,
   userUpdateFailure,
   userUpdateStart,
   userUpdateSuccess,
-} from '../../../redux/reducers/userReducer';
-import ButtonLoader from '../../../utiles/loader/buttonLoader/ButtonLoader';
-import { toast } from 'react-toastify';
+} from "../../../redux/reducers/userReducer";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import { toast } from "react-toastify";
 import {
   API,
   cloud_URL,
   cloud_name,
   upload_preset,
-} from '../../../utiles/securitiy/secreteKey';
-import UserAddress from '../address/UserAddress';
-import UserChangePassword from '../changePassword/UserChangePassword';
-import MonthlyContribution from '../contribution/MonthlyContribution';
-import AllUserServices from '../userServices/AllUserServices';
-import ServiceRequest from '../serviceRequest/ServiceRequest';
-import UserInbox from '../inbox/UserInbox';
+} from "../../../utiles/securitiy/secreteKey";
+import UserAddress from "../address/UserAddress";
+import UserChangePassword from "../changePassword/UserChangePassword";
+import MonthlyContribution from "../contribution/MonthlyContribution";
+import AllUserServices from "../userServices/AllUserServices";
+import ServiceRequest from "../serviceRequest/ServiceRequest";
+import UserInbox from "../inbox/UserInbox";
 
 const UpdateUserProfile = ({ isActive }) => {
   const navigate = useNavigate();
@@ -37,25 +37,38 @@ const UpdateUserProfile = ({ isActive }) => {
   const dispatch = useDispatch();
 
   // Local State variables
-  const [firstName, setFirstName] = useState(currentUser.firstName || '');
-  const [lastName, setLastName] = useState(currentUser.lastName || '');
-  const [image, setImage] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState(
-    currentUser.maritalStatus || ''
-  );
-  const [phone, setPhone] = useState(currentUser.phone || '');
-  const [street, setStreet] = useState(currentUser.street || '');
-  const [zipCode, setZipCode] = useState(currentUser.zipCode || '');
-  const [city, setCity] = useState(currentUser.city || '');
-  const [state, setState] = useState(currentUser.state || '');
-  const [country, setCountry] = useState(currentUser.country || '');
-  const [agree, setAgree] = useState(false);
-  const [agreeChanged, setAgreeChanged] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: currentUser.firstName || "",
+    lastName: currentUser.lastName || "",
+    image: currentUser.image || null,
+    maritalStatus: currentUser.maritalStatus || "",
+    phone: currentUser.phone || "",
+    street: currentUser.street || "",
+    zipCode: currentUser.zipCode || "",
+    city: currentUser.city || "",
+    state: currentUser.state || "",
+    country: currentUser.country || "",
+    agree: false,
+  });
+
+  const {
+    firstName,
+    lastName,
+    image,
+    maritalStatus,
+    phone,
+    street,
+    zipCode,
+    city,
+    state,
+    country,
+    agree,
+  } = formData;
 
   // If user is not logged in, user will not access profile page
   useEffect(() => {
     if (!currentUser) {
-      navigate('/login');
+      navigate("/login");
     }
   });
 
@@ -69,49 +82,39 @@ const UpdateUserProfile = ({ isActive }) => {
     }
   });
 
-  // Update image
-  const updateImage = (e) => {
-    setImage(e.target.files[0]);
-  };
+  // Handle change input data
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
 
-  // Function that is used to update the state variables of the registration form
-  const update = (event) => {
-    switch (event.target.name) {
-      case 'firstName':
-        setFirstName(event.target.value);
-        break;
-      case 'lastName':
-        setLastName(event.target.value);
-        break;
-      case 'maritalStatus':
-        setMaritalStatus(event.target.value);
-        break;
-      case 'phone':
-        setPhone(event.target.value);
-        break;
-      case 'street':
-        setStreet(event.target.value);
-        break;
-
-      case 'zipCode':
-        setZipCode(event.target.value);
-        break;
-
-      case 'city':
-        setCity(event.target.value);
-        break;
-
-      case 'state':
-        setState(event.target.value);
-        break;
-      case 'country':
-        setCountry(event.target.value);
-        break;
-      default:
-        break;
+    if (name === "image") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: files[0], // Assuming single file upload
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: type === "checkbox" ? checked : value,
+      }));
     }
   };
 
+  // Handle reset
+  const handleReset = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      image: null,
+      maritalStatus: "",
+      phone: "",
+      street: "",
+      zipCode: "",
+      city: "",
+      state: "",
+      country: "",
+      agree: false,
+    });
+  };
   // Submit logged in user Function
   const updateUserAccount = async (event) => {
     event.preventDefault();
@@ -121,9 +124,9 @@ const UpdateUserProfile = ({ isActive }) => {
 
       // Image validation
       const userPhoto = new FormData();
-      userPhoto.append('file', image);
-      userPhoto.append('cloud_name', cloud_name);
-      userPhoto.append('upload_preset', upload_preset);
+      userPhoto.append("file", image);
+      userPhoto.append("cloud_name", cloud_name);
+      userPhoto.append("upload_preset", upload_preset);
 
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, userPhoto);
@@ -140,6 +143,7 @@ const UpdateUserProfile = ({ isActive }) => {
         city: city,
         state: state,
         country: country,
+        agree: agree,
       };
 
       const { data } = await axios.put(
@@ -149,6 +153,7 @@ const UpdateUserProfile = ({ isActive }) => {
 
       dispatch(userUpdateSuccess(data.user));
       toast.success(data.message);
+      handleReset();
     } catch (error) {
       dispatch(userUpdateFailure(error.response.data.message));
     }
@@ -169,7 +174,7 @@ const UpdateUserProfile = ({ isActive }) => {
                 src={
                   currentUser
                     ? currentUser.image
-                    : 'https://i.ibb.co/4pDNDk1/avatar.png'
+                    : "https://i.ibb.co/4pDNDk1/avatar.png"
                 }
                 alt={currentUser.firstName}
               />
@@ -190,7 +195,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="firstName"
                     id="firstName"
                     value={firstName}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="First Name"
                     className="input-field"
                   />
@@ -209,7 +214,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="lastName"
                     id="lastName"
                     value={lastName}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="Last Name"
                     className="input-field"
                   />
@@ -228,7 +233,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="maritalStatus"
                     id="maritalStatus"
                     value={maritalStatus}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder=" Marital Status"
                     className="input-field"
                   />
@@ -246,7 +251,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     type="file"
                     name="image"
                     id="image"
-                    onChange={updateImage}
+                    onChange={handleChange}
                     className="input-field"
                   />
                 </div>
@@ -259,7 +264,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="phone"
                     id="phone"
                     value={phone}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="Phone Number"
                     className="input-field"
                   />
@@ -278,7 +283,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="street"
                     id="street"
                     value={street}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="Street Name"
                     className="input-field"
                   />
@@ -297,7 +302,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="zipCode"
                     id="zipCode"
                     value={zipCode}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="Zip Code"
                     className="input-field"
                   />
@@ -316,7 +321,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="city"
                     id="city"
                     value={city}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="City Name"
                     className="input-field"
                   />
@@ -334,7 +339,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="state"
                     id="state"
                     value={state}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="State Name"
                     className="input-field"
                   />
@@ -352,7 +357,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     name="country"
                     id="country"
                     value={country}
-                    onChange={update}
+                    onChange={handleChange}
                     placeholder="Country Name"
                     className="input-field"
                   />
@@ -369,13 +374,15 @@ const UpdateUserProfile = ({ isActive }) => {
                   type="checkbox"
                   name="agree"
                   id="agree"
+                  checked={agree}
+                  onChange={handleChange}
                   className="consent-checkbox"
                 />
                 <label htmlFor="agree" className="accept">
                   I accept
                 </label>
 
-                <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
+                <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
               </div>
 
               <button
@@ -388,7 +395,7 @@ const UpdateUserProfile = ({ isActive }) => {
                     <ButtonLoader /> Loading...
                   </span>
                 ) : (
-                  'Update'
+                  "Update"
                 )}
               </button>
             </form>

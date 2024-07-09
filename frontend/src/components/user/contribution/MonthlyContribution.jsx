@@ -1,13 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import "./MonthlyContribution.scss"
 
 const MonthlyContribution = () => {
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+
   // Local state variables
   const [contributions, setContributions] = useState([]);
   console.log("contributions=", contributions);
@@ -16,15 +17,13 @@ const MonthlyContribution = () => {
   useEffect(() => {
     const getMemberContributions = async () => {
       try {
-        // dispatch(membersFetchStart());
         const { data } = await axios.get(
           `${API}/contributions/${currentUser._id}`
         );
-        // dispatch(membersFetchSuccess(data.users));
+
         setContributions(data.memberContributions);
       } catch (error) {
         console.log(error.message);
-        // dispatch(membersFetchFailure(error.response.data.message));
       }
     };
 
@@ -52,8 +51,8 @@ const MonthlyContribution = () => {
 
   console.log("rows=", rows);
   return (
-    <section>
-      <h1>
+    <section className="user-monthly-contribution-container">
+      <h1 className="user-monthly-contribution-title">
         {currentUser ? currentUser.firstName : "User"} Monthly Contribution
       </h1>
 

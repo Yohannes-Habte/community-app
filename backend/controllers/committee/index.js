@@ -57,121 +57,6 @@ export const getAllCommitteeMembers = async (req, res, next) => {
   }
 };
 
-
-// ============================================================================================
-// Get committees by service year range
-// ============================================================================================
-
-async function fetchCommitteesBetweenYears(startingYear, endingYear) {
-  try {
-    // Convert startingYear and endingYear to numbers for comparison
-    const startYearNum = Number(startingYear);
-    const endYearNum = Number(endingYear);
-
-    // Ensure that endingYear is not less than startingYear
-    if (startYearNum > endYearNum) {
-      throw new Error("Starting year cannot be greater than ending year");
-    }
-
-    // Query the database for committees where the year part of startingTime and endingTime falls within the specified range
-    const committees = await Committee.find({
-      $expr: {
-        $and: [
-          // Ensure that startingTime's year is within the range of startingYear and endingYear
-          {
-            $and: [
-              { $gte: [{ $year: "$startingTime" }, startYearNum] },
-              { $lte: [{ $year: "$startingTime" }, endYearNum] },
-            ],
-          },
-          // Ensure that endingTime's year is within the range of startingYear and endingYear
-          {
-            $and: [
-              { $gte: [{ $year: "$endingTime" }, startYearNum] },
-              { $lte: [{ $year: "$endingTime" }, endYearNum] },
-            ],
-          },
-        ],
-      },
-    });
-
-    return committees;
-  } catch (error) {
-    console.error("Error fetching committees:", error);
-    throw error;
-  }
-}
-
-
-
-export const groupCommitteeByYear = async (req, res) => {
-  const { startingTime, endingTime } = req.body;
-
-  if (!startingTime || !endingTime) {
-    return res
-      .status(400)
-      .json({ error: "startingTime and endingTime are required" });
-  }
-
-  try {
-    const committees = await fetchCommitteesBetweenTimes(
-      startingTime,
-      endingTime
-    );
-    return res.status(200).json(committees);
-  } catch (error) {
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-
-// ============================================================================================
-// Get committees by range of service years
-// ============================================================================================
-export const getCommitteesByServiceYearRange = async (req, res) => {
-  const { startYear, endYear } = req.query;
-
-  try {
-    const startDate = new Date(`${startYear}-01-01`);
-    const endDate = new Date(`${parseInt(endYear) + 1}-01-01`);
-
-    const committees = await Committee.find({
-      startingTime: { $gte: startDate },
-      endingTime: { $lte: endDate }
-    });
-
-    res.status(200).json(committees);
-  } catch (error) {
-    console.error('Error fetching committees by service year range:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
-
-
-// ============================================================================================
-// Get committees by service year
-// ============================================================================================
-export const getCommitteesByServiceYear = async (req, res) => {
-  const { year } = req.query;
-
-  try {
-    const startDate = new Date(`${year}-01-01`);
-    const endDate = new Date(`${parseInt(year) + 2}-01-01`);
-
-    const committees = await Committee.find({
-      startingTime: { $gte: startDate },
-      endingTime: { $lt: endDate },
-    });
-
-    res.status(200).json(committees);
-  } catch (error) {
-    console.error("Error fetching committees by service year:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-
-
 //==========================================================================
 // Login committee member
 //==========================================================================
@@ -225,7 +110,7 @@ export const updateCommitteeMember = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get single Committe Member
+// Get single Committee Member
 //==========================================================================
 export const getCommitteeMember = async (req, res, next) => {
   try {
@@ -271,5 +156,130 @@ export const serviceFacilitator = async (req, res, next) => {
     return next(
       createError(400, "Priest could not be accessed! please try again!")
     );
+  }
+};
+
+// ============================================================================================
+// Get committees by range of service years using two input values
+// ============================================================================================
+export const getCommitteesByServiceYearRange = async (req, res) => {
+  const { startYear, endYear } = req.query;
+
+  // Validate input
+  if (!startYear || !endYear || isNaN(startYear) || isNaN(endYear)) {
+    return res.status(400).json({ message: "Invalid year range" });
+  }
+
+  try {
+    const startDate = new Date(`${startYear}-01-01`);
+    const endDate = new Date(`${parseInt(endYear) + 1}-01-01`);
+
+    const committees = await Committee.find({
+      startingTime: { $gte: startDate },
+      endingTime: { $lte: endDate },
+    });
+
+    res.status(200).json(committees);
+  } catch (error) {
+    console.error("Error fetching committees by service year range:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//============================================================================================
+// How to get get a dropdown years to get a specific Committee using the two function below
+//============================================================================================
+
+export const getCommitteeMembers = async (req, res) => {
+  const { startYear, endYear } = req.query;
+
+  // Validate the query parameters
+  if (!startYear || !endYear || isNaN(startYear) || isNaN(endYear)) {
+    return res.status(400).json({ message: "Invalid startYear or endYear" });
+  }
+
+  try {
+    const startDate = new Date(`${startYear}-01-01`);
+    const endDate = new Date(`${endYear}-12-31`); // Ensure end date is the last day of the year
+
+    if (startDate > endDate) {
+      return res
+        .status(400)
+        .json({ message: "startYear must be less than or equal to endYear" });
+    }
+
+    // Query for committees that fall within the specified year range
+    const committees = await Committee.find({
+      startingTime: { $gte: startDate },
+      endingTime: { $lte: endDate },
+    });
+
+    if (committees.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No committee members found" });
+    }
+
+    res.status(200).json({ success: true, result: committees });
+  } catch (error) {
+    console.error(
+      "Error fetching committee members by service year range:",
+      error
+    );
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getYearRanges = async (req, res) => {
+  try {
+    const query = [
+      {
+        $group: {
+          _id: null,
+          startYears: { $addToSet: { $year: "$startingTime" } },
+          endYears: { $addToSet: { $year: "$endingTime" } },
+        },
+      },
+      {
+        $project: {
+          allYears: { $setUnion: ["$startYears", "$endYears"] },
+        },
+      },
+      {
+        $unwind: "$allYears",
+      },
+      {
+        $sort: { allYears: 1 },
+      },
+      {
+        $group: {
+          _id: null,
+          allYears: { $push: "$allYears" },
+        },
+      },
+    ];
+
+    const years = await Committee.aggregate(query);
+
+    if (!years.length || !years[0].allYears.length) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No years found" });
+    }
+
+    const yearRanges = [];
+    const sortedYears = years[0].allYears;
+
+    // Generate ranges like "2022-2023", "2024-2025", etc.
+    for (let i = 0; i < sortedYears.length - 1; i += 2) {
+      if (i + 1 < sortedYears.length) {
+        yearRanges.push(`${sortedYears[i]}-${sortedYears[i + 1]}`);
+      }
+    }
+
+    res.status(200).json({ success: true, result: yearRanges });
+  } catch (error) {
+    console.error("Error fetching distinct years:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

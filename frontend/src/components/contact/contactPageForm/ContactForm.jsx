@@ -3,7 +3,6 @@ import { useState } from "react";
 import "./ContactForm.scss";
 import { toast } from "react-toastify";
 import { MdEmail } from "react-icons/md";
-import { FaUserAlt } from "react-icons/fa";
 import { BsCardText } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,7 +13,6 @@ import {
 import { API } from "../../../utiles/securitiy/secreteKey";
 
 const initialState = {
-  fullName: "",
   email: "",
   message: "",
 };
@@ -26,7 +24,7 @@ const ContactForm = () => {
   // State variables
   const [commentData, setCommentData] = useState(initialState);
 
-  const { fullName, email, message } = commentData;
+  const { email, message } = commentData;
 
   // Handle input data change
   const handleChange = (e) => {
@@ -37,7 +35,6 @@ const ContactForm = () => {
   // Reset all the state variables to initial value
   const handleReset = () => {
     setCommentData({
-      fullName: "",
       email: "",
       message: "",
     });
@@ -51,7 +48,6 @@ const ContactForm = () => {
       dispatch(commentPostStart());
       // The body
       const newComment = {
-        fullName: fullName,
         email: email,
         message: message,
       };
@@ -71,24 +67,6 @@ const ContactForm = () => {
       <h2 className="contact-page-form-title">How can we help?</h2>
 
       <form onSubmit={submitComment} className="contact-form">
-        {/* Full Name input field */}
-        <div className="contact-form-input-container">
-          <FaUserAlt className="input-icon" />
-          <input
-            type="text"
-            name="fullName"
-            value={fullName}
-            onChange={handleChange}
-            placeholder="First Name, Last Name"
-            className="input-field"
-          />
-          <label htmlFor="fullName" className="input-label">
-            {" "}
-            Full Name
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
         {/* Email address input field */}
         <div className="contact-form-input-container">
           <MdEmail className="input-icon" />

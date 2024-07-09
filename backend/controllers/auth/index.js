@@ -50,7 +50,6 @@ export const registerUser = async (req, res, next) => {
         agree: agree,
         isAdmin: isAdmin,
         isPriest: isPriest,
-        
       });
 
       // Save user in the database
@@ -136,54 +135,37 @@ export const loginUser = async (req, res, next) => {
 // Update user details
 //==========================================================================
 export const updateUser = async (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    maritalStatus,
-    image,
-    phone,
-    street,
-    zipCode,
-    city,
-    state,
-    country,
-  } = req.body;
+  const userId = req.params.userId;
+  const updateData = req.body;
+
   try {
-    const userId = req.params.userId;
     const user = await Member.findById(userId);
 
     if (!user) {
-      createError(400, "User does not exist! please try again!");
+      createError(400, "User does not exist!");
     }
 
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.maritalStatus = maritalStatus;
-    user.image = image;
-    user.phone = phone;
-    user.street = street;
-    user.zipCode = zipCode;
-    user.city = city;
-    user.state = state;
-    user.country = country;
+    const updatedUser = await Member.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
 
     try {
       await user.save();
     } catch (error) {
       console.log(error);
-      return next(
-        createError(500, "Update could not be saved! Please try again!")
-      );
+      return next(createError(500, "Update could not be saved!"));
     }
 
     return res.status(201).json({
       success: true,
-      user: user,
-      message: "User account successfully updated!",
+      user: updatedUser,
+      message: "Account successfully updated!",
     });
   } catch (error) {
     console.log(error);
-    next(createError(500, "User account is not updated! Please try again!"));
+    next(createError(500, "Something went wrong!"));
   }
 };
 

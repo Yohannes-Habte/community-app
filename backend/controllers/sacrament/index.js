@@ -14,6 +14,15 @@ export const createSacrament = async (req, res, next) => {
     }
 
     const newSacrament = new Sacrament(req.body);
+
+    // Save new sacrament
+    try {
+      await newSacrament.save();
+    } catch (error) {
+      console.log(error);
+      return next(createError(400, "Sacrament request is not saved!"));
+    }
+
     user.services = [...user.services, newSacrament];
 
     // Save user after adding the new sacrament to the user who has ordered it
@@ -22,14 +31,6 @@ export const createSacrament = async (req, res, next) => {
     } catch (error) {
       console.log(error);
       return next(createError(400, "Sacrament request is added to user!"));
-    }
-
-    // Save new sacrament
-    try {
-      await newSacrament.save();
-    } catch (error) {
-      console.log(error);
-      return next(createError(400, "Sacrament request is not saved!"));
     }
 
     return res.status(201).json({

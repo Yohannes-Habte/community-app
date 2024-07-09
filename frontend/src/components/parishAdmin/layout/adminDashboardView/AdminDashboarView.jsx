@@ -8,6 +8,7 @@ import Delegations from "../../delegations/Delegations";
 import AdminInBox from "../../inbox/AdminInBox";
 import MembersContribution from "../../membersContribution/MembersContribution";
 import CommitteeList from "../../committees/Committees";
+import ChurchCommittees from "../../committeeList/ChurchCommittees";
 
 
 const AdminDashboarView = ({ isActive }) => {
@@ -28,6 +29,8 @@ const AdminDashboarView = ({ isActive }) => {
       {isActive === 7 && <Delegations />}
 
       {isActive === 8 && <AdminInBox />}
+
+      {isActive === 10 && <ChurchCommittees />}
     </article>
   );
 };

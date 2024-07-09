@@ -10,7 +10,6 @@ export const createComment = async (req, res, next) => {
   try {
     const user = await Member.findById(userId);
 
-
     if (!user) {
       return next(createError(400, "User not found!"));
     }
@@ -27,7 +26,7 @@ export const createComment = async (req, res, next) => {
 
     user.comments.push(comment._id);
 
-    console.log("user", user)
+    console.log("user", user);
     // Save user after the comment is added in the database
 
     try {
@@ -37,7 +36,6 @@ export const createComment = async (req, res, next) => {
       return next(createError(500, "Something went wrong!"));
     }
 
-   
     res.status(201).json({
       success: true,
       comment,
@@ -120,14 +118,11 @@ export const deleteComment = async (req, res, next) => {
 //==========================================================================export const getAllComments = async (req, res, next) => {
 export const getAllComments = async (req, res, next) => {
   const { email } = req.query;
-  const { fullName } = req.query;
   const name = fullName;
 
   try {
     let comments;
-    if (email) {
-      comments = await Comment.find(email && { email });
-    } else if (name) {
+    if (name) {
       comments = await Comment.find(name && { name: fullName.split(" ")[0] });
     } else if (email && name) {
       comments = await Comment.find({ email, name });

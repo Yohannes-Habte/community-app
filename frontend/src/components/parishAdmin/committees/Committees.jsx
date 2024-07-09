@@ -4,15 +4,17 @@ import { API } from "../../../utiles/securitiy/secreteKey";
 import { GiCalendarHalfYear } from "react-icons/gi";
 import "./Committees.scss";
 import CommitteeCard from "../committeeCard/CommitteeCard";
+import { useNavigate } from "react-router-dom";
 
 const CommitteeList = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [committees, setCommittees] = useState([]);
   const [startYear, setStartYear] = useState(2022); // Default start year
   const [endYear, setEndYear] = useState(2023); // Default end year
 
   useEffect(() => {
     fetchCommittees();
-  }, []); // Fetch data on initial component mount
+  }, [startYear, endYear]);
 
   const fetchCommittees = async () => {
     try {
@@ -28,6 +30,7 @@ const CommitteeList = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchCommittees();
+    navigate(`/admin/dashboard?startYear=${startYear}&endYear=${endYear}`); // Navigate to new URL
   };
 
   return (
@@ -63,7 +66,7 @@ const CommitteeList = () => {
           <span className="input-highlight"></span>
         </div>
         <button type="submit" className="committees-btn">
-          Get Committee
+          Search
         </button>
       </form>
       <section className="committee-card-wrapper">
