@@ -6,12 +6,19 @@ import {
   getSingleSpiritual,
   totalNumberOfSpirituals,
 } from "../../controllers/spiritual/index.js";
+import checkValidation from "../../validators/validationResult/index.js";
+import serviceValidation from "../../validators/service/index.js";
 
 // Spiritual Development Router
 const spiritualRouter = express.Router();
 
 // Spiritual development routes
-spiritualRouter.post("/:userId/new", createSpiritual);
+spiritualRouter.post(
+  "/:userId/new",
+  serviceValidation(),
+  checkValidation,
+  createSpiritual
+);
 spiritualRouter.get("/:id", getSingleSpiritual);
 spiritualRouter.get("/", getAllSpirituals);
 spiritualRouter.delete("/:userId/:id", deleteSpiritual);

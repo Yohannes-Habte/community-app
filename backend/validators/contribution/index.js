@@ -1,60 +1,32 @@
 import { check } from "express-validator";
 
-const registerValidator = () => {
+const validateContribution = () => {
   return [
-    check("userCode")
-      .trim()
-      .escape()
-      .isLength({ min: 8, max: 32 })
-      .matches(/^[a-zA-Z0-9]*$/)
-      .withMessage("userCode must contain only alphanumeric characters")
-      .custom((value) => {
-        if (!/\d/.test(value)) {
-          throw new Error("userCode must contain at least one digit");
-        }
-        if (!/[A-Z]/.test(value)) {
-          throw new Error(
-            "userCode must contain at least one uppercase letter"
-          );
-        }
-        if (!/[a-z]/.test(value)) {
-          throw new Error(
-            "userCode must contain at least one lowercase letter"
-          );
-        }
-        return true;
-      }),
+    check("user")
+      .isString()
+      .withMessage("User ID must be a string")
+      .matches(/^[a-f\d]{24}$/i)
+      .withMessage("User ID must be a valid MongoDB ObjectId")
+      .notEmpty()
+      .withMessage("User ID is required"),
 
-    check("donation")
-      .exists()
-      .withMessage("Donation amount is required")
+    check("amount")
       .isNumeric()
-      .withMessage("Donation amount must be a number")
+      .withMessage("Amount amount must be a number")
       .isDecimal()
-      .withMessage("Donation amount must be positive")
+      .withMessage("Amount amount must be positive")
       .custom((value) => value >= 0)
       .withMessage("Price cannot be negative")
-      .toFloat(),
+      .toFloat()
+      .notEmpty()
+      .withMessage("Amount is required"),
 
     check("date")
-      .exists()
-      .withMessage("Start date is required")
-      .toDate()
-      .matches(/^\d{2}\/\d{2}\/\d{4}$/)
-      .withMessage("Date must be in DD/MM/YYYY format")
-      .custom((value) => {
-        const [day, month, year] = value.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-        if (
-          date.getFullYear() !== year ||
-          date.getMonth() !== month - 1 ||
-          date.getDate() !== day
-        ) {
-          throw new Error("Invalid date");
-        }
-        return true;
-      }),
+      .isDate()
+      .withMessage("Date must be a valid date")
+      .notEmpty()
+      .withMessage("Date is required"),
   ];
 };
 
-export default registerValidator;
+export default validateContribution;

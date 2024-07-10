@@ -11,7 +11,7 @@ export const createSubscriber = async (req, res, next) => {
   try {
     let subscriber = await Subscriber.findOne({ email });
     if (subscriber) {
-      return next(createError(400, "Subscriber already exists"));
+      return next(createError(400, "You have already subscribed"));
     }
 
     subscriber = new Subscriber({

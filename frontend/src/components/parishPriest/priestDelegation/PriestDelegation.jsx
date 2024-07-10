@@ -1,113 +1,72 @@
-import React, { useState } from 'react';
-import './PriestDelegation.scss';
-import { FaUserNurse } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { MdOutlineSmartphone } from 'react-icons/md';
-import { BsCalendarDateFill } from 'react-icons/bs';
-import { MdMessage } from 'react-icons/md';
-import { toast } from 'react-toastify';
-import { validEmail } from '../../../utiles/validation/validate';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
+import "./PriestDelegation.scss";
+import { FaUserNurse } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { MdOutlineSmartphone } from "react-icons/md";
+import { BsCalendarDateFill } from "react-icons/bs";
+import { MdMessage } from "react-icons/md";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import {
   priestDeligateFailure,
   priestDeligateStart,
   priestDeligateSuccess,
-} from '../../../redux/reducers/priestReducer';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
+} from "../../../redux/reducers/priestReducer";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
+const initialState = {
+  fullName: "",
+  email: "",
+  phoneNumber: "",
+  serviceDate: "",
+  textMessage: "",
+};
 const PriestDelegation = () => {
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
-  const { loading, error } = useSelector((state) => state.priest);
+  const { error } = useSelector((state) => state.priest);
   const dispatch = useDispatch();
 
   // Local state variables
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [serviceDate, setServiceDate] = useState('');
-  const [textMessage, setTextMessage] = useState('');
+  const [formData, setFormData] = useState(initialState);
 
-  // Update input data
-  const updateChange = (e) => {
-    switch (e.target.name) {
-      case 'fullName':
-        setFullName(e.target.value);
-        break;
-      case 'email':
-        setEmail(e.target.value);
-        break;
-      case 'phoneNumber':
-        setPhoneNumber(e.target.value);
-        break;
-      case 'serviceDate':
-        setServiceDate(e.target.value);
-        break;
+  const { fullName, email, phoneNumber, serviceDate, textMessage } = formData;
 
-      case 'textMessage':
-        setTextMessage(e.target.value);
-        break;
-      default:
-        break;
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   // Reset variables
-  const resetVariables = () => {
-    setFullName('');
-    setEmail('');
-    setPhoneNumber('');
-    setServiceDate('');
-    setTextMessage('');
+  const handleReset = () => {
+    setFormData({
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      serviceDate: "",
+      textMessage: "",
+    });
   };
 
   // Submit handler
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    if (!setFullName) {
-      toast.error('Please enter full name!');
-    }
-
-    if (!email) {
-      toast.error('Please enter your email!');
-    }
-
-    if (!validEmail(email)) {
-      return toast.error('Please enter a valid email');
-    }
-
-    if (!setPhoneNumber) {
-      toast.error('Please enter valid phone number!');
-    }
-
-    if (!serviceDate) {
-      toast.error('Please select date!');
-    }
-
-    if (!textMessage) {
-      toast.error('Please write a text message!');
-    }
-
     try {
       dispatch(priestDeligateStart());
-      const newPriest = {
-        fullName: fullName,
-        email: email,
-        phoneNumber: phoneNumber,
-        serviceDate: serviceDate,
-        textMessage: textMessage,
-      };
 
       const { data } = await axios.post(
-        `${API}/priests/${currentUser._id}/delegate`,
-        newPriest
+        `${API}/delegations/${currentUser._id}/delegate`,
+        formData
       );
 
       dispatch(priestDeligateSuccess(data.delegate));
       toast.success(data.message);
-      resetVariables();
+      handleReset();
     } catch (error) {
       dispatch(priestDeligateFailure(error.response.data.message));
     }
@@ -129,16 +88,16 @@ const PriestDelegation = () => {
             <FaUserNurse className="icon" />
             <input
               type="text"
-              name={'fullName'}
-              id={'fullName'}
+              name={"fullName"}
+              id={"fullName"}
               autoComplete="fullName"
               value={fullName}
-              onChange={updateChange}
+              onChange={handleChange}
               placeholder="Enter Full Name"
               className="input-field"
             />
 
-            <label htmlFor={'firstName'} className="input-label">
+            <label htmlFor={"firstName"} className="input-label">
               Full Name
             </label>
             <span className="input-highlight"></span>
@@ -153,7 +112,7 @@ const PriestDelegation = () => {
               id="email"
               autoComplete="email"
               value={email}
-              onChange={updateChange}
+              onChange={handleChange}
               placeholder="Enter Email"
               className="input-field"
             />
@@ -168,16 +127,16 @@ const PriestDelegation = () => {
             <MdOutlineSmartphone className="icon" />
             <input
               type="text"
-              name={'phoneNumber'}
-              id={'phoneNumber'}
+              name={"phoneNumber"}
+              id={"phoneNumber"}
               autoComplete="phoneNumber"
               value={phoneNumber}
-              onChange={updateChange}
+              onChange={handleChange}
               placeholder="Enter Phone Number"
               className="input-field"
             />
 
-            <label htmlFor={'phoneNumber'} className="input-label">
+            <label htmlFor={"phoneNumber"} className="input-label">
               Phone Number
             </label>
             <span className="input-highlight"></span>
@@ -188,16 +147,16 @@ const PriestDelegation = () => {
             <BsCalendarDateFill className="icon" />
             <input
               type="date"
-              name={'serviceDate'}
-              id={'serviceDate'}
+              name={"serviceDate"}
+              id={"serviceDate"}
               autoComplete="serviceDate"
               value={serviceDate}
-              onChange={updateChange}
+              onChange={handleChange}
               placeholder="Enter Service Date"
               className="input-field"
             />
 
-            <label htmlFor={'serviceDate'} className="input-label">
+            <label htmlFor={"serviceDate"} className="input-label">
               Service Date
             </label>
             <span className="input-highlight"></span>
@@ -213,14 +172,14 @@ const PriestDelegation = () => {
             id="textMessage"
             autoComplete="serviceDate"
             value={textMessage}
-            onChange={updateChange}
+            onChange={handleChange}
             cols="30"
             rows="10"
             placeholder="Enter Service Date"
             className="textarea-field"
           ></textarea>
 
-          <label htmlFor={'textMessage'} className="textarea-label">
+          <label htmlFor={"textMessage"} className="textarea-label">
             Text message
           </label>
           <span className="textarea-highlight"></span>

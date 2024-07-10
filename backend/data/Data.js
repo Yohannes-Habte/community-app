@@ -152,7 +152,7 @@ export const serviceData = {
     },
 
     {
-      type: "text",
+      type: "date",
       id: "date",
       name: "date",
       label: "Preferred date of Sacrament Service",
@@ -179,7 +179,7 @@ export const serviceData = {
     },
 
     {
-      type: "text",
+      type: "date",
       id: "date",
       name: "date",
       label: "Preferred date of prayer service",
@@ -206,7 +206,7 @@ export const serviceData = {
     },
 
     {
-      type: "text",
+      type: "date",
       id: "date",
       name: "date",
       label: "Preferred date of Spiritual Development Service",

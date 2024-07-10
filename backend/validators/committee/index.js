@@ -1,22 +1,24 @@
 import { check } from "express-validator";
-const phoneRegex = /^\(?([0-9]{3})\)?[-. ]([0-9]{3})[-. ]([0-9]{4})$/;
 
-const registerValidator = () => {
+const validateCommittee = () => {
   return [
     check("fullName")
-      .trim()
-      .notEmpty()
-      .withMessage("Full name is required")
-      .isLength({ min: 3, max: 50 })
-      .withMessage("Full name must be between 3 and 50 characters")
+      .isString()
+      .withMessage("Full name must be a string")
+      .isLength({ min: 2, max: 60 })
+      .withMessage("Full name must be between 2 and 60 characters")
+      .matches(/^[a-zA-Z\s]+$/)
+      .withMessage(
+        "Full name can only contain alphabetic characters and spaces"
+      )
       .matches(/^[a-zA-Z]+ [a-zA-Z]+$/)
       .withMessage(
         "Full name must contain both first and last name, separated by a space"
       )
-      .matches(/^[a-zA-Z\s'-]+$/)
-      .withMessage(
-        "Full name can only contain alphabetic characters, spaces, hyphens, and apostrophes"
-      )
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Full name is required")
       .custom((value) => {
         if (/\d/.test(value)) {
           throw new Error("Full name must not contain numbers");
@@ -26,13 +28,12 @@ const registerValidator = () => {
 
     check("email")
       .isEmail()
-      .withMessage("Please enter a valid email address")
+      .withMessage("Invalid email")
+      .normalizeEmail()
+      .notEmpty()
+      .withMessage("Email is required")
       .isLength({ max: 50 })
       .withMessage("Email must be at most 50 characters long")
-      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-      .withMessage("Email format is invalid")
-      .normalizeEmail()
-      .trim()
       .custom((value) => {
         const domain = value.split("@")[1];
         const blockedDomains = ["spam.com", "fake.com"]; // Add more blocked domains as needed
@@ -41,104 +42,79 @@ const registerValidator = () => {
         }
         return true;
       }),
+
     check("password")
-      .exists({ checkFalsy: true })
-      .withMessage("Password is required.")
+      .isString()
+      .withMessage("Password must be a string")
       .isLength({ min: 8 })
-      .withMessage("Password must be at least 8 characters long.")
-      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z])/)
-      .withMessage(
-        "Password must contain a lowercase letter, uppercase letter, number, and special character."
-      ),
+      .withMessage("Password must be at least 8 characters long")
+      .matches(/\d/)
+      .withMessage("Password must contain a number")
+      .matches(/[A-Z]/)
+      .withMessage("Password must contain an uppercase letter")
+      .matches(/[a-z]/)
+      .withMessage("Password must contain a lowercase letter")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage("Password must contain a special character")
+      .notEmpty()
+      .withMessage("Password is required"),
 
     check("title")
       .isString()
       .withMessage("Title must be a string")
-      .isLength({ min: 5, max: 100 })
-      .withMessage("Title must be between 5 and 100 characters long")
-      .matches(/^[a-zA-Z0-9 ]*$/)
-      .withMessage("Title must contain only alphanumeric characters and spaces")
-      .trim()
-      .escape(),
-
-    check("phone")
-      .bail()
+      .isLength({ min: 2, max: 100 })
+      .withMessage("Title must be between 2 and 100 characters")
+      .matches(/^[a-zA-Z\s]+$/)
+      .withMessage("Title can only contain alphabetic characters and spaces")
       .trim()
       .escape()
-      .exists()
       .notEmpty()
-      .withMessage("Phone number is required")
-      .matches(phoneRegex)
-      .withMessage("Invalid phone number format"),
+      .withMessage("Title is required"),
 
-    check("startDate")
-      .exists()
-      .withMessage("Start date is required")
-      .toDate()
-      .matches(/^\d{2}\/\d{2}\/\d{4}$/)
-      .withMessage("Date must be in DD/MM/YYYY format")
-      .custom((value) => {
-        const [day, month, year] = value.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-        if (
-          date.getFullYear() !== year ||
-          date.getMonth() !== month - 1 ||
-          date.getDate() !== day
-        ) {
-          throw new Error("Invalid date");
-        }
-        return true;
-      }),
+    check("phone")
+      .isString()
+      .withMessage("Phone number must be a string")
+      .matches(/^[0-9]{10,15}$/)
+      .withMessage("Phone number must be between 10 and 15 digits")
+      .escape()
+      .notEmpty()
+      .withMessage("Phone number is required"),
 
-    check("endDate")
-      .exists()
-      .withMessage("End date is required")
-      .matches(/^\d{2}\/\d{2}\/\d{4}$/)
-      .withMessage("Date must be in DD/MM/YYYY format")
+    check("startingTime")
+      .isDate()
+      .withMessage("Starting time must be a valid date")
       .custom((value) => {
-        const [day, month, year] = value.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-        if (
-          date.getFullYear() !== year ||
-          date.getMonth() !== month - 1 ||
-          date.getDate() !== day
-        ) {
-          throw new Error("Invalid date");
+        if (new Date(value) < new Date()) {
+          throw new Error(
+            "Starting time must be the current date or a future date"
+          );
         }
         return true;
       })
+
+      .notEmpty()
+      .withMessage("Starting time is required"),
+
+    check("endingTime")
+      .isDate()
+      .withMessage("Ending time must be a valid date")
       .custom((value, { req }) => {
-        const startDate = new Date(req.body.startDate);
-        if (startDate > new Date(value)) {
-          return Promise.reject("End date must be after start date");
+        if (new Date(value) <= new Date(req.body.startingTime)) {
+          throw new Error("Ending time must be after starting time");
         }
-        return Promise.resolve();
-      }),
+        return true;
+      })
+      .notEmpty()
+      .withMessage("Ending time is required"),
 
-    check("image").custom((value, { req }) => {
-      if (!req.file) {
-        throw new Error("Please select an image");
-      }
-
-      const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif"];
-
-      if (!allowedMimeTypes.includes(req.file.mimetype)) {
-        throw new Error("Only JPG, PNG, and GIF images are allowed");
-      }
-
-      // Check for maximum file size (in bytes)
-      if (req.file.size > 1024 * 1024 * 5) {
-        // 5MB limit
-        throw new Error("Image size cannot exceed 5MB");
-      }
-
-      // You can add further checks here:
-      // - Minimum dimensions using image processing library (e.g., sharp)
-      // - Aspect ratio validation
-
-      return true;
-    }),
+    check("image")
+      .isString()
+      .withMessage("Image URL must be a string")
+      .matches(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$/)
+      .withMessage("Image URL must be a valid URL")
+      .notEmpty()
+      .withMessage("Image URL is required"),
   ];
 };
 
-export default registerValidator;
+export default validateCommittee;

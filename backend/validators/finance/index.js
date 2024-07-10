@@ -1,136 +1,88 @@
-import { check } from "express-validator";
+import { body } from "express-validator";
+import Finance from "../../models/finance/index.js";
 
-const registerValidator = () => {
+// Finance validation rules
+const validateFinance = () => {
   return [
-    check("contribution")
-      .exists()
-      .withMessage("Contribution is required")
+    body("contribution")
       .isNumeric()
-      .withMessage("Contribution must be a number")
-      .isDecimal()
-      .withMessage("Contribution must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Contribution cannot be negative")
-      .toFloat(),
+      .withMessage("Contribution must be a number.")
+      .notEmpty()
+      .withMessage("Contribution is required."),
 
-    check("offer")
-      .exists()
-      .withMessage("Offer is required")
+    body("offer")
       .isNumeric()
-      .withMessage("Offer must be a number")
-      .isDecimal()
-      .withMessage("Offer must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Offer cannot be negative")
-      .toFloat(),
+      .withMessage("Offer must be a number.")
+      .notEmpty()
+      .withMessage("Offer is required."),
 
-    check("frekdasie")
-      .exists()
-      .withMessage("Frekdasie is required")
+    body("servicePayment")
       .isNumeric()
-      .withMessage("Frekdasie must be a number")
-      .isDecimal()
-      .withMessage("Frekdasie must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Frekdasie cannot be negative")
-      .toFloat(),
+      .withMessage("Service payment must be a number.")
+      .notEmpty()
+      .withMessage("Service payment is required."),
 
-    check("choirExpense")
-      .exists()
-      .withMessage("Choir expense is required")
+    body("frekdasie")
       .isNumeric()
-      .withMessage("Choir expense must be a number")
-      .isDecimal()
-      .withMessage("Choir expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Choir expense cannot be negative")
-      .toFloat(),
+      .withMessage("Frekdasie must be a number.")
+      .notEmpty()
+      .withMessage("Frekdasie is required."),
 
-    check("eventExpense")
-      .exists()
-      .withMessage("Event expense is required")
+    body("choirExpense")
       .isNumeric()
-      .withMessage("Event expense must be a number")
-      .isDecimal()
-      .withMessage("Event expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Offer cannot be negative")
-      .toFloat(),
+      .withMessage("Choir expense must be a number.")
+      .notEmpty()
+      .withMessage("Choir expense is required."),
 
-    check("priestExpense")
-      .exists()
-      .withMessage("Priest expense is required")
+    body("eventExpense")
       .isNumeric()
-      .withMessage("Priest expense must be a number")
-      .isDecimal()
-      .withMessage("Priest expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Priest expense cannot be negative")
-      .toFloat(),
+      .withMessage("Event expense must be a number.")
+      .notEmpty()
+      .withMessage("Event expense is required."),
 
-    check("guestExpense")
-      .exists()
-      .withMessage("Gest expense is required")
+    body("priestExpense")
       .isNumeric()
-      .withMessage("Gest expense must be a number")
-      .isDecimal()
-      .withMessage("Gest expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Gest expense cannot be negative")
-      .toFloat(),
+      .withMessage("Priest expense must be a number.")
+      .notEmpty()
+      .withMessage("Priest expense is required."),
 
-    check("presentExpense")
-      .exists()
-      .withMessage("Present expense is required")
+    body("guestExpense")
       .isNumeric()
-      .withMessage("Present expense must be a number")
-      .isDecimal()
-      .withMessage("Present expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Present expense cannot be negative")
-      .toFloat(),
+      .withMessage("Guest expense must be a number.")
+      .notEmpty()
+      .withMessage("Guest expense is required."),
 
-    check("tripExpense")
-      .exists()
-      .withMessage("Trip expense is required")
+    body("presentExpense")
       .isNumeric()
-      .withMessage("Trip expense must be a number")
-      .isDecimal()
-      .withMessage("Trip expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Trip expense cannot be negative")
-      .toFloat(),
+      .withMessage("Present expense must be a number.")
+      .notEmpty()
+      .withMessage("Present expense is required."),
 
-    check("otherExpense")
-      .exists()
-      .withMessage("Other expense is required")
+    body("tripExpense")
       .isNumeric()
-      .withMessage("Other expense must be a number")
-      .isDecimal()
-      .withMessage("Other expense must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Other expense cannot be negative")
-      .toFloat(),
+      .withMessage("Trip expense must be a number.")
+      .notEmpty()
+      .withMessage("Trip expense is required."),
 
-    check("date")
-      .exists()
-      .withMessage("Start date is required")
-      .toDate()
-      .matches(/^\d{2}\/\d{2}\/\d{4}$/)
-      .withMessage("Date must be in DD/MM/YYYY format")
-      .custom((value) => {
-        const [day, month, year] = value.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-        if (
-          date.getFullYear() !== year ||
-          date.getMonth() !== month - 1 ||
-          date.getDate() !== day
-        ) {
-          throw new Error("Invalid date");
+    body("otherExpense")
+      .isNumeric()
+      .withMessage("Other expense must be a number.")
+      .notEmpty()
+      .withMessage("Other expense is required."),
+
+    body("date")
+      .isDate()
+      .withMessage("Date must be a valid.")
+      .notEmpty()
+      .withMessage("Date is required.")
+      .custom(async (value) => {
+        const finance = await Finance.findOne({ date: value });
+        if (finance) {
+          throw new Error("Date already exists.");
         }
         return true;
       }),
   ];
 };
 
-export default registerValidator;
+export default validateFinance;

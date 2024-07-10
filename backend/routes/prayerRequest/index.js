@@ -6,12 +6,19 @@ import {
   getSinglePrayer,
   totalNumberOfPrayerRequests,
 } from "../../controllers/prayerRequest/index.js";
+import serviceValidation from "../../validators/service/index.js";
+import checkValidation from "../../validators/validationResult/index.js";
 
 // Prayer Service Router
 const prayerRequestRouter = express.Router();
 
 // Prayer service routes
-prayerRequestRouter.post("/:userId/new-prayer-request", createPrayerRequest);
+prayerRequestRouter.post(
+  "/:userId/new-prayer-request",
+  serviceValidation(),
+  checkValidation,
+  createPrayerRequest
+);
 prayerRequestRouter.get("/:id", getSinglePrayer);
 prayerRequestRouter.get("/", getAllPrayers);
 prayerRequestRouter.delete("/:userId/:id", deletePrayerRequest);

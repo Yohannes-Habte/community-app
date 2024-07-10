@@ -226,18 +226,22 @@ const UpdateUserProfile = ({ isActive }) => {
                   <span className="input-highlight"></span>
                 </div>
 
-                {/* User Marital Status*/}
+                {/* User Marital Status "", "", "", ""*/}
                 <div className="input-container">
                   <GrStatusInfo className="update-user-account-icon" />
-                  <input
-                    type="text"
+                  <select
                     name="maritalStatus"
                     id="maritalStatus"
                     value={maritalStatus}
                     onChange={handleChange}
-                    placeholder=" Marital Status"
                     className="input-field"
-                  />
+                  >
+                    <option value="default">Select Marital Status</option>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="divorced">Divorced</option>
+                    <option value="widowed">Widowed</option>
+                  </select>
 
                   <label htmlFor="maritalStatus" className="input-label">
                     Marital Status

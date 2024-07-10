@@ -6,12 +6,19 @@ import {
   getFinance,
   totalIncome,
 } from "../../controllers/finance/index.js";
+import validateFinance from "../../validators/finance/index.js";
+import checkValidation from "../../validators/validationResult/index.js";
 
 // Finance Router
 const financeRouter = express.Router();
 
 // Finance routes
-financeRouter.post("/new-report", createFinanceReport);
+financeRouter.post(
+  "/new-report",
+  validateFinance(),
+  checkValidation,
+  createFinanceReport
+);
 financeRouter.get("/financial-reports", financialReports);
 financeRouter.get("/financial-reports/:id", getFinance);
 financeRouter.get("/total/surplus-or-deficit", totalIncome);

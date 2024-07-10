@@ -6,12 +6,19 @@ import {
   getSingleSacrament,
   totalNumberOfSacraments,
 } from "../../controllers/sacrament/index.js";
+import serviceValidation from "../../validators/service/index.js";
+import checkValidation from "../../validators/validationResult/index.js";
 
 // Sacrament Router
 const sacramentRouter = express.Router();
 
 // Sacrament routes
-sacramentRouter.post("/:userId/new-sacrament", createSacrament);
+sacramentRouter.post(
+  "/:userId/new-sacrament",
+  serviceValidation(),
+  checkValidation,
+  createSacrament
+);
 sacramentRouter.get("/:id", getSingleSacrament);
 sacramentRouter.get("/", getAllSacraments);
 sacramentRouter.delete("/:userId/:id", deleteSacrament);
