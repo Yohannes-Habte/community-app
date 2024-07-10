@@ -9,6 +9,7 @@ const AboutPage = () => {
   const [toggle, setToggle] = useState(0);
   const [aboutInfos, setAboutInfos] = useState(null);
 
+  console.log("staff=", staff)
   // Function to manage tabs using index number
   const tabsToggle = (index) => {
     setToggle(index);
@@ -31,7 +32,7 @@ const AboutPage = () => {
     const fetchStaff = async () => {
       try {
         const { data } = await axios.get(`${API}/committees`);
-        setStaff(data);
+        setStaff(data.result);
       } catch (error) {
         console.log(error);
       }
@@ -69,7 +70,7 @@ const AboutPage = () => {
         <article className="staff-members">
           <h2 className="sub-title"> Staff Members </h2>
           <div className="staff-container">
-            {staff.map((member) => {
+            {staff && staff.map((member) => {
               return (
                 <section key={member._id} className="member-info">
                   <figure className="photo-container ">
@@ -163,3 +164,5 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
+

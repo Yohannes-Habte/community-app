@@ -4,6 +4,7 @@ import ContactTools from "../../components/contact/contactPageTools/ContactTools
 import ContactForm from "../../components/contact/contactPageForm/ContactForm";
 import Header from "../../components/user/layout/header/Header";
 
+
 const ContactPage = () => {
   return (
     <main className="contact-page">
@@ -20,6 +21,7 @@ const ContactPage = () => {
           <ContactForm />
         </div>
       </section>
+   
     </main>
   );
 };

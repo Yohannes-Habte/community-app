@@ -1,0 +1,36 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.subscribers-notification-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .subscribers-notification-title {
+    @include subTitle;
+  }
+
+  .subscribers-notification-form {
+    @include flexColumn;
+
+    .input-container {
+      position: relative;
+      @include flexColumn;
+
+      .icon {
+        position: absolute;
+        top: 3.3rem;
+        left: 0.5rem;
+        color: $green;
+        font-size: $afs;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+    }
+
+    .subscriber-notification-btn {
+      @include button1;
+    }
+  }
+}

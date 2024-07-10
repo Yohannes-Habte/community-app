@@ -1,10 +1,11 @@
-import React from 'react';
+import Subscribe from "../../../forms/subscribe/Subscribe";
 
 const Footer = () => {
   return (
     <Footer>
+      <Subscribe />
       <section>
-        <h1>sgsgsg</h1>
+        <h1>Footer</h1>
       </section>
     </Footer>
   );

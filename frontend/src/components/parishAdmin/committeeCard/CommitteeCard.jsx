@@ -22,7 +22,7 @@ const CommitteeCard = ({ data }) => {
         <p className="user-info">
           Service Time:{" "}
           <strong>
-            From January {data.startingTime.slice(0, 4)} to December{" "}
+            January {data.startingTime.slice(0, 4)} to December{" "}
             {data.endingTime.slice(0, 4)}{" "}
           </strong>
         </p>

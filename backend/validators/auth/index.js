@@ -1,68 +1,10 @@
 import { check } from "express-validator";
 // Phone validation
 const phoneRegex = /^\(?([0-9]{3})\)?[-. ]([0-9]{3})[-. ]([0-9]{4})$/;
-// State validation
-const validStates = [
-  "AL",
-  "AK",
-  "AZ",
-  "AR",
-  "CA",
-  "CO",
-  "CT",
-  "DE",
-  "FL",
-  "GA",
-  "HI",
-  "ID",
-  "IL",
-  "IN",
-  "IA",
-  "KS",
-  "KY",
-  "LA",
-  "ME",
-  "MD",
-  "MA",
-  "MI",
-  "MN",
-  "MS",
-  "MO",
-  "MT",
-  "NE",
-  "NV",
-  "NH",
-  "NJ",
-  "NM",
-  "NY",
-  "NC",
-  "ND",
-  "OH",
-  "OK",
-  "OR",
-  "PA",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VT",
-  "VA",
-  "WA",
-  "WV",
-  "WI",
-  "WY",
-];
-
-// Countries validation
-const validCountries = ["Germany", "Eritrea", "Italy"]; // Include ISO codes for clarity
-const countryCodeRegex = /^[A-Z]{2}$/;
 
 const registerValidator = () => {
   return [
     check("firstName")
-      .exists({ checkNull: true })
       .notEmpty()
       .withMessage("First name is required")
       .trim()
@@ -74,16 +16,15 @@ const registerValidator = () => {
       .withMessage("First name must be between 2 and 30 characters long"),
 
     check("lastName")
-      .exists({ checkNull: true })
       .notEmpty()
-      .withMessage("First name is required")
+      .withMessage("Last name is required")
       .trim()
       .isString()
-      .withMessage("First name must be a string")
+      .withMessage("Last name must be a string")
       .isAlpha("en-US", { ignore: " " })
-      .withMessage("First name must contain only alphabetic characters")
+      .withMessage("Last name must contain only alphabetic characters")
       .isLength({ min: 2, max: 30 })
-      .withMessage("First name must be between 2 and 30 characters long"),
+      .withMessage("Last name must be between 2 and 30 characters long"),
 
     check("image").custom((value, { req }) => {
       if (!req.file) {
@@ -183,36 +124,15 @@ const registerValidator = () => {
       .withMessage("State is required")
       .trim()
       .toUpperCase()
-      .isIn(validStates)
-      .withMessage("Invalid state code")
       .isLength({ max: 2 })
-      .withMessage("State abbreviation exceeds maximum length")
-      .matches(validStates)
-      .withMessage("Invalid state format. Use two uppercase letters"),
+      .withMessage("State abbreviation exceeds maximum length"),
 
     check("country")
       .exists()
       .notEmpty()
       .withMessage("Country is required")
-      .isIn(validCountries)
-      .withMessage("Invalid country. Please select from the list")
-      .optional({ checkFalsy: true })
-      .isLength({ max: 2 })
-      .withMessage("Country code exceeds maximum length")
-      .matches(countryCodeRegex)
-      .withMessage("Invalid country code format. Use two uppercase letters"),
-
-    check("createAddressType")
-      .exists({ checkFalsy: true })
-      .withMessage("Description is required")
-      .trim()
-      .isLength({ min: 50, max: 500 })
-      .withMessage("comment must be between 50 and 500 characters")
-      .escape()
-      .matches(/^[a-zA-Z0-9\s\-.,?!]+$/) // Example pattern for alphanumeric, spaces, basic punctuation
-      .withMessage(
-        "Description can only contain letters, numbers, spaces, and basic punctuation"
-      ),
+      .isLength({ min: 2, max: 30 })
+      .withMessage("Country must be between 2 and 30 characters"),
   ];
 };
 

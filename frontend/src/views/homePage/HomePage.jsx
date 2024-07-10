@@ -5,6 +5,7 @@ import FetchData from "../../utiles/globalFunctions/GlobalClientFunction";
 import { API } from "../../utiles/securitiy/secreteKey";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Subscribe from "../../components/forms/subscribe/Subscribe";
 
 const HomePage = () => {
   const { data } = FetchData(`${API}/data/home/hawka-abey-allo`);
@@ -67,6 +68,8 @@ const HomePage = () => {
           </figure>
         </article>
       </section>
+
+      <Subscribe />
     </main>
   );
 };

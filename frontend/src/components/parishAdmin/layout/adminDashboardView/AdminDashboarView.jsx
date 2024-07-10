@@ -1,4 +1,3 @@
-
 import "./AdminDashboarView.scss";
 import AdminDashboardSummary from "../../adminDashboardSummary/AdminDashboardSummary";
 import Members from "../../members/Members";
@@ -9,7 +8,7 @@ import AdminInBox from "../../inbox/AdminInBox";
 import MembersContribution from "../../membersContribution/MembersContribution";
 import CommitteeList from "../../committees/Committees";
 import ChurchCommittees from "../../committeeList/ChurchCommittees";
-
+import SubscriberNotification from "../../subscribers/SubscriberNotification";
 
 const AdminDashboarView = ({ isActive }) => {
   return (
@@ -29,6 +28,8 @@ const AdminDashboarView = ({ isActive }) => {
       {isActive === 7 && <Delegations />}
 
       {isActive === 8 && <AdminInBox />}
+
+      {isActive === 9 && <SubscriberNotification />}
 
       {isActive === 10 && <ChurchCommittees />}
     </article>

@@ -153,6 +153,7 @@ const UpdateUserProfile = ({ isActive }) => {
 
       dispatch(userUpdateSuccess(data.user));
       toast.success(data.message);
+      localStorage.setItem("user", JSON.stringify(data.user));
       handleReset();
     } catch (error) {
       dispatch(userUpdateFailure(error.response.data.message));

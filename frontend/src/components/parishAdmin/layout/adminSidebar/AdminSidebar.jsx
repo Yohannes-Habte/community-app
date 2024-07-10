@@ -168,17 +168,17 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           Settings
         </h4>
       </Link>
-
-      <aside className="admin-dashboard-sidebar-item">
-        <IoMdLogOut
-          title="Log Out"
+      <aside
+        onClick={() => setIsActive(9)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
           className={isActive === 9 ? "active-icon" : "passive-icon"}
         />
 
-        <h4>
-          <Link to={"/login"} onClick={logoutUser}>
-            Log Out
-          </Link>
+        <h4 className={isActive === 9 ? "active-text" : "passive-text"}>
+          Notifications
         </h4>
       </aside>
 
@@ -193,6 +193,19 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
 
         <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
           Church Committees
+        </h4>
+      </aside>
+
+      <aside className="admin-dashboard-sidebar-item">
+        <IoMdLogOut
+          title="Log Out"
+          className={isActive === 11 ? "active-icon" : "passive-icon"}
+        />
+
+        <h4>
+          <Link to={"/login"} onClick={logoutUser}>
+            Log Out
+          </Link>
         </h4>
       </aside>
     </section>

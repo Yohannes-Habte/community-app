@@ -37,7 +37,7 @@ const ChurchCommittees = () => {
     const [startYear, endYear] = selectedRange.split("-");
     try {
       const { data } = await axios.get(
-        `${API}/committees?startYear=${startYear}&endYear=${endYear}`
+        `${API}/committees/members/service?startYear=${startYear}&endYear=${endYear}`
       );
 
       if (data.success) {
@@ -93,6 +93,3 @@ const ChurchCommittees = () => {
 };
 
 export default ChurchCommittees;
-
-
-

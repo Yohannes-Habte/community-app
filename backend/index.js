@@ -22,6 +22,7 @@ import contributionRouter from "./routes/contribution/index.js";
 import eventRouter from "./routes/event/index.js";
 import globalErrorHandler from "./middlewares/error/index.js";
 import staticRouter from "./routes/staticData/index.js";
+import subscribeRouter from "./routes/subscribe/index.js";
 
 // Express app
 const app = express();
@@ -38,7 +39,7 @@ app.use(express.json());
 dotenv.config();
 
 // Display tiny changes
-app.use(morgan("tiny")); 
+app.use(morgan("tiny"));
 
 // End points
 app.use("/api/v1/auth", authUserRouter);
@@ -54,6 +55,7 @@ app.use("/api/v1/delegations", priestDelegationRouter);
 app.use("/api/v1/contributions", contributionRouter);
 app.use("/api/v1/events", eventRouter);
 app.use("/api/v1/data", staticRouter);
+app.use("/api/v1/subscribers", subscribeRouter);
 
 // Static assets
 app.use(express.static("assets"));

@@ -20,9 +20,8 @@ committeeRouter.post("/register", createCommittee);
 committeeRouter.post("/login", loginCommitteeMember);
 committeeRouter.get("/", getAllCommitteeMembers);
 committeeRouter.get("/committee", getCommitteesByServiceYearRange);
-
 committeeRouter.get("/years", getYearRanges);
-committeeRouter.get("/", getCommitteeMembers);
+committeeRouter.get("/members/service", getCommitteeMembers);
 
 committeeRouter.put("/:id", updateCommitteeMember);
 committeeRouter.get("/:id", getCommitteeMember);
