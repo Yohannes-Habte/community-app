@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   prayerRequest: null,
@@ -8,48 +8,52 @@ const initialState = {
   loading: false,
 };
 
+const setLoading = (state) => {
+  state.loading = true;
+};
+
+const setSuccess = (state, action, key) => {
+  state[key] = action.payload;
+  state.loading = false;
+};
+
+const setFailure = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
+};
+
 const prayerReducer = createSlice({
-  name: 'prayer',
+  name: "prayer",
   initialState,
   reducers: {
     // Create prayer request
-    prayerRequestStart: (state) => {
-      state.loading = true;
-    },
-    prayerRequestSuccess: (state, action) => {
-      state.prayerRequest = action.payload;
-      state.loading = false;
-    },
-    prayerRequestFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    postPrayerRequestStart: setLoading,
+    postPrayerRequestSuccess: (state, action) =>
+      setSuccess(state, action, "prayerRequest"),
+    postPrayerRequestFailure: setFailure,
+
+    // Fetch a single prayer request
+    fetchPrayerStart: setLoading,
+    fetchPrayerSuccess: (state, action) =>
+      setSuccess(state, action, "prayerRequest"),
+    fetchPrayerFailure: setFailure,
+
+    // Delete a single prayer request
+    deletePrayerStart: setLoading,
+    deletePrayerSuccess: (state, action) =>
+      setSuccess(state, action, "prayerRequest"),
+    deletePrayerFailure: setFailure,
 
     // Fetch all prayer requests
-    prayersFetchStart: (state) => {
-      state.loading = true;
-    },
-    prayersFetchSuccess: (state, action) => {
-      state.prayers = action.payload;
-      state.loading = false;
-    },
-    prayersFetchFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    fetchAllPrayersStart: setLoading,
+    fetchAllPrayersSuccess: (state, action) =>
+      setSuccess(state, action, "prayers"),
+    fetchAllPrayersFailure: setFailure,
 
-    // count all prayers
-    prayersCountStart: (state) => {
-      state.loading = true;
-    },
-    prayersCountSuccess: (state, action) => {
-      state.count = action.payload;
-      state.loading = false;
-    },
-    prayersCountFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    // Count all prayers
+    prayersCountStart: setLoading,
+    prayersCountSuccess: (state, action) => setSuccess(state, action, "count"),
+    prayersCountFailure: setFailure,
 
     // Clear errors
     clearErrors: (state) => {
@@ -59,17 +63,27 @@ const prayerReducer = createSlice({
 });
 
 export const {
-  prayerRequestStart,
-  prayerRequestSuccess,
-  prayerRequestFailure,
+  postPrayerRequestStart,
+  postPrayerRequestSuccess,
+  postPrayerRequestFailure,
 
-  prayersFetchStart,
-  prayersFetchSuccess,
-  prayersFetchFailure,
+  fetchPrayerStart,
+  fetchPrayerSuccess,
+  fetchPrayerFailure,
+
+  deletePrayerStart,
+  deletePrayerSuccess,
+  deletePrayerFailure,
+
+  fetchAllPrayersStart,
+  fetchAllPrayersSuccess,
+  fetchAllPrayersFailure,
 
   prayersCountStart,
   prayersCountSuccess,
   prayersCountFailure,
+
+  clearErrors,
 } = prayerReducer.actions;
 
 export default prayerReducer.reducer;

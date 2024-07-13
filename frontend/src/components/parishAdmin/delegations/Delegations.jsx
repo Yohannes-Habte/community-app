@@ -4,9 +4,9 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import {
-  allDelegatedPriestsFailure,
-  allDelegatedPriestsStart,
-  allDelegatedPriestsSuccess,
+  fetchAllDelegatedPriestsFailure,
+  fetchAllDelegatedPriestsStart,
+  fetchAllDelegatedPriestsSuccess,
 } from "../../../redux/reducers/priestReducer";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
@@ -24,11 +24,11 @@ const Delegations = () => {
   useEffect(() => {
     const getAllDelegatedPriests = async () => {
       try {
-        dispatch(allDelegatedPriestsStart());
+        dispatch(fetchAllDelegatedPriestsStart());
         const { data } = await axios.get(`${API}/delegations/priests`);
-        dispatch(allDelegatedPriestsSuccess(data.priests));
+        dispatch(fetchAllDelegatedPriestsSuccess(data.priests));
       } catch (error) {
-        dispatch(allDelegatedPriestsFailure(error.response.data.message));
+        dispatch(fetchAllDelegatedPriestsFailure(error.response.data.message));
       }
     };
 

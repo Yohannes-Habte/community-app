@@ -1,61 +1,61 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sacramentRequest: null,
+  sacraments: [],
+  count: null,
   error: null,
   loading: false,
+};
 
-  sacraments: [],
-  sacError: null,
-  sacLoading: false,
+const setLoading = (state) => {
+  state.loading = true;
+};
 
-  count: null,
-  counError: null,
-  counLoading: false,
+const setSuccess = (state, action, key) => {
+  state[key] = action.payload;
+  state.loading = false;
+  state.error = null;
+};
+
+const setFailure = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
 };
 
 const sacramentReducer = createSlice({
-  name: 'sacrament',
+  name: "sacrament",
   initialState,
   reducers: {
     // Create sacrament request
-    sacramentRequestStart: (state) => {
-      state.loading = true;
-    },
-    sacramentRequestSuccess: (state, action) => {
-      state.sacramentRequest = action.payload;
-      state.loading = false;
-    },
-    sacramentRequestFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    postSacramentStart: setLoading,
+    postSacramentSuccess: (state, action) =>
+      setSuccess(state, action, "sacramentRequest"),
+    postSacramentFailure: setFailure,
+
+    // Fetch a single sacrament
+    fetchSacramentStart: setLoading,
+    fetchSacramentSuccess: (state, action) =>
+      setSuccess(state, action, "sacramentRequest"),
+    fetchSacramentFailure: setFailure,
+
+    // Delete a single sacrament
+    deleteSacramentStart: setLoading,
+    deleteSacramentSuccess: (state, action) =>
+      setSuccess(state, action, "sacramentRequest"),
+    deleteSacramentFailure: setFailure,
 
     // Fetch all sacraments
-    sacramentsFetchStart: (state) => {
-      state.sacLoading = true;
-    },
-    sacramentsFetchSuccess: (state, action) => {
-      state.sacraments = action.payload;
-      state.sacLoading = false;
-    },
-    sacramentsFetchFailure: (state, action) => {
-      state.sacError = action.payload;
-      state.sacLoading = false;
-    },
+    fetchAllSacramentsStart: setLoading,
+    fetchAllSacramentsSuccess: (state, action) =>
+      setSuccess(state, action, "sacraments"),
+    fetchAllSacramentsFailure: setFailure,
 
-    // count all sacraments
-    sacramentsCountStart: (state) => {
-      state.counLoading = true;
-    },
-    sacramentsCountSuccess: (state, action) => {
-      state.count = action.payload;
-      state.counLoading = false;
-    },
-    sacramentsCountFailure: (state, action) => {
-      state.counError = action.payload;
-      state.counLoading = false;
-    },
+    // Count all sacraments
+    countSacramentsStart: setLoading,
+    countSacramentsSuccess: (state, action) =>
+      setSuccess(state, action, "count"),
+    countSacramentsFailure: setFailure,
 
     // Clear errors
     clearErrors: (state) => {
@@ -65,17 +65,27 @@ const sacramentReducer = createSlice({
 });
 
 export const {
-  sacramentRequestStart,
-  sacramentRequestSuccess,
-  sacramentRequestFailure,
+  postSacramentStart,
+  postSacramentSuccess,
+  postSacramentFailure,
 
-  sacramentsFetchStart,
-  sacramentsFetchSuccess,
-  sacramentsFetchFailure,
+  fetchSacramentStart,
+  fetchSacramentSuccess,
+  fetchSacramentFailure,
 
-  sacramentsCountStart,
-  sacramentsCountSuccess,
-  sacramentsCountFailure,
+  deleteSacramentStart,
+  deleteSacramentSuccess,
+  deleteSacramentFailure,
+
+  fetchAllSacramentsStart,
+  fetchAllSacramentsSuccess,
+  fetchAllSacramentsFailure,
+
+  countSacramentsStart,
+  countSacramentsSuccess,
+  countSacramentsFailure,
+
+  clearErrors,
 } = sacramentReducer.actions;
 
 export default sacramentReducer.reducer;

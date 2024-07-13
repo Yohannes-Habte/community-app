@@ -1,40 +1,51 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import {
-  userLogoutFailure,
-  userLogoutStart,
-  userLogoutSuccess,
-} from '../../redux/reducers/userReducer';
-import axios from 'axios';
-import { API } from '../securitiy/secreteKey';
-import { toast } from 'react-toastify';
+  logoutUserFailure,
+  logoutUserStart,
+  logoutUserSuccess,
+} from "../../redux/reducers/userReducer";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { API } from "../securitiy/secreteKey";
+import { useNavigate } from "react-router-dom";
 
-const Logout = async () => {
-  // Navigate
+const Logout = () => {
   const navigate = useNavigate();
-  // Global state variables
   const { error, currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // Sign out Function
-  const logoutUser = async () => {
+  const signOut = async () => {
     try {
-      dispatch(userLogoutStart());
+      // Dispatch logout start action
+      dispatch(logoutUserStart());
+
+      // Call logout API
       const { data } = await axios.get(`${API}/auth/logout`);
 
+      // Check logout success
       if (data.success) {
-        dispatch(userLogoutSuccess(data.message));
+        dispatch(logoutUserSuccess(data.message));
         toast.success(data.message);
-        navigate('/login');
+        localStorage.removeItem("user");
+        navigate("/");
+        window.location.reload();
       } else {
-        toast.error('User could not logout');
+        // Handle logout failure
+        dispatch(logoutUserFailure("Logout failed"));
+        toast.error("User could not logout");
       }
     } catch (error) {
-      dispatch(userLogoutFailure(error.response.data.message));
+      // Handle network errors or other exceptions
+      dispatch(
+        logoutUserFailure(
+          error.response ? error.response.data.message : "Network error"
+        )
+      );
+      toast.error("Failed to logout. Please try again.");
     }
   };
 
-  return logoutUser;
+  return { error, currentUser, signOut };
 };
 
 export default Logout;

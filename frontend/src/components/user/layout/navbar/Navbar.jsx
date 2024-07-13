@@ -1,48 +1,25 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  userLogoutFailure,
-  userLogoutStart,
-  userLogoutSuccess,
-} from "../../../../redux/reducers/userReducer";
-import axios from "axios";
-import { API } from "../../../../utiles/securitiy/secreteKey";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import Logout from "../../../../utiles/globalFunctions/Logout";
 
 const Navbar = () => {
-  const navigate = useNavigate();
   // Global state variables
+  const { signOut } = Logout();
   const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   // Local state variable
   const [open, setOpen] = useState(false);
 
+  // Handle logout
+  const handleLogout = async () => {
+    await signOut(); // This will trigger the logout process
+  };
+
   // Handle click
   const handleClick = () => {
     setOpen(!open);
-  };
-
-  // Log out user
-  const logoutUser = async () => {
-    try {
-      dispatch(userLogoutStart());
-      const { data } = await axios.get(`${API}/auth/logout`);
-
-      if (data.success) {
-        dispatch(userLogoutSuccess(data.message));
-        toast.success(data.message);
-        localStorage.removeItem("user");
-        window.location.reload();
-        navigate("/login");
-      } else {
-        toast.error("User could not logout");
-      }
-    } catch (error) {
-      dispatch(userLogoutFailure(error.response.data.message));
-    }
   };
 
   // Styling NavLink
@@ -122,7 +99,11 @@ const Navbar = () => {
               </li>
 
               <li className="menu-item">
-                <NavLink to={"/login"} onClick={logoutUser} className={"link"}>
+                <NavLink
+                  to={"/login"}
+                  onClick={handleLogout}
+                  className={"link"}
+                >
                   Log Out
                 </NavLink>
               </li>

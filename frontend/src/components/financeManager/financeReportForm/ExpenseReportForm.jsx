@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import "./ExpenseReportForm.scss";
 import { FaMoneyBill } from "react-icons/fa";
 import { CgCalendarDates } from "react-icons/cg";
@@ -8,14 +8,12 @@ import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import {
-  financialReportFailure,
-  financialReportStart,
-  financialReportSuccess,
 } from "../../../redux/reducers/financeReducer";
+import { postCommitteeFailure, postCommitteeStart, postCommitteeSuccess } from "../../../redux/reducers/committeeReducer";
 
 const ExpenseReportForm = ({ setOpen }) => {
   // Global state variables
-  const { loading, error } = useSelector((state) => state.finance);
+  const { loading } = useSelector((state) => state.finance);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -97,7 +95,7 @@ const ExpenseReportForm = ({ setOpen }) => {
     e.preventDefault();
 
     try {
-      dispatch(financialReportStart());
+      dispatch(postCommitteeStart());
       // The body
       const newReport = {
         contribution: contribution,
@@ -116,12 +114,12 @@ const ExpenseReportForm = ({ setOpen }) => {
 
       const { data } = await axios.post(`${API}/reports/new-report`, newReport);
 
-      dispatch(financialReportSuccess(data.report));
+      dispatch(postCommitteeSuccess(data.report));
       toast.success(data.success);
 
       reset();
     } catch (error) {
-      dispatch(financialReportFailure(error.response.data.message));
+      dispatch(postCommitteeFailure(error.response.data.message));
     }
   };
   return (

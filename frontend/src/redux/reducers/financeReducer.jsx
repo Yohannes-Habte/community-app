@@ -1,61 +1,97 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentReport: null,
-  error: null,
-  loading: false,
   financialReports: [],
-  reportsError: null,
-  reportsLoading: false,
+  loading: false,
+  error: null,
 };
 
-const financeReducer = createSlice({
-  name: 'finance',
+// Utility function to handle setting loading and error states
+const startLoading = (state) => {
+  state.loading = true;
+  state.error = null; // Reset error state
+};
+
+const setSuccess = (state, action, key) => {
+  state[key] = action.payload;
+  state.loading = false;
+};
+
+const setError = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
+};
+
+const financeSlice = createSlice({
+  name: "finance",
   initialState,
   reducers: {
     // Post a financial report
-    financialReportStart: (state) => {
-      state.loading = true;
-    },
-    financialReportSuccess: (state, action) => {
-      state.currentReport = action.payload;
-      state.loading = false;
-    },
-    financialReportFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    postFinancialReportStart: (state) => startLoading(state),
+    postFinancialReportSuccess: (state, action) =>
+      setSuccess(state, action, "currentReport"),
+    postFinancialReportFailure: (state, action) => setError(state, action),
 
-    // Get all financial reports
-    getALLFinancialReportStart: (state) => {
-      state.reportsLoading = true;
-    },
-    getALLFinancialReportSuccess: (state, action) => {
-      state.financialReports = action.payload;
-      state.reportsLoading = false;
-    },
-    getALLFinancialReportFailure: (state, action) => {
-      state.reportsError = action.payload;
-      state.reportsLoading = false;
-    },
+    // Fetch a single financial report
+    fetchFinancialReportStart: (state) => startLoading(state),
+    fetchFinancialReportSuccess: (state, action) =>
+      setSuccess(state, action, "currentReport"),
+    fetchFinancialReportFailure: (state, action) => setError(state, action),
 
-    // Clear errors
+    // Update a single financial report
+    updateFinancialReportStart: (state) => startLoading(state),
+    updateFinancialReportSuccess: (state, action) =>
+      setSuccess(state, action, "currentReport"),
+    updateFinancialReportFailure: (state, action) => setError(state, action),
+
+    // Delete a single financial report
+    deleteFinancialReportStart: (state) => startLoading(state),
+    deleteFinancialReportSuccess: (state, action) =>
+      setSuccess(state, action, "currentReport"),
+    deleteFinancialReportFailure: (state, action) => setError(state, action),
+
+    // Fetch all financial reports
+    fetchAllFinancialReportsStart: (state) => startLoading(state),
+    fetchAllFinancialReportsSuccess: (state, action) =>
+      setSuccess(state, action, "financialReports"),
+    fetchAllFinancialReportsFailure: (state, action) => setError(state, action),
+
+    // Clear all errors
     clearErrors: (state) => {
       state.error = null;
+    },
+
+    // Clear loading state
+    clearLoading: (state) => {
+      state.loading = false;
     },
   },
 });
 
 export const {
-  financialReportStart,
-  financialReportSuccess,
-  financialReportFailure,
+  postFinancialReportStart,
+  postFinancialReportSuccess,
+  postFinancialReportFailure,
 
-  getALLFinancialReportStart,
-  getALLFinancialReportSuccess,
-  getALLFinancialReportFailure,
+  fetchFinancialReportStart,
+  fetchFinancialReportSuccess,
+  fetchFinancialReportFailure,
+
+  updateFinancialReportStart,
+  updateFinancialReportSuccess,
+  updateFinancialReportFailure,
+
+  deleteFinancialReportStart,
+  deleteFinancialReportSuccess,
+  deleteFinancialReportFailure,
+
+  fetchAllFinancialReportsStart,
+  fetchAllFinancialReportsSuccess,
+  fetchAllFinancialReportsFailure,
 
   clearErrors,
-} = financeReducer.actions;
+  clearLoading,
+} = financeSlice.actions;
 
-export default financeReducer.reducer;
+export default financeSlice.reducer;

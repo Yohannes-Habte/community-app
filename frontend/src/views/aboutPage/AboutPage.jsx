@@ -9,7 +9,7 @@ const AboutPage = () => {
   const [toggle, setToggle] = useState(0);
   const [aboutInfos, setAboutInfos] = useState(null);
 
-  console.log("staff=", staff)
+  console.log("staff=", staff);
   // Function to manage tabs using index number
   const tabsToggle = (index) => {
     setToggle(index);
@@ -45,16 +45,20 @@ const AboutPage = () => {
       <Header />
       <section className="about-page-container">
         <h1 className="about-title"> {aboutInfos?.title} </h1>
+
         <article className="strategic-intent">
           <h2 className="sub-title"> Mission </h2>
+          We, the Parish of Eritrean Roman Catholic Church in Hamburg, through
+          the Word and Eucharist, prayer, formation and education, social
+          ministries and advocacy, embrace diverse cultures throughout the
+          diocese so that together, as the Catholic Church, we may continue the
+          mission of Christ in the world today.
           <p className="paragraph"> {aboutInfos?.mission} </p>
         </article>
-
         <article className="strategic-intent">
           <h2 className="sub-title"> Vision </h2>
           <p className="paragraph"> {aboutInfos?.vision} </p>
         </article>
-
         <article className="strategic-intent">
           <h2 className="sub-title">Values</h2>
           {aboutInfos?.values.map((value) => {
@@ -66,32 +70,31 @@ const AboutPage = () => {
             );
           })}
         </article>
-
         <article className="staff-members">
           <h2 className="sub-title"> Staff Members </h2>
           <div className="staff-container">
-            {staff && staff.map((member) => {
-              return (
-                <section key={member._id} className="member-info">
-                  <figure className="photo-container ">
-                    <img
-                      className="photo"
-                      src={member.image}
-                      alt={member.name}
-                    />
-                  </figure>
-                  <h3 className="staff-title"> {member.title} </h3>
-                  <p className="staff"> {member.fullName} </p>
-                  <p className="staff"> {member.email} </p>
-                  <p className="staff"> {member.phone} </p>
-                  <p className="staff"> {member.year} </p>
-                  <p></p>
-                </section>
-              );
-            })}
+            {staff &&
+              staff.map((member) => {
+                return (
+                  <section key={member._id} className="member-info">
+                    <figure className="photo-container ">
+                      <img
+                        className="photo"
+                        src={member.image}
+                        alt={member.name}
+                      />
+                    </figure>
+                    <h3 className="staff-title"> {member.title} </h3>
+                    <p className="staff"> {member.fullName} </p>
+                    <p className="staff"> {member.email} </p>
+                    <p className="staff"> {member.phone} </p>
+                    <p className="staff"> {member.year} </p>
+                    <p></p>
+                  </section>
+                );
+              })}
           </div>
         </article>
-
         <article className="tabs-content">
           {/* Contents or results when you click the tabs */}
           <div className="contents">
@@ -164,5 +167,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-
-

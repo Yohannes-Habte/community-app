@@ -5,9 +5,9 @@ import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  userAddressFailure,
-  userAddressStart,
-  userAddressSuccess,
+  postUserAddressFailure,
+  postUserAddressStart,
+  postUserAddressSuccess,
 } from "../../../redux/reducers/userReducer";
 import { Country, State, City } from "country-state-city";
 import { MdClose } from "react-icons/md";
@@ -85,19 +85,19 @@ const AddressForm = ({ setOpenAddress }) => {
       ) {
         toast.error("Please fill all the fields!");
       } else {
-        dispatch(userAddressStart());
+        dispatch(postUserAddressStart());
 
         const { data } = await axios.put(
           `${API}/members/${currentUser._id}/update-address`,
           formData
         );
 
-        dispatch(userAddressSuccess(data.address));
+        dispatch(postUserAddressSuccess(data.address));
         toast.success(data.message);
         handleReset();
       }
     } catch (error) {
-      dispatch(userAddressFailure(error.response.data.message));
+      dispatch(postUserAddressFailure(error.response.data.message));
     }
   };
 

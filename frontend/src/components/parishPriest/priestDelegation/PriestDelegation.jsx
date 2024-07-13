@@ -8,9 +8,9 @@ import { MdMessage } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  priestDeligateFailure,
-  priestDeligateStart,
-  priestDeligateSuccess,
+  postDelegatePriestFailure,
+  postDelegatePriestStart,
+  postDelegatePriestSuccess,
 } from "../../../redux/reducers/priestReducer";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
@@ -57,18 +57,18 @@ const PriestDelegation = () => {
     event.preventDefault();
 
     try {
-      dispatch(priestDeligateStart());
+      dispatch(postDelegatePriestStart());
 
       const { data } = await axios.post(
         `${API}/delegations/${currentUser._id}/delegate`,
         formData
       );
 
-      dispatch(priestDeligateSuccess(data.delegate));
+      dispatch(postDelegatePriestSuccess(data.delegate));
       toast.success(data.message);
       handleReset();
     } catch (error) {
-      dispatch(priestDeligateFailure(error.response.data.message));
+      dispatch(postDelegatePriestFailure(error.response.data.message));
     }
   };
 

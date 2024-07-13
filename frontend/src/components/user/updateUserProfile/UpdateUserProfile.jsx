@@ -9,9 +9,9 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearErrors,
-  userUpdateFailure,
-  userUpdateStart,
-  userUpdateSuccess,
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
 } from "../../../redux/reducers/userReducer";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { toast } from "react-toastify";
@@ -30,10 +30,10 @@ import UserInbox from "../inbox/UserInbox";
 
 const UpdateUserProfile = ({ isActive }) => {
   const navigate = useNavigate();
-  // Global state variables
-  const { updateLoading, error, currentUser } = useSelector(
-    (state) => state.user
-  );
+  // Select currentUser, loading and error states from the Redux store
+  const { currentUser } = useSelector((state) => state.user);
+  const loading = useSelector((state) => state.user.loading.update);
+  const error = useSelector((state) => state.user.error.update);
   const dispatch = useDispatch();
 
   // Local State variables
@@ -120,7 +120,7 @@ const UpdateUserProfile = ({ isActive }) => {
     event.preventDefault();
 
     try {
-      dispatch(userUpdateStart());
+      dispatch(updateUserStart());
 
       // Image validation
       const userPhoto = new FormData();
@@ -151,12 +151,12 @@ const UpdateUserProfile = ({ isActive }) => {
         updateUserInfo
       );
 
-      dispatch(userUpdateSuccess(data.user));
+      dispatch(updateUserSuccess(data.user));
       toast.success(data.message);
       localStorage.setItem("user", JSON.stringify(data.user));
       handleReset();
     } catch (error) {
-      dispatch(userUpdateFailure(error.response.data.message));
+      dispatch(updateUserFailure(error.response.data.message));
     }
   };
 
@@ -393,9 +393,9 @@ const UpdateUserProfile = ({ isActive }) => {
               <button
                 type="submit"
                 className="update-user-profile-btn"
-                disabled={updateLoading}
+                disabled={loading}
               >
-                {updateLoading ? (
+                {loading ? (
                   <span className="loading">
                     <ButtonLoader /> Loading...
                   </span>

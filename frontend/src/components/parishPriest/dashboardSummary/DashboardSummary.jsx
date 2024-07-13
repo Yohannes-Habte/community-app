@@ -1,41 +1,41 @@
-import React, { useEffect } from 'react';
-import './DashboardSummary.scss';
-import ParishionersBarChart from '../charts/ParishionersBarChart';
-import EventsLineChart from '../charts/EventsLineChart';
-import SpiritualsLineChart from '../charts/SpiritualsLineChart';
-import PrayersLineChart from '../charts/PrayersLineChart';
-import SacramentsLineChart from '../charts/SacramentsLineChart';
-import DonationPieChart from '../charts/DonationPieChart';
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
+import { useEffect } from "react";
+import "./DashboardSummary.scss";
+import ParishionersBarChart from "../charts/ParishionersBarChart";
+import EventsLineChart from "../charts/EventsLineChart";
+import SpiritualsLineChart from "../charts/SpiritualsLineChart";
+import PrayersLineChart from "../charts/PrayersLineChart";
+import SacramentsLineChart from "../charts/SacramentsLineChart";
+import DonationPieChart from "../charts/DonationPieChart";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 import {
-  usersCountFailure,
-  usersCountStart,
-  usersCountSuccess,
-} from '../../../redux/reducers/userReducer';
+  countUsersFailure,
+  countUsersStart,
+  countUsersSuccess,
+} from "../../../redux/reducers/userReducer";
 import {
-  sacramentsCountFailure,
-  sacramentsCountStart,
-  sacramentsCountSuccess,
-} from '../../../redux/reducers/sacramentReducer';
+  countSacramentsFailure,
+  countSacramentsStart,
+  countSacramentsSuccess,
+} from "../../../redux/reducers/sacramentReducer";
 import {
   prayersCountFailure,
   prayersCountStart,
   prayersCountSuccess,
-} from '../../../redux/reducers/prayerReducer';
+} from "../../../redux/reducers/prayerReducer";
 import {
-  spiritualsCountFailure,
-  spiritualsCountStart,
-  spiritualsCountSuccess,
-} from '../../../redux/reducers/spiritualReducer';
+  countSpiritualsFailure,
+  countSpiritualsStart,
+  countSpiritualsSuccess,
+} from "../../../redux/reducers/spiritualReducer";
 
 const DashboardSummary = () => {
   // Global state variables
-  const { loading, error, count } = useSelector((state) => state.user);
-  const { count:sacraments } = useSelector((state) => state.sacrament);
+  const { count } = useSelector((state) => state.user);
+  const { count: sacraments } = useSelector((state) => state.sacrament);
   const { count: prayers } = useSelector((state) => state.prayer);
   const { count: spirituals } = useSelector((state) => state.spiritual);
   const dispatch = useDispatch();
@@ -44,11 +44,11 @@ const DashboardSummary = () => {
   useEffect(() => {
     const totalNumberOfParishioners = async () => {
       try {
-        dispatch(usersCountStart());
+        dispatch(countUsersStart());
         const { data } = await axios.get(`${API}/members/size/total`);
-        dispatch(usersCountSuccess(data.counts));
+        dispatch(countUsersSuccess(data.counts));
       } catch (error) {
-        dispatch(usersCountFailure(error.response.data.message));
+        dispatch(countUsersFailure(error.response.data.message));
       }
     };
 
@@ -59,11 +59,11 @@ const DashboardSummary = () => {
   useEffect(() => {
     const totalNumberOfSacraments = async () => {
       try {
-        dispatch(sacramentsCountStart());
+        dispatch(countSacramentsStart());
         const { data } = await axios.get(`${API}/sacraments/size/total`);
-        dispatch(sacramentsCountSuccess(data.counts));
+        dispatch(countSacramentsSuccess(data.counts));
       } catch (error) {
-        dispatch(sacramentsCountFailure(error.response.data.message));
+        dispatch(countSacramentsFailure(error.response.data.message));
       }
     };
 
@@ -89,11 +89,11 @@ const DashboardSummary = () => {
   useEffect(() => {
     const totalNumberOfSpirituals = async () => {
       try {
-        dispatch(spiritualsCountStart());
+        dispatch(countSpiritualsStart());
         const { data } = await axios.get(`${API}/spirituals/size/total`);
-        dispatch(spiritualsCountSuccess(data.counts));
+        dispatch(countSpiritualsSuccess(data.counts));
       } catch (error) {
-        dispatch(spiritualsCountFailure(error.response.data.message));
+        dispatch(countSpiritualsFailure(error.response.data.message));
       }
     };
 
@@ -162,7 +162,7 @@ const DashboardSummary = () => {
         </div>
 
         <div className="box">
-          <figure style={{ width: 300, height: 300, margin: 'auto' }}>
+          <figure style={{ width: 300, height: 300, margin: "auto" }}>
             <CircularProgressbar value={80} text="80%" strokeWidth={6} />
           </figure>
 

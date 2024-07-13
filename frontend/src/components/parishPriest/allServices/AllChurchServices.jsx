@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllSacramentsFailure, fetchAllSacramentsStart, fetchAllSacramentsSuccess } from "../../../redux/reducers/sacramentReducer";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 import {
-  sacramentsFetchFailure,
-  sacramentsFetchStart,
-  sacramentsFetchSuccess,
-} from '../../../redux/reducers/sacramentReducer';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
-import {
-  prayersFetchFailure,
-  prayersFetchStart,
-  prayersFetchSuccess,
-} from '../../../redux/reducers/prayerReducer';
-import {
-  spiritualsFetchFailure,
-  spiritualsFetchStart,
-  spiritualsFetchSuccess,
-} from '../../../redux/reducers/spiritualReducer';
-import PageLoader from '../../../utiles/loader/pageLoader/PageLoader';
+  fetchAllPrayersFailure,
+  fetchAllPrayersStart,
+  fetchAllPrayersSuccess,
+} from "../../../redux/reducers/prayerReducer";
+import { fetchAllSpiritualsFailure, fetchAllSpiritualsStart, fetchAllSpiritualsSuccess } from "../../../redux/reducers/spiritualReducer";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 const AllChurchServices = () => {
   // Global state variables
@@ -38,11 +30,11 @@ const AllChurchServices = () => {
   useEffect(() => {
     const getAllSacraments = async () => {
       try {
-        dispatch(sacramentsFetchStart());
+        dispatch(fetchAllSacramentsStart());
         const { data } = await axios.get(`${API}/sacraments`);
-        dispatch(sacramentsFetchSuccess(data.sacraments));
+        dispatch(fetchAllSacramentsSuccess(data.sacraments));
       } catch (error) {
-        dispatch(sacramentsFetchFailure(error.response.data.message));
+        dispatch(fetchAllSacramentsFailure(error.response.data.message));
       }
     };
 
@@ -53,11 +45,11 @@ const AllChurchServices = () => {
   useEffect(() => {
     const getAllPrayers = async () => {
       try {
-        dispatch(prayersFetchStart());
+        dispatch(fetchAllPrayersStart());
         const { data } = await axios.get(`${API}/prayers`);
-        dispatch(prayersFetchSuccess(data.prayers));
+        dispatch(fetchAllPrayersSuccess(data.prayers));
       } catch (error) {
-        dispatch(prayersFetchFailure(error.response.data.message));
+        dispatch(fetchAllPrayersFailure(error.response.data.message));
       }
     };
 
@@ -68,11 +60,11 @@ const AllChurchServices = () => {
   useEffect(() => {
     const getAllSpirituals = async () => {
       try {
-        dispatch(spiritualsFetchStart());
+        dispatch(fetchAllSpiritualsStart());
         const { data } = await axios.get(`${API}/spirituals`);
-        dispatch(spiritualsFetchSuccess(data.spirituals));
+        dispatch(fetchAllSpiritualsSuccess(data.spirituals));
       } catch (error) {
-        dispatch(spiritualsFetchFailure(error.response.data.message));
+        dispatch(fetchAllSpiritualsFailure(error.response.data.message));
       }
     };
 
@@ -81,15 +73,15 @@ const AllChurchServices = () => {
 
   // Parishioners header
   const columns = [
-    { field: 'id', headerName: 'Service ID', width: 250 },
-    { field: 'name', headerName: 'Service Name', width: 200 },
-    { field: 'date', headerName: 'Service Date', width: 200 },
-    { field: 'phone', headerName: 'Phone Number', width: 200 },
-    { field: 'userStatus', headerName: 'User Status', width: 200 },
-    { field: 'serviceStatus', headerName: 'Service Status', width: 150 },
+    { field: "id", headerName: "Service ID", width: 250 },
+    { field: "name", headerName: "Service Name", width: 200 },
+    { field: "date", headerName: "Service Date", width: 200 },
+    { field: "phone", headerName: "Phone Number", width: 200 },
+    { field: "userStatus", headerName: "User Status", width: 200 },
+    { field: "serviceStatus", headerName: "Service Status", width: 150 },
     {
-      field: 'action',
-      headerName: 'Action',
+      field: "action",
+      headerName: "Action",
       width: 150,
       renderCell: (params) => {
         return <div className="action-wrapper"></div>;
@@ -147,7 +139,7 @@ const AllChurchServices = () => {
       {sacError ? <p className="error-message"> {sacError} </p> : null}
 
       {!sacLoading && !sacError && (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             // Rows
             rows={rows}

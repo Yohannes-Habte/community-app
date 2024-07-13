@@ -1,45 +1,45 @@
-import  { useState } from 'react';
-import './UserChangePassword.scss';
-import { AiFillEyeInvisible } from 'react-icons/ai';
-import { HiOutlineEye } from 'react-icons/hi';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
-import { validPassword } from '../../../utiles/validation/validate';
-import { toast } from 'react-toastify';
-import { API } from '../../../utiles/securitiy/secreteKey';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import { useState } from "react";
+import "./UserChangePassword.scss";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { HiOutlineEye } from "react-icons/hi";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { validPassword } from "../../../utiles/validation/validate";
+import { toast } from "react-toastify";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
-  userChangePasswordFailure,
-  userChangePasswordStart,
-  userChangePasswordSuccess,
-} from '../../../redux/reducers/userReducer';
-import ButtonLoader from '../../../utiles/loader/buttonLoader/ButtonLoader';
+  postUserChangePasswordFailure,
+  postUserChangePasswordStart,
+  postUserChangePasswordSuccess,
+} from "../../../redux/reducers/userReducer";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 
 const UserChangePassword = () => {
   const navigate = useNavigate();
-  // Global state variables
-  const { changePasswordLoading, error, currentUser } = useSelector(
-    (state) => state.user
-  );
+  // Select currentUser, loading and error states from the Redux store
+  const { currentUser } = useSelector((state) => state.user);
+  const loading = useSelector((state) => state.user.loading.changePassword);
+  const error = useSelector((state) => state.user.error.changePassword);
   const dispatch = useDispatch();
 
   // Local state variables
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   // Update input data
   const updateChange = (e) => {
     switch (e.target.name) {
-      case 'oldPassword':
+      case "oldPassword":
         setOldPassword(e.target.value);
         break;
-      case 'newPassword':
+      case "newPassword":
         setNewPassword(e.target.value);
         break;
-      case 'confirmNewPassword':
+      case "confirmNewPassword":
         setConfirmNewPassword(e.target.value);
         break;
       default:
@@ -54,9 +54,9 @@ const UserChangePassword = () => {
 
   // Reset all state variables
   const resetVariables = () => {
-    setOldPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
+    setOldPassword("");
+    setNewPassword("");
+    setConfirmNewPassword("");
   };
 
   // Handle change password
@@ -64,21 +64,21 @@ const UserChangePassword = () => {
     e.preventDefault();
 
     if (newPassword !== confirmNewPassword) {
-      return toast.error('Passwords did not match!');
+      return toast.error("Passwords did not match!");
     }
 
     if (!validPassword(oldPassword)) {
-      return toast.error('Old password is invalid!');
+      return toast.error("Old password is invalid!");
     }
 
     if (!validPassword(newPassword)) {
       return toast.error(
-        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+        "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
       );
     }
 
     try {
-      dispatch(userChangePasswordStart());
+      dispatch(postUserChangePasswordStart());
 
       const changeUserPassword = {
         oldPassword: oldPassword,
@@ -89,12 +89,12 @@ const UserChangePassword = () => {
         `${API}/auth/change-password/${currentUser._id}`,
         changeUserPassword
       );
-      dispatch(userChangePasswordSuccess(data.changePassword));
+      dispatch(postUserChangePasswordSuccess(data.changePassword));
       toast.success(data.message);
       resetVariables();
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      dispatch(userChangePasswordFailure(error.response.data.message));
+      dispatch(postUserChangePasswordFailure(error.response.data.message));
     }
   };
 
@@ -112,7 +112,7 @@ const UserChangePassword = () => {
         <div className="input-container">
           <RiLockPasswordFill className="icon" />
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             name="oldPassword"
             id="oldPassword"
             autoComplete="current-password"
@@ -134,7 +134,7 @@ const UserChangePassword = () => {
         <div className="input-container">
           <RiLockPasswordFill className="icon" />
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             name="newPassword"
             id="newPassword"
             autoComplete="current-password"
@@ -155,7 +155,7 @@ const UserChangePassword = () => {
         <div className="input-container">
           <RiLockPasswordFill className="icon" />
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             name="confirmNewPassword"
             id="confirmNewPassword"
             autoComplete="current-password"
@@ -173,16 +173,13 @@ const UserChangePassword = () => {
           </span>
         </div>
 
-        <button
-          className="user-change-password-btn"
-          disabled={changePasswordLoading}
-        >
-          {changePasswordLoading ? (
+        <button className="user-change-password-btn" disabled={loading}>
+          {loading ? (
             <span className="loading">
               <ButtonLoader /> Loading...
             </span>
           ) : (
-            'Submit'
+            "Submit"
           )}
         </button>
       </form>

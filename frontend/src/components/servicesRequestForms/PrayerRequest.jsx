@@ -11,9 +11,9 @@ import {
 } from "../../utiles/securitiy/secreteKey";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  prayerRequestFailure,
-  prayerRequestStart,
-  prayerRequestSuccess,
+  postPrayerRequestFailure,
+  postPrayerRequestStart,
+  postPrayerRequestSuccess,
 } from "../../redux/reducers/prayerReducer";
 import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 
@@ -40,7 +40,7 @@ const PrayerRequest = ({ data }) => {
     event.preventDefault();
 
     try {
-      dispatch(prayerRequestStart());
+      dispatch(postPrayerRequestStart());
       // Image validation
       const userFile = new FormData();
       userFile.append("file", files);
@@ -63,11 +63,11 @@ const PrayerRequest = ({ data }) => {
         `${API}/prayers/${currentUser._id}/new-prayer-request`,
         newPrayer
       );
-      dispatch(prayerRequestSuccess(data.prayer));
+      dispatch(postPrayerRequestSuccess(data.prayer));
       toast.success(data.message);
       event.target.reset();
     } catch (err) {
-      dispatch(prayerRequestFailure(err.response.data.message));
+      dispatch(postPrayerRequestFailure(err.response.data.message));
     }
   };
 

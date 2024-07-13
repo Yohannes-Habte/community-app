@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Charts.scss";
 import {
   XAxis,
@@ -10,11 +10,7 @@ import {
   Area,
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getALLFinancialReportFailure,
-  getALLFinancialReportStart,
-  getALLFinancialReportSuccess,
-} from "../../../redux/reducers/financeReducer";
+import { fetchAllFinancialReportsFailure, fetchAllFinancialReportsStart, fetchAllFinancialReportsSuccess } from "../../../redux/reducers/financeReducer";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import axios from "axios";
 
@@ -45,12 +41,12 @@ const FinancialReportChart = () => {
   useEffect(() => {
     const fetchAllFinancialReportData = async () => {
       try {
-        dispatch(getALLFinancialReportStart());
+        dispatch(fetchAllFinancialReportsStart());
         const { data } = await axios.get(`${API}/reports/financial-reports`);
 
-        dispatch(getALLFinancialReportSuccess(data.reports));
+        dispatch(fetchAllFinancialReportsSuccess(data.reports));
       } catch (error) {
-        dispatch(getALLFinancialReportFailure(error.response.data.message));
+        dispatch(fetchAllFinancialReportsFailure(error.response.data.message));
       }
     };
     fetchAllFinancialReportData();
@@ -133,7 +129,6 @@ const FinancialReportChart = () => {
             fill="url(#total)"
           />
         </AreaChart>
-       
       </ResponsiveContainer>
     </section>
   );

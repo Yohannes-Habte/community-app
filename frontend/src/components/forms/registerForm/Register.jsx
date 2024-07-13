@@ -16,9 +16,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  userRegisterFailure,
-  userRegisterStart,
-  userRegisterSuccess,
+  postUserRegisterFailure,
+  postUserRegisterStart,
+  postUserRegisterSuccess,
 } from "../../../redux/reducers/userReducer";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { API } from "../../../utiles/securitiy/secreteKey";
@@ -178,7 +178,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
     }
 
     try {
-      dispatch(userRegisterStart());
+      dispatch(postUserRegisterStart());
 
       const userData = {
         firstName: firstName,
@@ -197,12 +197,12 @@ const Register = ({ signUp, addMember, setAddUser }) => {
       };
       const { data } = await axios.post(`${API}/auth/register`, userData);
 
-      dispatch(userRegisterSuccess(data.user));
+      dispatch(postUserRegisterSuccess(data.user));
       toast.success(data.message);
       resetHandler();
       navigate("/login");
     } catch (err) {
-      dispatch(userRegisterFailure(err.response.message));
+      dispatch(postUserRegisterFailure(err.response.message));
     }
   };
 

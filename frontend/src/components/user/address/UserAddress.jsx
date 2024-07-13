@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import './UserAddress.scss';
-import { MdDelete } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  userAddressDeleteFailure,
-  userAddressDeleteStart,
-  userAddressDeleteSuccess,
-} from '../../../redux/reducers/userReducer';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { API } from '../../../utiles/securitiy/secreteKey';
-import AddressForm from '../addressForm/AddressForm';
+import { useState } from "react";
+import "./UserAddress.scss";
+import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUserAddressDeleteFailure, deleteUserAddressDeleteStart, deleteUserAddressDeleteSuccess } from "../../../redux/reducers/userReducer";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import AddressForm from "../addressForm/AddressForm";
 
 const UserAddress = () => {
   // Global state variables
-  const { currentUser, error } = useSelector((state) => state.user);
+  // Select currentUser, loading and error states from the Redux store
+  const { currentUser } = useSelector((state) => state.user);
+  const loading = useSelector((state) => state.user.loading.address);
+  const error = useSelector((state) => state.user.error.address);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -23,14 +22,14 @@ const UserAddress = () => {
   // Delete user address
   const handleDeleteAddress = async (address) => {
     try {
-      dispatch(userAddressDeleteStart());
+      dispatch(deleteUserAddressDeleteStart());
       const { data } = await axios.delete(
         `${API}/members/${currentUser._id}/address/${address._id}`
       );
-      dispatch(userAddressDeleteSuccess(data.address));
+      dispatch(deleteUserAddressDeleteSuccess(data.address));
       toast.success(data.message);
     } catch (error) {
-      dispatch(userAddressDeleteFailure(error.response.data.message));
+      dispatch(deleteUserAddressDeleteFailure(error.response.data.message));
     }
   };
 
@@ -66,31 +65,35 @@ const UserAddress = () => {
               <th className="head-cell"> Action</th>
             </tr>
           </thead>
-          <tbody className="table-body">
-            {currentUser &&
-              currentUser.addresses &&
-              currentUser?.addresses.map((address) => {
-                return (
-                  <tr key={address._id} className="body-row">
-                    <td className="body-cell"> {address.addressType} </td>
-                    <td className="body-cell"> {address.address} </td>
-                    <td className="body-cell">
-                      {address.address1} {address.zipCode}
-                    </td>
-                    <td className="body-cell"> {address.city}</td>
-                    <td className="body-cell"> {address.state}</td>
-                    <td className="body-cell"> {address.country}</td>
-                    <td className="body-cell"> {currentUser.phone} </td>
-                    <td className="body-cell">
-                      <MdDelete
-                        className="delete-icon"
-                        onClick={() => handleDeleteAddress(address)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <tbody className="table-body">
+              {currentUser &&
+                currentUser.addresses &&
+                currentUser?.addresses.map((address) => {
+                  return (
+                    <tr key={address._id} className="body-row">
+                      <td className="body-cell"> {address.addressType} </td>
+                      <td className="body-cell"> {address.address} </td>
+                      <td className="body-cell">
+                        {address.address1} {address.zipCode}
+                      </td>
+                      <td className="body-cell"> {address.city}</td>
+                      <td className="body-cell"> {address.state}</td>
+                      <td className="body-cell"> {address.country}</td>
+                      <td className="body-cell"> {currentUser.phone} </td>
+                      <td className="body-cell">
+                        <MdDelete
+                          className="delete-icon"
+                          onClick={() => handleDeleteAddress(address)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          )}
         </table>
       </section>
 

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   spiritualRequest: null,
@@ -8,48 +8,54 @@ const initialState = {
   loading: false,
 };
 
-const sacramentReducer = createSlice({
-  name: 'spiritual',
+const setLoading = (state) => {
+  state.loading = true;
+};
+
+const setSuccess = (state, action, key) => {
+  state[key] = action.payload;
+  state.loading = false;
+  state.error = null;
+};
+
+const setFailure = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
+};
+
+const spiritualReducer = createSlice({
+  name: "spiritual",
   initialState,
   reducers: {
-    // Create prayer request
-    spiritualRequestStart: (state) => {
-      state.loading = true;
-    },
-    spiritualRequestSuccess: (state, action) => {
-      state.spiritualRequest = action.payload;
-      state.loading = false;
-    },
-    spiritualRequestFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    // Create spiritual request
+    postSpiritualRequestStart: setLoading,
+    postSpiritualRequestSuccess: (state, action) =>
+      setSuccess(state, action, "spiritualRequest"),
+    postSpiritualRequestFailure: setFailure,
 
-    // Fetch all Spritual Developments
-    spiritualsFetchStart: (state) => {
-      state.loading = true;
-    },
-    spiritualsFetchSuccess: (state, action) => {
-      state.spirituals = action.payload;
-      state.loading = false;
-    },
-    spiritualsFetchFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    // Fetch a single spiritual development
+    fetchSpiritualStart: setLoading,
+    fetchSpiritualSuccess: (state, action) =>
+      setSuccess(state, action, "spirituals"),
+    fetchSpiritualFailure: setFailure,
 
-    // count all Spiritual development
-    spiritualsCountStart: (state) => {
-      state.loading = true;
-    },
-    spiritualsCountSuccess: (state, action) => {
-      state.count = action.payload;
-      state.loading = false;
-    },
-    spiritualsCountFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    // Delete a single spiritual development
+    deleteSpiritualStart: setLoading,
+    deleteSpiritualSuccess: (state, action) =>
+      setSuccess(state, action, "spirituals"),
+    deleteSpiritualFailure: setFailure,
+
+    // Fetch all spiritual developments
+    fetchAllSpiritualsStart: setLoading,
+    fetchAllSpiritualsSuccess: (state, action) =>
+      setSuccess(state, action, "spirituals"),
+    fetchAllSpiritualsFailure: setFailure,
+
+    // Count all spiritual developments
+    countSpiritualsStart: setLoading,
+    countSpiritualsSuccess: (state, action) =>
+      setSuccess(state, action, "count"),
+    countSpiritualsFailure: setFailure,
 
     // Clear errors
     clearErrors: (state) => {
@@ -59,18 +65,27 @@ const sacramentReducer = createSlice({
 });
 
 export const {
-  spiritualRequestStart,
-  spiritualRequestSuccess,
-  spiritualRequestFailure,
+  postSpiritualRequestStart,
+  postSpiritualRequestSuccess,
+  postSpiritualRequestFailure,
 
-  spiritualsFetchStart,
-  spiritualsFetchSuccess,
-  spiritualsFetchFailure,
+  fetchSpiritualStart,
+  fetchSpiritualSuccess,
+  fetchSpiritualFailure,
 
-  spiritualsCountStart,
-  spiritualsCountSuccess,
-  spiritualsCountFailure
-  
-} = sacramentReducer.actions;
+  deleteSpiritualStart,
+  deleteSpiritualSuccess,
+  deleteSpiritualFailure,
 
-export default sacramentReducer.reducer;
+  fetchAllSpiritualsStart,
+  fetchAllSpiritualsSuccess,
+  fetchAllSpiritualsFailure,
+
+  countSpiritualsStart,
+  countSpiritualsSuccess,
+  countSpiritualsFailure,
+
+  clearErrors,
+} = spiritualReducer.actions;
+
+export default spiritualReducer.reducer;

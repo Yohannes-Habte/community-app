@@ -1,48 +1,60 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  delegatedPrist: null,
+  delegatedPriest: null,
+  priests: [],
   error: null,
   loading: false,
+};
 
-  delegations: [],
-  delegationLoading: false,
-  delegationError: null
+const setLoading = (state) => {
+  state.loading = true;
+};
+
+const setSuccess = (state, action, key) => {
+  state[key] = action.payload;
+  state.loading = false;
+  state.error = null;
+};
+
+const setFailure = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
 };
 
 const priestReducer = createSlice({
-  name: 'priest',
+  name: "priest",
   initialState,
   reducers: {
     // Delegated priest
-    priestDeligateStart: (state) => {
-      state.loading = true;
-    },
-    priestDeligateSuccess: (state, action) => {
-      state.delegatedPrist = action.payload;
-      state.loading = false;
-      state.error = null;
-    },
+    postDelegatePriestStart: setLoading,
+    postDelegatePriestSuccess: (state, action) =>
+      setSuccess(state, action, "delegatedPriest"),
+    postDelegatePriestFailure: setFailure,
 
-    priestDeligateFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+    // Fetch a single delegated priest
+    fetchDelegatedPriestStart: setLoading,
+    fetchDelegatedPriestSuccess: (state, action) =>
+      setSuccess(state, action, "delegatedPriest"),
+    fetchDelegatedPriestFailure: setFailure,
 
-     // Get All Delegated priests
-     allDelegatedPriestsStart: (state) => {
-      state.delegationLoading = true;
-    },
+    // Update a single delegated priest
+    updateDelegatedPriestStart: setLoading,
+    updateDelegatedPriestSuccess: (state, action) =>
+      setSuccess(state, action, "delegatedPriest"),
+    updateDelegatedPriestFailure: setFailure,
 
-    allDelegatedPriestsSuccess: (state, action) => {
-      state.delegations = action.payload;
-      state.delegationLoading = false;
-    },
+    // Delete a single delegated priest
+    deleteDelegatedPriestStart: setLoading,
+    deleteDelegatedPriestSuccess: (state, action) =>
+      setSuccess(state, action, "delegatedPriest"),
+    deleteDelegatedPriestFailure: setFailure,
 
-    allDelegatedPriestsFailure: (state, action) => {
-      state.delegationError = action.payload;
-      state.delegationLoading = false;
-    },
+    // Get All Delegated priests
+    fetchAllDelegatedPriestsStart: setLoading,
+    fetchAllDelegatedPriestsSuccess: (state, action) =>
+      setSuccess(state, action, "priests"),
+    fetchAllDelegatedPriestsFailure: setFailure,
 
     // Clear errors
     clearErrors: (state) => {
@@ -52,13 +64,27 @@ const priestReducer = createSlice({
 });
 
 export const {
-  priestDeligateStart,
-  priestDeligateSuccess,
-  priestDeligateFailure,
+  postDelegatePriestStart,
+  postDelegatePriestSuccess,
+  postDelegatePriestFailure,
 
-  allDelegatedPriestsStart,
-  allDelegatedPriestsSuccess,
-  allDelegatedPriestsFailure
+  fetchDelegatedPriestStart,
+  fetchDelegatedPriestSuccess,
+  fetchDelegatedPriestFailure,
+
+  updateDelegatedPriestStart,
+  updateDelegatedPriestSuccess,
+  updateDelegatedPriestFailure,
+
+  deleteDelegatedPriestStart,
+  deleteDelegatedPriestSuccess,
+  deleteDelegatedPriestFailure,
+
+  fetchAllDelegatedPriestsStart,
+  fetchAllDelegatedPriestsSuccess,
+  fetchAllDelegatedPriestsFailure,
+
+  clearErrors,
 } = priestReducer.actions;
 
 export default priestReducer.reducer;

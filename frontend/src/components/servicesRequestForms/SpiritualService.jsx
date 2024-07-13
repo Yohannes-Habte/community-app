@@ -4,11 +4,7 @@ import "./Form.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  spiritualRequestFailure,
-  spiritualRequestStart,
-  spiritualRequestSuccess,
-} from "../../redux/reducers/spiritualReducer";
+import { postSpiritualRequestFailure, postSpiritualRequestStart, postSpiritualRequestSuccess } from "../../redux/reducers/spiritualReducer";
 import {
   API,
   cloud_URL,
@@ -37,7 +33,7 @@ const SpiritualService = ({ data }) => {
     event.preventDefault();
 
     try {
-      dispatch(spiritualRequestStart());
+      dispatch(postSpiritualRequestStart());
       // Image validation
       const userFile = new FormData();
       userFile.append("file", files);
@@ -60,11 +56,11 @@ const SpiritualService = ({ data }) => {
         `${API}/spirituals/${currentUser._id}/new`,
         newSpiritual
       );
-      dispatch(spiritualRequestSuccess(data.prayer));
+      dispatch(postSpiritualRequestSuccess(data.prayer));
       toast.success(data.message);
       event.target.reset();
     } catch (err) {
-      dispatch(spiritualRequestFailure(err.response.data.message));
+      dispatch(postSpiritualRequestFailure(err.response.data.message));
     }
   };
 

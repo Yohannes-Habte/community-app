@@ -1,28 +1,24 @@
-import  { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { API } from '../../../utiles/securitiy/secreteKey';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import { countUsersFailure, countUsersStart, countUsersSuccess } from "../../../redux/reducers/userReducer";
+import axios from "axios";
 import {
-  usersCountFailure,
-  usersCountStart,
-  usersCountSuccess,
-} from '../../../redux/reducers/userReducer';
-import axios from 'axios';
-import {
-  sacramentsCountFailure,
-  sacramentsCountStart,
-  sacramentsCountSuccess,
-} from '../../../redux/reducers/sacramentReducer';
+  countSacramentsFailure,
+  countSacramentsStart,
+  countSacramentsSuccess,
+} from "../../../redux/reducers/sacramentReducer";
 import {
   prayersCountFailure,
   prayersCountStart,
   prayersCountSuccess,
-} from '../../../redux/reducers/prayerReducer';
+} from "../../../redux/reducers/prayerReducer";
 import {
-  spiritualsCountFailure,
-  spiritualsCountStart,
-  spiritualsCountSuccess,
-} from '../../../redux/reducers/spiritualReducer';
-import FinancialReportChart from '../charts/FinancialReportChart';
+  countSpiritualsFailure,
+  countSpiritualsStart,
+  countSpiritualsSuccess,
+} from "../../../redux/reducers/spiritualReducer";
+import FinancialReportChart from "../charts/FinancialReportChart";
 
 const AdminDashboardSummary = () => {
   // Global state variables
@@ -36,11 +32,11 @@ const AdminDashboardSummary = () => {
   useEffect(() => {
     const totalNumberOfParishioners = async () => {
       try {
-        dispatch(usersCountStart());
+        dispatch(countUsersStart());
         const { data } = await axios.get(`${API}/members/size/total`);
-        dispatch(usersCountSuccess(data.counts));
+        dispatch(countUsersSuccess(data.counts));
       } catch (error) {
-        dispatch(usersCountFailure(error.response.data.message));
+        dispatch(countUsersFailure(error.response.data.message));
       }
     };
 
@@ -51,11 +47,11 @@ const AdminDashboardSummary = () => {
   useEffect(() => {
     const totalNumberOfSacraments = async () => {
       try {
-        dispatch(sacramentsCountStart());
+        dispatch(countSacramentsStart());
         const { data } = await axios.get(`${API}/sacraments/size/total`);
-        dispatch(sacramentsCountSuccess(data.counts));
+        dispatch(countSacramentsSuccess(data.counts));
       } catch (error) {
-        dispatch(sacramentsCountFailure(error.response.data.message));
+        dispatch(countSacramentsFailure(error.response.data.message));
       }
     };
 
@@ -81,11 +77,11 @@ const AdminDashboardSummary = () => {
   useEffect(() => {
     const totalNumberOfSpirituals = async () => {
       try {
-        dispatch(spiritualsCountStart());
+        dispatch(countSpiritualsStart());
         const { data } = await axios.get(`${API}/spirituals/size/total`);
-        dispatch(spiritualsCountSuccess(data.counts));
+        dispatch(countSpiritualsSuccess(data.counts));
       } catch (error) {
-        dispatch(spiritualsCountFailure(error.response.data.message));
+        dispatch(countSpiritualsFailure(error.response.data.message));
       }
     };
 

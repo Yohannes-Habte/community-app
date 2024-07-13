@@ -3,11 +3,7 @@ import "./Tables.scss";
 import axios from "axios";
 import { API } from "../../utiles/securitiy/secreteKey";
 import { FaTrashAlt } from "react-icons/fa";
-import {
-  getALLFinancialReportFailure,
-  getALLFinancialReportStart,
-  getALLFinancialReportSuccess,
-} from "../../redux/reducers/financeReducer";
+import { fetchAllFinancialReportsFailure, fetchAllFinancialReportsStart, fetchAllFinancialReportsSuccess } from "../../redux/reducers/financeReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const FinancialReport = () => {
@@ -17,12 +13,12 @@ const FinancialReport = () => {
   useEffect(() => {
     const fetchAllFinancialReportData = async () => {
       try {
-        dispatch(getALLFinancialReportStart());
+        dispatch(fetchAllFinancialReportsStart());
         const { data } = await axios.get(`${API}/reports/financial-reports`);
 
-        dispatch(getALLFinancialReportSuccess(data.reports));
+        dispatch(fetchAllFinancialReportsSuccess(data.reports));
       } catch (error) {
-        dispatch(getALLFinancialReportFailure(error.response.data.message));
+        dispatch(fetchAllFinancialReportsFailure(error.response.data.message));
       }
     };
     fetchAllFinancialReportData();
@@ -30,7 +26,6 @@ const FinancialReport = () => {
 
   // Local state variable
   const [total, setTotal] = useState();
-  
 
   // Display surplus or deficit from the financial report table
   useEffect(() => {
@@ -47,7 +42,6 @@ const FinancialReport = () => {
     totalSurplusOrDeficit();
   }, []);
 
-  
   // Handle delete for each report
   const handleDelete = async (id) => {
     try {

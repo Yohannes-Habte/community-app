@@ -9,10 +9,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import "./UserLoginPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  userLoginStart,
-  userLoginSuccess,
+  clearErrors,
+  postUserLoginFailure,
+  postUserLoginStart,
+  postUserLoginSuccess,
 } from "../../redux/reducers/userReducer";
-import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 import { validEmail, validPassword } from "../../utiles/validation/validate";
 import { API } from "../../utiles/securitiy/secreteKey";
 
@@ -22,17 +23,21 @@ const initialState = {
   showPassword: false,
 };
 const UserLoginPage = () => {
-  // Global state variables
-  const { loginLoading, error, currentUser } = useSelector(
-    (state) => state.user
-  );
-  const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  // Select currentUser, loading and error states from the Redux store
+  const { currentUser } = useSelector((state) => state.user);
+  const loading = useSelector((state) => state.user.loading.login);
+  const error = useSelector((state) => state.user.error.login);
+  const dispatch = useDispatch();
 
   // Local state variables
   const [formData, setFormData] = useState(initialState);
   const { email, password, showPassword } = formData;
+
+  // Clear errors when the component mounts
+  useEffect(() => {
+    dispatch(clearErrors());
+  }, [dispatch]);
 
   // change handler
   const changeHandler = (e) => {
@@ -70,7 +75,7 @@ const UserLoginPage = () => {
     }
 
     try {
-      dispatch(userLoginStart());
+      dispatch(postUserLoginStart());
       // The body
       const loginUser = {
         email: email,
@@ -78,15 +83,14 @@ const UserLoginPage = () => {
       };
       const { data } = await axios.post(`${API}/auth/login`, loginUser);
 
-      dispatch(userLoginSuccess(data.user));
+      dispatch(postUserLoginSuccess(data.user));
       toast.success(data.message);
       resetHandler();
       navigate("/user/profile");
       window.location.reload();
       localStorage.setItem("user", JSON.stringify(data.user));
     } catch (err) {
-      // dispatch(userLoginFailure(err.response.data.message));
-      console.log(err);
+      dispatch(postUserLoginFailure(err.response.data.message));
     }
   };
 
@@ -98,7 +102,6 @@ const UserLoginPage = () => {
 
       <section className="login-page-container">
         <h1 className="login-page-title"> Welcome To Your Account </h1>
-        {error ? <p className="error-message"> {error} </p> : null}
 
         <form onSubmit={submitHandler} className="login-form">
           {/* Email input container */}
@@ -160,14 +163,8 @@ const UserLoginPage = () => {
           </div>
 
           {/* Button for log in form */}
-          <button className="login-button" disabled={loginLoading}>
-            {loginLoading ? (
-              <span className="loading">
-                <ButtonLoader /> Loading...
-              </span>
-            ) : (
-              "Log In"
-            )}
+          <button className="login-button" disabled={loading}>
+            {loading ? "Loading..." : "Login"}
           </button>
 
           {/* Do not have an account, Sign Up */}
@@ -177,6 +174,7 @@ const UserLoginPage = () => {
               Sign Up
             </NavLink>
           </p>
+          {error ? <p className="error-message"> {error} </p> : null}
         </form>
       </section>
     </main>

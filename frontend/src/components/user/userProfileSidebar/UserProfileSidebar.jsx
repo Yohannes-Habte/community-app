@@ -1,5 +1,5 @@
 import "./UserProfileSidebar.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaAddressCard } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -9,41 +9,17 @@ import { RiMoneyEuroBoxFill } from "react-icons/ri";
 import { IoMdLogOut } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { GiSunPriest } from "react-icons/gi";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  userLogoutFailure,
-  userLogoutStart,
-  userLogoutSuccess,
-} from "../../../redux/reducers/userReducer";
-import { toast } from "react-toastify";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { useSelector } from "react-redux";
+import Logout from "../../../utiles/globalFunctions/Logout";
 
 const UserProfileSidebar = ({ isActive, setIsActive }) => {
-  // Navigate
-  const navigate = useNavigate();
   // Global state variables
+  const { signOut } = Logout();
   const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
-  // Sign out Function
-  const logoutUser = async () => {
-    try {
-      dispatch(userLogoutStart());
-      const { data } = await axios.get(`${API}/auth/logout`);
-
-      if (data.success) {
-        dispatch(userLogoutSuccess(data.message));
-        toast.success(data.message);
-        localStorage.removeItem("user");
-        window.location.reload();
-        navigate("/login");
-      } else {
-        toast.error("User could not logout");
-      }
-    } catch (error) {
-      dispatch(userLogoutFailure(error.response.data.message));
-    }
+  // Handle logout
+  const handleLogout = async () => {
+    await signOut(); // This will trigger the logout process
   };
 
   return (
@@ -202,7 +178,7 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
         </Link>
       )}
 
-      <aside onClick={logoutUser} className="user-profile-sidebar-item">
+      <aside onClick={handleLogout} className="user-profile-sidebar-item">
         <IoMdLogOut
           title="Log Out"
           className={isActive === 12 ? "active-icon" : "passive-icon"}

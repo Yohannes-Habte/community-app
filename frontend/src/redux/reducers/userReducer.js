@@ -7,189 +7,240 @@ const initialState = {
 
   parishioners: [],
   count: null,
-  error: null,
-  registerLoading: false,
-  loginLoading: false,
-  updateLoading: false,
-  logoutLoading: false,
-  changePasswordLoading: false,
-  addressLoading: false,
-  deleteAddressLoading: false,
-  membersLoading: false,
-  loading: false,
+
+  // Loading states
+  loading: {
+    register: false,
+    login: false,
+    update: false,
+    logout: false,
+    changePassword: false,
+    address: false,
+    deleteAddress: false,
+    members: false,
+    count: false,
+  },
+
+  // Error states
+  error: {
+    register: null,
+    login: null,
+    update: null,
+    logout: null,
+    changePassword: null,
+    address: null,
+    deleteAddress: null,
+    members: null,
+    count: null,
+  },
 };
 
-// Destructure user reducer methods
 const userReducer = createSlice({
   name: "user",
   initialState,
   reducers: {
     // Sign Up User
-    userRegisterStart: (state) => {
-      state.registerLoading = true;
+    postUserRegisterStart: (state) => {
+      state.loading.register = true;
+      state.error.register = null;
     },
-    userRegisterSuccess: (state, action) => {
+    postUserRegisterSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.registerLoading = false;
+      state.loading.register = false;
     },
-    userRegisterFailure: (state, action) => {
-      state.error = action.payload;
-      state.registerLoading = false;
+    postUserRegisterFailure: (state, action) => {
+      state.error.register = action.payload;
+      state.loading.register = false;
     },
 
-    // User Login
-    userLoginStart: (state) => {
-      state.loginLoading = true;
+    // Login User
+    postUserLoginStart: (state) => {
+      state.loading.login = true;
+      state.error.login = null;
     },
-    userLoginSuccess: (state, action) => {
+    postUserLoginSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.loginLoading = false;
-      state.error = null;
+      state.loading.login = false;
+      state.error.login = null;
     },
-    userLoginFailure: (state, action) => {
-      state.error = action.payload;
+    postUserLoginFailure: (state, action) => {
+      state.error.login = action.payload;
       state.currentUser = null;
-      state.loginLoading = false;
+      state.loading.login = false;
     },
 
     // Update user profile
-    userUpdateStart: (state) => {
-      state.updateLoading = true;
+    updateUserStart: (state) => {
+      state.loading.update = true;
+      state.error.update = null;
     },
-    userUpdateSuccess: (state, action) => {
+    updateUserSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.updateLoading = false;
+      state.loading.update = false;
     },
-    userUpdateFailure: (state, action) => {
-      state.error = action.payload;
-      state.updateLoading = false;
+    updateUserFailure: (state, action) => {
+      state.error.update = action.payload;
+      state.loading.update = false;
     },
 
     // Logout user
-    userLogoutStart: (state) => {
-      state.logoutLoading = true;
+    logoutUserStart: (state) => {
+      state.loading.logout = true;
+      state.error.logout = null;
     },
-    userLogoutSuccess: (state, action) => {
-      state.currentUser = action.payload;
-      state.logoutLoading = false;
-      state.error = null;
+    logoutUserSuccess: (state) => {
+      state.currentUser = null;
+      state.loading.logout = false;
+      state.error.logout = null;
     },
-    userLogoutFailure: (state, action) => {
-      state.error = action.payload;
-      state.logoutLoading = false;
+    logoutUserFailure: (state, action) => {
+      state.error.logout = action.payload;
+      state.loading.logout = false;
     },
 
-    userChangePasswordStart: (state) => {
-      state.changePasswordLoading = true;
+    // Delete user profile
+    deleteUserStart: (state) => {
+      state.loading.update = true;
+      state.error.update = null;
     },
-    userChangePasswordSuccess: (state, action) => {
+    deleteUserSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.changePasswordLoading = false;
+      state.loading.update = false;
     },
-    userChangePasswordFailure: (state, action) => {
-      state.error = action.payload;
-      state.changePasswordLoading = false;
+    deleteUserFailure: (state, action) => {
+      state.error.update = action.payload;
+      state.loading.update = false;
+    },
+
+    // Change Password
+    postUserChangePasswordStart: (state) => {
+      state.loading.changePassword = true;
+      state.error.changePassword = null;
+    },
+    postUserChangePasswordSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading.changePassword = false;
+    },
+    postUserChangePasswordFailure: (state, action) => {
+      state.error.changePassword = action.payload;
+      state.loading.changePassword = false;
     },
 
     // User Addresses
-    userAddressStart: (state) => {
-      state.addressLoading = true;
+    postUserAddressStart: (state) => {
+      state.loading.address = true;
+      state.error.address = null;
     },
-    userAddressSuccess: (state, action) => {
+    postUserAddressSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.addressLoading = false;
+      state.loading.address = false;
     },
-    userAddressFailure: (state, action) => {
-      state.error = action.payload;
-      state.addressLoading = false;
+    postUserAddressFailure: (state, action) => {
+      state.error.address = action.payload;
+      state.loading.address = false;
     },
 
     // Delete User Addresses
-    userAddressDeleteStart: (state) => {
-      state.deleteAddressLoading = true;
+    deleteUserAddressDeleteStart: (state) => {
+      state.loading.deleteAddress = true;
+      state.error.deleteAddress = null;
     },
-    userAddressDeleteSuccess: (state, action) => {
+    deleteUserAddressDeleteSuccess: (state, action) => {
       state.currentUser = action.payload;
-      state.deleteAddressLoading = false;
+      state.loading.deleteAddress = false;
     },
-    userAddressDeleteFailure: (state, action) => {
-      state.error = action.payload;
-      state.deleteAddressLoading = false;
+    deleteUserAddressDeleteFailure: (state, action) => {
+      state.error.deleteAddress = action.payload;
+      state.loading.deleteAddress = false;
     },
 
     // Get all members
-    membersFetchStart: (state) => {
-      state.membersLoading = true;
+    fetchAllUsersStart: (state) => {
+      state.loading.members = true;
+      state.error.members = null;
     },
-    membersFetchSuccess: (state, action) => {
+    fetchAllUsersSuccess: (state, action) => {
       state.parishioners = action.payload;
-      state.membersLoading = false;
+      state.loading.members = false;
     },
-    membersFetchFailure: (state, action) => {
-      state.error = action.payload;
-      state.membersLoading = false;
+    fetchAllUsersFailure: (state, action) => {
+      state.error.members = action.payload;
+      state.loading.members = false;
     },
 
-    // count all users
-    usersCountStart: (state) => {
-      state.loading = true;
+    // Count all users
+    countUsersStart: (state) => {
+      state.loading.count = true;
+      state.error.count = null;
     },
-    usersCountSuccess: (state, action) => {
+    countUsersSuccess: (state, action) => {
       state.count = action.payload;
-      state.loading = false;
+      state.loading.count = false;
     },
-    usersCountFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
+    countUsersFailure: (state, action) => {
+      state.error.count = action.payload;
+      state.loading.count = false;
     },
 
     // Clear errors
     clearErrors: (state) => {
-      state.error = null;
+      state.error = {
+        register: null,
+        login: null,
+        update: null,
+        logout: null,
+        changePassword: null,
+        address: null,
+        deleteAddress: null,
+        members: null,
+        count: null,
+      };
     },
   },
 });
 
-// Destructure user reducer methods
 export const {
-  userRegisterStart,
-  userRegisterSuccess,
-  userRegisterFailure,
+  postUserRegisterStart,
+  postUserRegisterSuccess,
+  postUserRegisterFailure,
 
-  userLoginStart,
-  userLoginSuccess,
-  userLoginFailure,
+  postUserLoginStart,
+  postUserLoginSuccess,
+  postUserLoginFailure,
 
-  userUpdateStart,
-  userUpdateSuccess,
-  userUpdateFailure,
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
 
-  userLogoutStart,
-  userLogoutSuccess,
-  userLogoutFailure,
+  logoutUserStart,
+  logoutUserSuccess,
+  logoutUserFailure,
 
-  userChangePasswordStart,
-  userChangePasswordSuccess,
-  userChangePasswordFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
 
-  userAddressStart,
-  userAddressSuccess,
-  userAddressFailure,
+  postUserChangePasswordStart,
+  postUserChangePasswordSuccess,
+  postUserChangePasswordFailure,
 
-  userAddressDeleteStart,
-  userAddressDeleteSuccess,
-  userAddressDeleteFailure,
+  postUserAddressStart,
+  postUserAddressSuccess,
+  postUserAddressFailure,
 
-  membersFetchStart,
-  membersFetchSuccess,
-  membersFetchFailure,
+  deleteUserAddressDeleteStart,
+  deleteUserAddressDeleteSuccess,
+  deleteUserAddressDeleteFailure,
 
-  usersCountStart,
-  usersCountSuccess,
-  usersCountFailure,
+  fetchAllUsersStart,
+  fetchAllUsersSuccess,
+  fetchAllUsersFailure,
+
+  countUsersStart,
+  countUsersSuccess,
+  countUsersFailure,
 
   clearErrors,
 } = userReducer.actions;
 
-// export userSlice
 export default userReducer.reducer;

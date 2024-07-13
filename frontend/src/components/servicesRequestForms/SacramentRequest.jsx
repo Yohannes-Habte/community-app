@@ -10,11 +10,7 @@ import {
   upload_preset,
 } from "../../utiles/securitiy/secreteKey";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  sacramentRequestFailure,
-  sacramentRequestStart,
-  sacramentRequestSuccess,
-} from "../../redux/reducers/sacramentReducer";
+import { postSacramentFailure, postSacramentStart, postSacramentSuccess } from "../../redux/reducers/sacramentReducer";
 import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 
 const SacramentRequest = ({ data }) => {
@@ -38,7 +34,7 @@ const SacramentRequest = ({ data }) => {
     event.preventDefault();
 
     try {
-      dispatch(sacramentRequestStart());
+      dispatch(postSacramentStart());
       // Image validation
       const userFile = new FormData();
       userFile.append("file", files);
@@ -61,11 +57,11 @@ const SacramentRequest = ({ data }) => {
         `${API}/sacraments/${currentUser._id}/new-sacrament`,
         newSacrament
       );
-      dispatch(sacramentRequestSuccess(data.sacrament));
+      dispatch(postSacramentSuccess(data.sacrament));
       toast.success(data.message);
       event.target.reset();
     } catch (err) {
-      dispatch(sacramentRequestFailure(err.response.data.message));
+      dispatch(postSacramentFailure(err.response.data.message));
     }
   };
 

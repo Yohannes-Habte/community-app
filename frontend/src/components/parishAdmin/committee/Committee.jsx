@@ -1,26 +1,22 @@
-import  { useState } from 'react';
-import './Committee.scss';
-import axios from 'axios';
-import { NavLink } from 'react-router-dom';
-import { FaUserAlt } from 'react-icons/fa';
-import { MdEmail, MdLocationPin } from 'react-icons/md';
-import { RiLockPasswordFill } from 'react-icons/ri';
-import { RiAdminFill } from 'react-icons/ri';
-import { GiCalendarHalfYear } from 'react-icons/gi';
-import { MdCloudUpload } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from "react";
+import "./Committee.scss";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
+import { MdEmail, MdLocationPin } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { RiAdminFill } from "react-icons/ri";
+import { GiCalendarHalfYear } from "react-icons/gi";
+import { MdCloudUpload } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
 import {
   API,
   cloud_URL,
   cloud_name,
   upload_preset,
-} from '../../../utiles/securitiy/secreteKey';
-import {
-  committeePostFailure,
-  committeePostStart,
-  committeePostSuccess,
-} from '../../../redux/reducers/committeeReducer';
-import { toast } from 'react-toastify';
+} from "../../../utiles/securitiy/secreteKey";
+import { postCommitteeFailure, postCommitteeStart, postCommitteeSuccess } from "../../../redux/reducers/committeeReducer";
+import { toast } from "react-toastify";
 
 const Committee = () => {
   // Global state variables
@@ -28,38 +24,38 @@ const Committee = () => {
   const dispatch = useDispatch();
 
   // Local state variables
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [title, setTitle] = useState('');
-  const [phone, setPhone] = useState('');
-  const [startingTime, setStartingTime] = useState('');
-  const [endingTime, setEndingTime] = useState('');
-  const [image, setImage] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [phone, setPhone] = useState("");
+  const [startingTime, setStartingTime] = useState("");
+  const [endingTime, setEndingTime] = useState("");
+  const [image, setImage] = useState("");
 
   // Function to update login user data
   const updateData = (event) => {
     switch (event.target.name) {
-      case 'fullName':
+      case "fullName":
         setFullName(event.target.value);
         break;
-      case 'email':
+      case "email":
         setEmail(event.target.value);
         break;
-      case 'password':
+      case "password":
         setPassword(event.target.value);
         break;
-      case 'title':
+      case "title":
         setTitle(event.target.value);
         break;
-      case 'phone':
+      case "phone":
         setPhone(event.target.value);
         break;
-      case 'startingTime':
+      case "startingTime":
         setStartingTime(event.target.value);
         break;
 
-      case 'endingTime':
+      case "endingTime":
         setEndingTime(event.target.value);
         break;
       default:
@@ -69,13 +65,13 @@ const Committee = () => {
 
   // Reset all state variables for the login form
   const reset = () => {
-    setFullName('');
-    setEmail('');
-    setPassword('');
-    setTitle('');
-    setPhone('');
-    setStartingTime('');
-    setEndingTime('');
+    setFullName("");
+    setEmail("");
+    setPassword("");
+    setTitle("");
+    setPhone("");
+    setStartingTime("");
+    setEndingTime("");
   };
 
   // handle submit
@@ -83,12 +79,12 @@ const Committee = () => {
     e.preventDefault();
 
     try {
-      dispatch(committeePostStart());
+      dispatch(postCommitteeStart());
       // Image validation
       const committeePhoto = new FormData();
-      committeePhoto.append('file', image);
-      committeePhoto.append('cloud_name', cloud_name);
-      committeePhoto.append('upload_preset', upload_preset);
+      committeePhoto.append("file", image);
+      committeePhoto.append("cloud_name", cloud_name);
+      committeePhoto.append("upload_preset", upload_preset);
 
       // Save image to cloudinary
       const response = await axios.post(cloud_URL, committeePhoto);
@@ -110,12 +106,12 @@ const Committee = () => {
         newCommitteeMember
       );
 
-      dispatch(committeePostSuccess(data.committee));
+      dispatch(postCommitteeSuccess(data.committee));
       toast.success(data.message);
 
       reset();
     } catch (error) {
-      dispatch(committeePostFailure(error.response.data.message));
+      dispatch(postCommitteeFailure(error.response.data.message));
     }
   };
 
@@ -304,7 +300,7 @@ const Committee = () => {
               I accept
             </label>
 
-            <NavLink className={'terms-of-user'}> Terms of Use</NavLink>
+            <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
           </div>
 
           <button className="add-committee-btn">Send</button>

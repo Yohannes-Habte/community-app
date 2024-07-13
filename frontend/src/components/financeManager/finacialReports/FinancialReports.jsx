@@ -7,9 +7,9 @@ import { FaTrashAlt } from "react-icons/fa";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import ExpenseReportForm from "../financeReportForm/ExpenseReportForm";
 import {
-  getALLFinancialReportFailure,
-  getALLFinancialReportStart,
-  getALLFinancialReportSuccess,
+  fetchAllFinancialReportsFailure,
+  fetchAllFinancialReportsStart,
+  fetchAllFinancialReportsSuccess,
 } from "../../../redux/reducers/financeReducer";
 import { toast } from "react-toastify";
 
@@ -28,12 +28,12 @@ const FinancialReports = () => {
   useEffect(() => {
     const fetchAllFinancialReportData = async () => {
       try {
-        dispatch(getALLFinancialReportStart());
+        dispatch(fetchAllFinancialReportsStart());
         const { data } = await axios.get(`${API}/reports/financial-reports`);
 
-        dispatch(getALLFinancialReportSuccess(data.reports));
+        dispatch(fetchAllFinancialReportsSuccess(data.reports));
       } catch (error) {
-        dispatch(getALLFinancialReportFailure(error.response.data.message));
+        dispatch(fetchAllFinancialReportsFailure(error.response.data.message));
       }
     };
     fetchAllFinancialReportData();
