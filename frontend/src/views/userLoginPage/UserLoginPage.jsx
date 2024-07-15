@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Helmet } from "react-helmet-async";
 import { toast } from "react-toastify";
 import { MdEmail } from "react-icons/md";
@@ -16,15 +15,19 @@ import {
 } from "../../redux/reducers/userReducer";
 import { validEmail, validPassword } from "../../utiles/validation/validate";
 import { API } from "../../utiles/securitiy/secreteKey";
+import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
+import axios from "axios";
 
 const initialState = {
   email: "",
   password: "",
   showPassword: false,
+  rememberMe: false,
 };
 const UserLoginPage = () => {
   const navigate = useNavigate();
-  // Select currentUser, loading and error states from the Redux store
+
+  // Global state variables
   const { currentUser } = useSelector((state) => state.user);
   const loading = useSelector((state) => state.user.loading.login);
   const error = useSelector((state) => state.user.error.login);
@@ -32,12 +35,28 @@ const UserLoginPage = () => {
 
   // Local state variables
   const [formData, setFormData] = useState(initialState);
-  const { email, password, showPassword } = formData;
+  const { email, password, showPassword, rememberMe } = formData;
+
+  // If a user is logged in, they cannot access the login page
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  });
 
   // Clear errors when the component mounts
   useEffect(() => {
     dispatch(clearErrors());
   }, [dispatch]);
+
+  const resetHandler = () => {
+    setFormData({
+      email: "",
+      password: "",
+      showPassword: false,
+      rememberMe: false,
+    });
+  };
 
   // change handler
   const changeHandler = (e) => {
@@ -48,21 +67,9 @@ const UserLoginPage = () => {
     });
   };
 
-  // If a user is logged in, they cannot access the login page
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/");
-    }
-  });
-
-  // Reset all state variables for the login form
-  const resetHandler = () => {
-    setFormData({ email: "", password: "", showPassword: false });
-  };
-
-  // Login and Submit Function
-  const submitHandler = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
 
     if (!validEmail(email)) {
       return toast.error("Please enter a valid email");
@@ -76,6 +83,7 @@ const UserLoginPage = () => {
 
     try {
       dispatch(postUserLoginStart());
+
       // The body
       const loginUser = {
         email: email,
@@ -90,6 +98,7 @@ const UserLoginPage = () => {
       window.location.reload();
       localStorage.setItem("user", JSON.stringify(data.user));
     } catch (err) {
+      console.log(err);
       dispatch(postUserLoginFailure(err.response.data.message));
     }
   };
@@ -103,7 +112,9 @@ const UserLoginPage = () => {
       <section className="login-page-container">
         <h1 className="login-page-title"> Welcome To Your Account </h1>
 
-        <form onSubmit={submitHandler} className="login-form">
+        {error ? <p className="error-message"> {error} </p> : null}
+
+        <form onSubmit={handleSubmit} className="login-form">
           {/* Email input container */}
           <div className="input-container">
             <MdEmail className="icon" />
@@ -153,7 +164,13 @@ const UserLoginPage = () => {
           {/* Log in checkbox and forgot password */}
           <div className="login-checkbox-forgot-password">
             <div className="login-checkbox-keep-signed-in">
-              <input type="checkbox" name="login" className="login-checkbox" />
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={rememberMe}
+                onChange={changeHandler}
+                className="login-checkbox"
+              />
               <span>Keep me signed in</span>
             </div>
 
@@ -164,7 +181,13 @@ const UserLoginPage = () => {
 
           {/* Button for log in form */}
           <button className="login-button" disabled={loading}>
-            {loading ? "Loading..." : "Login"}
+            {loading ? (
+              <span className="loading">
+                <ButtonLoader /> Loading...
+              </span>
+            ) : (
+              "Log In"
+            )}
           </button>
 
           {/* Do not have an account, Sign Up */}

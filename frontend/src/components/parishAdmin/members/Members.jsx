@@ -1,35 +1,26 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useSelector } from "react-redux";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
-import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import "./Members.scss";
 import Register from "../../forms/registerForm/Register";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllParishioners } from "../../../redux/actions/user/userAction";
 
 const Members = () => {
   // Global state variables
-  const { membersLoading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const parishioners = useSelector((state) => state.member.parishioners);
+  const loading = useSelector((state) => state.user.loading.members);
+  const error = useSelector((state) => state.user.error.members);
 
-  // Local state variables
-  const [members, setMembers] = useState([]);
+  // Local variables
   const [addUser, setAddUser] = useState(false);
 
-  // Display all users
   useEffect(() => {
-    const getAllParishioners = async () => {
-      try {
-        // dispatch(membersFetchStart());
-        const { data } = await axios.get(`${API}/members`);
-        // dispatch(membersFetchSuccess(data.users));
-        setMembers(data.users);
-      } catch (error) {
-        // dispatch(membersFetchFailure(error.response.data.message));
-      }
-    };
+    dispatch(getAllParishioners());
+  }, [dispatch]);
 
-    getAllParishioners();
-  }, []);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   // Parishioners header
   const columns = [
@@ -57,8 +48,8 @@ const Members = () => {
 
   const rows = [];
 
-  members &&
-    members.forEach((parishioner) => {
+  parishioners &&
+    parishioners.forEach((parishioner) => {
       rows.push({
         id: parishioner._id,
         firstName: parishioner.firstName,
@@ -88,38 +79,32 @@ const Members = () => {
         </button>
       </aside>
 
-      {membersLoading && <PageLoader />}
-
-      {error ? <p className="error-message"> {error} </p> : null}
-
-      {!membersLoading && !error && (
-        <DataGrid
-          // Rows
-          rows={rows}
-          // Columns
-          columns={columns}
-          // Initial state
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 10 },
-            },
-          }}
-          // Create search bar
-          slots={{ toolbar: GridToolbar }}
-          // Search a specific user
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-            },
-          }}
-          // Page size optons
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          //
-        />
-      )}
+      <DataGrid
+        // Rows
+        rows={rows}
+        // Columns
+        columns={columns}
+        // Initial state
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 10 },
+          },
+        }}
+        // Create search bar
+        slots={{ toolbar: GridToolbar }}
+        // Search a specific user
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 },
+          },
+        }}
+        // Page size optons
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+        disableRowSelectionOnClick
+        //
+      />
 
       {addUser && <Register addMember={"add Member"} setAddUser={setAddUser} />}
     </section>

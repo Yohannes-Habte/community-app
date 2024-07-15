@@ -9,7 +9,8 @@ import { API } from "../../../utiles/securitiy/secreteKey";
 
 const AllParishioners = () => {
   // Global state variables
-  const { loading, error } = useSelector((state) => state.user);
+  const loading  = useSelector((state) => state.user.loading.members);
+  const error  = useSelector((state) => state.user.error.members);
 
   // Local state variables
   const [members, setMembers] = useState([]);

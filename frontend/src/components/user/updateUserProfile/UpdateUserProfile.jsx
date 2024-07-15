@@ -25,8 +25,8 @@ import UserAddress from "../address/UserAddress";
 import UserChangePassword from "../changePassword/UserChangePassword";
 import MonthlyContribution from "../contribution/MonthlyContribution";
 import AllUserServices from "../userServices/AllUserServices";
-import ServiceRequest from "../serviceRequest/ServiceRequest";
 import UserInbox from "../inbox/UserInbox";
+import ServicesRequest from "../servicesRequest/ServiceRequest";
 
 const UpdateUserProfile = ({ isActive }) => {
   const navigate = useNavigate();
@@ -414,7 +414,7 @@ const UpdateUserProfile = ({ isActive }) => {
 
       {isActive === 4 && <MonthlyContribution />}
 
-      {isActive === 5 && <ServiceRequest />}
+      {isActive === 5 && <ServicesRequest />}
 
       {isActive === 6 && <AllUserServices />}
 

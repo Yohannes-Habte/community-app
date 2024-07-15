@@ -3,7 +3,7 @@ import { body } from "express-validator";
 // This "serviceValidation" will be applied for prayerRequest, sacrament and spiritual
 const serviceValidation = () => {
   return [
-    body("name")
+    body("serviceName")
       .trim()
       .escape()
       .notEmpty()
@@ -11,7 +11,7 @@ const serviceValidation = () => {
       .isLength({ min: 1, max: 100 })
       .withMessage("Name must be between 1 and 100 characters."),
 
-    body("date")
+    body("serviceDate")
       .isDate()
       .withMessage("Date must be a valid.")
       .notEmpty()
@@ -23,21 +23,27 @@ const serviceValidation = () => {
         return true;
       }),
 
-    body("phone")
-      .trim()
-      .escape()
-      .notEmpty()
-      .withMessage("Phone number is required.")
-      .isMobilePhone()
-      .withMessage("Phone number must be valid."),
-
-    body("userStatus")
+    body("identificationDocument")
       .isString()
       .withMessage("Image URL must be a string")
       .matches(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif))$/)
       .withMessage("Image URL must be a valid URL")
       .notEmpty()
       .withMessage("Image URL is required"),
+
+    body("message")
+      .isString()
+      .withMessage("Message must be a string")
+      .isLength({ min: 10, max: 500 })
+      .withMessage("Message must be between 10 and 500 characters")
+      .matches(/^[a-zA-Z0-9\s\-.,?!]+$/)
+      .withMessage(
+        "Description can only contain letters, numbers, spaces, and basic punctuation"
+      )
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Message is required"),
 
     body("serviceStatus")
       .optional()

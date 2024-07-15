@@ -1,10 +1,22 @@
 import JWT from "jsonwebtoken";
 
-const generateToken = (userId) => {
-  const userToken = JWT.sign({ userId }, process.env.JWT_USER_SECRET, {
-    expiresIn: "1d",
-  });
-  return userToken;
+//====================================================================
+// Generate token
+//====================================================================
+const generateToken = (user) => {
+  const token = JWT.sign(
+    {
+      id: user._id,
+      admin: user.role.admin,
+      priest: user.role.priest,
+      financeManager: user.role.financeManager,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+  return token;
 };
 
 export default generateToken;

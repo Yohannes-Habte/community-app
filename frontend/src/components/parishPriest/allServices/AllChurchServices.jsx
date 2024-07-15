@@ -1,90 +1,76 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllSacramentsFailure, fetchAllSacramentsStart, fetchAllSacramentsSuccess } from "../../../redux/reducers/sacramentReducer";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import {
+  clearAllErrors,
+  fetchAllServices,
+} from "../../../redux/actions/service/serviceAction";
+import ReactIcons from "../../reactIcons/ReactIcons";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
-import {
-  fetchAllPrayersFailure,
-  fetchAllPrayersStart,
-  fetchAllPrayersSuccess,
-} from "../../../redux/reducers/prayerReducer";
-import { fetchAllSpiritualsFailure, fetchAllSpiritualsStart, fetchAllSpiritualsSuccess } from "../../../redux/reducers/spiritualReducer";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import { toast } from "react-toastify";
+import "./AllChurchServices.scss";
 
 const AllChurchServices = () => {
-  // Global state variables
-  const { sacLoading, sacError, sacraments } = useSelector(
-    (state) => state.sacrament
-  );
-  const { prayers } = useSelector((state) => state.prayer);
-  const { spirituals } = useSelector((state) => state.spiritual);
+  const { trashIcon, editIcon, closeIcon } = ReactIcons();
   const dispatch = useDispatch();
+  const { services, loading, error } = useSelector((state) => state.service);
 
-  // Local state variables
-  // const [allSacraments, setAllSacraments] = useState([]);
-  // const [allPrayers, setAllPrayers] = useState([]);
-  // const [allSpirituals, setAllSpirituals] = useState([]);
+  // Local state variable
+  const [serviceId, setServiceId] = useState("");
+  const [open, setOpen] = useState(false);
 
-  // Display all sacrament
   useEffect(() => {
-    const getAllSacraments = async () => {
-      try {
-        dispatch(fetchAllSacramentsStart());
-        const { data } = await axios.get(`${API}/sacraments`);
-        dispatch(fetchAllSacramentsSuccess(data.sacraments));
-      } catch (error) {
-        dispatch(fetchAllSacramentsFailure(error.response.data.message));
-      }
+    dispatch(fetchAllServices());
+
+    // Optional: Clear errors on component unmount
+    return () => {
+      dispatch(clearAllErrors());
     };
+  }, [dispatch]);
 
-    getAllSacraments();
-  }, []);
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error}</p>;
 
-  // Display all prayers
-  useEffect(() => {
-    const getAllPrayers = async () => {
-      try {
-        dispatch(fetchAllPrayersStart());
-        const { data } = await axios.get(`${API}/prayers`);
-        dispatch(fetchAllPrayersSuccess(data.prayers));
-      } catch (error) {
-        dispatch(fetchAllPrayersFailure(error.response.data.message));
-      }
-    };
+  const handleDelete = async (id) => {
+    try {
+      const { data } = await axios.delete(`${API}/users/${id}`);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
 
-    getAllPrayers();
-  }, []);
-
-  // Display all spiritual development
-  useEffect(() => {
-    const getAllSpirituals = async () => {
-      try {
-        dispatch(fetchAllSpiritualsStart());
-        const { data } = await axios.get(`${API}/spirituals`);
-        dispatch(fetchAllSpiritualsSuccess(data.spirituals));
-      } catch (error) {
-        dispatch(fetchAllSpiritualsFailure(error.response.data.message));
-      }
-    };
-
-    getAllSpirituals();
-  }, []);
+    // allUsers();
+  };
 
   // Parishioners header
   const columns = [
     { field: "id", headerName: "Service ID", width: 250 },
-    { field: "name", headerName: "Service Name", width: 200 },
-    { field: "date", headerName: "Service Date", width: 200 },
-    { field: "phone", headerName: "Phone Number", width: 200 },
-    { field: "userStatus", headerName: "User Status", width: 200 },
+    { field: "serviceName", headerName: "Service Name", width: 200 },
+    { field: "serviceDate", headerName: "Service Date", width: 200 },
+    { field: "identificationDocument", headerName: "Phone Number", width: 200 },
+    { field: "message", headerName: "Message", width: 200 },
     { field: "serviceStatus", headerName: "Service Status", width: 150 },
     {
       field: "action",
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
-        return <div className="action-wrapper"></div>;
+        return (
+          <div className="action-wrapper">
+            <button className="edit" onClick={() => setOpen(true)}>
+              {editIcon}
+            </button>
+
+            <button
+              className="delete"
+              onClick={() => setServiceId(params.id) || setOpen(true)}
+            >
+              {trashIcon}
+            </button>
+          </div>
+        );
       },
     },
   ];
@@ -92,41 +78,15 @@ const AllChurchServices = () => {
   const rows = [];
 
   // Sacraments pushed to rows
-  sacraments &&
-    sacraments.forEach((sacrament) => {
+  services &&
+    services.forEach((service) => {
       rows.push({
-        id: sacrament._id,
-        name: sacrament.name,
-        date: sacrament.date,
-        phone: sacrament.phone,
-        userStatus: sacrament.userStatus,
-        serviceStatus: sacrament.serviceStatus,
-      });
-    });
-
-  // Prayers pushed to rows
-  prayers &&
-    prayers.forEach((prayer) => {
-      rows.push({
-        id: prayer._id,
-        name: prayer.name,
-        date: prayer.date,
-        phone: prayer.phone,
-        userStatus: prayer.userStatus,
-        serviceStatus: prayer.serviceStatus,
-      });
-    });
-
-  // Spirituals pushed to rows
-  spirituals &&
-    spirituals.forEach((spiritual) => {
-      rows.push({
-        id: spiritual._id,
-        name: spiritual.name,
-        date: spiritual.date,
-        phone: spiritual.phone,
-        userStatus: spiritual.userStatus,
-        serviceStatus: spiritual.serviceStatus,
+        id: service._id,
+        serviceName: service.serviceName,
+        serviceDate: service.serviceDate,
+        identificationDocument: service.identificationDocument,
+        message: service.message,
+        serviceStatus: service.serviceStatus,
       });
     });
 
@@ -134,11 +94,11 @@ const AllChurchServices = () => {
     <section>
       <h1> Church Services </h1>
 
-      {sacLoading && <PageLoader />}
+      {loading && <PageLoader />}
 
-      {sacError ? <p className="error-message"> {sacError} </p> : null}
+      {error ? <p className="error-message"> {error} </p> : null}
 
-      {!sacLoading && !sacError && (
+      {!loading && !error && (
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             // Rows
@@ -167,6 +127,30 @@ const AllChurchServices = () => {
             //
           />
         </div>
+      )}
+
+      {open && (
+        <article className="service-delete-confirmation-wrapper">
+          <span className="delete-icon" onClick={() => setOpen(false)}>
+            {" "}
+            {closeIcon}{" "}
+          </span>
+
+          <h3 className="you-want-delete-user">
+            Are you sure you want delete this service?
+          </h3>
+          <aside className="cancel-or-confirm-delete">
+            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
+              cancel
+            </p>
+            <h3
+              className={`confirm-delete`}
+              onClick={() => setOpen(false) || handleDelete(serviceId)}
+            >
+              confirm
+            </h3>
+          </aside>
+        </article>
       )}
     </section>
   );

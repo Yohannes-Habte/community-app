@@ -1,0 +1,15 @@
+
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.action-wrapper {
+    @include flexRow;
+
+    .delete {
+        @include deleteIcon;
+    }
+
+    .edit {
+        @include editIcon;
+    }
+}

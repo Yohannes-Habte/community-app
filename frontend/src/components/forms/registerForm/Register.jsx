@@ -42,13 +42,15 @@ const initialState = {
 };
 
 const Register = ({ signUp, addMember, setAddUser }) => {
-  // Global state variables
-  const { error, registerLoading, currentUser } = useSelector(
-    (state) => state.user
-  );
-  const dispatch = useDispatch();
-  // to navigate register page
-  const navigate = useNavigate();
+   const navigate = useNavigate();
+   
+   // Global state variables
+    // Global state variables
+    const { currentUser } = useSelector((state) => state.user);
+    const loading = useSelector((state) => state.user.loading.update);
+    const error = useSelector((state) => state.user.error.update);
+    const dispatch = useDispatch();
+ 
 
   // Local state variables
   const [formData, setFormData] = useState(initialState);
@@ -467,9 +469,9 @@ const Register = ({ signUp, addMember, setAddUser }) => {
 
                   <button
                     className="register-button"
-                    disabled={registerLoading}
+                    disabled={loading}
                   >
-                    {registerLoading ? (
+                    {loading ? (
                       <span className="loading">
                         <ButtonLoader /> Loading...
                       </span>
@@ -742,8 +744,8 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                 <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
               </div>
 
-              <button className="register-button" disabled={registerLoading}>
-                {registerLoading ? (
+              <button className="register-button" disabled={loading}>
+                {loading ? (
                   <span className="loading">
                     <ButtonLoader /> Loading...
                   </span>

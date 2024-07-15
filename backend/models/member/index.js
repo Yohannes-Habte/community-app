@@ -36,9 +36,7 @@ const memberSchema = new Schema(
 
     services: [
       {
-        _id: { type: mongoose.Types.ObjectId, ref: "Prayer" },
-        _id: { type: mongoose.Types.ObjectId, ref: "Sacrament" },
-        _id: { type: mongoose.Types.ObjectId, ref: "Spiritual" },
+        _id: { type: mongoose.Types.ObjectId, ref: "Service" }
       },
     ],
 

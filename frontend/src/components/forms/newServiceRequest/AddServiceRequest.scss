@@ -1,5 +1,5 @@
-@import '../../styles/Variables.scss';
-@import '../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
 /* Labtop screen size */
 .service-form-container {
@@ -10,7 +10,7 @@
   .service-form-title {
     @include subTitle;
   }
-  .form {
+  .service-request-form {
     @include flexColumn;
 
     .input-container {
@@ -46,14 +46,17 @@
     .file-container {
       @include inputContainer;
 
+      .icon {
+        @include inputIcon;
+      }
+
       .file-field {
-        display: none;
+        @include inputField;
+        cursor: pointer;
       }
 
       .file-label {
-        display: block;
-        @include inputField;
-        cursor: pointer;
+        @include inputLabel;
       }
     }
 

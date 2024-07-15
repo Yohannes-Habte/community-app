@@ -61,20 +61,22 @@ export const registerUser = async (req, res, next) => {
       }
 
       // Generate token for a user
-      const userRegistrationToken = generateToken(newUser._id);
+      const token = generateToken(newUser);
 
       res
-        .cookie("user_token", userRegistrationToken, {
+        .cookie("token", token, {
           path: "/",
           httpOnly: true,
           expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           sameSite: "none",
           secure: true,
+          // secure: process.env.NODE_ENV === "production", // Cookie is sent only over HTTPS in production
+          // sameSite: "Lax", // Helps prevent CSRF attacks
         })
+
         .status(201)
         .json({
           success: true,
-          user: newUser,
           message: "User account is successfully created!",
         });
     }
@@ -97,7 +99,7 @@ export const loginUser = async (req, res, next) => {
       return next(createError(400, "Email does not exist. Please sign up!"));
     }
 
-    // Verfify password
+    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -105,14 +107,15 @@ export const loginUser = async (req, res, next) => {
     }
 
     if (user && isPasswordValid) {
-      // To prevent password and adming sending to the frontend, you can do ....
-      const { password, ...userDetails } = user._doc;
+      // Destructure to remove sensitive fields
+      const { password, admin, priest, financialManager, ...userDetails } =
+        user._doc;
 
       // User token
-      const userLoginToken = generateToken(user._id);
+      const token = generateToken(user);
 
       res
-        .cookie("user_token", userLoginToken, {
+        .cookie("token", token, {
           path: "/",
           httpOnly: true,
           expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
