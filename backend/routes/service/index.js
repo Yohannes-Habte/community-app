@@ -1,13 +1,14 @@
 import express from "express";
 import {
   createServiceRequest,
-  deleteSingleService,
+  deleteOneService,
   getAllServices,
   getSingleService,
   totalNumberOfServices,
 } from "../../controllers/service/index.js";
 import serviceValidation from "../../validators/service/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
+import { isAuthenticated, isPriest } from "../../middlewares/auth/auth.js";
 
 // Prayer Service Router
 const serviceRouter = express.Router();
@@ -21,8 +22,16 @@ serviceRouter.post(
 );
 
 serviceRouter.get("/", getAllServices);
+
 serviceRouter.get("/:id", getSingleService);
-serviceRouter.delete("/:userId/:id", deleteSingleService);
+
+serviceRouter.delete(
+  "/:serviceId",
+  isAuthenticated,
+  isPriest,
+  deleteOneService
+);
+
 serviceRouter.get("/size/total", totalNumberOfServices);
 
 // Export prayer service router

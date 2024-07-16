@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../securitiy/secreteKey";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Logout = () => {
   const navigate = useNavigate();
@@ -26,7 +27,14 @@ const Logout = () => {
       if (data.success) {
         dispatch(logoutUserSuccess(data.message));
         toast.success(data.message);
+
+        // Remove token from cookies
+        Cookies.remove("token", { path: "/" });
+
+        // Optionally remove any other client-side data
         localStorage.removeItem("user");
+
+        // Navigate to the home page and reload
         navigate("/");
         window.location.reload();
       } else {

@@ -74,3 +74,4 @@ const Member = mongoose.model("User", memberSchema);
 
 // Export User Model
 export default Member;
+

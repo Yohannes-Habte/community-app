@@ -17,6 +17,7 @@ import { validEmail, validPassword } from "../../utiles/validation/validate";
 import { API } from "../../utiles/securitiy/secreteKey";
 import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 import axios from "axios";
+import Cookies from "js-cookie"; // A popular library to handle cookies in JavaScript
 
 const initialState = {
   email: "",
@@ -88,15 +89,33 @@ const UserLoginPage = () => {
       const loginUser = {
         email: email,
         password: password,
+        rememberMe: rememberMe,
       };
       const { data } = await axios.post(`${API}/auth/login`, loginUser);
 
       dispatch(postUserLoginSuccess(data.user));
       toast.success(data.message);
+
+      // Set token in cookies
+      const token = data.token;
+      Cookies.set("token", token, {
+        expires: rememberMe ? 30 : 1,
+        secure: true,
+        sameSite: "strict",
+      });
+
       resetHandler();
-      navigate("/user/profile");
-      window.location.reload();
+      navigate("/");
+
+      /**
+      const tokenExpiry = rememberMe
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+        : new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
+
+      // Save user data and expiration time to local storage
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", tokenExpiry);
+       */
     } catch (err) {
       console.log(err);
       dispatch(postUserLoginFailure(err.response.data.message));

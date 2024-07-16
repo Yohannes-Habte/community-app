@@ -77,7 +77,7 @@ export const registerUser = async (req, res, next) => {
         .status(201)
         .json({
           success: true,
-          message: "User account is successfully created!",
+          message: "Account successfully created!",
         });
     }
   } catch (error) {
@@ -92,11 +92,12 @@ export const registerUser = async (req, res, next) => {
 // Login user
 //==========================================================================
 export const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
+
   try {
     const user = await Member.findOne({ email: email });
     if (!user) {
-      return next(createError(400, "Email does not exist. Please sign up!"));
+      return next(createError(400, "Wrong credentials"));
     }
 
     // Verify password
@@ -114,11 +115,16 @@ export const loginUser = async (req, res, next) => {
       // User token
       const token = generateToken(user);
 
+      // Set token expiration based on rememberMe flag
+      const tokenExpiry = rememberMe
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+        : new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
+
       res
         .cookie("token", token, {
           path: "/",
           httpOnly: true,
-          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          expires: tokenExpiry,
           sameSite: "none",
           secure: true,
         })
@@ -126,11 +132,12 @@ export const loginUser = async (req, res, next) => {
         .json({
           success: true,
           user: { ...userDetails },
+          token,
           message: "User successfully logged in!",
         });
     }
   } catch (error) {
-    return next(createError(400, "You are unable to login! please try again!"));
+    return next(createError(400, "You are unable to login! Please try again!"));
   }
 };
 
@@ -177,15 +184,20 @@ export const updateUser = async (req, res, next) => {
 //==========================================================================
 export const userLogout = async (req, res, next) => {
   try {
-    res.cookie("user_token", null, {
+    // res.clearCookie("token", {
+    //   httpOnly: true,
+    //   sameSite: "none",
+    //   secure: true,
+    // });
+    // res.status(200).json({ success: true, message: "Logout successful" });
+
+    res.cookie("token", null, {
       httpOnly: true,
       expires: new Date(0),
       sameSite: "none",
       secure: true,
     });
-    res
-      .status(200)
-      .json({ success: true, message: `You have successfully logged out` });
+    res.status(200).json({ success: true, message: "Logout successful" });
   } catch (error) {
     console.log(error);
     next(createError(500, "User could not logout. Please try again!"));

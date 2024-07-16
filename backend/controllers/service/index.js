@@ -1,6 +1,7 @@
 import createError from "http-errors";
 import Member from "../../models/member/index.js";
 import Service from "../../models/service/index.js";
+import mongoose from "mongoose";
 
 //==========================================================================
 // Create New Prayer Request
@@ -118,69 +119,122 @@ export const totalNumberOfServices = async (req, res, next) => {
 };
 
 //==========================================================================
-// Delete Service
+// Delete Service if the serviceId is available in more than one user
 //==========================================================================
-export const deleteSingleService = async (req, res, next) => {
-  const adminId = req.user.id; // Assuming req.user contains the authenticated admin's details
-  const userId = req.params.userId;
-  const serviceId = req.params.id;
 
+export const deleteService = async (req, res) => {
+  const serviceId = req.params.serviceId;
+
+  // Validate the input
+  if (!mongoose.Types.ObjectId.isValid(serviceId)) {
+    return res.status(400).json({ message: "Invalid service ID" });
+  }
+
+  // Authorization check
+  if (req.user.role !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Forbidden: to perform service deletion" });
+  }
+
+  // Start a session for transaction
   // Mongoose Sessions (Database Transactions): These are used to ensure that a series of database operations are executed atomically. If all operations within the transaction succeed, the changes are committed. If any operation fails, the entire transaction is rolled back.
-
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    // Check if the admin is actually an admin
-    const admin = await Member.findById(adminId).session(session);
-
-    if (!admin || admin.role !== "admin") {
-      await session.abortTransaction();
-      session.endSession();
-      return next(createError(403, "Unauthorized action"));
-    }
-
-    // Find the user whose service is to be deleted
-    const user = await Member.findById(userId).session(session);
-
-    if (!user) {
-      await session.abortTransaction();
-      session.endSession();
-      return next(createError(404, "User not found"));
-    }
-
-    // Check if the service exists
-    const service = await Service.findById(serviceId).session(session);
+    // Find and delete the service from the Service collection
+    const service = await Service.findByIdAndDelete(serviceId).session(session);
 
     if (!service) {
       await session.abortTransaction();
       session.endSession();
-      return next(createError(404, "Service not found"));
+      return res.status(404).json({ message: "Service not found" });
     }
 
-    // Remove the service reference from the user's services array
-    await Member.findByIdAndUpdate(
-      userId,
+    // Remove the reference to the deleted service from all members
+    await Member.updateMany(
+      { "services._id": serviceId },
       { $pull: { services: { _id: serviceId } } },
-      { new: true, session }
+      { session }
     );
-
-    // Delete the service from the Service collection
-    await Service.findByIdAndDelete(serviceId, { session });
 
     // Commit the transaction
     await session.commitTransaction();
     session.endSession();
 
-    return res.status(200).json({
-      success: true,
-      message: "Service has been successfully deleted",
-    });
-  } catch (error) {
-    // If any error occurs, abort the transaction and return an error
+    return res.status(200).json({ message: "Service deleted successfully" });
+  } catch (err) {
+    // Abort the transaction in case of error
     await session.abortTransaction();
     session.endSession();
-    console.error(error);
-    return next(createError(500, "Something went wrong!"));
+
+    // Log the error for debugging purposes
+    console.error("Error deleting service:", err);
+
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//==========================================================================
+// Delete Service if the serviceId is unique and available only in one user
+//==========================================================================
+
+// Function to delete a service by ID
+export const deleteOneService = async (req, res) => {
+  const serviceId = req.params.serviceId;
+
+  // Validate the input
+  if (!mongoose.Types.ObjectId.isValid(serviceId)) {
+    return res.status(400).json({ message: "Invalid service ID" });
+  }
+
+  // Authorization check
+  if (req.user.role !== "priest") {
+    return res.status(403).json({ message: "Forbidden: to delete services" });
+  }
+
+  // Start a session for transaction
+  // Mongoose Sessions (Database Transactions): These are used to ensure that a series of database operations are executed atomically. If all operations within the transaction succeed, the changes are committed. If any operation fails, the entire transaction is rolled back.
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // Find and delete the service from the Service collection
+    const service = await Service.findByIdAndDelete(serviceId).session(session);
+
+    if (!service) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Service not found" });
+    }
+
+    // Remove the reference to the deleted service from the respective member
+    const member = await Member.findOneAndUpdate(
+      { "services._id": serviceId },
+      { $pull: { services: { _id: serviceId } } },
+      { new: true, session }
+    );
+
+    if (!member) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Member not found" });
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.status(200).json({ message: "Service deleted successfully" });
+  } catch (err) {
+    // Abort the transaction in case of error
+    await session.abortTransaction();
+    session.endSession();
+
+    // Log the error for debugging purposes
+    console.error("Error deleting service:", err);
+
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
