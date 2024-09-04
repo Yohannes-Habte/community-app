@@ -1,4 +1,3 @@
-import React from 'react';
 import "./ContactTools.scss";
 import { ContactData } from '../../../data/Data';
 

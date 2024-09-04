@@ -2,7 +2,11 @@ import { useState } from "react";
 import "./UserAddress.scss";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUserAddressDeleteFailure, deleteUserAddressDeleteStart, deleteUserAddressDeleteSuccess } from "../../../redux/reducers/userReducer";
+import {
+  deleteUserAddressFailure,
+  deleteUserAddressStart,
+  deleteUserAddressSuccess,
+} from "../../../redux/reducers/userReducer";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
@@ -22,14 +26,14 @@ const UserAddress = () => {
   // Delete user address
   const handleDeleteAddress = async (address) => {
     try {
-      dispatch(deleteUserAddressDeleteStart());
+      dispatch(deleteUserAddressStart());
       const { data } = await axios.delete(
         `${API}/members/${currentUser._id}/address/${address._id}`
       );
-      dispatch(deleteUserAddressDeleteSuccess(data.address));
+      dispatch(deleteUserAddressSuccess(data.address));
       toast.success(data.message);
     } catch (error) {
-      dispatch(deleteUserAddressDeleteFailure(error.response.data.message));
+      dispatch(deleteUserAddressFailure(error.response.data.message));
     }
   };
 

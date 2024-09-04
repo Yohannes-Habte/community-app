@@ -51,7 +51,6 @@ export const updateUserAddress = async (req, res, next) => {
     try {
       await user.save();
     } catch (error) {
-      console.log(error);
       return next(
         createError(400, "User address is not saved! Please try again!")
       );
@@ -63,7 +62,6 @@ export const updateUserAddress = async (req, res, next) => {
       message: "Address is successfully updated!",
     });
   } catch (error) {
-    console.log(error);
     next(
       createError(500, "The address could not be updated! Please try again!")
     );
@@ -96,7 +94,6 @@ export const deleteUserAddress = async (req, res, next) => {
     try {
       await user.save();
     } catch (error) {
-      console.log(error);
       return next(
         createError(400, "User address is not saved! Please try again!")
       );
@@ -119,18 +116,16 @@ export const deleteUserAddress = async (req, res, next) => {
 //====================================================================
 export const getSingleUser = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.params.id);
-
+    const user = await Member.findById(req.user.id).select("-password");
     if (!user) {
-      return next(createError(400, "User not found! Please login!"));
+      return next(createError(404, "User not found"));
     }
-
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      user: user,
+      result: user,
     });
-  } catch (error) {
-    next(createError(500, "User could not be deleted! Please try again!"));
+  } catch (err) {
+    next(createError(500, "Server error"));
   }
 };
 

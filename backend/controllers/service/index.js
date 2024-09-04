@@ -180,7 +180,6 @@ export const deleteService = async (req, res) => {
 // Delete Service if the serviceId is unique and available only in one user
 //==========================================================================
 
-// Function to delete a service by ID
 export const deleteOneService = async (req, res) => {
   const serviceId = req.params.serviceId;
 

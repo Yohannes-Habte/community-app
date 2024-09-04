@@ -29,21 +29,20 @@ const UserLoginPage = () => {
   const navigate = useNavigate();
 
   // Global state variables
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const loading = useSelector((state) => state.user.loading.login);
   const error = useSelector((state) => state.user.error.login);
-  const dispatch = useDispatch();
 
   // Local state variables
   const [formData, setFormData] = useState(initialState);
   const { email, password, showPassword, rememberMe } = formData;
 
-  // If a user is logged in, they cannot access the login page
   useEffect(() => {
     if (currentUser) {
       navigate("/");
     }
-  });
+  }, [currentUser]);
 
   // Clear errors when the component mounts
   useEffect(() => {
@@ -91,13 +90,16 @@ const UserLoginPage = () => {
         password: password,
         rememberMe: rememberMe,
       };
-      const { data } = await axios.post(`${API}/auth/login`, loginUser);
+      const res = await axios.post(`${API}/auth/login`, loginUser, {
+        withCredentials: true,
+      });
 
-      dispatch(postUserLoginSuccess(data.user));
-      toast.success(data.message);
+      dispatch(postUserLoginSuccess(res.data.user));
+      toast.success(res.data.message);
 
       // Set token in cookies
-      const token = data.token;
+      const token = res.data?.token;
+
       Cookies.set("token", token, {
         expires: rememberMe ? 30 : 1,
         secure: true,
@@ -123,7 +125,11 @@ const UserLoginPage = () => {
   };
 
   return (
-    <main className="lagin-page">
+    <main className="login-page">
+      {/* <Helmet>
+        <title>{isAuth ? "sign out" : "Sign In"} </title>
+      </Helmet> */}
+
       <Helmet>
         <title> Sign In </title>
       </Helmet>
@@ -168,6 +174,8 @@ const UserLoginPage = () => {
             </label>
           </div>
 
+          {/* Show or hide Password input container */}
+
           <div className="show-password-container">
             <input
               type="checkbox"
@@ -180,7 +188,7 @@ const UserLoginPage = () => {
             <label htmlFor="showPassword">Show Password</label>
           </div>
 
-          {/* Log in checkbox and forgot password */}
+          {/* Log in remember me and forgot password */}
           <div className="login-checkbox-forgot-password">
             <div className="login-checkbox-keep-signed-in">
               <input

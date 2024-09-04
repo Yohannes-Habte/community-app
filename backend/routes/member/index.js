@@ -6,16 +6,18 @@ import {
   getSingleUser,
   updateUserAddress,
 } from "../../controllers/member/index.js";
+import { isAuthenticated } from "../../middlewares/auth/auth.js";
 
 // User Router
 const memberRouter = express.Router();
 
 // User Route
 memberRouter.get("/", getAllUsers);
+memberRouter.get("/user", isAuthenticated, getSingleUser);
 memberRouter.get("/search/user", getMemberBySearch );
 memberRouter.put("/:id/update-address", updateUserAddress);
 memberRouter.delete("/:userId/address/:addressId", deleteUserAddress);
-memberRouter.get("/:id", getSingleUser);
+// memberRouter.get("/:id", getSingleUser);
 
 // Export user router
 export default memberRouter; 

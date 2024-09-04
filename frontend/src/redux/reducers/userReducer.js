@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentUser: localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : null,
-
+  currentUser: null,
   parishioners: [],
   count: null,
 
@@ -12,6 +9,7 @@ const initialState = {
   loading: {
     register: false,
     login: false,
+    getUser: false,
     update: false,
     logout: false,
     changePassword: false,
@@ -25,6 +23,7 @@ const initialState = {
   error: {
     register: null,
     login: null,
+    getUser: null,
     update: null,
     logout: null,
     changePassword: null,
@@ -67,6 +66,21 @@ const userReducer = createSlice({
       state.error.login = action.payload;
       state.currentUser = null;
       state.loading.login = false;
+    },
+
+    // Fetch single User Data
+    fetchSingleUserStart: (state) => {
+      state.loading.getUser = true;
+      state.error.getUser = null;
+    },
+    fetchSingleUserSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading.getUser = false;
+    },
+    fetchSingleUserFailure: (state, action) => {
+      state.error.getUser = action.payload;
+      state.currentUser = null;
+      state.loading.getUser = false; // Corrected here
     },
 
     // Update user profile
@@ -141,15 +155,15 @@ const userReducer = createSlice({
     },
 
     // Delete User Addresses
-    deleteUserAddressDeleteStart: (state) => {
+    deleteUserAddressStart: (state) => {
       state.loading.deleteAddress = true;
       state.error.deleteAddress = null;
     },
-    deleteUserAddressDeleteSuccess: (state, action) => {
+    deleteUserAddressSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading.deleteAddress = false;
     },
-    deleteUserAddressDeleteFailure: (state, action) => {
+    deleteUserAddressFailure: (state, action) => {
       state.error.deleteAddress = action.payload;
       state.loading.deleteAddress = false;
     },
@@ -208,6 +222,10 @@ export const {
   postUserLoginSuccess,
   postUserLoginFailure,
 
+  fetchSingleUserStart,
+  fetchSingleUserSuccess,
+  fetchSingleUserFailure,
+
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
@@ -228,9 +246,9 @@ export const {
   postUserAddressSuccess,
   postUserAddressFailure,
 
-  deleteUserAddressDeleteStart,
-  deleteUserAddressDeleteSuccess,
-  deleteUserAddressDeleteFailure,
+  deleteUserAddressStart,
+  deleteUserAddressSuccess,
+  deleteUserAddressFailure,
 
   fetchAllUsersStart,
   fetchAllUsersSuccess,

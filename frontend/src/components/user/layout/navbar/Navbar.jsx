@@ -1,16 +1,30 @@
-import { useState } from "react";
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Logout from "../../../../utiles/globalFunctions/Logout";
+import { fetchUser } from "../../../../redux/actions/user/userAction";
+
 
 const Navbar = () => {
   // Global state variables
-  const { signOut } = Logout();
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { signOut } = Logout();
 
   // Local state variable
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     console.log("currentUser after fetch =", currentUser);
+  //   }
+  // }, [currentUser]);
 
   // Handle logout
   const handleLogout = async () => {
@@ -25,6 +39,10 @@ const Navbar = () => {
   // Styling NavLink
   const navbarNavLink = ({ isActive }) =>
     isActive ? "active-navbar-item" : "passive-navbar-item";
+
+  useEffect(() => {
+    console.log(Cookies.get("token"));
+  }, []);
 
   return (
     <nav className="header-navbar">

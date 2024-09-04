@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import './FinacneManagerPage.scss';
+import { useState } from 'react';
+import './FinanceManagerPage.scss';
 import FinanceMgtSidebar from '../../../components/financeManager/financeManagerSidebar/FinanceMgtSidebar';
 import FinanceMgtContent from '../../../components/financeManager/financeMgtContent/FinanceMgtContent';
 
-const FinacneManagerPage = () => {
+const FinanceManagerPage = () => {
   const [active, setActive] = useState(1);
 
   return (
@@ -20,4 +20,4 @@ const FinacneManagerPage = () => {
   );
 };
 
-export default FinacneManagerPage;
+export default FinanceManagerPage;

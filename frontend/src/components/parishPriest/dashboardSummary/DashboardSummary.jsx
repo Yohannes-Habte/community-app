@@ -26,7 +26,7 @@ const DashboardSummary = () => {
   const { count } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const { services, loading, error } = useSelector((state) => state.service);
+  const { loading, error } = useSelector((state) => state.service);
 
   useEffect(() => {
     dispatch(fetchAllServices());

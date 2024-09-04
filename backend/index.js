@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
 import colors from "colors";
 import cookieParser from "cookie-parser";
@@ -23,18 +22,22 @@ import globalErrorHandler from "./middlewares/globalError/index.js";
 import serviceRouter from "./routes/service/index.js";
 
 // Express app
-const app = express();
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
-app.use(express.json());
-
-// Security key holder
 dotenv.config();
+const app = express();
+const corsConfig =
+  process.env.NODE_ENV === "development"
+    ? {
+        origin: process.env.ORIGIN_URL,
+        credentials: true,
+      }
+    : {
+        origin: process.env.LIVE_URL,
+        credentials: true,
+      };
+
+app.use(cors(corsConfig));
+app.use(express.json());
+app.use(cookieParser());
 
 // Display tiny changes
 app.use(morgan("tiny"));

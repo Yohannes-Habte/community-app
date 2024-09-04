@@ -89,7 +89,7 @@ const UpdateUserProfile = ({ isActive }) => {
     if (name === "image") {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        [name]: files[0], // Assuming single file upload
+        [name]: files[0],
       }));
     } else {
       setFormData((prevFormData) => ({
@@ -146,10 +146,9 @@ const UpdateUserProfile = ({ isActive }) => {
         agree: agree,
       };
 
-      const { data } = await axios.put(
-        `${API}/auth/update/${currentUser._id}`,
-        updateUserInfo
-      );
+      const { data } = await axios.put(`${API}/auth/update`, updateUserInfo, {
+        withCredentials: true,
+      });
 
       dispatch(updateUserSuccess(data.user));
       toast.success(data.message);

@@ -23,6 +23,7 @@ import {
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { validEmail, validPassword } from "../../../utiles/validation/validate";
+import Cookies from "js-cookie";
 
 const initialState = {
   firstName: "",
@@ -42,15 +43,14 @@ const initialState = {
 };
 
 const Register = ({ signUp, addMember, setAddUser }) => {
-   const navigate = useNavigate();
-   
-   // Global state variables
-    // Global state variables
-    const { currentUser } = useSelector((state) => state.user);
-    const loading = useSelector((state) => state.user.loading.update);
-    const error = useSelector((state) => state.user.error.update);
-    const dispatch = useDispatch();
- 
+  const navigate = useNavigate();
+
+  // Global state variables
+  // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+  const loading = useSelector((state) => state.user.loading.update);
+  const error = useSelector((state) => state.user.error.update);
+  const dispatch = useDispatch();
 
   // Local state variables
   const [formData, setFormData] = useState(initialState);
@@ -182,25 +182,22 @@ const Register = ({ signUp, addMember, setAddUser }) => {
     try {
       dispatch(postUserRegisterStart());
 
-      const userData = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        confirmEmail: confirmEmail,
-        password: password,
-        confirmPassword: confirmPassword,
-        phone: phone,
-        street: street,
-        zipCode: zipCode,
-        city: city,
-        state: state,
-        country: country,
-        agree: agree,
-      };
-      const { data } = await axios.post(`${API}/auth/register`, userData);
+      const { data } = await axios.post(`${API}/auth/register`, formData, {
+        withCredentials: true,
+      });
 
       dispatch(postUserRegisterSuccess(data.user));
       toast.success(data.message);
+
+      // Set token in cookies
+      const token = data.token;
+      console.log("register from Register= ",token)
+      Cookies.set("token", token, {
+        expires: 1,
+        secure: true,
+        sameSite: "strict",
+      });
+
       resetHandler();
       navigate("/login");
     } catch (err) {
@@ -467,10 +464,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                     <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
                   </div>
 
-                  <button
-                    className="register-button"
-                    disabled={loading}
-                  >
+                  <button className="register-button" disabled={loading}>
                     {loading ? (
                       <span className="loading">
                         <ButtonLoader /> Loading...

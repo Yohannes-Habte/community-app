@@ -21,9 +21,9 @@ serviceRouter.post(
   createServiceRequest
 );
 
-serviceRouter.get("/", getAllServices);
+serviceRouter.get("/", isAuthenticated, isPriest, getAllServices);
 
-serviceRouter.get("/:id", getSingleService);
+serviceRouter.get("/:id", isAuthenticated, isPriest, getSingleService);
 
 serviceRouter.delete(
   "/:serviceId",

@@ -10,7 +10,6 @@ export const registerUser = async (req, res, next) => {
   const {
     firstName,
     lastName,
-    image,
     email,
     password,
     phone,
@@ -20,8 +19,6 @@ export const registerUser = async (req, res, next) => {
     state,
     country,
     agree,
-    isAdmin,
-    isPriest,
   } = req.body;
 
   try {
@@ -37,26 +34,23 @@ export const registerUser = async (req, res, next) => {
     // If user does exist in the database
     if (!user) {
       const newUser = new Member({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        phone: phone,
-        street: street,
-        zipCode: zipCode,
-        city: city,
-        state: state,
-        country: country,
-        agree: agree,
-        isAdmin: isAdmin,
-        isPriest: isPriest,
+        firstName,
+        lastName,
+        email,
+        password,
+        phone,
+        street,
+        zipCode,
+        city,
+        state,
+        country,
+        agree,
       });
 
       // Save user in the database
       try {
         await newUser.save();
       } catch (error) {
-        console.log(error);
         return next(createError(500, "User could not be saved"));
       }
 
@@ -68,12 +62,11 @@ export const registerUser = async (req, res, next) => {
           path: "/",
           httpOnly: true,
           expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-          sameSite: "none",
+          sameSite: "strict",
           secure: true,
           // secure: process.env.NODE_ENV === "production", // Cookie is sent only over HTTPS in production
           // sameSite: "Lax", // Helps prevent CSRF attacks
         })
-
         .status(201)
         .json({
           success: true,
@@ -81,7 +74,6 @@ export const registerUser = async (req, res, next) => {
         });
     }
   } catch (error) {
-    console.log(error);
     return next(
       createError(500, "You are unable to create an account! please try again!")
     );
@@ -100,33 +92,29 @@ export const loginUser = async (req, res, next) => {
       return next(createError(400, "Wrong credentials"));
     }
 
-    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
       return next(createError(400, "Incorrect password!"));
     }
 
     if (user && isPasswordValid) {
-      // Destructure to remove sensitive fields
       const { password, admin, priest, financialManager, ...userDetails } =
         user._doc;
 
-      // User token
       const token = generateToken(user);
 
-      // Set token expiration based on rememberMe flag
       const tokenExpiry = rememberMe
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
-        : new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        : new Date(Date.now() + 24 * 60 * 60 * 1000);
 
       res
+
         .cookie("token", token, {
           path: "/",
-          httpOnly: true,
-          expires: tokenExpiry,
-          sameSite: "none",
+          httpOnly: false,
           secure: true,
+          expires: tokenExpiry,
+          sameSite: "strict",
         })
         .status(200)
         .json({
@@ -145,18 +133,17 @@ export const loginUser = async (req, res, next) => {
 // Update user details
 //==========================================================================
 export const updateUser = async (req, res, next) => {
-  const userId = req.params.userId;
   const updateData = req.body;
 
   try {
-    const user = await Member.findById(userId);
+    const user = await Member.findById(req.user.id);
 
     if (!user) {
       createError(400, "User does not exist!");
     }
 
     const updatedUser = await Member.findByIdAndUpdate(
-      userId,
+      req.user.id,
       { $set: updateData },
       { new: true, runValidators: true }
     );
@@ -164,7 +151,6 @@ export const updateUser = async (req, res, next) => {
     try {
       await user.save();
     } catch (error) {
-      console.log(error);
       return next(createError(500, "Update could not be saved!"));
     }
 
@@ -174,7 +160,6 @@ export const updateUser = async (req, res, next) => {
       message: "Account successfully updated!",
     });
   } catch (error) {
-    console.log(error);
     next(createError(500, "Something went wrong!"));
   }
 };
@@ -182,30 +167,41 @@ export const updateUser = async (req, res, next) => {
 //==========================================================================
 // User logout
 //==========================================================================
+
+// export const userLogout = async (req, res, next) => {
+//   try {
+//     res.clearCookie("token", {
+//       httpOnly: true,
+//       secure: true,
+//       secure: process.env.NODE_ENV === "production", // Ensure the cookie is only sent over HTTPS in production
+//       sameSite: "strict",
+//       sameSite: "none",
+//     });
+//     res.status(200).json({ success: true, message: "Logged out successfully" });
+//   } catch (error) {
+//     next(createError(500, "Server error!"));
+//   }
+// };
+
+//==========================================================================
+// User logout
+//==========================================================================
+
 export const userLogout = async (req, res, next) => {
   try {
-    // res.clearCookie("token", {
-    //   httpOnly: true,
-    //   sameSite: "none",
-    //   secure: true,
-    // });
-    // res.status(200).json({ success: true, message: "Logout successful" });
-
-    res.cookie("token", null, {
-      httpOnly: true,
-      expires: new Date(0),
-      sameSite: "none",
+    res.clearCookie("token", {
+      httpOnly: false,
       secure: true,
+      sameSite: "strict",
     });
-    res.status(200).json({ success: true, message: "Logout successful" });
+    res.status(200).json({ success: true, message: "Logged out successfully" });
   } catch (error) {
-    console.log(error);
-    next(createError(500, "User could not logout. Please try again!"));
+    next(createError(500, "Server error!"));
   }
 };
 
 //==========================================================================
-// User logout
+// Change User password
 //==========================================================================
 export const userChangePassword = async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;

@@ -12,13 +12,23 @@ import UserProfilePage from "./views/userPages/userProfilePage/UserProfilePage";
 import UserInboxPage from "./views/userPages/userInboxPage/UserInboxPage";
 import PriestDashboardPage from "./views/priestPages/priestDashboardPage/PriestDashboardPage";
 import AdminDashboardPage from "./views/adminPages/adminDashboarPage/AdminDashboardPage";
-import FinacneManagerPage from "./views/financePages/financeManagerPage/FinacneManagerPage";
 import UserProtectedRoutes from "./protectedRoutes/UserProtectedRoutes";
 import PriestProtectedRoutes from "./protectedRoutes/PriestProtectedRoutes";
 import AdminProtectedRoutes from "./protectedRoutes/AdminProtectedRoutes";
 import FinanceMgtProtectedRoutes from "./protectedRoutes/FinanceMgtProtectedRoutes";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import FinanceManagerPage from "./views/financePages/financeManagerPage/FinanceManagerPage";
+import { fetchUser } from "./redux/actions/user/userAction";
+
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
   return (
     <div>
       <Routes>
@@ -74,7 +84,7 @@ const App = () => {
           path="/finance/dashboard"
           element={
             <FinanceMgtProtectedRoutes>
-              <FinacneManagerPage />
+              <FinanceManagerPage />
             </FinanceMgtProtectedRoutes>
           }
         />

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import './Barcharts.scss';
 import {
   BarChart,
