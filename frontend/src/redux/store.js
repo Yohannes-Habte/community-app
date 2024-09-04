@@ -8,6 +8,7 @@ import financeReducer from "./reducers/financeReducer";
 import commentReducer from "./reducers/commentReducer";
 import memberReducer from "./reducers/user/memberReducer";
 import serviceReducer from "./reducers/service/serviceReducer";
+import categoryReducer from "./reducers/serviceCategory/categoryReducer";
 
 const Store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const Store = configureStore({
     finance: financeReducer,
     comment: commentReducer,
     service: serviceReducer,
+    category: categoryReducer,
   },
 });
 

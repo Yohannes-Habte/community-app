@@ -174,10 +174,24 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         </h4>
       </aside>
 
+      <aside
+        onClick={() => setIsActive(11)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
+          className={isActive === 11 ? "active-icon" : "passive-icon"}
+        />
+
+        <h4 className={isActive === 11 ? "active-text" : "passive-text"}>
+          Service Categories
+        </h4>
+      </aside>
+
       <aside className="admin-dashboard-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={isActive === 11 ? "active-icon" : "passive-icon"}
+          className={isActive === 12 ? "active-icon" : "passive-icon"}
         />
 
         <h4>

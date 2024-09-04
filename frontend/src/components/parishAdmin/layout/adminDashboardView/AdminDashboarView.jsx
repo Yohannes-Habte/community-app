@@ -9,6 +9,7 @@ import MembersContribution from "../../membersContribution/MembersContribution";
 import CommitteeList from "../../committees/Committees";
 import ChurchCommittees from "../../committeeList/ChurchCommittees";
 import SubscriberNotification from "../../subscribers/SubscriberNotification";
+import ServiceCategories from "../../serviceCategories/ServiceCategories";
 
 const AdminDashboarView = ({ isActive }) => {
   return (
@@ -32,6 +33,8 @@ const AdminDashboarView = ({ isActive }) => {
       {isActive === 9 && <SubscriberNotification />}
 
       {isActive === 10 && <ChurchCommittees />}
+
+      {isActive === 11 && <ServiceCategories />}
     </article>
   );
 };

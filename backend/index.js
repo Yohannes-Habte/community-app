@@ -20,6 +20,7 @@ import staticRouter from "./routes/staticData/index.js";
 import subscribeRouter from "./routes/subscribe/index.js";
 import globalErrorHandler from "./middlewares/globalError/index.js";
 import serviceRouter from "./routes/service/index.js";
+import serviceCategoryRouter from "./routes/serviceCategory/index.js";
 
 // Express app
 dotenv.config();
@@ -48,6 +49,7 @@ app.use("/api/v1/members", memberRouter);
 app.use("/api/v1/addressTypes", addressTypeRouter);
 app.use("/api/v1/committees", committeeRouter);
 app.use("/api/v1/reports", financeRouter);
+app.use("/api/v1/categories", serviceCategoryRouter);
 app.use("/api/v1/services", serviceRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/delegations", priestDelegationRouter);

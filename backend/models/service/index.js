@@ -5,6 +5,11 @@ const { Schema } = mongoose;
 // Service Schema
 const serviceSchema = new Schema(
   {
+    serviceCategory: {
+      type: mongoose.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
     serviceName: { type: String, required: true },
     serviceDate: { type: Date, required: true },
     identificationDocument: { type: String, required: true },
@@ -30,5 +35,3 @@ const Service = mongoose.model("Service", serviceSchema);
 
 // Export Service Model
 export default Service;
-
-

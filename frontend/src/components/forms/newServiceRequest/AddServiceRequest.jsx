@@ -13,14 +13,16 @@ import {
 } from "../../../utiles/securitiy/secreteKey";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { PiChurchFill } from "react-icons/pi";
 import { MdOutlineMessage } from "react-icons/md";
 import { MdDateRange } from "react-icons/md";
+import { fetchAllCategories } from "../../../redux/actions/serviceCategory/categoryAction";
 
 const initialState = {
+  serviceCategory: "",
   serviceName: "",
   serviceDate: "",
   identificationDocument: null,
@@ -29,15 +31,28 @@ const initialState = {
 
 const AddServiceRequest = () => {
   // Global state variables
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { loading } = useSelector((state) => state.service);
-  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.category);
+
+  console.log("categories =", categories);
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
 
   // Local state variables
-  // Initialize state
+
   const [formData, setFormData] = useState(initialState);
-  const { serviceName, serviceDate, identificationDocument, message } =
-    formData;
+  const {
+    serviceCategory,
+    serviceName,
+    serviceDate,
+    identificationDocument,
+    message,
+  } = formData;
 
   // Handle change function
   const handleChange = (e) => {
@@ -51,6 +66,7 @@ const AddServiceRequest = () => {
 
   const handleReset = () => {
     setFormData({
+      serviceCategory: "",
       serviceName: "",
       serviceDate: "",
       identificationDocument: null,
@@ -75,17 +91,18 @@ const AddServiceRequest = () => {
 
       // The body
       const newService = {
+        serviceCategory: serviceCategory,
         serviceName: serviceName,
         serviceDate: serviceDate,
         identificationDocument: url,
         message: message,
+        userId: currentUser._id,
       };
 
-      const { data } = await axios.post(
-        `${API}/services/${currentUser._id}/new`,
-        newService
-      );
-      dispatch(postPrayerRequestSuccess(data.prayer));
+      const { data } = await axios.post(`${API}/services/new`, newService, {
+        withCredentials: true,
+      });
+      dispatch(postPrayerRequestSuccess(data.result));
       toast.success(data.message);
       handleReset();
       event.target.reset();
@@ -97,6 +114,29 @@ const AddServiceRequest = () => {
     <section className="service-form-container">
       <h3 className="service-form-title"> Service Request Form </h3>
       <form onSubmit={handleSubmit} className="service-request-form">
+        {/* Service Category */}
+        <div className="input-container">
+          <PiChurchFill className="icon" />
+          <select
+            name="serviceCategory"
+            id="serviceCategory"
+            value={serviceCategory}
+            onChange={handleChange}
+            className="input-field"
+          >
+            <option value="default">Select Category</option>
+            {categories &&
+              categories.length > 0 &&
+              categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.category}
+                </option>
+              ))}
+          </select>
+          <span className="input-highlight"></span>
+        </div>
+
+        {/* Service Name */}
         <div className="input-container">
           <PiChurchFill className="icon" />
           <select
@@ -113,8 +153,7 @@ const AddServiceRequest = () => {
             <option value="confession"> Confession </option>
             <option value="anointing">Anointing of the Sick</option>
             <option value="marriage">Marriage</option>
-            <option value="mass">Mass Service</option>
-            <option value="spiritual">Spiritual Development</option>
+            <option value="mass">Others</option>
           </select>
 
           <label className="input-label" htmlFor="serviceName">

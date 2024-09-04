@@ -6,20 +6,14 @@ import {
   getSingleService,
   totalNumberOfServices,
 } from "../../controllers/service/index.js";
-import serviceValidation from "../../validators/service/index.js";
-import checkValidation from "../../validators/validationResult/index.js";
+// import serviceValidation from "../../validators/service/index.js";
+// import checkValidation from "../../validators/validationResult/index.js";
 import { isAuthenticated, isPriest } from "../../middlewares/auth/auth.js";
 
-// Prayer Service Router
 const serviceRouter = express.Router();
 
-// Prayer service routes
-serviceRouter.post(
-  "/:userId/new",
-  serviceValidation(),
-  checkValidation,
-  createServiceRequest
-);
+// service routes
+serviceRouter.post("/new", isAuthenticated, createServiceRequest);
 
 serviceRouter.get("/", isAuthenticated, isPriest, getAllServices);
 

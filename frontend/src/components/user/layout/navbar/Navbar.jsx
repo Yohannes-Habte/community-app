@@ -1,11 +1,9 @@
-import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Logout from "../../../../utiles/globalFunctions/Logout";
 import { fetchUser } from "../../../../redux/actions/user/userAction";
-
 
 const Navbar = () => {
   // Global state variables
@@ -39,10 +37,6 @@ const Navbar = () => {
   // Styling NavLink
   const navbarNavLink = ({ isActive }) =>
     isActive ? "active-navbar-item" : "passive-navbar-item";
-
-  useEffect(() => {
-    console.log(Cookies.get("token"));
-  }, []);
 
   return (
     <nav className="header-navbar">

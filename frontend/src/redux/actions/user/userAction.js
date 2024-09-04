@@ -45,7 +45,7 @@ export const fetchUser = () => async (dispatch) => {
     const res = await axios.get(`${API}/members/user`, {
       withCredentials: true,
     });
-    console.log("user data = ", res);
+    // console.log("user data = ", res);
     dispatch(fetchSingleUserSuccess(res.data.result));
   } catch (error) {
     // console.error("Fetch User Error:", error);

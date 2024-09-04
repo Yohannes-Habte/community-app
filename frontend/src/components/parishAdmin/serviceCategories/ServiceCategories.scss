@@ -1,0 +1,31 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.service-category-table-container {
+  .service-category-table-title {
+    @include subTitle;
+  }
+
+  .add-new-service-category {
+    @include flexSpaceBetween;
+
+    .add-new-service-category-title {
+      @include subTitle;
+    }
+
+    .add-new-service-category-btn {
+      @include button2;
+    }
+  }
+}
+.action-wrapper {
+  @include flexRow;
+
+  .delete {
+    @include deleteIcon;
+  }
+}
+
+.MuiDataGrid-cell {
+  @include flexCenter;
+}

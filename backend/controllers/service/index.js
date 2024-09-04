@@ -7,40 +7,70 @@ import mongoose from "mongoose";
 // Create New Prayer Request
 //==========================================================================
 export const createServiceRequest = async (req, res, next) => {
+  const {
+    userId,
+    serviceCategory,
+    serviceName,
+    serviceDate,
+    identificationDocument,
+    message,
+  } = req.body;
+
+  // Use the `new` keyword to correctly instantiate an ObjectId
+  const sanitizedUserId = new mongoose.Types.ObjectId(userId);
+  let session;
   try {
-    const user = await Member.findById(req.params.userId);
+    // Start a session for transaction
+    session = await mongoose.startSession();
+    session.startTransaction();
 
+    // Fetch user by ID and validate existence
+    const user = await Member.findById(sanitizedUserId).session(session);
     if (!user) {
-      return next(createError(400, "User not found! Please login!"));
+      throw createError(404, "User not found");
     }
 
-    const newServiceRequest = new Service(req.body);
+    // Create new service request with sanitized data
+    const newServiceRequest = new Service({
+      userId: sanitizedUserId,
+      serviceCategory: serviceCategory,
+      serviceName: serviceName,
+      serviceDate: serviceDate,
+      identificationDocument: identificationDocument,
+      message: message,
+    });
 
-    user.services = [...user.services, newServiceRequest];
+    // Append the new service request to the user's services
+    user.services.push(newServiceRequest);
 
-    // Save new service request to the user who has ordered it
-    try {
-      await user.save();
-    } catch (error) {
-      return next(createError(400, "Service request is added to user!"));
-    }
+    // Save user and service request atomically
+    await user.save({ session });
+    await newServiceRequest.save({ session });
 
-    // Save new prayer request
-    try {
-      await newServiceRequest.save();
-    } catch (error) {
-      return next(createError(400, "Sacrament request is not saved!"));
-    }
+    // Commit transaction
+    await session.commitTransaction();
+    session.endSession();
 
+    // Send success response
     return res.status(201).json({
       success: true,
-      prayer: newServiceRequest,
-      message: "Service request is successfully completed!",
+      result: newServiceRequest,
+      message: "Service request successfully completed!",
     });
   } catch (error) {
-    return next(createError(500, "Server error"));
+    // Abort transaction if an error occurs
+    if (session) {
+      await session.abortTransaction();
+      session.endSession();
+    }
+
+    logger.error(`Service request creation failed: ${error.message}`, error);
+
+    // Handle specific error messages or fallback to a generic message
+    return next(error.status ? error : createError(500, "Server error"));
   }
 };
+
 
 //==========================================================================
 // Get Single Prayer request
