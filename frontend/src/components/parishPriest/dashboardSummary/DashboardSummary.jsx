@@ -26,7 +26,9 @@ const DashboardSummary = () => {
   const { count } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const { loading, error } = useSelector((state) => state.service);
+  const { services, loading, error } = useSelector((state) => state.service);
+
+
 
   useEffect(() => {
     dispatch(fetchAllServices());
@@ -52,14 +54,16 @@ const DashboardSummary = () => {
     totalNumberOfParishioners();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+
+  console.log("services", services);
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error}</p>;
 
   return (
     <section className="priest-dashboard-summary">
       <h2 className="priest-dashboard-summary-title"> Dashboard Summary</h2>
 
-      <section className="parishioners-pariciaption-wrapper">
+      <section className="parishioners-participation-wrapper">
         <ParishionersBarChart />
 
         <aside className="box-text">
@@ -75,7 +79,14 @@ const DashboardSummary = () => {
 
           <aside className="box-text">
             <h4 className="box-title">Sacraments</h4>
-            <p className="box-count"> Counts: {"sacraments"} </p>
+            <p className="box-count">
+              Counts:{" "}
+              {
+                services.filter(
+                  (service) => service.serviceCategory.category === "Sacraments"
+                ).length
+              }
+            </p>
             <p className="box-link">Link to</p>
           </aside>
         </div>
@@ -83,8 +94,17 @@ const DashboardSummary = () => {
         <div className="box">
           <PrayersLineChart />
           <aside className="box-text">
-            <h4 className="box-title">Prayers</h4>
-            <p className="box-count"> Counts: {"prayers"} </p>
+            <h4 className="box-title">Spiritual Development</h4>
+            <p className="box-count">
+              {" "}
+              Counts:{" "}
+              {
+                services.filter(
+                  (service) =>
+                    service.serviceCategory.category === "Spiritual development"
+                ).length
+              }{" "}
+            </p>
             <p className="box-link">Link to</p>
           </aside>
         </div>
@@ -93,7 +113,16 @@ const DashboardSummary = () => {
           <SpiritualsLineChart />
           <aside className="box-text">
             <h4 className="box-title">Spiritual Development</h4>
-            <p className="box-count"> Counts: {"spirituals"} </p>
+            <p className="box-count">
+              {" "}
+              Counts:{" "}
+              {
+                services.filter(
+                  (service) =>
+                    service.serviceCategory.category === "Soul prayer"
+                ).length
+              }
+            </p>
             <p className="box-link">Link to</p>
           </aside>
         </div>

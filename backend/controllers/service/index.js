@@ -30,6 +30,14 @@ export const createServiceRequest = async (req, res, next) => {
       throw createError(404, "User not found");
     }
 
+    const existingServiceRequest = await Service.findOne({
+      serviceDate: serviceDate,
+    });
+
+    if (existingServiceRequest) {
+      return next(createError(400, "Service report already exists"));
+    }
+
     // Create new service request with sanitized data
     const newServiceRequest = new Service({
       userId: sanitizedUserId,
@@ -71,25 +79,39 @@ export const createServiceRequest = async (req, res, next) => {
   }
 };
 
-
 //==========================================================================
 // Get Single Prayer request
 //==========================================================================
 
 export const getSingleService = async (req, res, next) => {
   try {
-    const prayer = await Service.findById(req.params.id);
+    const { id } = req.params;
 
-    if (!prayer) {
-      return next(createError(400, "Service does not found!"));
+    // Validate the ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return next(createError(400, "Invalid Service ID format."));
     }
 
+    // Fetch the service by ID
+    const service = await Service.findById(id);
+
+    // Handle if the service was not found
+    if (!service) {
+      return next(createError(404, "Service not found."));
+    }
+
+    // Respond with the service data
     return res.status(200).json({
       success: true,
-      prayer: prayer,
+      result: service,
     });
   } catch (error) {
-    next(createError(500, "Prayer could not be accessed! Please try again!"));
+    console.error("Error fetching service:", error); // Log the error for debugging
+
+    // Handle potential database errors or other exceptions
+    return next(
+      createError(500, "Internal server error. Please try again later.")
+    );
   }
 };
 
@@ -98,36 +120,33 @@ export const getSingleService = async (req, res, next) => {
 //==========================================================================
 
 export const getAllServices = async (req, res, next) => {
-  // Extract serviceName from query parameters
-  const serviceName = req.query.serviceName;
-
   try {
-    let services;
+    // Fetch services and populate the 'category' field
+    const services = await Service.find().populate("serviceCategory");
 
-    if (serviceName) {
-      // Query services based on serviceName
-      services = await Service.find({ serviceName });
-    } else {
-      // Fetch all services if no serviceName provided
-      services = await Service.find();
-    }
-
-    if (services.length === 0) {
+    // Check if services are found
+    if (!services || services.length === 0) {
       return res.status(404).json({
         success: false,
-        error: "Services not found!",
+        message: "No services found.",
       });
     }
 
+    // Return the fetched services
     return res.status(200).json({
       success: true,
       result: services,
     });
   } catch (error) {
-    next(createError(500, "Server error!"));
+    console.error("Error fetching services:", error); // Log error for internal tracking
+    return next(
+      createError(
+        500,
+        "An error occurred while fetching services. Please try again later."
+      )
+    );
   }
 };
-
 //====================================================================
 // Total Number of prayer requests by parishioners
 //====================================================================

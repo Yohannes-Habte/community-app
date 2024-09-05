@@ -1,4 +1,3 @@
-import React from 'react';
 import './PriestDashboardHeader.scss';
 import { FaCross, FaUsers } from 'react-icons/fa';
 import { GiSunPriest } from 'react-icons/gi';
@@ -42,9 +41,9 @@ const PriestDashboardHeader = ({ active, setActive }) => {
         </li>
 
         <li className="priest-dashboar-header-item">
-          <GiSunPriest
+          <SiEventstore
             onClick={() => setActive(4)}
-            title="New Priest"
+            title="Events"
             className={
               active === 4
                 ? 'active-priest-dashboard-header-icon'
@@ -54,9 +53,9 @@ const PriestDashboardHeader = ({ active, setActive }) => {
         </li>
 
         <li className="priest-dashboar-header-item">
-          <SiEventstore
+          <GiSunPriest
             onClick={() => setActive(5)}
-            title="Events"
+            title="New Priest"
             className={
               active === 5
                 ? 'active-priest-dashboard-header-icon'

@@ -1,7 +1,6 @@
 import createError from "http-errors";
 import Finance from "../../models/finance/index.js";
 
-
 //=======================================================
 // Post new finance report
 //=======================================================
@@ -26,9 +25,7 @@ export const createFinanceReport = async (req, res, next) => {
     const existingFinanceReport = await Finance.findOne({ date: date });
 
     if (existingFinanceReport) {
-      return next(
-        createError(400, "Finance report already exists. Please try again.")
-      );
+      return next(createError(400, "Finance report already exists"));
     }
 
     // If finance report is not found, create new finance report
