@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 // Service Schema
 const serviceSchema = new Schema(
   {
+    userId: { type: mongoose.Types.ObjectId, ref: "Member", required: true },
     serviceCategory: {
       type: mongoose.Types.ObjectId,
       ref: "Category",
@@ -25,11 +26,6 @@ const serviceSchema = new Schema(
     timestamps: true,
   }
 );
-
-// Creating index for frequently queried fields
-serviceSchema.index({ serviceName: 1 });
-serviceSchema.index({ serviceDate: 1 });
-serviceSchema.index({ identificationDocument: 1 });
 
 // Service Model
 const Service = mongoose.model("Service", serviceSchema);

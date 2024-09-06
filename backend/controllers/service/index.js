@@ -2,6 +2,7 @@ import createError from "http-errors";
 import Member from "../../models/member/index.js";
 import Service from "../../models/service/index.js";
 import mongoose from "mongoose";
+import Category from "../../models/serviceCategory/index.js";
 
 //==========================================================================
 // Create New Prayer Request
@@ -19,6 +20,7 @@ export const createServiceRequest = async (req, res, next) => {
   // Use the `new` keyword to correctly instantiate an ObjectId
   const sanitizedUserId = new mongoose.Types.ObjectId(userId);
   let session;
+
   try {
     // Start a session for transaction
     session = await mongoose.startSession();
@@ -30,22 +32,63 @@ export const createServiceRequest = async (req, res, next) => {
       throw createError(404, "User not found");
     }
 
-    const existingServiceRequest = await Service.findOne({
-      serviceDate: serviceDate,
-    });
-
-    if (existingServiceRequest) {
-      return next(createError(400, "Service report already exists"));
+    // Fetch the full service category object
+    const serviceGroup = await Category.findById(serviceCategory).session(
+      session
+    );
+    if (!serviceGroup) {
+      throw createError(400, "Service category not found");
     }
 
-    // Create new service request with sanitized data
+    // 1. Disallow any new service in "Spiritual Development" category if one already exists (applies globally for all users)
+    if (serviceGroup.category === "Spiritual development") {
+      const existingServiceInCategory = await Service.findOne({
+        serviceCategory,
+        serviceName,
+        serviceDate,
+      }).session(session);
+
+      if (existingServiceInCategory) {
+        return next(
+          createError(
+            400,
+            "A service in the 'Spiritual development' category already exists for the selected date."
+          )
+        );
+      }
+    }
+
+    // 2. For "Soul Prayer" and "Sacraments", prevent duplicates only for the same user.
+    if (
+      serviceGroup.category === "Soul prayer" ||
+      serviceGroup.category === "Sacraments"
+    ) {
+      // Check if a service with the same category, name, date, and userId already exists
+      const existingServiceForUser = await Service.findOne({
+        userId: sanitizedUserId, // Ensure the check is user-specific
+        serviceCategory,
+        serviceName,
+        serviceDate,
+      }).session(session);
+
+      if (existingServiceForUser) {
+        return next(
+          createError(
+            400,
+            `You have already created a service in the '${serviceGroup.category}' category on this date.`
+          )
+        );
+      }
+    }
+
+    // Proceed with creating the service
     const newServiceRequest = new Service({
       userId: sanitizedUserId,
-      serviceCategory: serviceCategory,
-      serviceName: serviceName,
-      serviceDate: serviceDate,
-      identificationDocument: identificationDocument,
-      message: message,
+      serviceCategory,
+      serviceName,
+      serviceDate,
+      identificationDocument,
+      message,
     });
 
     // Append the new service request to the user's services

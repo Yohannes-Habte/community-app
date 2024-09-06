@@ -1,5 +1,5 @@
-import React from 'react';
-import "./LineCharts.scss"
+import { useEffect, useState } from 'react';
+import "./LineCharts.scss";
 import {
   LineChart,
   Line,
@@ -8,67 +8,49 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearAllErrors, fetchAllEvents } from '../../../redux/actions/event/eventAction';
 
 const EventsLineChart = () => {
-  const data = [
-    {
-      month: 'January',
-      size: 80,
-    },
-    {
-      month: 'February',
-      size: 60,
-    },
-    {
-      month: 'March',
-      size: 70,
-    },
-    {
-      month: 'April',
-      size: 150,
-    },
+  const dispatch = useDispatch();
+  const { events } = useSelector((state) => state.event); 
+  const [eventData, setEventData] = useState([]);
 
-    {
-      month: 'June',
-      size: 70,
-    },
-    {
-      month: 'July',
-      size: 40,
-    },
+  useEffect(() => {
+    dispatch(fetchAllEvents()); 
 
-    {
-      month: 'August',
-      size: 50,
-    },
+    return () => {
+      dispatch(clearAllErrors()); 
+    };
+  }, [dispatch]);
 
-    {
-      month: 'September',
-      size: 120,
-    },
-    {
-      month: 'October',
-      size: 60,
-    },
+  useEffect(() => {
+    if (events && events.length > 0) {
+      const countsByYear = {};
 
-    {
-      month: 'November',
-      size: 40,
-    },
+      // Process the events to count the number of events per year
+      events.forEach(event => {
+        const year = new Date(event.eventDate).getFullYear(); // Extract the year from eventDate
+        countsByYear[year] = (countsByYear[year] || 0) + 1; // Increment the count for that year
+      });
 
-    {
-      month: 'December',
-      size: 100,
-    },
-  ];
+      // Convert the counts into an array suitable for the chart
+      const processedData = Object.keys(countsByYear).map(year => ({
+        year: parseInt(year, 10), // Convert year to number
+        size: countsByYear[year], // Set the event count for that year
+      })).sort((a, b) => a.year - b.year); // Sort by year
+
+      setEventData(processedData); // Update the state with the processed data
+    }
+  }, [events]);
 
   return (
     <section className="linechart-container">
       <h4 className="chart-title"> Church Events Line Chart </h4>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
+        <LineChart data={eventData}>
           <XAxis
-            dataKey="month"
+            dataKey="year"
             scale="point"
             padding={{ left: 10, right: 10 }}
           />
@@ -81,10 +63,7 @@ const EventsLineChart = () => {
             labelStyle={{ display: 'none' }}
             position={{ x: 10, y: 80 }}
           />
-
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={2} />
-
-          <Line type="monotone" dataKey="size" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="size" stroke="#82ca9d" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </section>

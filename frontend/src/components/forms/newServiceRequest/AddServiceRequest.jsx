@@ -211,7 +211,7 @@ const AddServiceRequest = () => {
           />
 
           <label className="input-label" htmlFor="message">
-            Service Date
+            Service Text Message
           </label>
           <span className="input-highlight"></span>
         </div>

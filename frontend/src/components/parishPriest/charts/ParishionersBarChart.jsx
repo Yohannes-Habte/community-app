@@ -47,103 +47,61 @@ const ParishionersBarChart = () => {
   }, [dispatch]);
 
   // =======================================================================================
-  // Row data for the bar chart based on the year selected
+  // Process data for the selected year
   // =======================================================================================
+  const processData = () => {
+    // Initialize an object to count the services per month and category
+    const counts = {
+      Jan: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Feb: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Mar: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Apr: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      May: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Jun: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Jul: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Aug: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Sep: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Oct: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Nov: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+      Dec: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
+    };
 
-  const row = [];
+    // Loop through services and count based on category and month
+    services &&
+      services.forEach((service) => {
+        const serviceYear = service.serviceDate.split("-")[0];
+        const serviceMonth = service.serviceDate.split("-")[1];
+        const monthName = monthsMap[serviceMonth];
 
-  services &&
-    services.forEach((service) => {
-      if (service.serviceDate.startsWith(year)) {
-        row.push({
-          month: monthsMap[service?.serviceDate.slice(5, 7)],
-          total: service?.totalMonthlyServices,
-        });
-      }
-    });
+        if (serviceYear === year && monthName) {
+          if (service.serviceCategory.category === "Spiritual development") {
+            counts[monthName]["Spiritual Development"] += 1;
+          } else if (service.serviceCategory.category === "Sacraments") {
+            counts[monthName].Sacrament += 1;
+          } else if (service.serviceCategory.category === "Soul prayer") {
+            counts[monthName]["Soul Prayer"] += 1;
+          }
+        }
+      });
+
+    // Convert the counts object into an array for the BarChart
+    return Object.keys(counts).map((month) => ({
+      month,
+      "Spiritual Development": counts[month]["Spiritual Development"],
+      Sacrament: counts[month].Sacrament,
+      "Soul Prayer": counts[month]["Soul Prayer"],
+    }));
+  };
+
+  const data = processData();
 
   // =======================================================================================
   // Handle submit for the all charts
   // =======================================================================================
   const handleSubmit = (e) => {
     e.preventDefault();
-
     setYear(e.target.elements.year.value);
   };
-
-  const data = [
-    {
-      month: "January",
-      baptism: 1,
-      marriage: 1,
-      prayer: 2,
-    },
-    {
-      month: "February",
-      baptism: 3,
-      marriage: 0,
-      prayer: 1,
-    },
-    {
-      month: "March",
-      baptism: 1,
-      marriage: 1,
-      prayer: 2,
-    },
-    {
-      month: "April",
-      baptism: 1,
-      marriage: 0,
-      prayer: 0,
-    },
-    {
-      month: "June",
-      baptism: 1,
-      marriage: 0,
-      prayer: 0,
-    },
-    {
-      month: "July",
-      baptism: 2,
-      marriage: 1,
-      prayer: 2,
-    },
-
-    {
-      month: "August",
-      baptism: 1,
-      marriage: 0,
-      prayer: 0,
-    },
-
-    {
-      month: "September",
-      baptism: 0,
-      marriage: 1,
-      prayer: 1,
-    },
-
-    {
-      month: "October",
-      baptism: 1,
-      marriage: 1,
-      prayer: 1,
-    },
-
-    {
-      month: "November",
-      baptism: 3,
-      marriage: 0,
-      prayer: 2,
-    },
-
-    {
-      month: "December",
-      baptism: 2,
-      marriage: 0,
-      prayer: 1,
-    },
-  ];
 
   return (
     <section className="parishioners-barchart-container">
@@ -176,9 +134,9 @@ const ParishionersBarChart = () => {
             cursor={{ fill: "none" }}
           />
 
-          <Bar dataKey="baptism" fill="#8884d8" />
-          <Bar dataKey="marriage" fill="#82ca9d" />
-          <Bar dataKey="prayer" fill="#82ca9d" />
+          <Bar dataKey="Spiritual Development" fill="#8884d8" />
+          <Bar dataKey="Sacrament" fill="#82ca9d" />
+          <Bar dataKey="Soul Prayer" fill="#ffc658" />
         </BarChart>
       </ResponsiveContainer>
     </section>

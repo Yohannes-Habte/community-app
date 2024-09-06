@@ -5,8 +5,6 @@ import EventsLineChart from "../charts/EventsLineChart";
 import SpiritualsLineChart from "../charts/SpiritualsLineChart";
 import PrayersLineChart from "../charts/PrayersLineChart";
 import SacramentsLineChart from "../charts/SacramentsLineChart";
-import DonationPieChart from "../charts/DonationPieChart";
-import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -26,9 +24,7 @@ const DashboardSummary = () => {
   const { count } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const { services, loading, error } = useSelector((state) => state.service);
-
-
+  const { services } = useSelector((state) => state.service);
 
   useEffect(() => {
     dispatch(fetchAllServices());
@@ -53,7 +49,6 @@ const DashboardSummary = () => {
 
     totalNumberOfParishioners();
   }, []);
-
 
   console.log("services", services);
   // if (loading) return <p>Loading...</p>;
@@ -94,7 +89,7 @@ const DashboardSummary = () => {
         <div className="box">
           <PrayersLineChart />
           <aside className="box-text">
-            <h4 className="box-title">Spiritual Development</h4>
+            <h4 className="box-title">Soul Prayer Service</h4>
             <p className="box-count">
               {" "}
               Counts:{" "}
@@ -131,27 +126,6 @@ const DashboardSummary = () => {
           <EventsLineChart />
           <aside className="box-text">
             <h4 className="box-title"> Church Events </h4>
-            <p className="box-count"> Counts </p>
-            <p className="box-link">Link to</p>
-          </aside>
-        </div>
-
-        <div className="box">
-          <DonationPieChart />
-          <aside className="box-text">
-            <h4 className="box-title"> Members Contribution </h4>
-            <p className="box-count"> Counts </p>
-            <p className="box-link">Link to</p>
-          </aside>
-        </div>
-
-        <div className="box">
-          <figure style={{ width: 300, height: 300, margin: "auto" }}>
-            <CircularProgressbar value={80} text="80%" strokeWidth={6} />
-          </figure>
-
-          <aside className="box-text">
-            <h4 className="box-title"> Members Contribution </h4>
             <p className="box-count"> Counts </p>
             <p className="box-link">Link to</p>
           </aside>
