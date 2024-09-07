@@ -49,6 +49,8 @@ const AllEvents = () => {
         rows={rows}
         // Columns
         columns={columns}
+        // Automatically adjust grid height based on rows
+        autoHeight
         // Initial state
         initialState={{
           pagination: {

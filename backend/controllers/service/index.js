@@ -200,12 +200,10 @@ export const updateServiceRequest = async (req, res, next) => {
     session.endSession();
 
     // Send success response
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Service and member updated successfully.",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Service and member updated successfully.",
+    });
   } catch (error) {
     // If there's an error, abort the transaction
     await session.abortTransaction();
@@ -388,7 +386,9 @@ export const deleteOneService = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
-    return res.status(200).json({ message: "Service deleted successfully" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Service deleted successfully" });
   } catch (err) {
     // Abort the transaction in case of error
     await session.abortTransaction();

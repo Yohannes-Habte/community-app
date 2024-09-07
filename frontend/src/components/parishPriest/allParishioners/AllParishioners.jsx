@@ -9,8 +9,8 @@ import { API } from "../../../utiles/securitiy/secreteKey";
 
 const AllParishioners = () => {
   // Global state variables
-  const loading  = useSelector((state) => state.user.loading.members);
-  const error  = useSelector((state) => state.user.error.members);
+  const loading = useSelector((state) => state.user.loading.members);
+  const error = useSelector((state) => state.user.error.members);
 
   // Local state variables
   const [members, setMembers] = useState([]);
@@ -81,6 +81,8 @@ const AllParishioners = () => {
             rows={rows}
             // Columns
             columns={columns}
+            // Automatically adjust grid height based on rows
+            autoHeight
             // Initial state
             initialState={{
               pagination: {

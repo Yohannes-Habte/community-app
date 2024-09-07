@@ -33,8 +33,11 @@ const AllChurchServices = () => {
 
   const handleDelete = async (id) => {
     try {
-      const { data } = await axios.delete(`${API}/users/${id}`);
+      const { data } = await axios.delete(`${API}/services/${id}`, {
+        withCredentials: true,
+      });
       toast.success(data.message);
+      dispatch(fetchAllServices());
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -67,8 +70,8 @@ const AllChurchServices = () => {
           <span
             style={{
               color: color,
-              fontWeight: "bold", 
-              fontSize: "14px", 
+              fontWeight: "bold",
+              fontSize: "14px",
             }}
           >
             {params.value.charAt(0).toUpperCase() + params.value.slice(1)}
@@ -115,7 +118,7 @@ const AllChurchServices = () => {
     });
 
   return (
-    <section>
+    <section className="church-services-table-wrapper">
       <h1> Church Services </h1>
 
       {loading && <PageLoader />}
@@ -161,19 +164,18 @@ const AllChurchServices = () => {
             {closeIcon}{" "}
           </span>
 
-          <h3 className="you-want-delete-user">
-            Are you sure you want delete this service?
-          </h3>
+          <h3 className="you-want-delete">Are you sure you want delete?</h3>
+
           <aside className="cancel-or-confirm-delete">
-            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
-              cancel
-            </p>
             <h3
               className={`confirm-delete`}
               onClick={() => setOpen(false) || handleDelete(serviceId)}
             >
               confirm
             </h3>
+            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
+              cancel
+            </p>
           </aside>
         </article>
       )}

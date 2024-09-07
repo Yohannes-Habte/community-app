@@ -36,8 +36,6 @@ const AddServiceRequest = () => {
   const { loading } = useSelector((state) => state.service);
   const { categories } = useSelector((state) => state.category);
 
-  console.log("categories =", categories);
-
   // Fetch categories on component mount
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -153,7 +151,7 @@ const AddServiceRequest = () => {
             <option value="confession"> Confession </option>
             <option value="anointing">Anointing of the Sick</option>
             <option value="marriage">Marriage</option>
-            <option value="mass">Others</option>
+            <option value="others">Others</option>
           </select>
 
           <label className="input-label" htmlFor="serviceName">

@@ -5,9 +5,10 @@ import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateService = () => {
+  const navigation = useNavigate();
   const { id } = useParams();
   const [serviceStatus, setServiceStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ const UpdateService = () => {
       toast.success(data.message);
       e.target.reset();
       setLoading(false);
+      navigation("/priest/dashboard");
     } catch (error) {
       setLoading(false);
     }
