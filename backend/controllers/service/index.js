@@ -123,7 +123,7 @@ export const createServiceRequest = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get Single Prayer request
+// Get Single service
 //==========================================================================
 
 export const getSingleService = async (req, res, next) => {
@@ -149,8 +149,6 @@ export const getSingleService = async (req, res, next) => {
       result: service,
     });
   } catch (error) {
-    console.error("Error fetching service:", error); // Log the error for debugging
-
     // Handle potential database errors or other exceptions
     return next(
       createError(500, "Internal server error. Please try again later.")
@@ -159,11 +157,88 @@ export const getSingleService = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get all Prayers request
+// Update service request
+//==========================================================================
+
+export const updateServiceRequest = async (req, res, next) => {
+  const { id } = req.params;
+  const { serviceStatus } = req.body;
+
+  // Validate the service ID format
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(createError(400, "Invalid Service ID format."));
+  }
+
+  // Start a session for transaction
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // Step 1: Find and update the Service document by ID
+    const service = await Service.findById(id).session(session);
+    if (!service) {
+      throw createError(404, "Service not found.");
+    }
+
+    // Update the service status
+    service.serviceStatus = serviceStatus;
+    await service.save({ session });
+
+    // Step 2: Update the service status in the Member's services array
+    const member = await Member.findOneAndUpdate(
+      { _id: service.userId, "services._id": id }, // Find the member who has this service
+      { $set: { "services.$.status": serviceStatus } }, // Update the service status in the member's services array
+      { new: true, session } // Return the updated document
+    );
+
+    if (!member) {
+      throw createError(404, "Member with the specified service not found.");
+    }
+
+    // Step 3: Commit the transaction if both updates succeed
+    await session.commitTransaction();
+    session.endSession();
+
+    // Send success response
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Service and member updated successfully.",
+      });
+  } catch (error) {
+    // If there's an error, abort the transaction
+    await session.abortTransaction();
+    session.endSession();
+
+    console.error("Error updating service:", error);
+    return next(
+      createError(500, "Internal server error. Please try again later.")
+    );
+  }
+};
+
+//==========================================================================
+// Get all services
 //==========================================================================
 
 export const getAllServices = async (req, res, next) => {
   try {
+    const user = await Member.findById(req.user.id);
+
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    if (user.role !== "priest") {
+      return next(
+        createError(
+          403,
+          "Forbidden: You do not have permission to view services"
+        )
+      );
+    }
+
     // Fetch services and populate the 'category' field
     const services = await Service.find().populate("serviceCategory");
 
@@ -182,14 +257,10 @@ export const getAllServices = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error fetching services:", error); // Log error for internal tracking
-    return next(
-      createError(
-        500,
-        "An error occurred while fetching services. Please try again later."
-      )
-    );
+    return next(createError(500, "Server error. Please try again later."));
   }
 };
+
 //====================================================================
 // Total Number of prayer requests by parishioners
 //====================================================================

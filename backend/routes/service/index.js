@@ -5,6 +5,7 @@ import {
   getAllServices,
   getSingleService,
   totalNumberOfServices,
+  updateServiceRequest,
 } from "../../controllers/service/index.js";
 // import serviceValidation from "../../validators/service/index.js";
 // import checkValidation from "../../validators/validationResult/index.js";
@@ -18,6 +19,8 @@ serviceRouter.post("/new", isAuthenticated, createServiceRequest);
 serviceRouter.get("/", isAuthenticated, isPriest, getAllServices);
 
 serviceRouter.get("/:id", isAuthenticated, isPriest, getSingleService);
+
+serviceRouter.put("/:id", isAuthenticated, isPriest, updateServiceRequest);
 
 serviceRouter.delete(
   "/:serviceId",

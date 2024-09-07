@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import FinanceManagerPage from "./views/financePages/financeManagerPage/FinanceManagerPage";
 import { fetchUser } from "./redux/actions/user/userAction";
-
+import UpdateServicePage from "./views/priestPages/updateServicePage/UpdateServicePage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -68,6 +68,8 @@ const App = () => {
             </PriestProtectedRoutes>
           }
         />
+
+        <Route path="/services/:id" element={<UpdateServicePage />} />
 
         {/* Admin Dashboard */}
         <Route

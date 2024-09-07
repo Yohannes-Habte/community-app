@@ -11,6 +11,7 @@ import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
 import "./AllChurchServices.scss";
+import { Link } from "react-router-dom";
 
 const AllChurchServices = () => {
   const { trashIcon, editIcon, closeIcon } = ReactIcons();
@@ -30,9 +31,6 @@ const AllChurchServices = () => {
     };
   }, [dispatch]);
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error}</p>;
-
   const handleDelete = async (id) => {
     try {
       const { data } = await axios.delete(`${API}/users/${id}`);
@@ -40,8 +38,6 @@ const AllChurchServices = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
-
-    // allUsers();
   };
 
   // Parishioners header
@@ -51,7 +47,35 @@ const AllChurchServices = () => {
     { field: "serviceDate", headerName: "Service Date", width: 200 },
     { field: "identificationDocument", headerName: "Phone Number", width: 200 },
     { field: "message", headerName: "Message", width: 200 },
-    { field: "serviceStatus", headerName: "Service Status", width: 150 },
+    {
+      field: "serviceStatus",
+      headerName: "Service Status",
+      width: 150,
+      renderCell: (params) => {
+        let color = "";
+
+        // Set the color based on the serviceStatus value
+        if (params.value === "pending") {
+          color = "orange";
+        } else if (params.value === "completed") {
+          color = "green";
+        } else if (params.value === "cancelled") {
+          color = "red";
+        }
+
+        return (
+          <span
+            style={{
+              color: color,
+              fontWeight: "bold", 
+              fontSize: "14px", 
+            }}
+          >
+            {params.value.charAt(0).toUpperCase() + params.value.slice(1)}
+          </span>
+        );
+      },
+    },
     {
       field: "action",
       headerName: "Action",
@@ -59,9 +83,9 @@ const AllChurchServices = () => {
       renderCell: (params) => {
         return (
           <div className="action-wrapper">
-            <button className="edit" onClick={() => setOpen(true)}>
+            <Link to={`/services/${params.id}`} className="edit">
               {editIcon}
-            </button>
+            </Link>
 
             <button
               className="delete"
@@ -99,16 +123,18 @@ const AllChurchServices = () => {
       {error ? <p className="error-message"> {error} </p> : null}
 
       {!loading && !error && (
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ width: "100%" }}>
           <DataGrid
             // Rows
             rows={rows}
             // Columns
             columns={columns}
-            // Initial state
+            // Automatically adjust grid height based on rows
+            autoHeight
+            // Initial state for pagination
             initialState={{
               pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
+                paginationModel: { page: 0, pageSize: 10 },
               },
             }}
             // Create search bar
@@ -120,11 +146,10 @@ const AllChurchServices = () => {
                 quickFilterProps: { debounceMs: 500 },
               },
             }}
-            // Page size optons
+            // Page size options
             pageSizeOptions={[5, 10]}
             checkboxSelection
             disableRowSelectionOnClick
-            //
           />
         </div>
       )}

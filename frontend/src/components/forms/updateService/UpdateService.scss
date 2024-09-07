@@ -1,0 +1,44 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.service-update-form {
+    @include flexColumn;
+    width: 50%;
+    margin: auto;
+
+  .input-container {
+    @include inputContainer;
+   
+
+    .icon {
+      @include inputIcon;
+    }
+
+    .input-field {
+      @include inputField;
+      
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      top: -0.4rem;
+      font-size: $sfs;
+      color: $gray;
+    }
+
+    .input-field:focus + .input-label + .input-highlight {
+      width: 100%;
+    }
+  }
+
+  .service-update-btn {
+    @include button1;
+
+    .loading {
+      @include loader;
+    }
+  }
+}

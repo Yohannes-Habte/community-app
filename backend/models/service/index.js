@@ -19,8 +19,7 @@ const serviceSchema = new Schema(
       type: String,
       enum: ["pending", "completed", "cancelled"],
       default: "pending",
-    },
-    totalMonthlyServices: { type: Number, required: false },
+    }
   },
   {
     timestamps: true,

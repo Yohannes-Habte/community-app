@@ -1,4 +1,4 @@
-import React from 'react'
+import "./PriestRegisterPage.scss"
 
 const PriestRegisterPage = () => {
   return (

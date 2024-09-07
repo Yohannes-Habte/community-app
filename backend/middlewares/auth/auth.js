@@ -116,3 +116,4 @@ export const isOwnerOrAdmin = async (req, res, next) => {
 export const isAdmin = checkRole("admin");
 export const isPriest = checkRole("priest");
 export const isFinanceManager = checkRole("financeManager");
+

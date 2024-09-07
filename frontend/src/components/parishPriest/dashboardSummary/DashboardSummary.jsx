@@ -40,7 +40,7 @@ const DashboardSummary = () => {
     const totalNumberOfParishioners = async () => {
       try {
         dispatch(countUsersStart());
-        const { data } = await axios.get(`${API}/members/size/total`);
+        const { data } = await axios.get(`${API}/members/count/total`);
         dispatch(countUsersSuccess(data.counts));
       } catch (error) {
         dispatch(countUsersFailure(error.response.data.message));
@@ -50,7 +50,7 @@ const DashboardSummary = () => {
     totalNumberOfParishioners();
   }, []);
 
-  console.log("services", services);
+
   // if (loading) return <p>Loading...</p>;
   // if (error) return <p>Error: {error}</p>;
 

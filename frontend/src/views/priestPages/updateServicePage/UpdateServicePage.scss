@@ -1,0 +1,13 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.service-update-page {
+  .service-update-page-container {
+    width: $desktop;
+    margin: 1rem auto;
+
+    .service-update-title {
+      @include title;
+    }
+  }
+}

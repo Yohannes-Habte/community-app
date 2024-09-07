@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  countMembers,
   deleteUserAddress,
   getAllUsers,
   getMemberBySearch,
@@ -15,9 +16,9 @@ const memberRouter = express.Router();
 memberRouter.get("/", getAllUsers);
 memberRouter.get("/user", isAuthenticated, getSingleUser);
 memberRouter.get("/search/user", getMemberBySearch );
+memberRouter.get("/count/total", countMembers );
 memberRouter.put("/:id/update-address", updateUserAddress);
 memberRouter.delete("/:userId/address/:addressId", deleteUserAddress);
-// memberRouter.get("/:id", getSingleUser);
 
 // Export user router
 export default memberRouter; 

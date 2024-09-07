@@ -257,3 +257,18 @@ const findUserBySearch = async (req, res, next) => {
     next(error);
   }
 };
+
+//==========================================================================
+// Get all members count
+//==========================================================================
+export const countMembers = async (req, res, next) => {
+  try {
+    const counts = await Member.countDocuments();
+    return res.status(200).json(counts);
+  } catch (error) {
+    console.log(error);
+    return next(
+      createError(400, "Members count could not be accessed! Please try again")
+    );
+  }
+};
