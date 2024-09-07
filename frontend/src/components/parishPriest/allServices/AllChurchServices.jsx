@@ -48,7 +48,16 @@ const AllChurchServices = () => {
     { field: "id", headerName: "Service ID", width: 250 },
     { field: "serviceName", headerName: "Service Name", width: 200 },
     { field: "serviceDate", headerName: "Service Date", width: 200 },
-    { field: "identificationDocument", headerName: "Phone Number", width: 200 },
+    {
+      field: "identificationDocument",
+      headerName: "Identification Document",
+      width: 300, // Adjust width to fit the document URL
+      renderCell: (params) => (
+        <a href={params.value} target="_blank" rel="noopener noreferrer">
+          View Document
+        </a>
+      ),
+    },
     { field: "message", headerName: "Message", width: 200 },
     {
       field: "serviceStatus",
@@ -110,9 +119,9 @@ const AllChurchServices = () => {
       rows.push({
         id: service._id,
         serviceName: service.serviceName,
-        serviceDate: service.serviceDate,
+        serviceDate: new Date(service.serviceDate).toLocaleDateString(), // Format date
         identificationDocument: service.identificationDocument,
-        message: service.message,
+        message: service.message.slice(0, 20) + "...", 
         serviceStatus: service.serviceStatus,
       });
     });

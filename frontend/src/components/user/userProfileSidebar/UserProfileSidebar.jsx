@@ -106,7 +106,7 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4 className={isActive === 6 ? "active-text" : "passive-text"}>
-          Offered Services
+          All Services
         </h4>
       </aside>
 

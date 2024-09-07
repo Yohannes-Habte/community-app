@@ -258,6 +258,38 @@ const findUserBySearch = async (req, res, next) => {
   }
 };
 
+
+//==========================================================================
+// Get all services of a single user
+//==========================================================================
+export const getAllUserServices = async (req, res, next) => {
+  try {
+    const user = await Member.findById(req.user.id)
+      .populate({
+        path: "services._id",  // Populate the services array
+        model: "Service",      // Specify the Service model
+        populate: {
+          path: "serviceCategory",  // Also populate the service category details
+          model: "Category"         // Specify the Category model
+        }
+      });
+
+    if (!user) {
+      return next(createError(400, "User not found! Please login!"));
+    }
+
+    return res.status(200).json({
+      success: true,
+      result: user.services.map(service => service._id), 
+    });
+  } catch (error) {
+    next(
+      createError(500, "The services could not be accessed! Please try again!")
+    );
+  }
+};
+
+
 //==========================================================================
 // Get all members count
 //==========================================================================
