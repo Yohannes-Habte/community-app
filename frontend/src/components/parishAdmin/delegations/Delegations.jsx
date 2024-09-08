@@ -4,36 +4,23 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import {
-  fetchAllDelegatedPriestsFailure,
-  fetchAllDelegatedPriestsStart,
-  fetchAllDelegatedPriestsSuccess,
-} from "../../../redux/reducers/priestReducer";
-import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+  clearErrorsAction,
+  fetchAllDelegatedPriests,
+} from "../../../redux/actions/delegation/delegationAction";
 
 const Delegations = () => {
   // Global state variables
-  const { delegationLoading, delegationError, delegations } = useSelector(
-    (state) => state.priest
-  );
+  const { priests, error, loading } = useSelector((state) => state.priest);
   const dispatch = useDispatch();
 
-  // const [delegatedPriests, setDelegatedPriests] = useState([]);
-
-  // Display all spiritual development
   useEffect(() => {
-    const getAllDelegatedPriests = async () => {
-      try {
-        dispatch(fetchAllDelegatedPriestsStart());
-        const { data } = await axios.get(`${API}/delegations/priests`);
-        dispatch(fetchAllDelegatedPriestsSuccess(data.priests));
-      } catch (error) {
-        dispatch(fetchAllDelegatedPriestsFailure(error.response.data.message));
-      }
-    };
+    dispatch(fetchAllDelegatedPriests());
 
-    getAllDelegatedPriests();
-  }, []);
+    // clear errors on component unmount
+    return () => {
+      dispatch(clearErrorsAction());
+    };
+  }, [dispatch]);
 
   // Parishioners header
   const columns = [
@@ -46,8 +33,8 @@ const Delegations = () => {
 
   const rows = [];
 
-  delegations &&
-    delegations.forEach((delegation) => {
+  priests &&
+    priests.forEach((delegation) => {
       rows.push({
         id: delegation._id,
         fullName: delegation.fullName,
@@ -61,13 +48,11 @@ const Delegations = () => {
     <section className="delegated-priests-wrapper">
       <h1 className="delegated-priests"> Priests Delegation List </h1>
 
-      {delegationLoading && <PageLoader />}
+      {loading && <PageLoader />}
 
-      {delegationError ? (
-        <p className="error-message"> {delegationError} </p>
-      ) : null}
+      {error ? <p className="error-message"> {error} </p> : null}
 
-      {!delegationLoading && !delegationError && (
+      {!loading && !error && (
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             // Rows

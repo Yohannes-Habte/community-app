@@ -7,13 +7,13 @@ import { BsCalendarDateFill } from "react-icons/bs";
 import { MdMessage } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { API } from "../../../utiles/securitiy/secreteKey";
 import {
   postDelegatePriestFailure,
   postDelegatePriestStart,
   postDelegatePriestSuccess,
-} from "../../../redux/reducers/priestReducer";
-import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+} from "../../../redux/reducers/delegation/delegationReducer";
 
 const initialState = {
   fullName: "",

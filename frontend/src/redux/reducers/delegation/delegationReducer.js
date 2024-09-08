@@ -22,7 +22,7 @@ const setFailure = (state, action) => {
   state.loading = false;
 };
 
-const priestReducer = createSlice({
+const delegationReducer = createSlice({
   name: "priest",
   initialState,
   reducers: {
@@ -85,6 +85,6 @@ export const {
   fetchAllDelegatedPriestsFailure,
 
   clearErrors,
-} = priestReducer.actions;
+} = delegationReducer.actions;
 
-export default priestReducer.reducer;
+export default delegationReducer.reducer;

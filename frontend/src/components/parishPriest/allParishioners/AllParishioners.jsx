@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
 import "./AllParishioners.scss";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useSelector } from "react-redux";
+
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 
 const AllParishioners = () => {
-  // Global state variables
-  const loading = useSelector((state) => state.user.loading.members);
-  const error = useSelector((state) => state.user.error.members);
-
   // Local state variables
   const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // Display all users
   useEffect(() => {
     const getAllParishioners = async () => {
       try {
-        // dispatch(usersFetchStart());
-        const { data } = await axios.get(`${API}/members`);
-        // dispatch(usersFetchSuccess(data.users));
+        setLoading(true);
+        const { data } = await axios.get(`${API}/members`, {
+          withCredentials: true,
+        });
+
         setMembers(data.users);
+        setLoading(false);
       } catch (error) {
-        // dispatch(usersFetchFailure(error.response.data.message));
+        setError(error.response.data.message);
+        setLoading(false);
       }
     };
 
@@ -38,11 +40,11 @@ const AllParishioners = () => {
     { field: "maritalStatus", headerName: "Status", width: 100 },
     { field: "email", headerName: "Email", width: 200 },
     { field: "phone", headerName: "Phone", width: 150 },
-    { field: "street", headerName: "Street Name", type: "number", width: 200 },
+    { field: "street", headerName: "Street Name", type: "number", width: 150 },
     { field: "zipCode", headerName: "Zip Code", width: 100 },
-    { field: "city", headerName: "City", width: 150 },
-    { field: "state", headerName: "State", width: 200 },
-    { field: "country", headerName: "Country", width: 150 },
+    { field: "city", headerName: "City", width: 100 },
+    { field: "state", headerName: "State", width: 100 },
+    { field: "country", headerName: "Country", width: 100 },
     { field: "role", headerName: "Role", width: 100 },
   ];
 

@@ -8,13 +8,14 @@ import {
   getSingleUser,
   updateUserAddress,
 } from "../../controllers/member/index.js";
-import { isAuthenticated } from "../../middlewares/auth/auth.js";
+import { isAdmin, isAuthenticated, isPriest } from "../../middlewares/auth/auth.js";
 
 // User Router
 const memberRouter = express.Router();
 
 // User Route
-memberRouter.get("/", getAllUsers);
+memberRouter.get("/", isAuthenticated, isPriest, getAllUsers);
+memberRouter.get("/all", isAuthenticated, isAdmin, getAllUsers);
 memberRouter.get("/user", isAuthenticated, getSingleUser);
 memberRouter.get("/search/user", getMemberBySearch );
 memberRouter.get("/services", isAuthenticated, getAllUserServices );

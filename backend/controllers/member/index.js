@@ -137,7 +137,7 @@ export const getAllUsers = async (req, res, next) => {
     const users = await Member.find();
 
     if (!users) {
-      return next(createError(400, "User not found! Please login!"));
+      return next(createError(400, "Users not found! Please login!"));
     }
 
     return res.status(200).json({
