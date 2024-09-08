@@ -258,21 +258,19 @@ const findUserBySearch = async (req, res, next) => {
   }
 };
 
-
 //==========================================================================
 // Get all services of a single user
 //==========================================================================
 export const getAllUserServices = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.user.id)
-      .populate({
-        path: "services._id",  // Populate the services array
-        model: "Service",      // Specify the Service model
-        populate: {
-          path: "serviceCategory",  // Also populate the service category details
-          model: "Category"         // Specify the Category model
-        }
-      });
+    const user = await Member.findById(req.user.id).populate({
+      path: "services._id", // Populate the services array
+      model: "Service", // Specify the Service model
+      populate: {
+        path: "serviceCategory", // Also populate the service category details
+        model: "Category", // Specify the Category model
+      },
+    });
 
     if (!user) {
       return next(createError(400, "User not found! Please login!"));
@@ -280,7 +278,7 @@ export const getAllUserServices = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      result: user.services.map(service => service._id), 
+      result: user.services.map((service) => service._id),
     });
   } catch (error) {
     next(
@@ -288,7 +286,6 @@ export const getAllUserServices = async (req, res, next) => {
     );
   }
 };
-
 
 //==========================================================================
 // Get all members count
@@ -299,8 +296,6 @@ export const countMembers = async (req, res, next) => {
     return res.status(200).json(counts);
   } catch (error) {
     console.log(error);
-    return next(
-      createError(400, "Members count could not be accessed! Please try again")
-    );
+    return next(createError(400, "Server error! Please try again"));
   }
 };

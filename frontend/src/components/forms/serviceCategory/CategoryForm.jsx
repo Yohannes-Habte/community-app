@@ -45,7 +45,9 @@ const CategoryForm = ({ setOpenCategory }) => {
     try {
       dispatch(Action.categoryStart());
 
-      const { data } = await axios.post(`${API}/categories/new`, newCategory);
+      const { data } = await axios.post(`${API}/categories/new`, newCategory, {
+        withCredentials: true,
+      });
 
       dispatch(Action.categorySuccess(data.result));
       toast.success(data.message);

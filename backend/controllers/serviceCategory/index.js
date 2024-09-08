@@ -55,7 +55,7 @@ export const getCategories = async (req, res, next) => {
 //==========================================================================
 // Get single service category
 //==========================================================================
-export const getGenre = async (req, res, next) => {
+export const getCategory = async (req, res, next) => {
   const categoryId = req.params.id;
 
   try {
@@ -77,7 +77,7 @@ export const getGenre = async (req, res, next) => {
 //==========================================================================
 // Delete single service category
 //==========================================================================
-export const deleteGenre = async (req, res, next) => {
+export const deleteCategory = async (req, res, next) => {
   const categoryId = req.params.id;
 
   try {
@@ -95,5 +95,27 @@ export const deleteGenre = async (req, res, next) => {
     });
   } catch (error) {
     return next(createError(500, "Server error! Please try again!"));
+  }
+};
+
+//==========================================================================
+// Count all categories
+//==========================================================================
+
+export const countCategories = async (req, res, next) => {
+  try {
+    // Use the 'lean' option for optimized query if no modifications to the documents are needed
+    const totalCategories = await Category.countDocuments().lean();
+
+    // Ensure the response is structured and sanitized properly
+    return res.status(200).json({
+      success: true,
+      result: totalCategories,
+    });
+  } catch (error) {
+    console.error(`Error counting categories: ${error.message}`);
+
+    // Pass a more generic error message to the client for security purposes
+    next(createError(500, "Server error occurred while counting categories."));
   }
 };
