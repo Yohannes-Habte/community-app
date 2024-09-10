@@ -82,19 +82,20 @@
 
 @mixin inputField {
   width: 100%;
-  padding: 1rem 2rem;
-  font-size: $nfs;
-  font-weight: $afw;
-  line-height: $afs;
-  color: $black;
-  background-color: $white;
-  background-clip: padding-box;
-  border: 1px solid $borderColor;
-  appearance: none;
-  border-radius: $radius;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  padding: 10px 40px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+
   &:focus {
-    outline: 0;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+  }
+
+  &.input-field[type="date"] {
+    padding: 8px 40px;
   }
 }
 

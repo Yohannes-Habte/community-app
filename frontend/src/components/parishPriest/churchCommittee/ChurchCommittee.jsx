@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
-// import { useNavigate } from "react-router-dom";
-import CommitteeCard from "../../parishAdmin/committeeCard/CommitteeCard";
 import "./ChurchCommittee.scss";
+import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
 
 const ChurchCommittee = () => {
   const [yearRanges, setYearRanges] = useState([]);

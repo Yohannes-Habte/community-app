@@ -1,0 +1,82 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.committee-members {
+  @include shadow1;
+  margin-top: 2rem;
+
+  .committee-title {
+    font-size: $aafs;
+    padding: 1rem 0;
+  }
+
+  .select-year-range-information {
+    @include paragraph;
+    font-size: $nfs;
+  }
+
+  .select-year-range-form-container {
+    .year-range-title {
+      @include subTitle;
+    }
+
+    .select-year-range-form {
+      display: flex;
+      flex-direction: row;
+
+      .input-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        .input-field {
+          @include inputField;
+          width: 80%;
+
+          &::placeholder {
+            color: $gray;
+          }
+        }
+
+        .input-label {
+          width: 50%;
+          font-size: $nfs;
+        }
+      }
+
+      .fetch-committee-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5);
+        }
+
+        &:active {
+          background-color: #004085;
+        }
+      }
+    }
+  }
+
+  .committees-card-wrapper {
+    @include twoGridTemplateEqualColumns;
+  }
+}

@@ -1,110 +1,13 @@
-@import '../../styles/Variables.scss';
-@import '../../styles/Mixins.scss';
+@import "../../styles/Variables.scss";
+@import "../../styles/Mixins.scss";
 
 .about-page {
   .about-page-container {
-    width: $laptop;
+    width: $desktop;
     margin: 1rem auto;
 
     .about-title {
       @include title;
-    }
-
-    .strategic-intent {
-      margin: 1rem 0;
-      .sub-title {
-        @include subTitle;
-        font-size: $aafs;
-      }
-      .paragraph {
-        font-size: $afs;
-        line-height: $aafs;
-      }
-
-      .value {
-        .value-title {
-          @include subTitle;
-          font-size: 1.5rem;
-          color: $green;
-          background-color: $navbar-bg;
-        }
-        .description {
-          font-size: $afs;
-          line-height: $aafs;
-        }
-      }
-    }
-
-    // Council of the Holy Redeemer Parish
-    .staff-members {
-      @include shadow1;
-      margin-top: 2rem;
-
-      .sub-title {
-        font-size: $aafs;
-        padding: 1rem 0;
-      }
-
-      .staff-container {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-
-        .member-info {
-          display: flex;
-          flex-direction: column;
-
-          @include shadow1;
-
-          .photo-container {
-            width: 100px;
-
-            .photo {
-              height: 12rem;
-              object-fit: cover;
-              padding: 1rem;
-            }
-          }
-
-          .staff-title {
-          }
-
-          .staff {
-            font-size: 1rem;
-          }
-        }
-      }
-    }
-
-    // Contents or results when you click the tabs
-    .contents {
-      .content {
-        display: none;
-      }
-
-      // Active content
-      .active-content {
-        display: block;
-        padding: 0 1rem;
-        line-height: 2rem;
-        font-size: $afs;
-
-        .values {
-          // Values of Holy Saviour
-          .value {
-            margin-bottom: 1.5rem;
-
-            .subtitle {
-              color: blue;
-              font-size: $afs;
-              font-weight: $aafw;
-              padding: 0 1rem;
-            }
-            .description {
-              padding: 0 1rem;
-            }
-          }
-        }
-      }
     }
   }
 }

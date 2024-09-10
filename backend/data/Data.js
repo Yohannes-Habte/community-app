@@ -90,10 +90,10 @@ export const parishPriest = {
   title: "Parish Priest",
   image: `http://localhost:8000/Fr.Siyum.jpg`,
   paragraph1: `
-Since 2018, Father Siyum Kifle Zeragiorgis has been serving the Eritrean Roman Catholic communities in Hamburg and the surrounding area with unparalleled dedication and love. He inspires Parishioners with the Gospel of Jesus Christ, hope and love. The priest focuses on providing effective and quality social services and the emotional well-being of individuals, families and communities.`,
+Since 2018, Father Siyum Kifle Zeragiorgis has faithfully served the Eritrean Roman Catholic communities in Hamburg and its surrounding regions with unwavering dedication and pastoral care. Through his deep commitment to the Gospel of Jesus Christ, he continually inspires parishioners with messages of hope, love, and spiritual renewal. Father Siyum also places a strong emphasis on delivering high-quality social services and supporting the emotional and spiritual well-being of individuals, families, and the wider community.`,
 
   paragraph2: `
-The parishioners are delighted with the priest's shepherd. However, due to time constraints and geographical distance, the relationships and spiritual growth are not as expected.`,
+While the parishioners hold Father Siyum's leadership in high regard, challenges related to time constraints and geographical distance have hindered the development of closer relationships and the desired level of spiritual growth.`,
 };
 
 //====================================================================
@@ -103,8 +103,8 @@ The parishioners are delighted with the priest's shepherd. However, due to time 
 export const aboutPageData = {
   title: "We Represent Jesus In Everything We Do!",
   mission:
-    "Inspired by the Gospel of Jesus Christ, we seek to bring joy to those we serve by enabling growth, healing, and hope. By delivering effective and high quality social services, Holy Saviour helps to build the social and emotional wellbeing of individuals, families and communities.",
-  vision: `To make the hope of Jesus known by building a large, Christ-centered, multicultural, multigenerational church, transforming culture through creativity and empowering ordinary people to lead others and live dynamically for the cause of God's kingdom.`,
+    "The Parish of the Eritrean Roman Catholic Church in Hamburg, rooted in the Word and Sacraments, is committed to fostering spiritual growth, prayer, formation, education, and social service. Through embracing the rich diversity of cultures within our community, we work together to fulfill the mission of Christ, continuing His work of love, justice, and compassion in the world today.",
+  vision: `Our vision is to proclaim the hope of Jesus Christ by establishing a vibrant, Christ-centered church that is multicultural and multigenerational. We seek to transform society through creative expression, while empowering individuals to become dynamic leaders who inspire others and live purposefully in service of God's kingdom.`,
 
   teamDesc:
     "At Holy Saviour, we love to see people thrive in their God given gifts & abilities. We have strategically positioned people to see the best that they have to offer and to ultimately build the Kingdom of God with excellence and passion. ",

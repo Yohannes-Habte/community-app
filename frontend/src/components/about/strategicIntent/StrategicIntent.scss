@@ -1,0 +1,38 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.strategic-intent {
+  margin: 1rem 0;
+  .strategic-intent-subtitle {
+    @include subTitle;
+    font-size: $aafs;
+  }
+  .mission-statement {
+    font-size: $nfs;
+    line-height: $aafs;
+    font-size: $nfs;
+    line-height: $aafs;
+    padding: 1rem 0.5rem;
+  }
+
+  .vision-statement {
+    font-size: $nfs;
+    line-height: $aafs;
+    font-size: $nfs;
+    line-height: $aafs;
+    padding: 1rem 0.5rem;
+  }
+
+  .core-value {
+    .value-title {
+      @include subTitle;
+      font-size: $afs;
+      background-color: $value-bg;
+    }
+    .value-description {
+      font-size: $nfs;
+      line-height: $aafs;
+      padding: 1rem 0.5rem;
+    }
+  }
+}

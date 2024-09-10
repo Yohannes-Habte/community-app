@@ -1,5 +1,5 @@
-@import '../../styles/Variables.scss';
-@import '../../styles/Mixins.scss';
+@import "../../styles/Variables.scss";
+@import "../../styles/Mixins.scss";
 
 /* Mobile screen size */
 .home-page {
@@ -225,42 +225,6 @@
 
           .b-eparchy {
             font-size: $sfs;
-          }
-        }
-      }
-    }
-
-    // Parish priest
-    .parish-priest {
-      @include shadow1;
-      width: $laptop;
-      margin: auto;
-      .sub-title {
-        @include subTitle;
-      }
-
-      .image-paragraph-container {
-        display: flex;
-        flex-direction: row;
-
-        .image-container {
-          flex: 1;
-
-          .image {
-            @include shadow1;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 1.2rem;
-            cursor: pointer;
-          }
-        }
-
-        .paragraphs {
-          flex: 3;
-
-          .paragraph {
-            line-height: 2rem;
-            padding: 1.5rem 0;
           }
         }
       }

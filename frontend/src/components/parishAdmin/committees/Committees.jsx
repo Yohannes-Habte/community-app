@@ -3,8 +3,8 @@ import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { GiCalendarHalfYear } from "react-icons/gi";
 import "./Committees.scss";
-import CommitteeCard from "../committeeCard/CommitteeCard";
 import { useNavigate } from "react-router-dom";
+import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
 
 const CommitteeList = () => {
   const navigate = useNavigate(); // Initialize useNavigate

@@ -7,9 +7,9 @@ const CommitteeCard = ({ data }) => {
         <img className="image" src={data.image} alt={data.fullName} />
       </figure>
       <aside className="user-details">
-        <h3 className="user-title">
+        <h4 className="user-name">
           Full Name: <strong>{data.fullName} </strong>
-        </h3>
+        </h4>
         <p className="user-info">
           Service Title: <strong>{data.title}</strong>{" "}
         </p>
