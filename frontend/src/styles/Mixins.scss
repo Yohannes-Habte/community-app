@@ -124,10 +124,10 @@
 
 @mixin inputIcon {
   position: absolute;
-  top: 1rem;
+  top: 0.5rem;
   left: 0.5rem;
-  font-size: $afs;
-  color: $green;
+  font-size: $nfs;
+  color: $iconColor;
 }
 
 @mixin passwordDisplay {

@@ -37,6 +37,7 @@ const SubscriberNotification = () => {
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
+            placeholder="Enter notification subject"
             className="input-field"
           />
         </div>
@@ -49,6 +50,7 @@ const SubscriberNotification = () => {
             cols={30}
             rows={10}
             onChange={(e) => setText(e.target.value)}
+            placeholder="Enter your notification message here..."
             className="input-field"
           ></textarea>
         </div>
