@@ -3,6 +3,7 @@ import {
   createServiceRequest,
   deleteOneService,
   getAllServices,
+  getPopularCategories,
   getSingleService,
   totalNumberOfServices,
   updateServiceRequest,
@@ -28,6 +29,8 @@ serviceRouter.delete(
   isPriest,
   deleteOneService
 );
+
+serviceRouter.get("/popular/categories", getPopularCategories);
 
 serviceRouter.get("/size/total", totalNumberOfServices);
 

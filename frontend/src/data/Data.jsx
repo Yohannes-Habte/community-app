@@ -1,14 +1,26 @@
 import { MdLocationPin } from "react-icons/md";
 import { FiPhoneCall } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
-import HawkaAbeyAllo from "../assets/bishop-4.jpg";
+import BishopsPhoto from "../assets/Bishops.jpg";
+import Bishops4 from "../assets/bishop-4.jpg";
 import youTube from "../assets/ሓውኻ-ኣበይ-ኣሎ.mp4";
 
-export const hawkaAbeyAllo = {
-  id: 2,
-  image: HawkaAbeyAllo,
-  link: youTube,
-};
+//====================================================================
+// Hawka abey alo
+//====================================================================
+
+export const BishopsMessage = [
+  {
+    id: 1,
+    image: BishopsPhoto,
+    link: "http://eparchyofkeren.com/topics/PastoralLetterCatholicEparchsEritreaDF.pdf",
+  },
+  {
+    id: 2,
+    image: Bishops4,
+    link: youTube,
+  },
+];
 
 //====================================================================
 // Contact Page Data

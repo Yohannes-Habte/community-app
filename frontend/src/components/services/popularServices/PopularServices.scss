@@ -1,0 +1,39 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.popular-services-wrapper {
+  .popular-services-title {
+    @include subTitle;
+    font-size: $aafs;
+  }
+
+  .services-list {
+    @include threeGridTemplateEqualColumns;
+
+
+    .service-details {
+        @include shadow1;
+      & strong {
+        font-weight: bold;
+        color: $green;
+      }
+      .service-name {
+        @include subTitle;
+        padding: 0;
+      }
+
+      .count {
+        font-size: $nfs;
+      }
+
+      .message {
+      }
+
+      .status {
+      }
+
+      .date {
+      }
+    }
+  }
+}

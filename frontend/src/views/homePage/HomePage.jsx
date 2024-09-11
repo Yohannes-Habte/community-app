@@ -1,13 +1,11 @@
 import "./HomePage.scss";
 import Bishops from "../../components/bishopsSlider/Bishops";
 import Header from "../../components/user/layout/header/Header";
-import FetchData from "../../utiles/globalFunctions/GlobalClientFunction";
-import { API } from "../../utiles/securitiy/secreteKey";
 import Subscribe from "../../components/forms/subscribe/Subscribe";
+import { BishopsMessage } from "../../data/Data";
+import PopularServices from "../../components/services/popularServices/PopularServices";
 
 const HomePage = () => {
-  const { data } = FetchData(`${API}/data/home/hawka-abey-allo`);
-
   return (
     <main className="home-page">
       <Header />
@@ -16,12 +14,14 @@ const HomePage = () => {
         <h1 className="title"> Eritrean Roman Catholic Church in Hamburg </h1>
         <Bishops />
 
+        <PopularServices />
+
         {/* Eritrean bishops */}
         <article className="eritrean-bishops">
           <h2 className="sub-title"> Brave Shepherds </h2>
           <figure className="image-container">
-            {data &&
-              data?.map((shepherd) => (
+            {BishopsMessage &&
+              BishopsMessage?.map((shepherd) => (
                 <figure key={shepherd.id}>
                   <a href={shepherd.link} target="blank">
                     <img
@@ -34,6 +34,8 @@ const HomePage = () => {
               ))}
           </figure>
         </article>
+
+       
       </section>
 
       <Subscribe />

@@ -400,3 +400,45 @@ export const deleteOneService = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//==========================================================================
+// Get three popular categories with the most services details
+//==========================================================================
+
+export const getPopularCategories = async (req, res) => {
+  try {
+    const popularCategories = await Service.aggregate([
+      {
+        $match: {
+          serviceStatus: "completed", // Filter to include only completed services
+        },
+      },
+
+      {
+        $group: {
+          _id: "$serviceName", // Group by service name
+          count: { $sum: 1 }, // Count occurrences of each service
+          details: { $last: "$$ROOT" }, // Capture full service details (first match in group)
+        },
+      },
+
+      { $sort: { count: -1 } }, // Sort by count in descending order
+
+      { $limit: 3 }, // Limit to top 3
+
+      {
+        $project: {
+          _id: 0, // Exclude the default _id field
+          serviceName: "$_id", // Rename _id to serviceName
+          count: 1, // Keep the count field
+          details: 1, // Keep the full details of the service
+        },
+      },
+    ]);
+
+    res.status(200).json({ success: true, result: popularCategories });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+};
