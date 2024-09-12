@@ -19,7 +19,7 @@ const validateEvent = () => {
     check("eventPurpose")
       .isString()
       .withMessage("Event purpose must be a string")
-      .isLength({ min: 10, max: 500 })
+      .isLength({ min: 10, max: 900 })
       .withMessage("Event purpose must be between 10 and 500 characters")
       .trim()
       .escape()

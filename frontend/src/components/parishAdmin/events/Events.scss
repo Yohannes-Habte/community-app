@@ -24,8 +24,15 @@
       margin-top: 0;
 
       .inputs-wrapper {
-        @include twoGridTemplateEqualColumns;
+        @include threeGridTemplateEqualColumns;
+        margin: 0;
       }
+
+      .event-address-and-date {
+        @include twoGridTemplateEqualColumns;
+        margin: 0;
+      }
+
       .input-container {
         @include inputContainer;
 

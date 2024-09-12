@@ -31,29 +31,6 @@
       }
     }
   }
-
-  // Eritrean bishops
-  .eritrean-bishops {
-    @include shadow1;
-    width: $mobile;
-    margin: auto;
-    .sub-title {
-      @include subTitle;
-    }
-
-    .image-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-
-      .image {
-        width: 20rem;
-        object-fit: cover;
-        border-radius: $radius;
-        cursor: pointer;
-      }
-    }
-  }
 }
 
 /* Tablet screen size */
@@ -129,34 +106,10 @@
         }
       }
     }
-
-    // Eritrean bishops
-    .eritrean-bishops {
-      @include shadow1;
-      display: flex;
-      flex-direction: column;
-
-      .sub-title {
-        @include subTitle;
-      }
-
-      .image-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        .image {
-          width: 21.5rem;
-          object-fit: cover;
-          border-radius: $radius;
-          cursor: pointer;
-        }
-      }
-    }
   }
 }
 
-/* Labtop screen size */
+/* Laptop screen size */
 @media screen and (min-width: 1024px) {
   .home-page {
     // Pope
@@ -226,31 +179,6 @@
           .b-eparchy {
             font-size: $sfs;
           }
-        }
-      }
-    }
-
-    // Eritrean bishops
-    .eritrean-bishops {
-      @include shadow1;
-      width: $laptop;
-      margin: auto;
-      .sub-title {
-        @include subTitle;
-      }
-
-      .image-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        .image {
-          @include shadow1;
-          width: 100%;
-          height: 20rem;
-          object-fit: cover;
-          border-radius: $radius;
-          cursor: pointer;
         }
       }
     }

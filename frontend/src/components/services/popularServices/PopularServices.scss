@@ -2,6 +2,7 @@
 @import "../../../styles/mixins.scss";
 
 .popular-services-wrapper {
+  margin-top: 2rem;
   .popular-services-title {
     @include subTitle;
     font-size: $aafs;
@@ -10,12 +11,21 @@
   .services-list {
     @include threeGridTemplateEqualColumns;
 
-
     .service-details {
-        @include shadow1;
+      @include shadow1;
+      line-height: 2rem;
+      background-color: $section-bg;
       & strong {
         font-weight: bold;
-        color: $green;
+        color: $blue;
+        padding-left: 0.5rem;
+        text-transform: capitalize;
+      }
+
+      & span {
+        color: $blue;
+        padding-left: 0.5rem;
+        text-transform: capitalize;
       }
       .service-name {
         @include subTitle;
@@ -30,6 +40,9 @@
       }
 
       .status {
+        & span {
+          color: $green;
+        }
       }
 
       .date {

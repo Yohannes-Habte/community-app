@@ -46,20 +46,20 @@ const PopularServices = () => {
                 Service Name: <strong>{service?.serviceName}</strong>
               </h3>
               <p className="count">
-                Count: <strong> {service?.count} </strong>
+                Count: <span> {service?.count} </span>
               </p>
 
               <p className="message">
-                Message: <strong>{service?.details?.message}</strong>
+                Message: <span>{service?.details?.message}</span>
               </p>
               <p className="status">
-                Status: <strong>{service.details?.serviceStatus}</strong>
+                Status: <span>{service.details?.serviceStatus}</span>
               </p>
               <p className="date">
                 Service Date:{" "}
-                <strong>
+                <span>
                   {new Date(service?.details?.serviceDate).toDateString()}
-                </strong>
+                </span>
               </p>
             </article>
           ))}

@@ -1,3 +1,4 @@
+import e from "express";
 import mongoose from "mongoose";
 
 const { Schema } = mongoose;
@@ -11,6 +12,11 @@ const eventSchema = new Schema(
     eventFacilitator: { type: String, required: true },
     eventAddress: { type: String, required: true },
     eventDate: { type: String, required: true, unique: true },
+    eventStatus: {
+      type: String,
+      enum: ["upcoming", "past"],
+      default: "upcoming",
+    },
   },
   {
     timestamps: true,

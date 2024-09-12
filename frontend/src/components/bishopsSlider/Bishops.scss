@@ -46,7 +46,7 @@
     opacity: 0;
     transform: translateX(-50%);
     transition: all 0.5s ease;
-    background-color: #e6e6fa;
+    background-color: $section-bg;
   }
 
   // Current slide show
@@ -180,13 +180,13 @@
   0% {
     visibility: visible;
     right: 0;
-    background-color: #87cefa;
+    background-color: #f5f3f4;
   }
 
   100% {
     visibility: visible;
     top: 12rem;
-    background-color: #fff0f5;
+    background-color: #cae9ff;
   }
 }
 
@@ -194,11 +194,11 @@
 
 @media screen and (min-width: 600px) {
   .slide-show {
-    .image-container {
+    .bishop-image-container {
       height: 30rem;
       .photo {
         width: 50%;
-        height: 28rem;
+        height: fit-content;
         object-fit: contain;
       }
     }

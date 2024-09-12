@@ -1,12 +1,9 @@
-import  { useState } from "react";
-import "./Events.scss";
+import { useState } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FaUserAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { RiAdminFill } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { RiLockPasswordFill, RiAdminFill } from "react-icons/ri";
 import {
   eventPostFailure,
   eventPostStart,
@@ -14,89 +11,81 @@ import {
 } from "../../../redux/reducers/eventReducer";
 import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import "./Events.scss";
 
 const Events = () => {
-  // Global state variables
+  // Redux state and dispatch
   const { error } = useSelector((state) => state.event);
   const dispatch = useDispatch();
 
-  // Local state variables
-  const [eventName, setEventName] = useState("");
-  const [eventPurpose, setEventPurpose] = useState("");
-  const [eventOrganizer, setEventOrganizer] = useState("");
-  const [eventFacilitator, setEventFacilitator] = useState("");
-  const [eventAddress, setEventAddress] = useState("");
-  const [eventDate, setEventDate] = useState("");
+  // Local state for event data
+  const [formData, setFormData] = useState({
+    eventName: "",
+    eventPurpose: "",
+    eventOrganizer: "",
+    eventFacilitator: "",
+    eventAddress: "",
+    eventDate: "",
+  });
 
-  // Function to update login user data
-  const updateData = (event) => {
-    switch (event.target.name) {
-      case "eventName":
-        setEventName(event.target.value);
-        break;
-      case "eventPurpose":
-        setEventPurpose(event.target.value);
-        break;
-      case "eventOrganizer":
-        setEventOrganizer(event.target.value);
-        break;
-      case "eventFacilitator":
-        setEventFacilitator(event.target.value);
-        break;
-      case "eventAddress":
-        setEventAddress(event.target.value);
-        break;
-      case "eventDate":
-        setEventDate(event.target.value);
-        break;
-      default:
-        break;
-    }
+  const {
+    eventName,
+    eventPurpose,
+    eventOrganizer,
+    eventFacilitator,
+    eventAddress,
+    eventDate,
+  } = formData;
+
+  // Handle form field changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  // Reset all state variables for the login form
-  const reset = () => {
-    setEventName("");
-    setEventPurpose("");
-    setEventOrganizer("");
-    setEventFacilitator("");
-    setEventAddress("");
-    setEventDate("");
+  // Reset form after submission
+  const resetForm = () => {
+    setFormData({
+      eventName: "",
+      eventPurpose: "",
+      eventOrganizer: "",
+      eventFacilitator: "",
+      eventAddress: "",
+      eventDate: "",
+    });
   };
 
-  // handle submit
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    dispatch(eventPostStart());
     try {
-      dispatch(eventPostStart);
-      // body
-      const newEvent = {
-        eventName: eventName,
-        eventPurpose: eventPurpose,
-        eventOrganizer: eventOrganizer,
-        eventFacilitator: eventFacilitator,
-        eventAddress: eventAddress,
-        eventDate: eventDate,
-      };
-      const { data } = await axios.post(`${API}/events/new-event`, newEvent);
+      const { data } = await axios.post(`${API}/events/new-event`, formData, {
+        withCredentials: true,
+      });
 
       dispatch(eventPostSuccess(data.event));
-      toast.success(data.message);
-
-      reset();
-    } catch (error) {
-      dispatch(eventPostFailure(error.response.data.message));
+      toast.success("Event created successfully.");
+      resetForm();
+    } catch (err) {
+      const errorMessage =
+        err.response?.data?.message || "Failed to create event";
+      dispatch(eventPostFailure(errorMessage));
+      toast.error(errorMessage);
     }
   };
 
   return (
     <section className="events-section-wrapper">
-      <h3 className="events-section-title"> General Events</h3>
-      <fieldset className="event--fieldset">
-        <legend className="event-legend">Add Events</legend>
+      <h3 className="events-section-title">General Events</h3>
 
-        <form onSubmit={handleSubmit} action="" className="event-form">
+      <fieldset className="event--fieldset">
+        <legend className="event-legend">Add Event</legend>
+
+        <form onSubmit={handleSubmit} className="event-form">
           <div className="inputs-wrapper">
             {/* Event Name */}
             <div className="input-container">
@@ -104,36 +93,15 @@ const Events = () => {
               <input
                 type="text"
                 name="eventName"
-                id="eventName"
                 value={eventName}
-                onChange={updateData}
+                onChange={handleInputChange}
                 placeholder="Enter Event Name"
                 className="input-field"
+                required
               />
-
               <label htmlFor="eventName" className="input-label">
                 Event Name
               </label>
-            </div>
-
-            {/* Event Purpose */}
-            <div className="input-container">
-              <RiLockPasswordFill className="input-icon" />
-              <input
-                type="text"
-                name="eventPurpose"
-                id="eventPurpose"
-                value={eventPurpose}
-                onChange={updateData}
-                placeholder="Enter Event Purpose"
-                className="input-field"
-              />
-
-              <label htmlFor="eventPurpose" className="input-label">
-                Event Purpose
-              </label>
-
-              <span className="input-highlight"></span>
             </div>
 
             {/* Event Organizer */}
@@ -142,18 +110,15 @@ const Events = () => {
               <input
                 type="text"
                 name="eventOrganizer"
-                id="eventOrganizer"
                 value={eventOrganizer}
-                onChange={updateData}
+                onChange={handleInputChange}
                 placeholder="Enter Event Organizer"
                 className="input-field"
+                required
               />
-
               <label htmlFor="eventOrganizer" className="input-label">
                 Event Organizer
               </label>
-
-              <span className="input-highlight"></span>
             </div>
 
             {/* Event Facilitator */}
@@ -162,38 +127,34 @@ const Events = () => {
               <input
                 type="text"
                 name="eventFacilitator"
-                id="eventFacilitator"
                 value={eventFacilitator}
-                onChange={updateData}
+                onChange={handleInputChange}
                 placeholder="Enter Event Facilitator"
                 className="input-field"
+                required
               />
-
               <label htmlFor="eventFacilitator" className="input-label">
                 Event Facilitator
               </label>
-
-              <span className="input-highlight"></span>
             </div>
+          </div>
 
+          <div className="event-address-and-date">
             {/* Event Address */}
             <div className="input-container">
               <FaUserAlt className="input-icon" />
               <input
                 type="text"
                 name="eventAddress"
-                id="eventAddress"
                 value={eventAddress}
-                onChange={updateData}
+                onChange={handleInputChange}
                 placeholder="Enter Event Address"
                 className="input-field"
+                required
               />
-
               <label htmlFor="eventAddress" className="input-label">
                 Event Address
               </label>
-
-              <span className="input-highlight"></span>
             </div>
 
             {/* Event Date */}
@@ -202,37 +163,38 @@ const Events = () => {
               <input
                 type="date"
                 name="eventDate"
-                id="eventDate"
                 value={eventDate}
-                onChange={updateData}
-                placeholder="Enter Title"
+                onChange={handleInputChange}
                 className="input-field"
+                required
               />
-
               <label htmlFor="eventDate" className="input-label">
                 Event Date
               </label>
-
-              <span className="input-highlight"></span>
             </div>
           </div>
 
-          {/* User Consent */}
-          <div className="input-consent">
-            <input
-              type="checkbox"
-              name="agree"
-              id="agree"
-              className="consent-checkbox"
+          {/* Event Purpose */}
+          <div className="input-container">
+            <RiLockPasswordFill className="input-icon" />
+            <textarea
+              name="eventPurpose"
+              value={eventPurpose}
+              onChange={handleInputChange}
+              placeholder="Describe the purpose of the event"
+              className="input-field textarea-field"
+              rows="6"
+              required
             />
-            <label htmlFor="agree" className="accept">
-              I accept
+            <label htmlFor="eventPurpose" className="input-label">
+              Event Purpose
             </label>
-
-            <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
           </div>
 
-          <button className="add-event-btn">Send</button>
+          {/* Submit Button */}
+          <button className="add-event-btn" type="submit">
+            Create Event
+          </button>
         </form>
       </fieldset>
     </section>

@@ -58,7 +58,7 @@ const Bishops = () => {
             >
               {index === currentSlide && (
                 <>
-                  <figure className="image-container">
+                  <figure className="bishop-image-container">
                     <img className="photo" src={photo} alt={shepherd.name} />
                   </figure>
 

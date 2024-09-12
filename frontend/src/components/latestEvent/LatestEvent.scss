@@ -1,0 +1,45 @@
+@import "../../styles/Variables.scss";
+@import "../../styles/Mixins.scss";
+
+.latest-event-container {
+  margin-top: 2rem;
+
+  .latest-event-title {
+    @include subTitle;
+    font-size: $aafs;
+  }
+
+  .event-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    .event-description {
+      flex: 5;
+      @include shadow1;
+      .event-name {
+        @include subTitle;
+        font-size: $afs;
+      }
+      .event-purpose {
+        @include paragraph;
+        font-size: $nfs;
+      }
+    }
+
+    .event-management {
+      flex: 1;
+      @include shadow1;
+      background-color: $section-bg;
+      @include flexColumn;
+      font-size: $nfs;
+      height: fit-content;
+      margin-top: 2rem;
+
+      & strong {
+        color: $gray;
+        font-size: $sfs;
+      }
+    }
+  }
+}
