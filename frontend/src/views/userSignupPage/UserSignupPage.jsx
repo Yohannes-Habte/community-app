@@ -1,4 +1,5 @@
 import Register from "../../components/forms/registerForm/Register";
+import Footer from "../../components/layout/footer/Footer";
 import "./UserSignupPage.scss";
 import { Helmet } from "react-helmet-async";
 
@@ -15,6 +16,8 @@ const UserSignupPage = () => {
 
         <Register signUp={"sign Up"} />
       </section>
+
+      <Footer />
     </main>
   );
 };

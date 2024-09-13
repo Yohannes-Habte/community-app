@@ -2,8 +2,8 @@ import "./ContactPage.scss";
 import { Helmet } from "react-helmet-async";
 import ContactTools from "../../components/contact/contactPageTools/ContactTools";
 import ContactForm from "../../components/contact/contactPageForm/ContactForm";
-import Header from "../../components/user/layout/header/Header";
-
+import Header from "../../components/layout/header/Header";
+import Footer from "../../components/layout/footer/Footer";
 
 const ContactPage = () => {
   return (
@@ -21,7 +21,7 @@ const ContactPage = () => {
           <ContactForm />
         </div>
       </section>
-   
+      <Footer />
     </main>
   );
 };

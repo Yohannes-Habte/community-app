@@ -1,12 +1,12 @@
-@import '../../../../styles/Variables.scss';
-@import '../../../../styles/Mixins.scss';
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
 
 .header {
   width: 100%;
   height: 12rem;
   display: flex;
   flex-direction: column;
-  background-image: url('../../../../assets/church.jpg');
+  background-image: url('../../../assets/church.jpg');
   background-attachment: fixed;
   background-size: cover;
   position: relative;

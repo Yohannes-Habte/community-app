@@ -22,28 +22,21 @@ const Subscribe = () => {
   };
 
   return (
-    <section className="subscription-form-container">
-      <figure className="subscription-image">
-        <img src={`./assets/subscribe.jpg`} alt="Subscribe" />
-      </figure>
-      <form className="subscription-form" onSubmit={handleSubmit}>
-        <h3>Subscribe Now</h3>
+    <form className="subscription-form" onSubmit={handleSubmit}>
+      <h3 className="subscription-title">Subscribe Now</h3>
+      <div className="input-container">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          className="input-field"
+        />
+      </div>
 
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-
-        <button type="submit">Subscribe</button>
-      </form>
+      <button type="submit" className="subscription-btn">Subscribe</button>
       {message && <p>{message}</p>}
-    </section>
+    </form>
   );
 };
 

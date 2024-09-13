@@ -1,5 +1,6 @@
 import UpdateService from "../../../components/forms/updateService/UpdateService";
-import Header from "../../../components/user/layout/header/Header";
+import Footer from "../../../components/layout/footer/Footer";
+import Header from "../../../components/layout/header/Header";
 import "./UpdateServicePage.scss";
 
 const UpdateServicePage = () => {
@@ -7,9 +8,11 @@ const UpdateServicePage = () => {
     <main className="service-update-page">
       <Header />
       <section className="service-update-page-container">
-      <h1 className="service-update-title"> Update Service </h1>
+        <h1 className="service-update-title"> Update Service </h1>
         <UpdateService />
       </section>
+
+      <Footer />
     </main>
   );
 };

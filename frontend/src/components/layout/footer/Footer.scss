@@ -1,0 +1,40 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.footer-container {
+  background-color: $footer-bg;
+
+  .footer-details-wrapper {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    column-gap: 1rem;
+    padding: 2rem;
+
+    .footer-direction {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 1rem;
+
+      .footer-ul {
+        @include flexColumn;
+
+        .footer-ul-li {
+          font-size: $nfs;
+          .footer-ul-li-link {
+            color: $white;
+            transition: color 0.3s;
+
+            &:hover {
+              color: $red;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .copyright {
+    background-color: $copyright-bg;
+    padding: 2rem;
+  }
+}

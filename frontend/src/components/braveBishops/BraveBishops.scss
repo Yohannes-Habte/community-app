@@ -5,6 +5,7 @@
   margin-top: 2rem;
   .sub-title {
     @include subTitle;
+    font-size: $aafs;
   }
 
   .image-container {

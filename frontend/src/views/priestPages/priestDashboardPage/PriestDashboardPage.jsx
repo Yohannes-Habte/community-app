@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './PriestDashboardPage.scss';
 import PriestDashboardHeader from '../../../components/parishPriest/layout/priestHeader/PriestDashboardHeader';
 import PriestDashboardSidebar from '../../../components/parishPriest/layout/priestSidebar/PriestDashboardSidebar';
 import PriestDashboardOverview from '../../../components/parishPriest/priestDashboardOverview/PriestDashboardOverview';
+import Footer from '../../../components/layout/footer/Footer';
 
 const PriestDashboardPage = () => {
   const [active, setActive] = useState(1);
@@ -21,7 +22,7 @@ const PriestDashboardPage = () => {
           <PriestDashboardOverview active={active} />
         </div>
       </section>
-      
+      <Footer />  
     </main>
   );
 };

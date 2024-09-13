@@ -1,11 +1,10 @@
 import "./HomePage.scss";
 import Bishops from "../../components/bishopsSlider/Bishops";
-import Header from "../../components/user/layout/header/Header";
-import Subscribe from "../../components/forms/subscribe/Subscribe";
 import PopularServices from "../../components/services/popularServices/PopularServices";
 import BraveBishops from "../../components/braveBishops/BraveBishops";
 import LatestEvent from "../../components/latestEvent/LatestEvent";
-
+import Header from "../../components/layout/header/Header";
+import Footer from "../../components/layout/footer/Footer";
 
 const HomePage = () => {
   return (
@@ -23,7 +22,7 @@ const HomePage = () => {
         <LatestEvent />
       </section>
 
-      <Subscribe />
+      <Footer />
     </main>
   );
 };

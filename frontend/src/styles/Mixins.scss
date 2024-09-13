@@ -213,6 +213,21 @@
   }
 }
 
+@mixin button3 {
+  width: 100%;
+  padding: 10px 20px;
+  border: none;
+  background-color: $button-bg;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: $button-hover;
+  }
+}
+
 @mixin googleButton {
   width: 100%;
   background-color: $google-button-bg;

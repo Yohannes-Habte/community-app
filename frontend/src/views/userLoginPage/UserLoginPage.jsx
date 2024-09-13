@@ -18,6 +18,7 @@ import { API } from "../../utiles/securitiy/secreteKey";
 import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
 import axios from "axios";
 import Cookies from "js-cookie"; // A popular library to handle cookies in JavaScript
+import Footer from "../../components/layout/footer/Footer";
 
 const initialState = {
   email: "",
@@ -227,6 +228,8 @@ const UserLoginPage = () => {
           {error ? <p className="error-message"> {error} </p> : null}
         </form>
       </section>
+
+      <Footer />
     </main>
   );
 };

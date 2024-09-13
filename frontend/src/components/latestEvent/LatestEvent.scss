@@ -18,7 +18,6 @@
       flex: 5;
       @include shadow1;
       .event-name {
-        @include subTitle;
         font-size: $afs;
       }
       .event-purpose {

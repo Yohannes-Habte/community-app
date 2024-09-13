@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './AdminDashboardPage.scss';
 import AdminHeader from '../../../components/parishAdmin/layout/adminHeader/AdminHeader';
 import AdminSidebar from '../../../components/parishAdmin/layout/adminSidebar/AdminSidebar';
 import AdminDashboarView from '../../../components/parishAdmin/layout/adminDashboardView/AdminDashboarView';
+import Footer from '../../../components/layout/footer/Footer';
 
 const AdminDashboardPage = () => {
   const [isActive, setIsActive] = useState(1);
@@ -18,6 +19,7 @@ const AdminDashboardPage = () => {
           <AdminDashboarView isActive={isActive} />
         </div>
       </section>
+      <Footer />  
     </main>
   );
 };

@@ -1,6 +1,5 @@
-import React from 'react';
-import UserProfileSidebar from '../../../components/user/userProfileSidebar/UserProfileSidebar';
-import ServiceRequest from '../../../components/user/serviceRequest/ServiceRequest';
+import UserProfileSidebar from "../../../components/user/userProfileSidebar/UserProfileSidebar";
+import ServiceRequest from "../../../components/user/serviceRequest/ServiceRequest";
 
 const ServiceRequestPage = () => {
   return (
