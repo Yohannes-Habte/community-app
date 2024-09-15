@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FaUserAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill, RiAdminFill } from "react-icons/ri";
@@ -15,7 +15,7 @@ import "./Events.scss";
 
 const Events = () => {
   // Redux state and dispatch
-  const { error } = useSelector((state) => state.event);
+  // const { error } = useSelector((state) => state.event);
   const dispatch = useDispatch();
 
   // Local state for event data

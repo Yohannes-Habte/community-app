@@ -1,0 +1,26 @@
+@import "../../styles/Variables.scss";
+@import "../../styles/Mixins.scss";
+
+.login-page {
+
+  .login-page-container {
+    min-height: 100vh;
+    width: 50%;
+    margin: 2rem auto;
+    
+  
+
+    .login-page-title {
+      @include title;
+    }
+
+    .error-message {
+      @include errorMessage;
+    }
+
+    .login-icon-container {
+      width: 12%;
+      margin: auto;
+    }
+  }
+}

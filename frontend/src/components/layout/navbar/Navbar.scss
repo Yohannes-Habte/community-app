@@ -18,6 +18,7 @@
   // navigation bar
   .navbar-items {
     @include flexRow;
+    gap: 2rem ;
 
     .navbar-item {
       .active-navbar-item {

@@ -5,7 +5,7 @@
 // =====================================================================================
 @mixin title {
   text-align: center;
-  color: $green;
+  color: $black;
   font-size: $aafs;
   font-weight: $aafw;
   padding: 1rem 0;
@@ -82,7 +82,7 @@
 
 @mixin inputField {
   width: 100%;
-  padding: 10px 40px;
+  padding: 0.7rem 1.8rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
   outline: none;
@@ -91,7 +91,6 @@
 
   &:focus {
     border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
   }
 
   &.input-field[type="date"] {
@@ -107,7 +106,7 @@
 }
 
 @mixin focusInputFieldAndInputLabel {
-  top: 0;
+  top: -1rem;
   font-size: $sfs;
   color: $gray;
 }
@@ -124,7 +123,7 @@
 
 @mixin inputIcon {
   position: absolute;
-  top: 0.5rem;
+  top: 0.7rem;
   left: 0.5rem;
   font-size: $nfs;
   color: $iconColor;
@@ -142,7 +141,8 @@
 @mixin display {
   display: flex;
   flex-direction: row;
-  gap: 0.3rem;
+  align-items: center;
+  gap: 0.4rem;
 }
 // ==============================================================================================
 // Button styling

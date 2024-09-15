@@ -1,15 +1,17 @@
 @import "../../styles/Variables.scss";
 @import "../../styles/Mixins.scss";
 
-/* Labtop screen size */
+/* Laptop screen size */
 @media screen and (min-width: 1024px) {
   .register-page {
     .register-container {
-      width: 70%;
-      margin: auto;
+      width: 50%;
+      margin: 1rem auto 3rem;
+      padding: 0 2rem;
 
-      .user-signup-title {
+      .user-register-title {
         @include title;
+        margin-bottom: 0;
       }
     }
   }

@@ -18,12 +18,6 @@ const Navbar = () => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     console.log("currentUser after fetch =", currentUser);
-  //   }
-  // }, [currentUser]);
-
   // Handle logout
   const handleLogout = async () => {
     await signOut(); // This will trigger the logout process
@@ -61,7 +55,7 @@ const Navbar = () => {
 
         <li className="navbar-item">
           <NavLink to={"/reports"} className={navbarNavLink}>
-            Reports
+            News
           </NavLink>
         </li>
 

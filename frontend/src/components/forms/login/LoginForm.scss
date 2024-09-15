@@ -1,0 +1,93 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.login-form {
+  @include flexColumn;
+  background-color: $form-bg;
+  @include shadow1;
+  padding: 2rem;
+
+  .input-container {
+    @include inputContainer;
+
+    .input-field {
+      @include inputField;
+
+      &::placeholder {
+        color: $gray;
+      }
+    }
+
+    .input-label {
+      @include inputLabel;
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      @include focusInputFieldAndInputLabel;
+    }
+
+    .input-field:focus + .input-label + .input-highlight {
+      width: 100%;
+    }
+
+    .icon {
+      @include inputIcon;
+    }
+
+    // displaying password
+    .password-display {
+      @include passwordDisplay;
+    }
+  }
+
+  .show-password-container {
+    @include display;
+
+    .show-password-checkbox {
+      width: $sfs;
+      height: $sfs;
+    }
+  }
+
+  .login-checkbox-forgot-password {
+    @include flexSpaceBetween;
+
+    .login-checkbox-keep-signed-in {
+        @include display;
+
+      .login-checkbox {
+        width: $sfs;
+        height: $sfs;
+      }
+    }
+
+    .forgot-password {
+      margin-top: 1rem;
+      font-size: $nfs;
+      color: $blue;
+    }
+  }
+
+  .login-button {
+    @include button1;
+
+    .loading {
+      @include loader;
+    }
+  }
+
+  .have-no-account {
+    font-size: $nfs;
+    margin-top: 1rem;
+
+    .sign-up {
+      font-weight: bold;
+      color: $blue;
+      padding-left: 0.5rem;
+    }
+  }
+}

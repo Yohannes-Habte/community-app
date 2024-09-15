@@ -2,8 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import UserSignupPage from "./views/userSignupPage/UserSignupPage";
-import UserLoginPage from "./views/userLoginPage/UserLoginPage";
 import AboutPage from "./views/aboutPage/AboutPage";
 import ContactPage from "./views/contactPage/ContactPage";
 import ReportsPage from "./views/reportPage/ReportsPage";
@@ -21,6 +19,8 @@ import { useEffect } from "react";
 import FinanceManagerPage from "./views/financePages/financeManagerPage/FinanceManagerPage";
 import { fetchUser } from "./redux/actions/user/userAction";
 import UpdateServicePage from "./views/priestPages/updateServicePage/UpdateServicePage";
+import LoginPage from "./views/loginPage/LoginPage";
+import RegisterPage from "./views/registerPage/RegisterPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,8 +36,8 @@ const App = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/reports" element={<ReportsPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/signup" element={<UserSignupPage />} />
-        <Route path="/login" element={<UserLoginPage />} />
+        <Route path="/signup" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to={"/"} />} />
 
         {/* User pages */}

@@ -14,8 +14,9 @@
   }
 
   .register-form {
+    background-color: $form-bg;
     @include shadow1;
-    padding: 2rem;
+    padding: 1rem 2rem;
 
     .register-input-fields-container {
       @include twoGridTemplateEqualColumns;
@@ -53,36 +54,27 @@
       }
     }
 
-    .show-password-container {
-      @include display;
-      margin: 1rem 0;
-
-      .show-password-checkbox {
-        width: $sfs;
-      }
-    }
-
-    .consent-and-others-container {
+    .consent-and-password-conditions-container {
       @include twoGridTemplateEqualColumns;
 
-      .consent-terms-button-login-container {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+      .show-password-consent-terms-button-have-account-container {
+        @include flexColumn;
+
+        .show-password-container {
+          @include display;
+
+          .show-password-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+        }
 
         .register-consent {
-          display: flex;
-          flex-direction: row;
-          margin-bottom: 1rem;
+          @include display;
 
           .register-consent-input {
-            margin-right: 0.3rem;
-          }
-
-          // styling the checkbox
-          .register-consent-input[type="checkbox"] {
-            width: 30px;
-            height: 20px;
+            width: $sfs;
+            height: $sfs;
           }
 
           .accept {
@@ -94,45 +86,57 @@
             color: $blue;
             padding-left: 0.5rem;
           }
+
+          .have-account {
+            font-size: $sfs;
+            margin-top: 1.5rem;
+
+            .login-link {
+              font-weight: bold;
+              font-size: $afs;
+              color: $blue;
+              margin-left: 0.5rem;
+            }
+          }
         }
 
         .register-button {
-          @include button1;
+          @include button3;
 
           .loading {
             @include loader;
           }
         }
 
-        .error-message {
-          @include errorMessage;
-        }
-
-        .haveAccount {
+        .have-account {
+          @include flexRow;
           font-size: $nfs;
-          margin-top: 1.5rem;
 
           .login-link {
             font-weight: bold;
-            font-size: $afs;
+            font-size: $nfs;
             color: $blue;
           }
         }
+
+        .error-message {
+          @include errorMessage;
+        }
       }
 
-      .password-preconditions {
+      .password-conditions {
         display: block;
+        background-color: transparent;
+        @include shadow1;
+        padding: 0;
 
-        .password-checkbox {
-          background-color: transparent;
-          @include shadow2;
-          padding: 1rem;
-          border-radius: 0.5rem;
+        .password-condition-title {
+          font-size: $nfs;
+        }
 
-          .text {
-            line-height: $aafs;
-            font-size: $nfs;
-          }
+        .text {
+          line-height: $aafs;
+          font-size: $sfs;
         }
       }
     }

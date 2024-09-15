@@ -4,7 +4,7 @@
 .parish-priest-dashboard-sidebar-wrapper {
   width: 16%;
   min-height: 100vh;
-  background-color: $priestSidebar-bg;
+  background-color: $sidebar-bg;
 
   .parish-priest-dashboard-sidebar-title {
     @include subTitle;
@@ -17,7 +17,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $priestSidebar-hover;
+      background-color: $sidebar-hover;
     }
 
     .active-icon {

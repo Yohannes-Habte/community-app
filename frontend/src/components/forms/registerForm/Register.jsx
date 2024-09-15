@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Register.scss";
 import {
@@ -191,7 +191,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
 
       // Set token in cookies
       const token = data.token;
-      console.log("register from Register= ",token)
+      console.log("register from Register= ", token);
       Cookies.set("token", token, {
         expires: 1,
         secure: true,
@@ -461,7 +461,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                       className="register-consent-input"
                     />
                     <span className="accept">I accept</span>
-                    <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
+                    <Link className={"terms-of-user"}> Terms of Use</Link>
                   </div>
 
                   <button className="register-button" disabled={loading}>
@@ -476,9 +476,9 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                   {error ? <p className="error-message"> {error} </p> : null}
                   <p className="haveAccount">
                     Already have an account?
-                    <NavLink className="login-link" to="/login">
+                    <Link className="login-link" to="/login">
                       Log In
-                    </NavLink>
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -712,20 +712,20 @@ const Register = ({ signUp, addMember, setAddUser }) => {
             </div>
           </div>
 
-          <div className="show-password-container">
-            <input
-              type="checkbox"
-              id="showPassword"
-              name="showPassword"
-              checked={showPassword}
-              onChange={changeHandler}
-              className="show-password-checkbox"
-            />
-            <label htmlFor="showPassword">Show Password</label>
-          </div>
+          <div className="consent-and-password-conditions-container">
+            <div className="show-password-consent-terms-button-have-account-container">
+              <div className="show-password-container">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  name="showPassword"
+                  checked={showPassword}
+                  onChange={changeHandler}
+                  className="show-password-checkbox"
+                />
+                <label htmlFor="showPassword">Show Password</label>
+              </div>
 
-          <div className="consent-and-others-container">
-            <div className="consent-terms-button-login-container">
               <div className="register-consent">
                 <input
                   type="checkbox"
@@ -735,7 +735,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                   className="register-consent-input"
                 />
                 <span className="accept">I accept</span>
-                <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
+                <Link className={"terms-of-user"}> Terms of Use</Link>
               </div>
 
               <button className="register-button" disabled={loading}>
@@ -747,34 +747,34 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                   "Sign Up"
                 )}
               </button>
-              {error ? <p className="error-message"> {error} </p> : null}
-              <p className="haveAccount">
+
+              <p className="have-account">
                 Already have an account?
-                <NavLink className="login-link" to="/login">
+                <Link className="login-link" to="/login">
                   Log In
-                </NavLink>
+                </Link>
               </p>
+
+              {error ? <p className="error-message"> {error} </p> : null}
             </div>
 
-            <div className="password-preconditions">
-              <aside className="password-checkbox">
-                <h3>Checking Password Confirmation</h3>
-                <p className="text">
-                  {switchIcon(letterCase)} &nbsp; Lowercase & UpperCase
-                </p>
+            <aside className="password-conditions">
+              <h3 className="password-condition-title">Checking Password Confirmation</h3>
+              <p className="text">
+                {switchIcon(letterCase)} &nbsp; Lowercase & UpperCase
+              </p>
 
-                <p className="text">{switchIcon(number)} &nbsp; Number (0-9)</p>
+              <p className="text">{switchIcon(number)} &nbsp; Number (0-9)</p>
 
-                <p className="text">
-                  {switchIcon(specialCharacter)} &nbsp; Spceial Character
-                  (!%@#^*?_~)
-                </p>
+              <p className="text">
+                {switchIcon(specialCharacter)} &nbsp; Spceial Character
+                (!%@#^*?_~)
+              </p>
 
-                <p className="text">
-                  {switchIcon(passwordLength)} &nbsp; Minimum 8 Characters
-                </p>
-              </aside>
-            </div>
+              <p className="text">
+                {switchIcon(passwordLength)} &nbsp; Minimum 8 Characters
+              </p>
+            </aside>
           </div>
         </form>
       )}

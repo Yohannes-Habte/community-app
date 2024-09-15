@@ -188,14 +188,28 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         </h4>
       </aside>
 
-      <aside className="admin-dashboard-sidebar-item">
-        <IoMdLogOut
-          title="Log Out"
+      <aside
+        onClick={() => setIsActive(12)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
           className={isActive === 12 ? "active-icon" : "passive-icon"}
         />
 
+        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
+          Masses
+        </h4>
+      </aside>
+
+      <aside className="admin-dashboard-sidebar-item">
+        <IoMdLogOut
+          title="Log Out"
+          className={isActive === 13 ? "active-icon" : "passive-icon"}
+        />
+
         <h4>
-          <Link to={"/login"} onClick={handleLogout}>
+          <Link to={"/"} onClick={handleLogout}>
             Log Out
           </Link>
         </h4>

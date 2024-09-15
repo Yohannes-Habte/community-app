@@ -34,12 +34,12 @@ export const ContactData = [
   },
   {
     image: <FiPhoneCall className="contact-icon" />,
-    heading: "Phone Number",
+    heading: "Call Us",
     link: <a href="tel:+4917581005650"> +491768686868</a>,
   },
   {
     image: <MdEmail className="contact-icon" />,
-    heading: "Email Address",
+    heading: "Email Us",
     link: <a href="mailto:uelandrae@gmail.com"> Email </a>,
   },
 ];

@@ -1,0 +1,125 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.form-mass-container {
+  background-color: $form-bg;
+  width: $laptop;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  border-radius: $radius;
+
+  .mass-form-title {
+    @include subTitle;
+    text-align: center;
+  }
+}
+
+.mass-form {
+  .inputs-wrapper {
+    @include twoGridTemplateEqualColumns;
+  }
+
+  .input-container {
+    @include inputContainer;
+
+    .input-icon {
+      @include inputIcon;
+    }
+
+    .input-field {
+      @include inputField;
+    }
+
+    .input-label {
+      @include inputLabel;
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      @include focusInputFieldAndInputLabel;
+    }
+
+    .input-field:focus + .input-label + .input-highlight {
+      width: 100%;
+    }
+  }
+
+  .fieldset-container {
+    margin-top: 1rem;
+    .fieldset {
+      grid-column: span 2;
+      border: none;
+      margin-bottom: 1rem;
+
+      legend {
+        font-weight: bold;
+        font-size: $nfs;
+      }
+
+      .input-container {
+        @include inputContainer;
+        margin-top: 1rem;
+
+        .input-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .input-textarea-container {
+    @include inputContainer;
+    margin-bottom: 1rem;
+
+    .input-icon {
+      @include inputIcon;
+    }
+
+    .input-field {
+      @include inputField;
+    }
+
+    .input-label {
+      @include inputLabel;
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      @include focusInputFieldAndInputLabel;
+    }
+
+    .input-field:focus + .input-label + .input-highlight {
+      width: 100%;
+    }
+  }
+
+  .create-mass-btn {
+    @include button3;
+  }
+}

@@ -5,7 +5,7 @@
   .financial-manager-container {
     .financial-manager-title {
       @include title;
-      background-color: $priestSidebar-bg;
+      background-color: $sidebar-bg;
     }
 
     .financial-manager-contents {

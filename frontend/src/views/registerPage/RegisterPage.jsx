@@ -1,10 +1,9 @@
 import Register from "../../components/forms/registerForm/Register";
 import Footer from "../../components/layout/footer/Footer";
-import "./UserSignupPage.scss";
+import "./RegisterPage.scss";
 import { Helmet } from "react-helmet-async";
 
-const UserSignupPage = () => {
-  
+const RegisterPage = () => {
   return (
     <main className="register-page">
       <Helmet>
@@ -12,7 +11,7 @@ const UserSignupPage = () => {
       </Helmet>
 
       <section className="register-container">
-        <h1 className="user-signup-title"> Create an Account for Free</h1>
+        <h1 className="user-register-title"> Create an Account for Free</h1>
 
         <Register signUp={"sign Up"} />
       </section>
@@ -22,4 +21,4 @@ const UserSignupPage = () => {
   );
 };
 
-export default UserSignupPage;
+export default RegisterPage;

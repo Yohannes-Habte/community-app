@@ -3,8 +3,9 @@
 
 .committee-members-wrapper {
   width: $laptop;
-  margin: 1rem auto;
+  margin: 2rem auto;
   @include shadow2;
+  background-color: $form-bg ;
 
   .committee-members-title {
     @include subTitle;

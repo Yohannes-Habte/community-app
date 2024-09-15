@@ -95,7 +95,7 @@ const ContactForm = () => {
             rows="10"
             value={message}
             onChange={handleChange}
-            placeholder="We Value Your Message"
+            placeholder="Enter Text Message Here ..."
             className="input-field"
           />
 

@@ -3,7 +3,9 @@
 
 .subscribers-notification-wrapper {
   width: $laptop;
-  margin: 1rem auto;
+  margin: 2rem auto;
+  background-color: $form-bg;
+  padding: 1rem 2rem;
 
   .subscribers-notification-title {
     @include subTitle;
