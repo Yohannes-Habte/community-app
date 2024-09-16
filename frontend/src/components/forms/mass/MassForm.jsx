@@ -19,12 +19,12 @@ import { API } from "../../../utiles/securitiy/secreteKey";
 
 const initialState = {
   date: "",
-  time: "11:30",
-  type: "Sunday",
-  officiant: "",
+  time: "11:00",
+  type: "Saturday",
+  officiant: "Fr. Siyum Zera Ghiorghis",
   participants: 100,
-  confession: "",
-  preMassPrayer: "",
+  confession: "Confession at 11:00 AM",
+  preMassPrayer: "Rosary 11:00 AM",
   massStatus: "upcoming",
   readings: {
     firstReading: "",
@@ -33,14 +33,15 @@ const initialState = {
     gospel: "",
   },
   location: {
-    name: "",
-    address: "",
+    name: "St. Mary's Catholic Church",
+    address: "Bei Der Reitbahn 3, 22763 Hamburg, Germany",
     coordinates: {
-      latitude: "",
-      longitude: "",
+      latitude: "53.551320",
+      longitude: "9.925270",
     },
   },
-  description: "",
+  description:
+    "A regular Mass service in the Eritrean Roman Catholic Church typically begins with an opening prayer, followed by the Penitential Act, where the congregation participates in a moment of confession and seeks God's mercy and forgiveness. This is often accompanied by the recitation or singing of a psalm, aligning with the liturgical calendar and timetable of the parish. The service then progresses to the Liturgy of the Word, featuring Scripture readings, a responsorial psalm, and a homily, which provides spiritual insight and guidance. Depending on the specific needs and spiritual growth objectives of the parishioners, additional elements such as catechesis or spiritual reflections may be incorporated into the service. The Liturgy of the Eucharist follows, where bread and wine are consecrated and the faithful receive Holy Communion, experiencing a profound union with Christ. The Mass concludes with a closing prayer and blessing, inspiring the congregation to continue their spiritual development and live out their faith in daily life.",
 };
 
 const MassForm = () => {

@@ -1,4 +1,5 @@
 import Mass from "../../models/mass/index.js";
+import createError from "http-errors";
 
 // ================================================================================================
 // Controller to create a new Mass
@@ -19,6 +20,28 @@ export const createMass = async (req, res) => {
       description,
     } = req.body;
 
+    // Extract the month and year from the provided date
+    const massDate = new Date(date);
+    const month = massDate.getMonth();
+    const year = massDate.getFullYear();
+
+    // Check if a Mass already exists for the same month and year
+    const existingMass = await Mass.findOne({
+      date: {
+        $gte: new Date(year, month, 1), // First day of the month
+        $lt: new Date(year, month + 1, 1), // First day of the next month
+      },
+    });
+
+    if (existingMass) {
+      return res.status(400).json({
+        success: false,
+        message: `A Mass for ${massDate.toLocaleString("default", {
+          month: "long",
+        })} ${year} has already been created.`,
+      });
+    }
+
     // Create a new Mass document
     const newMass = new Mass({
       date,
@@ -37,23 +60,30 @@ export const createMass = async (req, res) => {
     // Save the Mass document to the database
     await newMass.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "Mass created successfully" });
+    res.status(201).json({
+      success: true,
+      message: "Mass created successfully",
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to create Mass", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to create Mass",
+      error: error.message,
+    });
   }
 };
 
 // ================================================================================================
 // Controller to get a list of all Masses
 // ================================================================================================
-export const getAllMasses = async (req, res) => {
+export const getAllMasses = async (req, res, next) => {
   try {
     const masses = await Mass.find().sort({ date: 1 }); // Sort by date ascending
-    res.status(200).json(masses);
+
+    if (!masses) {
+      next(createError(404, "No Masses found"));
+    }
+    res.status(200).json({ success: true, result: masses });
   } catch (error) {
     res
       .status(500)

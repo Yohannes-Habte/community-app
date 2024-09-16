@@ -26,7 +26,7 @@ const massSchema = new Schema(
         "Feast Day",
         "Special Occasion",
       ],
-      default: "Sunday",
+      default: "Saturday",
       required: true,
     },
 

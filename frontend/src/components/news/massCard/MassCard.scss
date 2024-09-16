@@ -1,0 +1,35 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.mass-card-container {
+  @include shadow1;
+  background-color: $form-bg;
+
+  .mass-card-title {
+    @include subTitle;
+  }
+
+  .mass-details-wrapper {
+    @include threeGridTemplateEqualColumns;
+
+    .detail-box {
+      span {
+        color: $blue;
+        text-decoration: underline;
+        font-size: 0.6rem;
+      }
+      .mass-card-subtitle {
+        font-size: $sfs;
+      }
+
+      .mass-card-info {
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  .mass-description {
+    @include paragraph;
+    font-size: $sfs;
+  }
+}

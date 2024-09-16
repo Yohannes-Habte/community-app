@@ -1,29 +1,19 @@
 import "./ReportsPage.scss";
 import Header from "../../components/layout/header/Header";
 import Footer from "../../components/layout/footer/Footer";
+import MassList from "../../components/news/masses/MassList";
+import LatestEvent from "../../components/latestEvent/LatestEvent";
 
 const ReportsPage = () => {
   return (
     <main className="report-page">
       <Header />
       <section className="report-page-container">
-        <h1 className="report-title"> Annual Reports </h1>
+        <h1 className="report-title">Current Status Report</h1>
 
-        <article className="finance-report">
-          <h2 className="title">Financial Report for the Year 2022 and 2023</h2>
-        </article>
+        <MassList />
 
-        <article className="other-report">
-          <h2 className="title">
-            Sacrament Service Report for the Year 2022 and 2023
-          </h2>
-        </article>
-
-        <article className="other-report">
-          <h2 className="title">
-            Prayer Service Report for the Year 2022 and 2023
-          </h2>
-        </article>
+        <LatestEvent />
       </section>
 
       <Footer />

@@ -23,8 +23,8 @@
 // Paragraph
 // =====================================================================================
 @mixin paragraph {
-  font-size: $afs;
-  line-height: 2rem;
+  font-size: $nfs;
+  line-height: 1.5rem;
   padding: $textPadding;
 }
 
