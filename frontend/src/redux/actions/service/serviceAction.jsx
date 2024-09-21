@@ -59,7 +59,7 @@ export const deleteService = (id) => async (dispatch) => {
 };
 
 //==============================================================================
-// Fetch All Services
+// Fetch All Services - Priest
 //==============================================================================
 export const fetchAllServices = () => async (dispatch) => {
   dispatch(fetchAllServicesStart());
@@ -72,6 +72,22 @@ export const fetchAllServices = () => async (dispatch) => {
     dispatch(fetchAllServicesFailure(error.message));
   }
 };
+
+//==============================================================================
+// Fetch All Services - Priest
+//==============================================================================
+export const allServices = () => async (dispatch) => {
+  dispatch(fetchAllServicesStart());
+  try {
+    const response = await axios.get(`${API}/services/all`, {
+      withCredentials: true,
+    });
+    dispatch(fetchAllServicesSuccess(response.data.result));
+  } catch (error) {
+    dispatch(fetchAllServicesFailure(error.message));
+  }
+};
+
 
 //==============================================================================
 // Count All Services

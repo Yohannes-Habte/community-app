@@ -1,78 +1,128 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Helper functions
+const setLoading = (state) => {
+  state.loading = true;
+  state.error = null;
+};
+
+const setSuccess = (state, action, key) => {
+  state[key] = action.payload;
+  state.loading = false;
+};
+
+const setFailure = (state, action) => {
+  state.error = action.payload;
+  state.loading = false;
+};
+
 const initialState = {
   currentUser: null,
   parishioners: [],
   count: null,
 
   // Loading states
-  loading: {
-    register: false,
-    login: false,
-    update: false,
-    logout: false,
-    changePassword: false,
-    address: false,
-    deleteAddress: false,
-    members: false,
-    count: false,
-  },
+  loading: false,
 
   // Error states
-  error: {
-    register: null,
-    login: null,
-    update: null,
-    logout: null,
-    changePassword: null,
-    address: null,
-    deleteAddress: null,
-    members: null,
-    count: null,
-  },
-};
-
-const setLoading = (state, action) => {
-  state.loading[action.payload] = true;
-  state.error[action.payload] = null;
-};
-
-const setSuccess = (state, action) => {
-  if (action.payload.dataType) {
-    state[action.payload.dataType] = action.payload.data;
-  }
-  state.loading[action.payload.type] = false;
-  state.error[action.payload.type] = null;
-};
-
-const setFailure = (state, action) => {
-  state.error[action.payload.type] = action.payload.error;
-  state.loading[action.payload.type] = false;
+  error: null,
 };
 
 const userReducer = createSlice({
   name: "member",
   initialState,
   reducers: {
-    // Generic start
-    requestStart: (state, action) => setLoading(state, action),
+    // Register a new user
+    registerUserRequest: (state) => setLoading(state),
+    registerUserSuccess: (state, action) =>
+      setSuccess(state, action, "currentUser"),
+    registerUserFailure: (state, action) => setFailure(state, action),
 
-    // Generic success
-    requestSuccess: (state, action) => setSuccess(state, action),
+    // Login a user
+    loginUserRequest: (state) => setLoading(state),
+    loginUserSuccess: (state, action) =>
+      setSuccess(state, action, "currentUser"),
+    loginUserFailure: (state, action) => setFailure(state, action),
 
-    // Generic failure
-    requestFailure: (state, action) => setFailure(state, action),
+    // Fetch single user
+    fetchUserRequest: (state) => setLoading(state),
+    fetchUserSuccess: (state, action) =>
+      setSuccess(state, action, "currentUser"),
+    fetchUserFailure: (state, action) => setFailure(state, action),
 
-    // Clear errors
-    clearErrors: (state) => {
-      Object.keys(state.error).forEach((key) => {
-        state.error[key] = null;
-      });
+    // Update user profile
+    updateUserProfileRequest: (state) => setLoading(state),
+    updateUserProfileSuccess: (state, action) =>
+      setSuccess(state, action, "currentUser"),
+    updateUserProfileFailure: (state, action) => setFailure(state, action),
+
+    // Logout a user
+    logoutUserRequest: (state) => setLoading(state),
+    logoutUserSuccess: (state) => {
+      state.loading = false;
+      state.currentUser = null;
+    },
+    logoutUserFailure: (state, action) => setFailure(state, action),
+
+    // Fetch parishioners list
+    fetchParishionersRequest: (state) => setLoading(state),
+    fetchParishionersSuccess: (state, action) =>
+      setSuccess(state, action, "parishioners"),
+    fetchParishionersFailure: (state, action) => setFailure(state, action),
+
+    // Fetch parishioners count
+    fetchParishionersCountRequest: (state) => setLoading(state),
+    fetchParishionersCountSuccess: (state, action) =>
+      setSuccess(state, action, "count"),
+    fetchParishionersCountFailure: (state, action) => setFailure(state, action),
+
+    // Change user password
+    changeUserPasswordRequest: (state) => setLoading(state),
+    changeUserPasswordSuccess: (state) => {
+      state.loading = false;
+    },
+    changeUserPasswordFailure: (state, action) => setFailure(state, action),
+
+    // Clear all errors
+    clearAllErrors: (state) => {
+      state.error = null;
+      state.loading = false;
+    },
+
+    // Clear specific error
+    clearError: (state) => {
+      state.error = null;
     },
   },
 });
 
-export const { requestStart, requestSuccess, requestFailure, clearErrors } =
-  userReducer.actions;
+export const {
+  registerUserRequest,
+  registerUserSuccess,
+  registerUserFailure,
+  loginUserRequest,
+  loginUserSuccess,
+  loginUserFailure,
+  fetchUserRequest,
+  fetchUserSuccess,
+  fetchUserFailure,
+  updateUserProfileRequest,
+  updateUserProfileSuccess,
+  updateUserProfileFailure,
+  logoutUserRequest,
+  logoutUserSuccess,
+  logoutUserFailure,
+  fetchParishionersRequest,
+  fetchParishionersSuccess,
+  fetchParishionersFailure,
+  fetchParishionersCountRequest,
+  fetchParishionersCountSuccess,
+  fetchParishionersCountFailure,
+  changeUserPasswordRequest,
+  changeUserPasswordSuccess,
+  changeUserPasswordFailure,
+  clearAllErrors,
+  clearError,
+} = userReducer.actions;
 
 export default userReducer.reducer;

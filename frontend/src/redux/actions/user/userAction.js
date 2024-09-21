@@ -5,95 +5,134 @@ import {
   fetchSingleUserStart,
   fetchSingleUserSuccess,
   fetchSingleUserFailure,
-  clearErrors,
+  logoutUserSuccess,
+  logoutUserFailure,
 } from "../../reducers/userReducer";
 import {
-  requestFailure,
-  requestStart,
-  requestSuccess,
+  changeUserPasswordFailure,
+  changeUserPasswordRequest,
+  changeUserPasswordSuccess,
+  clearAllErrors,
+  fetchParishionersCountFailure,
+  fetchParishionersCountRequest,
+  fetchParishionersCountSuccess,
+  fetchParishionersFailure,
+  fetchParishionersRequest,
+  fetchParishionersSuccess,
+  loginUserFailure,
+  loginUserRequest,
+  loginUserSuccess,
+  logoutUserRequest,
+  registerUserFailure,
+  registerUserRequest,
+  registerUserSuccess,
+  updateUserProfileFailure,
+  updateUserProfileRequest,
+  updateUserProfileSuccess,
 } from "../../reducers/user/memberReducer";
 
 //==============================================================================
-// Action to handle logging in a user
+// Action to register a new user
+//==============================================================================
+export const registerUser = (userData) => async (dispatch) => {
+  try {
+    // Start registration
+    dispatch(registerUserRequest());
+
+    const res = await axios.post(`${API}/auth/register`, userData);
+
+    dispatch(registerUserSuccess(res.data.user));
+  } catch (error) {
+    dispatch(
+      registerUserFailure(error.response?.data?.message || error.message)
+    );
+  }
+};
+
+//==============================================================================
+// Action to login a user
 //==============================================================================
 export const loginUser = (credentials) => async (dispatch) => {
   try {
-    // Start the login request, set loading to true and clear previous errors
-    dispatch(requestStart("login"));
+    // Start login
+    dispatch(loginUserRequest());
 
-    // Make the API call using axios
-    const response = await axios.post("/api/login", credentials);
+    const res = await axios.post(`${API}/auth/login`, credentials, {
+      withCredentials: true,
+    });
 
-    // On success, update the state with the current user data
-    dispatch(requestSuccess("login", "currentUser", response.data));
+    dispatch(loginUserSuccess(res.data.user));
   } catch (error) {
-    // On failure, update the error state with the error message
-    dispatch(
-      requestFailure("login", error.response?.data?.message || error.message)
-    );
+    dispatch(loginUserFailure(error.response?.data?.message || error.message));
   }
 };
 
 //==============================================================================
-// Action to handle user registration
+// Action to update user profile
 //==============================================================================
-export const registerUser = (registrationData) => async (dispatch) => {
+export const updateUserProfile = (userId, updatedData) => async (dispatch) => {
   try {
-    // Start the registration request
-    dispatch(requestStart("register"));
+    // Start updating user profile
+    dispatch(updateUserProfileRequest());
 
-    // Make the API call using axios
-    const response = await axios.post("/api/register", registrationData);
+    const res = await axios.put(`${API}/members/${userId}`, updatedData, {
+      withCredentials: true,
+    });
 
-    // On success, store the registered user data in the state
-    dispatch(requestSuccess("register", "currentUser", response.data));
+    dispatch(updateUserProfileSuccess(res.data.user));
   } catch (error) {
-    // On failure, store the error message in the state
     dispatch(
-      requestFailure("register", error.response?.data?.message || error.message)
+      updateUserProfileFailure(error.response?.data?.message || error.message)
     );
   }
 };
 
 //==============================================================================
-// Action to handle updating user details
+// Action to change user password
 //==============================================================================
-export const updateUser = (userId, userData) => async (dispatch) => {
-  try {
-    // Start the update request
-    dispatch(requestStart("update"));
+export const changeUserPassword =
+  (userId, passwordData) => async (dispatch) => {
+    try {
+      // Start password change
+      dispatch(changeUserPasswordRequest());
 
-    // Make the API call using axios
-    const response = await axios.put(`/api/users/${userId}`, userData);
+      await axios.put(
+        `${API}/members/${userId}/change-password`,
+        passwordData,
+        {
+          withCredentials: true,
+        }
+      );
 
-    // On success, update the current user state
-    dispatch(requestSuccess("update", "currentUser", response.data));
-  } catch (error) {
-    // On failure, store the error message
-    dispatch(
-      requestFailure("update", error.response?.data?.message || error.message)
-    );
-  }
-};
+      dispatch(changeUserPasswordSuccess());
+    } catch (error) {
+      dispatch(
+        changeUserPasswordFailure(
+          error.response?.data?.message || error.message
+        )
+      );
+    }
+  };
 
 //==============================================================================
-// Action to handle logging out a user
+// Action to logout a user
 //==============================================================================
 export const logoutUser = () => async (dispatch) => {
   try {
-    // Start the logout request
-    dispatch(requestStart("logout"));
+    // Start logout
+    dispatch(logoutUserRequest());
 
-    // Make the API call using axios
-    await axios.post("/api/logout");
-
-    // On success, clear the current user from the state
-    dispatch(requestSuccess("logout", "currentUser", null));
-  } catch (error) {
-    // On failure, store the error message
-    dispatch(
-      requestFailure("logout", error.response?.data?.message || error.message)
+    await axios.post(
+      `${API}/auth/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
     );
+
+    dispatch(logoutUserSuccess());
+  } catch (error) {
+    dispatch(logoutUserFailure(error.response?.data?.message || error.message));
   }
 };
 
@@ -103,73 +142,45 @@ export const logoutUser = () => async (dispatch) => {
 export const fetchParishioners = () => async (dispatch) => {
   try {
     // Start fetching parishioners
-    dispatch(requestStart("members"));
+    dispatch(fetchParishionersRequest());
 
     const res = await axios.get(`${API}/members/all`, {
       withCredentials: true,
     });
 
-    dispatch(requestSuccess("members", "parishioners", res.data.users));
+    dispatch(fetchParishionersSuccess(res.data.users));
   } catch (error) {
     dispatch(
-      requestFailure("members", error.response?.data?.message || error.message)
+      fetchParishionersFailure(error.response?.data?.message || error.message)
     );
   }
 };
 
 //==============================================================================
-// Action to get the count of parishioners
+// Action to fetch parishioners count
 //==============================================================================
 export const fetchParishionersCount = () => async (dispatch) => {
   try {
-    // Start fetching the count
-    dispatch(requestStart("count"));
+    // Start fetching count
+    dispatch(fetchParishionersCountRequest());
 
-    // Make the API call using axios
-    const response = await axios.get("/api/parishioners/count");
+    const res = await axios.get(`${API}/members/count`, {
+      withCredentials: true,
+    });
 
-    // On success, update the count in the state
-    dispatch(requestSuccess("count", "count", response.data));
+    dispatch(fetchParishionersCountSuccess(res.data.count));
   } catch (error) {
-    // On failure, store the error message
     dispatch(
-      requestFailure("count", error.response?.data?.message || error.message)
+      fetchParishionersCountFailure(
+        error.response?.data?.message || error.message
+      )
     );
   }
 };
 
-//==============================================================================
-// Action to change a user's password
-//==============================================================================
-
-export const changeUserPassword =
-  (userId, passwordData) => async (dispatch) => {
-    try {
-      // Start changing the password
-      dispatch(requestStart("changePassword"));
-
-      // Make the API call using axios
-      const response = await axios.post(
-        `/api/users/${userId}/change-password`,
-        passwordData
-      );
-
-      // On success, no need to update state with specific data
-      dispatch(requestSuccess(response.data));
-    } catch (error) {
-      // On failure, store the error message
-      dispatch(
-        requestFailure(
-          "changePassword",
-          error.response?.data?.message || error.message
-        )
-      );
-    }
-  };
-
 // Action to clear all errors in the state
-export const clearAllErrors = () => (dispatch) => {
-  dispatch(clearErrors());
+export const clearAllMemberErrors = () => (dispatch) => {
+  dispatch(clearAllErrors());
 };
 
 //==============================================================================

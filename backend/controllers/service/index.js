@@ -259,6 +259,49 @@ export const getAllServices = async (req, res, next) => {
   }
 };
 
+//==========================================================================
+// Get all services
+//==========================================================================
+
+export const allServices = async (req, res, next) => {
+  try {
+    const user = await Member.findById(req.user.id);
+
+    if (!user) {
+      return next(createError(404, "User not found"));
+    }
+
+    if (user.role !== "admin") {
+      return next(
+        createError(
+          403,
+          "Forbidden: You do not have permission to view services"
+        )
+      );
+    }
+
+    // Fetch services and populate the 'category' field
+    const services = await Service.find().populate("serviceCategory");
+
+    // Check if services are found
+    if (!services || services.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No services found.",
+      });
+    }
+
+    // Return the fetched services
+    return res.status(200).json({
+      success: true,
+      result: services,
+    });
+  } catch (error) {
+    console.error("Error fetching services:", error); // Log error for internal tracking
+    return next(createError(500, "Server error. Please try again later."));
+  }
+};
+
 //====================================================================
 // Total Number of prayer requests by parishioners
 //====================================================================

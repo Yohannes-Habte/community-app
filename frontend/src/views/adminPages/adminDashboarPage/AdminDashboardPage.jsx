@@ -16,7 +16,7 @@ const AdminDashboardPage = () => {
 
         <div className="admin-dashboarw-sections-wrapper">
           <AdminSidebar isActive={isActive} setIsActive={setIsActive} />
-          <AdminDashboarView isActive={isActive} />
+          <AdminDashboarView isActive={isActive}  setIsActive={setIsActive} />
         </div>
       </section>
       <Footer />  

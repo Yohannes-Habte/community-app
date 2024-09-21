@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearAllErrors, fetchAllEvents } from '../../../redux/actions/event/eventAction';
+import { clearAllEventErrors, fetchAllEvents } from '../../../redux/actions/event/eventAction';
 
 const EventsLineChart = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const EventsLineChart = () => {
     dispatch(fetchAllEvents()); 
 
     return () => {
-      dispatch(clearAllErrors()); 
+      dispatch(clearAllEventErrors()); 
     };
   }, [dispatch]);
 

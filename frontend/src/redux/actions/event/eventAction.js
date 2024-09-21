@@ -73,6 +73,6 @@ export const fetchAllEvents = () => async (dispatch) => {
 //==============================================================================
 // Clear Errors
 //==============================================================================
-export const clearAllErrors = () => (dispatch) => {
+export const clearAllEventErrors = () => (dispatch) => {
   dispatch(clearErrors());
 };

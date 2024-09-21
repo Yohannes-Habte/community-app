@@ -14,7 +14,7 @@ const LatestEvent = () => {
       try {
         setLoading(true);
         const response = await axios.get(`${API}/events/last-event`);
-        setEvent(response.data.result); // Set event data
+        setEvent(response.data.result);
       } catch (err) {
         setError("Failed to fetch event");
       } finally {

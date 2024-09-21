@@ -31,11 +31,12 @@
       @include shadow1;
       background-color: $section-bg;
       @include flexColumn;
+      gap: 0.3rem;
       font-size: $nfs;
       height: fit-content;
-      margin-top: 2rem;
 
       & strong {
+        display: block;
         color: $gray;
         font-size: $sfs;
       }

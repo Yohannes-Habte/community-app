@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  allServices,
   createServiceRequest,
   deleteOneService,
   getAllServices,
@@ -10,7 +11,11 @@ import {
 } from "../../controllers/service/index.js";
 // import serviceValidation from "../../validators/service/index.js";
 // import checkValidation from "../../validators/validationResult/index.js";
-import { isAuthenticated, isPriest } from "../../middlewares/auth/auth.js";
+import {
+  isAdmin,
+  isAuthenticated,
+  isPriest,
+} from "../../middlewares/auth/auth.js";
 
 const serviceRouter = express.Router();
 
@@ -18,6 +23,8 @@ const serviceRouter = express.Router();
 serviceRouter.post("/new", isAuthenticated, createServiceRequest);
 
 serviceRouter.get("/", isAuthenticated, isPriest, getAllServices);
+
+serviceRouter.get("/all", isAuthenticated, isAdmin, allServices);
 
 serviceRouter.get("/:id", isAuthenticated, isPriest, getSingleService);
 

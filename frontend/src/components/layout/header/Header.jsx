@@ -22,7 +22,7 @@ const Header = () => {
   return (
     <header className="header">
       <h1 className="header-title">
-        Eritean Roman Catholic Church in Hamburg (ERCCH)
+        Eritrean Roman Catholic Church in Hamburg (ERCCH)
       </h1>
 
       <figure className="logo-container">

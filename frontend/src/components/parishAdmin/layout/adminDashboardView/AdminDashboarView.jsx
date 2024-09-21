@@ -11,14 +11,14 @@ import ChurchCommittees from "../../committeeList/ChurchCommittees";
 import SubscriberNotification from "../../subscribers/SubscriberNotification";
 import ServiceCategories from "../../serviceCategories/ServiceCategories";
 import Masses from "../../masses/Masses";
+import ChurchServices from "../../services/ChurchServices";
 
-
-const AdminDashboarView = ({ isActive }) => {
+const AdminDashboarView = ({ isActive, setIsActive }) => {
   return (
     <article className="admin-dashboard-right-box-wrapper">
-      {isActive === 1 && <AdminDashboardSummary />}
+      {isActive === 1 && <AdminDashboardSummary setIsActive={setIsActive} />}
 
-      {isActive === 2 && <Members />}
+      {isActive === 2 && <Members setIsActive={setIsActive} />}
 
       {isActive === 3 && <CommitteeList />}
 
@@ -26,7 +26,7 @@ const AdminDashboarView = ({ isActive }) => {
 
       {isActive === 5 && <MembersContribution />}
 
-      {isActive === 6 && <Events />}
+      {isActive === 6 && <Events setIsActive={setIsActive} />}
 
       {isActive === 7 && <Delegations />}
 
@@ -38,7 +38,9 @@ const AdminDashboarView = ({ isActive }) => {
 
       {isActive === 11 && <ServiceCategories />}
 
-      {isActive === 12 && <Masses />}
+      {isActive === 12 && <ChurchServices />}
+
+      {isActive === 13 && <Masses />}
     </article>
   );
 };
