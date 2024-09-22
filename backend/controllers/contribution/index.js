@@ -1,6 +1,7 @@
 import createError from "http-errors";
 import Contribution from "../../models/contribution/index.js";
 import Member from "../../models/member/index.js";
+import moment from "moment";
 
 // =============================================================================
 // Create member contribution
@@ -9,12 +10,43 @@ import Member from "../../models/member/index.js";
 export const createContribution = async (req, res, next) => {
   const { user, date, amount } = req.body;
   try {
+    // Find the user by ID
     const foundUser = await Member.findById(user);
 
     if (!foundUser) {
       return next(createError(404, "User not found"));
     }
 
+    // Parse the date from the request body
+    const contributionDate = moment(date, "YYYY-MM-DD");
+
+    if (!contributionDate.isValid()) {
+      return next(createError(400, "Invalid date format"));
+    }
+
+    // Check if the user already has a contribution for the same year and month
+    const existingContribution = await Contribution.findOne({
+      user: user,
+      date: {
+        $gte: contributionDate.startOf("month").format("YYYY-MM-DD"), // First day of the month
+        $lte: contributionDate.endOf("month").format("YYYY-MM-DD"), // Last day of the month
+      },
+    });
+
+    if (existingContribution) {
+      // Extract month name and year from the contribution date
+      const existingMonth = moment(existingContribution.date).format("MMMM");
+      const existingYear = moment(existingContribution.date).format("YYYY");
+
+      return next(
+        createError(
+          400,
+          `Contribution for ${existingMonth} ${existingYear} already exists!`
+        )
+      );
+    }
+
+    // Create a new contribution
     const newContribution = new Contribution({
       user: user,
       date: date,
@@ -23,34 +55,14 @@ export const createContribution = async (req, res, next) => {
       lastName: foundUser.lastName,
     });
 
-    // Save new contribution
-    try {
-      await newContribution.save();
-    } catch (error) {
-      console.log(error);
-      return next(createError(400, "Contribution is not saved!"));
-    }
+    // Save the new contribution
+    await newContribution.save();
 
-    // Check if there is the same monthly contribution in the database
-    const sameContribution = foundUser.monthlyContributions.find(
-      (contribution) => contribution._id.toString() === newContribution._id
-    );
-
-    if (sameContribution) {
-      return next(createError(400, `Contribution already exist!`));
-    }
-
-    // Add new contribution to the monthly contribution array
+    // Add the new contribution to the user's monthly contributions array
     foundUser.monthlyContributions.push(newContribution);
 
-    //Save user update
-    try {
-      await foundUser.save();
-    } catch (error) {
-      console.log(error);
-      return next(createError(400, "Contribution is not saved!"));
-    }
-
+    // Save the updated user
+    await foundUser.save();
 
     return res.status(201).json({
       success: true,
@@ -89,16 +101,33 @@ export const getAllContributions = async (req, res, next) => {
 
 export const getAllMemberContribution = async (req, res, next) => {
   const id = req.params.userId;
+
   try {
-    // Fetch the member with the specified ID and only the 'monthlyContributions' field
+    // Fetch the member by ID and retrieve only their 'monthlyContributions' field
     const member = await Member.findById(id, "monthlyContributions");
 
     if (!member) {
       return next(createError(400, "User not found!"));
     }
+
+    // Sorting contributions by year and month
+    const sortedContributions = member.monthlyContributions.sort((a, b) => {
+      // Parse the dates assuming 'YYYY-MM-DD' format, or adapt if 'DD-MM-YYYY'
+      const dateA = moment(a.date, "YYYY-MM-DD"); // or 'DD-MM-YYYY' if needed
+      const dateB = moment(b.date, "YYYY-MM-DD"); // or 'DD-MM-YYYY' if needed
+
+      // Sorting by year first, and if year is the same or equal, then sort by month
+      if (dateA.year() !== dateB.year()) {
+        return dateA.year() - dateB.year(); // Sort by year
+      } else {
+        return dateA.month() - dateB.month(); // If year is equal Sort by month
+      }
+    });
+
+    // Responding with sorted contributions
     res.status(200).json({
       success: true,
-      memberContributions: member.monthlyContributions,
+      memberContributions: sortedContributions,
     });
   } catch (error) {
     next(createError(500, "Server error!"));

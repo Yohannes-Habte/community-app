@@ -20,15 +20,16 @@ export const createEvent = async (req, res, next) => {
     try {
       await newEvent.save();
     } catch (error) {
+      console.log("Save =",error);
       return next(createError(400, "New Event is not saved!"));
     }
 
     return res.status(201).json({
       success: true,
-      event: newEvent,
       message: "New event is successfully created.",
     });
   } catch (error) {
+    console.log(error);
     next(createError(500, "Event could not be posted! Please try again!"));
   }
 };

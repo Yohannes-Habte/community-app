@@ -8,14 +8,20 @@ import { API } from "../../../utiles/securitiy/secreteKey";
 const MembersContribution = () => {
   const [openAddContribution, setOpenAddContribution] = useState(false);
   const [contributions, setContributions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const allContributions = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(`${API}/contributions`);
         setContributions(data.result);
+        setLoading(false);
       } catch (error) {
+        setError("Something went wrong!");
         console.log(error);
+        setLoading(false);
       }
     };
     allContributions();
@@ -59,32 +65,39 @@ const MembersContribution = () => {
           Add New Contribution
         </button>
       </aside>
-      <DataGrid
-        // Rows
-        rows={rows}
-        // Columns
-        columns={columns}
-        // Initial state
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        // Create search bar
-        slots={{ toolbar: GridToolbar }}
-        // Search a specific user
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        // Page size optons
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        //
-      />
+
+      {loading && <h3>Loading...</h3>}
+      {error && <h3>{error}</h3>}
+      {contributions.length === 0 && <h3>No contributions found!</h3>}
+
+      {!loading && !error && contributions.length > 0 && (
+        <DataGrid
+          // Rows
+          rows={rows}
+          // Columns
+          columns={columns}
+          // Initial state
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          // Create search bar
+          slots={{ toolbar: GridToolbar }}
+          // Search a specific user
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          // Page size optons
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          //
+        />
+      )}
 
       {openAddContribution && (
         <AddContribution setOpen={setOpenAddContribution} />

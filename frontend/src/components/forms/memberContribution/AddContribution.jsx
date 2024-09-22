@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import "./AddContribution.scss"
+import "./AddContribution.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
@@ -15,11 +15,21 @@ const AddContribution = ({ setOpen }) => {
   const [contributionInfos, setContributionInfos] = useState(initialState);
   const [userNames, setUserNames] = useState([]);
   const { user, amount, date } = contributionInfos;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await axios.get(`${API}/members//search/user`);
-      setUserNames(data.members);
+      try {
+        setLoading(true);
+        const { data } = await axios.get(`${API}/members/search/user`);
+
+        setUserNames(data.members);
+        setLoading(false);
+      } catch (error) {
+        toast.error(error.response.data.message);
+        setLoading(false);
+      }
     };
     getUser();
   }, []);
@@ -43,6 +53,7 @@ const AddContribution = ({ setOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const newContribution = {
         user: user,
         amount: amount,
@@ -52,10 +63,17 @@ const AddContribution = ({ setOpen }) => {
         `${API}/contributions/new-contribution`,
         newContribution
       );
-      toast.success(data.message);
-      handleReset();
+
+      if (data.success === true) {
+        toast.error(data.message);
+        handleReset();
+        setLoading(false);
+      } else {
+        toast.error(data.message);
+        setLoading(false);
+      }
     } catch (error) {
-      toast.error(error);
+      setError(error.response.data.message);
     }
   };
 
@@ -137,14 +155,14 @@ const AddContribution = ({ setOpen }) => {
             <span className="input-highlight"></span>
           </div>
 
-          <button className="add-member-contribution-btn">
+          <button className="add-member-contribution-btn" disabled={loading}>
             Add Contribution
           </button>
+          <p style={{ color: "red" }}> {error} </p>
         </form>
       </section>
     </article>
   );
 };
 
-
-export default AddContribution
+export default AddContribution;

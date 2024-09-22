@@ -14,7 +14,7 @@ const eventSchema = new Schema(
     eventDate: { type: String, required: true, unique: true },
     eventStatus: {
       type: String,
-      enum: ["upcoming", "past"],
+      enum: ["upcoming", "past", "cancelled"],
       default: "upcoming",
     },
   },

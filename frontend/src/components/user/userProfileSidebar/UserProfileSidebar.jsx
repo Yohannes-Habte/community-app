@@ -7,7 +7,6 @@ import { MdMedicalServices } from "react-icons/md";
 import { RiAdminFill } from "react-icons/ri";
 import { RiMoneyEuroBoxFill } from "react-icons/ri";
 import { IoMdLogOut } from "react-icons/io";
-import { MdOutlineMessage } from "react-icons/md";
 import { GiSunPriest } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import Logout from "../../../utiles/globalFunctions/Logout";
@@ -110,32 +109,18 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
         </h4>
       </aside>
 
-      <aside
-        onClick={() => setIsActive(7)}
-        className="user-profile-sidebar-item"
-      >
-        <MdOutlineMessage
-          title="User Inbox"
-          className={isActive === 7 ? "active-icon" : "passive-icon"}
-        />
-
-        <h4 className={isActive === 7 ? "active-text" : "passive-text"}>
-          User Inbox
-        </h4>
-      </aside>
-
       {currentUser.role === "priest" && (
         <Link to={"/priest/dashboard"}>
           <aside
-            onClick={() => setIsActive(8)}
+            onClick={() => setIsActive(7)}
             className="user-profile-sidebar-item"
           >
             <GiSunPriest
               title="Parish Priest"
-              className={isActive === 8 ? "active-icon" : "passive-icon"}
+              className={isActive === 7 ? "active-icon" : "passive-icon"}
             />
 
-            <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
+            <h4 className={isActive === 7 ? "active-text" : "passive-text"}>
               Parish Priest
             </h4>
           </aside>
@@ -145,15 +130,15 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       {currentUser.role === "admin" && (
         <Link to={"/admin/dashboard"}>
           <aside
-            onClick={() => setIsActive(9)}
+            onClick={() => setIsActive(8)}
             className="user-profile-sidebar-item"
           >
             <RiMoneyEuroBoxFill
               title="Parish Admin"
-              className={isActive === 9 ? "active-icon" : "passive-icon"}
+              className={isActive === 8 ? "active-icon" : "passive-icon"}
             />
 
-            <h4 className={isActive === 9 ? "active-text" : "passive-text"}>
+            <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
               Parish Admin
             </h4>
           </aside>
@@ -163,15 +148,15 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       {currentUser.role === "financeManager" && (
         <Link to={"/finance/dashboard"}>
           <aside
-            onClick={() => setIsActive(10)}
+            onClick={() => setIsActive(9)}
             className="user-profile-sidebar-item"
           >
             <RiAdminFill
               title="Parish Admin"
-              className={isActive === 10 ? "active-icon" : "passive-icon"}
+              className={isActive === 9 ? "active-icon" : "passive-icon"}
             />
 
-            <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
+            <h4 className={isActive === 9 ? "active-text" : "passive-text"}>
               Finance Manager
             </h4>
           </aside>
@@ -181,10 +166,10 @@ const UserProfileSidebar = ({ isActive, setIsActive }) => {
       <aside onClick={handleLogout} className="user-profile-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={isActive === 12 ? "active-icon" : "passive-icon"}
+          className={isActive === 10 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
+        <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
           Log Out
         </h4>
       </aside>

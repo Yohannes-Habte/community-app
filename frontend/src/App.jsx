@@ -7,7 +7,6 @@ import ContactPage from "./views/contactPage/ContactPage";
 import ReportsPage from "./views/reportPage/ReportsPage";
 import HomePage from "./views/homePage/HomePage";
 import UserProfilePage from "./views/userPages/userProfilePage/UserProfilePage";
-import UserInboxPage from "./views/userPages/userInboxPage/UserInboxPage";
 import PriestDashboardPage from "./views/priestPages/priestDashboardPage/PriestDashboardPage";
 import AdminDashboardPage from "./views/adminPages/adminDashboarPage/AdminDashboardPage";
 import UserProtectedRoutes from "./protectedRoutes/UserProtectedRoutes";
@@ -50,14 +49,7 @@ const App = () => {
           }
         />
 
-        <Route
-          path="/user/inbox"
-          element={
-            <UserProtectedRoutes>
-              <UserInboxPage />
-            </UserProtectedRoutes>
-          }
-        />
+       
 
         {/* Parish Priest pages */}
         <Route

@@ -122,19 +122,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         </h4>
       </aside>
 
-      <aside
-        onClick={() => setIsActive(8)}
-        className="admin-dashboard-sidebar-item"
-      >
-        <SiGooglemessages
-          title="Inbox"
-          className={isActive === 8 ? "active-icon" : "passive-icon"}
-        />
-
-        <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
-          Inbox
-        </h4>
-      </aside>
+    
 
       <Link to={"/user/profile"} className="admin-dashboard-sidebar-item">
         <IoSettings

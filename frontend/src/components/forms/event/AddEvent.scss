@@ -1,23 +1,34 @@
 @import "../../../styles/Variables.scss";
 @import "../../../styles/Mixins.scss";
 
-/* Labtop screen size */
-.service-form-container {
+.event-form-wrapper {
   width: $laptop;
-  margin: 1rem auto;
-  @include shadow1;
+  margin: 2rem auto;
+  @include shadow2;
   background-color: $form-bg;
 
-  .service-form-title {
+  .event-form-title {
     @include subTitle;
   }
-  .service-request-form {
+
+  .event-form {
     @include flexColumn;
+    margin-top: 0;
+
+    .inputs-wrapper {
+      @include threeGridTemplateEqualColumns;
+      margin: 0;
+    }
+
+    .event-address-and-date {
+      @include twoGridTemplateEqualColumns;
+      margin: 0;
+    }
 
     .input-container {
       @include inputContainer;
 
-      .icon {
+      .input-icon {
         @include inputIcon;
       }
 
@@ -34,39 +45,36 @@
       }
 
       .input-field:focus + .input-label {
-        top: -0.4rem;
-        font-size: $sfs;
-        color: $gray;
+        @include focusInputFieldAndInputLabel;
       }
 
       .input-field:focus + .input-label + .input-highlight {
         width: 100%;
       }
+
+      .password-display {
+        @include passwordDisplay;
+      }
     }
 
-    .file-container {
+    .input-consent {
       @include inputContainer;
+      @include flexRow;
+      align-items: center;
 
-      .icon {
-        @include inputIcon;
-      }
-
-      .file-field {
-        @include inputField;
+      .consent-checkbox {
+        height: 1.6rem;
+        width: 1.3rem;
         cursor: pointer;
       }
 
-      .file-label {
-        @include inputLabel;
+      .terms-of-user {
+        color: $blue;
       }
     }
 
-    .service-request-btn {
+    .add-event-btn {
       @include button1;
-
-      .loading {
-        @include loader;
-      }
     }
   }
 }

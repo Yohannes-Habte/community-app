@@ -4,7 +4,6 @@ import Members from "../../members/Members";
 import Committee from "../../committee/Committee";
 import Events from "../../events/Events";
 import Delegations from "../../delegations/Delegations";
-import AdminInBox from "../../inbox/AdminInBox";
 import MembersContribution from "../../membersContribution/MembersContribution";
 import CommitteeList from "../../committees/Committees";
 import ChurchCommittees from "../../committeeList/ChurchCommittees";
@@ -29,8 +28,6 @@ const AdminDashboarView = ({ isActive, setIsActive }) => {
       {isActive === 6 && <Events setIsActive={setIsActive} />}
 
       {isActive === 7 && <Delegations />}
-
-      {isActive === 8 && <AdminInBox />}
 
       {isActive === 9 && <SubscriberNotification />}
 

@@ -1,90 +1,12 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.events-section-wrapper{
+.events-section-wrapper {
   width: $laptop;
   margin: 2rem auto;
-  @include shadow2;
-  background-color: $form-bg  ;
+
 
   .events-section-title {
     @include subTitle;
-  }
-
-
-  .event--fieldset {
-    @include fieldset;
-
-    .event-legend{
-      @include legend;
-      text-align: center;
-    }
-
-    .event-form{
-      @include flexColumn;
-      margin-top: 0;
-
-      .inputs-wrapper {
-        @include threeGridTemplateEqualColumns;
-        margin: 0;
-      }
-
-      .event-address-and-date {
-        @include twoGridTemplateEqualColumns;
-        margin: 0;
-      }
-
-      .input-container {
-        @include inputContainer;
-
-        .input-icon {
-          @include inputIcon;
-        }
-
-        .input-field {
-          @include inputField;
-        }
-
-        .input-label {
-          @include inputLabel;
-        }
-
-        .input-highlight {
-          @include inputHighlight;
-        }
-
-        .input-field:focus + .input-label {
-          @include focusInputFieldAndInputLabel;
-        }
-
-        .input-field:focus + .input-label + .input-highlight {
-          width: 100%;
-        }
-
-        .password-display {
-          @include passwordDisplay;
-        }
-      }
-
-      .input-consent {
-        @include inputContainer;
-        @include flexRow;
-        align-items: center;
-
-        .consent-checkbox {
-          height: 1.6rem;
-          width: 1.3rem;
-          cursor: pointer;
-        }
-
-        .terms-of-user {
-          color: $blue;
-        }
-      }
-
-      .add-event-btn {
-        @include button1;
-      }
-    }
   }
 }

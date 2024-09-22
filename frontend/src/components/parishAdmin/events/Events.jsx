@@ -1,202 +1,175 @@
-import { useState } from "react";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { FaUserAlt } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill, RiAdminFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import AddEvent from "../../forms/event/AddEvent";
+import "./Events.scss";
+import { useEffect, useState } from "react";
 import {
-  eventPostFailure,
-  eventPostStart,
-  eventPostSuccess,
-} from "../../../redux/reducers/eventReducer";
+  clearAllEventErrors,
+  fetchAllEvents,
+} from "../../../redux/actions/event/eventAction";
+import { Link } from "react-router-dom";
+import { FaTrashAlt } from "react-icons/fa";
+import { MdEditSquare } from "react-icons/md";
+import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
-import "./Events.scss";
 
 const Events = () => {
-  // Redux state and dispatch
-  // const { error } = useSelector((state) => state.event);
   const dispatch = useDispatch();
+  const { events, loading, error } = useSelector((state) => state.event);
+  // Local state variable
+  const [eventId, setEventId] = useState("");
+  const [open, setOpen] = useState(false);
 
-  // Local state for event data
-  const [formData, setFormData] = useState({
-    eventName: "",
-    eventPurpose: "",
-    eventOrganizer: "",
-    eventFacilitator: "",
-    eventAddress: "",
-    eventDate: "",
-  });
+  useEffect(() => {
+    dispatch(fetchAllEvents());
 
-  const {
-    eventName,
-    eventPurpose,
-    eventOrganizer,
-    eventFacilitator,
-    eventAddress,
-    eventDate,
-  } = formData;
+    // Clear errors
+    return () => {
+      dispatch(clearAllEventErrors());
+    };
+  }, []);
 
-  // Handle form field changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+  const columns = [
+    { field: "eventName", headerName: "Event Name", width: 250 },
+    { field: "eventOrganizer", headerName: "Event Organizer", width: 250 },
+    { field: "eventFacilitator", headerName: "Event Facilitator", width: 250 },
+    { field: "eventAddress", headerName: "Event Address", width: 200 },
+    { field: "eventDate", headerName: "Event Date", width: 150 },
+
+    {
+      field: "eventStatus",
+      headerName: "Event Status",
+      width: 150,
+      renderCell: (params) => {
+        let color = "";
+
+        // Set the color based on the serviceStatus value
+        if (params.value === "upcoming") {
+          color = "orange";
+        } else if (params.value === "past") {
+          color = "green";
+        } else if (params.value === "cancelled") {
+          color = "red";
+        }
+
+        return (
+          <span
+            style={{
+              color: color,
+              fontWeight: "bold",
+              fontSize: "14px",
+            }}
+          >
+            {params.value?.charAt(0).toUpperCase() + params.value?.slice(1)}
+          </span>
+        );
+      },
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div className="action-wrapper">
+            <Link to={`/services/${params.id}`} className="edit">
+              <MdEditSquare />
+            </Link>
+
+            <button
+              className="delete"
+              onClick={() => setEventId(params.id) || setOpen(true)}
+            >
+              <FaTrashAlt />
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
+
+  const rows = [];
+  events &&
+    events.map((event) => {
+      return rows.push({
+        id: event._id,
+        eventName: event.eventName,
+        eventOrganizer: event.eventOrganizer,
+        eventFacilitator: event.eventFacilitator,
+        eventAddress: event.eventAddress,
+        eventDate: event.eventDate,
+        eventStatus: event.eventStatus,
+      });
     });
-  };
 
-  // Reset form after submission
-  const resetForm = () => {
-    setFormData({
-      eventName: "",
-      eventPurpose: "",
-      eventOrganizer: "",
-      eventFacilitator: "",
-      eventAddress: "",
-      eventDate: "",
-    });
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    dispatch(eventPostStart());
+  // Delete event
+  const handleDelete = async (id) => {
     try {
-      const { data } = await axios.post(`${API}/events/new-event`, formData, {
+      const { data } = await axios.delete(`${API}/events/${id}`, {
         withCredentials: true,
       });
-
-      dispatch(eventPostSuccess(data.event));
-      toast.success("Event created successfully.");
-      resetForm();
-    } catch (err) {
-      const errorMessage =
-        err.response?.data?.message || "Failed to create event";
-      dispatch(eventPostFailure(errorMessage));
-      toast.error(errorMessage);
+      toast.success(data.message);
+      dispatch(fetchAllEvents());
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 
   return (
     <section className="events-section-wrapper">
-      <h3 className="events-section-title">General Events</h3>
+      <AddEvent />
+      <h3 className="events-section-title">List of Events</h3>
 
-      <fieldset className="event--fieldset">
-        <legend className="event-legend">Add Event</legend>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {events.length === 0 && <p>No events available</p>}
 
-        <form onSubmit={handleSubmit} className="event-form">
-          <div className="inputs-wrapper">
-            {/* Event Name */}
-            <div className="input-container">
-              <FaUserAlt className="input-icon" />
-              <input
-                type="text"
-                name="eventName"
-                value={eventName}
-                onChange={handleInputChange}
-                placeholder="Enter Event Name"
-                className="input-field"
-                required
-              />
-              <label htmlFor="eventName" className="input-label">
-                Event Name
-              </label>
-            </div>
+      {!loading && !error && events.length > 0 && (
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          //
+        />
+      )}
 
-            {/* Event Organizer */}
-            <div className="input-container">
-              <MdEmail className="input-icon" />
-              <input
-                type="text"
-                name="eventOrganizer"
-                value={eventOrganizer}
-                onChange={handleInputChange}
-                placeholder="Enter Event Organizer"
-                className="input-field"
-                required
-              />
-              <label htmlFor="eventOrganizer" className="input-label">
-                Event Organizer
-              </label>
-            </div>
+      {open && (
+        <article className="service-delete-confirmation-wrapper">
+          <span className="delete-icon" onClick={() => setOpen(false)}>
+            X
+          </span>
 
-            {/* Event Facilitator */}
-            <div className="input-container">
-              <MdEmail className="input-icon" />
-              <input
-                type="text"
-                name="eventFacilitator"
-                value={eventFacilitator}
-                onChange={handleInputChange}
-                placeholder="Enter Event Facilitator"
-                className="input-field"
-                required
-              />
-              <label htmlFor="eventFacilitator" className="input-label">
-                Event Facilitator
-              </label>
-            </div>
-          </div>
+          <h3 className="you-want-delete">Are you sure you want delete?</h3>
 
-          <div className="event-address-and-date">
-            {/* Event Address */}
-            <div className="input-container">
-              <FaUserAlt className="input-icon" />
-              <input
-                type="text"
-                name="eventAddress"
-                value={eventAddress}
-                onChange={handleInputChange}
-                placeholder="Enter Event Address"
-                className="input-field"
-                required
-              />
-              <label htmlFor="eventAddress" className="input-label">
-                Event Address
-              </label>
-            </div>
-
-            {/* Event Date */}
-            <div className="input-container">
-              <RiAdminFill className="input-icon" />
-              <input
-                type="date"
-                name="eventDate"
-                value={eventDate}
-                onChange={handleInputChange}
-                className="input-field"
-                required
-              />
-              <label htmlFor="eventDate" className="input-label">
-                Event Date
-              </label>
-            </div>
-          </div>
-
-          {/* Event Purpose */}
-          <div className="input-container">
-            <RiLockPasswordFill className="input-icon" />
-            <textarea
-              name="eventPurpose"
-              value={eventPurpose}
-              onChange={handleInputChange}
-              placeholder="Describe the purpose of the event"
-              className="input-field textarea-field"
-              rows="6"
-              required
-            />
-            <label htmlFor="eventPurpose" className="input-label">
-              Event Purpose
-            </label>
-          </div>
-
-          {/* Submit Button */}
-          <button className="add-event-btn" type="submit">
-            Create Event
-          </button>
-        </form>
-      </fieldset>
+          <aside className="cancel-or-confirm-delete">
+            <h3
+              className={`confirm-delete`}
+              onClick={() => setOpen(false) || handleDelete(eventId)}
+            >
+              confirm
+            </h3>
+            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
+              cancel
+            </p>
+          </aside>
+        </article>
+      )}
     </section>
   );
 };

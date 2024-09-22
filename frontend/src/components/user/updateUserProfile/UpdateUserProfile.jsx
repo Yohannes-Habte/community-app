@@ -25,7 +25,6 @@ import UserAddress from "../address/UserAddress";
 import UserChangePassword from "../changePassword/UserChangePassword";
 import MonthlyContribution from "../contribution/MonthlyContribution";
 import AllUserServices from "../userServices/AllUserServices";
-import UserInbox from "../inbox/UserInbox";
 import ServicesRequest from "../servicesRequest/ServiceRequest";
 
 const UpdateUserProfile = ({ isActive }) => {
@@ -416,8 +415,6 @@ const UpdateUserProfile = ({ isActive }) => {
       {isActive === 5 && <ServicesRequest />}
 
       {isActive === 6 && <AllUserServices />}
-
-      {isActive === 7 && <UserInbox />}
     </article>
   );
 };
