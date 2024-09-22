@@ -1,16 +1,21 @@
 @import "../../../styles/Variables.scss";
 @import "../../../styles/Mixins.scss";
 
-.committees-container {
+.committee-container {
   width: $laptop;
   margin: 1rem auto;
 
-  .committees-title {
+  .committee-title {
     @include subTitle;
+  }
+
+  .user-information {
+    @include paragraph;
   }
 
   .committee-query-form {
     @include flexRow;
+    padding: 2rem 1rem;
    
     .input-container {
         display: flex;

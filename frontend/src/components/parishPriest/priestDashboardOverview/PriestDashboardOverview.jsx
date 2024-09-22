@@ -2,9 +2,9 @@ import "./PriestDashboardOverview.scss";
 import AllParishioners from "../allParishioners/AllParishioners";
 import AllChurchServices from "../allServices/AllChurchServices";
 import ChurchCommittee from "../churchCommittee/ChurchCommittee";
-import PriestDelegation from "../priestDelegation/PriestDelegation";
 import DashboardSummary from "../dashboardSummary/DashboardSummary";
 import AllEvents from "../allEvents/AllEvents";
+import AllDelegations from "../allDelegations/AllDelegations";
 
 const PriestDashboardOverview = ({ active }) => {
   return (
@@ -17,7 +17,7 @@ const PriestDashboardOverview = ({ active }) => {
 
       {active === 4 && <AllEvents />}
 
-      {active === 5 && <PriestDelegation />}
+      {active === 5 && <AllDelegations />}
 
       {active === 6 && <ChurchCommittee />}
     </article>

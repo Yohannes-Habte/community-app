@@ -34,7 +34,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         />
 
         <h4 className={active === 1 ? "active-text" : "passive-text"}>
-          Dashboard Overview
+          Summary
         </h4>
       </aside>
 
@@ -90,7 +90,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         />
 
         <h4 className={active === 5 ? "active-text" : "passive-text"}>
-          Priest Delegation
+          Delegations
         </h4>
       </aside>
 
@@ -104,7 +104,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
         />
 
         <h4 className={active === 6 ? "active-text" : "passive-text"}>
-          Church Committee
+          Committees
         </h4>
       </aside>
 

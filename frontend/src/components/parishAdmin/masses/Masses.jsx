@@ -3,8 +3,8 @@ import "./Masses.scss";
 
 const Masses = () => {
   return (
-    <section>
-      <h1>Masses</h1>
+    <section className="masses-container">
+      <h2 className="masses-title">Monthly Mass Creation Form</h2>
 
       <MassForm />
     </section>

@@ -5,12 +5,16 @@ import { GiCalendarHalfYear } from "react-icons/gi";
 import "./Committees.scss";
 import { useNavigate } from "react-router-dom";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
+import AddCommittee from "../../forms/committee/AddCommittee";
 
 const CommitteeList = () => {
   const navigate = useNavigate(); // Initialize useNavigate
   const [committees, setCommittees] = useState([]);
-  const [startYear, setStartYear] = useState(2022); // Default start year
-  const [endYear, setEndYear] = useState(2023); // Default end year
+  const [startYear, setStartYear] = useState(2022);
+  const [endYear, setEndYear] = useState(2023);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [openCommittee, setOpenCommittee] = useState(false);
 
   useEffect(() => {
     fetchCommittees();
@@ -18,12 +22,15 @@ const CommitteeList = () => {
 
   const fetchCommittees = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${API}/committees/committee?startYear=${startYear}&endYear=${endYear}`
       );
       setCommittees(response.data);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching committees:", error);
+      setError(error);
+      setLoading(false);
     }
   };
 
@@ -36,6 +43,26 @@ const CommitteeList = () => {
   return (
     <article className="committees-container">
       <h2 className="committees-title">Committee Lists </h2>
+
+      <aside className="add-committee-aside">
+        <h3 className="add-committee-aside-title">Add New Committee Member</h3>
+        <button
+          onClick={() => setOpenCommittee(true)}
+          className="add-committee-btn"
+        >
+          Add New
+        </button>
+      </aside>
+
+      <p className="instruction">
+        Please complete the two input fields to access a comprehensive list of
+        committee members. This functionality enables you to explore in-depth
+        information about the individuals who served, providing valuable
+        insights into their roles, length of service, and overall contributions.
+        By specifying the required details, you will gain a clearer
+        understanding of the composition of committee and the impact of members
+        during their tenure.
+      </p>
       <form onSubmit={handleSubmit} className="committee-query-form">
         <div className="input-container">
           <GiCalendarHalfYear className="icon" />
@@ -69,12 +96,18 @@ const CommitteeList = () => {
           Search
         </button>
       </form>
-      <section className="committee-card-wrapper">
-        {committees &&
-          committees.map((committee) => {
-            return <CommitteeCard key={committee._id} data={committee} />;
-          })}
-      </section>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error.message}</p>}
+      {!loading && !error && committees.length !== 0 && (
+        <section className="committee-card-wrapper">
+          {committees &&
+            committees.map((committee) => {
+              return <CommitteeCard key={committee._id} data={committee} />;
+            })}
+        </section>
+      )}
+
+      {openCommittee && <AddCommittee setOpenCommittee={setOpenCommittee} />}
     </article>
   );
 };

@@ -1,0 +1,13 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.masses-container {
+    text-align: center;
+    margin: 2rem;
+
+  .masses-title {
+    @include subTitle;
+    font-size: 1.4rem;
+  
+  }
+}

@@ -237,8 +237,10 @@ export const getAllServices = async (req, res, next) => {
       );
     }
 
-    // Fetch services and populate the 'category' field
-    const services = await Service.find().populate("serviceCategory");
+    // Fetch services, populate the 'serviceCategory' field, and sort by serviceDate (year and month)
+    const services = await Service.find().populate("serviceCategory").sort({
+      serviceDate: 1, // Sort by serviceDate in ascending order (first year, then month)
+    });
 
     // Check if services are found
     if (!services || services.length === 0) {
@@ -280,8 +282,10 @@ export const allServices = async (req, res, next) => {
       );
     }
 
-    // Fetch services and populate the 'category' field
-    const services = await Service.find().populate("serviceCategory");
+    // Fetch services, populate the 'serviceCategory' field, and sort by serviceDate (year and month)
+    const services = await Service.find().populate("serviceCategory").sort({
+      serviceDate: 1, // Sort by serviceDate in ascending order (first year, then month)
+    });
 
     // Check if services are found
     if (!services || services.length === 0) {

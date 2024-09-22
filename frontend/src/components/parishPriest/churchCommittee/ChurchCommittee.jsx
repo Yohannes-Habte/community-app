@@ -55,6 +55,13 @@ const ChurchCommittee = () => {
       <h3 className="committees-title">Committee Members</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
+      <p className="access-information">
+        Kindly select a year range from the options below to view the list of
+        committee members who served within the specified period. This will
+        allow you to identify individuals who were active during the selected
+        years, offering a more focused view of their tenure and contributions.{" "}
+      </p>
+
       <form onSubmit={fetchCommitteeMembers} className="committee-query-form">
         <div className="input-container">
           <label htmlFor="yearRange">Select Year Range:</label>
@@ -79,13 +86,11 @@ const ChurchCommittee = () => {
       </form>
 
       <section className="committee-card-wrapper">
-        {committeeMembers && committeeMembers.length > 0 ? (
+        {committeeMembers &&
+          committeeMembers.length > 0 &&
           committeeMembers.map((member) => {
             return <CommitteeCard key={member._id} data={member} />;
-          })
-        ) : (
-          <p>No members found</p>
-        )}
+          })}
       </section>
     </section>
   );

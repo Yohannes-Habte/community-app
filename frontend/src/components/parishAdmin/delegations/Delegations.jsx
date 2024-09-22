@@ -35,12 +35,21 @@ const Delegations = () => {
 
   priests &&
     priests.forEach((delegation) => {
+      const formattedDate = new Date(delegation.serviceDate).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
+
       rows.push({
         id: delegation._id,
         fullName: delegation.fullName,
         email: delegation.email,
         phoneNumber: delegation.phoneNumber,
-        serviceDate: delegation.serviceDate,
+        serviceDate: formattedDate,
       });
     });
 
@@ -59,6 +68,8 @@ const Delegations = () => {
             rows={rows}
             // Columns
             columns={columns}
+            // Auto height
+            autoHeight
             // Initial state
             initialState={{
               pagination: {

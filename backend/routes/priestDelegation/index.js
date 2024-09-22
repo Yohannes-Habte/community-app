@@ -23,10 +23,18 @@ priestDelegationRouter.post(
   checkValidation,
   createPriestDelegation
 );
+
 priestDelegationRouter.get(
   "/priests",
   isAuthenticated,
   isAdmin,
+  getAllDelegatedPriests
+);
+
+priestDelegationRouter.get(
+  "/all/priests",
+  isAuthenticated,
+  isPriest,
   getAllDelegatedPriests
 );
 

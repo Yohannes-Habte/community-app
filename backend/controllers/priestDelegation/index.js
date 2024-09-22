@@ -51,7 +51,7 @@ export const createPriestDelegation = async (req, res, next) => {
 
 export const getAllDelegatedPriests = async (req, res, next) => {
   try {
-    const delegatedPriests = await Priest.find();
+    const delegatedPriests = await Priest.find().sort({ serviceDate: 1 });
 
     if (!delegatedPriests) {
       return next(

@@ -37,14 +37,23 @@ const MembersContribution = () => {
   ];
 
   const rows = [];
+
   contributions &&
     contributions.map((contribution) => {
+      const formattedDate = new Date(contribution.date).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
       return rows.push({
         id: contribution._id,
         user: contribution.user,
         firstName: contribution.firstName,
         lastName: contribution.lastName,
-        date: contribution.date,
+        date: formattedDate,
         amount: contribution.amount,
       });
     });
@@ -76,10 +85,12 @@ const MembersContribution = () => {
           rows={rows}
           // Columns
           columns={columns}
+          // autoHeight
+          autoHeight
           // Initial state
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 10 },
             },
           }}
           // Create search bar

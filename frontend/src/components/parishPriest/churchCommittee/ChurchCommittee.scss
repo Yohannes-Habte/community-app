@@ -3,10 +3,14 @@
 
 .committees-container {
   width: $laptop;
-  margin: 1rem auto;
+  margin: 2rem auto;
 
   .committees-title {
     @include subTitle;
+  }
+
+  .access-information {
+    @include paragraph;
   }
 
   .committee-query-form {

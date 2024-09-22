@@ -12,7 +12,8 @@
 
   .new-member-wrapper {
     @include flexSpaceBetween;
-    margin-bottom: 1rem;
+    margin: 2rem 0;
+
     .title {
       @include subTitle;
     }

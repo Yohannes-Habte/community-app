@@ -9,8 +9,26 @@
     @include subTitle;
   }
 
+  .add-committee-aside {
+    @include flexSpaceBetween;
+    margin: 2rem 0;
+
+    .add-committee-aside-title {
+      @include subTitle;
+    }
+
+    .add-committee-btn {
+      @include button2;
+    }
+  }
+
+  .instruction {
+    @include paragraph;
+  }
+
   .committee-query-form {
     @include flexRow;
+    margin-top: 2rem;
 
     .input-container {
       @include inputContainer;

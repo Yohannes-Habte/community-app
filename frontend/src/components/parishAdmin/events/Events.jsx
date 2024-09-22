@@ -90,15 +90,24 @@ const Events = () => {
   ];
 
   const rows = [];
+
   events &&
     events.map((event) => {
+      const formattedDate = new Date(event.eventDate).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
       return rows.push({
         id: event._id,
         eventName: event.eventName,
         eventOrganizer: event.eventOrganizer,
         eventFacilitator: event.eventFacilitator,
         eventAddress: event.eventAddress,
-        eventDate: event.eventDate,
+        eventDate: formattedDate,
         eventStatus: event.eventStatus,
       });
     });

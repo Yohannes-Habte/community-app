@@ -40,7 +40,7 @@ export const createEvent = async (req, res, next) => {
 
 export const getAllEvents = async (req, res, next) => {
   try {
-    const events = await Event.find();
+    const events = await Event.find().sort({ eventDate: 1 });
 
     if (!events) {
       return next(createError(400, `Events not found!`));

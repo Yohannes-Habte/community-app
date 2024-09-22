@@ -8,7 +8,7 @@ const ServicesRequest = () => {
       <h1 className="user-service-request-title">What are you looking for? </h1>
 
       <p className="service-paragraph">
-        As Jesus asked the women, “What are you looking for?” we at Holy Saviour
+        As Jesus asked the woman, “What are you looking for?” we at Holy Saviour
         strive to serve our parishioners through a range of sacramental
         services, prayer during special occasions, and opportunities for
         spiritual growth. If you would like to participate in any of these

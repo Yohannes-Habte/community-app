@@ -73,10 +73,18 @@ const ChurchServices = () => {
   // Sacraments pushed to rows
   services &&
     services.forEach((service) => {
+      const formattedDate = new Date(service.serviceDate).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
       rows.push({
         id: service._id,
         serviceName: service.serviceName,
-        serviceDate: new Date(service.serviceDate).toLocaleDateString(), // Format date
+        serviceDate: formattedDate,
         identificationDocument: service.identificationDocument,
         message: service.message.slice(0, 20) + "...",
         serviceStatus: service.serviceStatus,

@@ -3,7 +3,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
-import "./MonthlyContribution.scss"
+import "./MonthlyContribution.scss";
 
 const MonthlyContribution = () => {
   // Global state variables
@@ -42,9 +42,18 @@ const MonthlyContribution = () => {
 
   contributions &&
     contributions.map((contribution) => {
+      const formattedDate = new Date(contribution.date).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
+
       return rows.push({
         id: contribution._id,
-        date: contribution.date,
+        date: formattedDate, // formatted in DD.MM.YYYY
         amount: contribution.amount,
       });
     });

@@ -1,26 +1,22 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.committee-members-wrapper {
-  width: $laptop;
-  margin: 2rem auto;
-  @include shadow2;
-  background-color: $form-bg ;
+.add-committee-modal {
+  @include modal;
 
-  .committee-members-title {
-    @include subTitle;
-  }
+  .add-committee-popup {
+    @include popupBox;
+    padding: 2rem;
 
-
-  .committee-members-fieldset {
-    @include fieldset;
-
-    .committee-members-legend {
-      @include legend;
-      text-align: center;
+    .close-popup {
+      @include closeModal;
     }
 
-    .committee-members-form{
+    .add-committee-title {
+      @include title;
+    }
+
+    .add-committee-member-form {
       @include flexColumn;
       margin-top: 0;
 

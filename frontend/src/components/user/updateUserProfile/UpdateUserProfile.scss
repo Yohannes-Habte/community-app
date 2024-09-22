@@ -1,14 +1,15 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
 .user-profile-container {
   width: $laptop;
   margin: 1rem auto;
-  
+
   .update-user-profile-wrapper {
     width: 70%;
     margin: 1rem auto;
-    @include shadow2;
+    @include shadow1;
+    background-color: $form-bg;
 
     .update-user-profile-title {
       @include subTitle;

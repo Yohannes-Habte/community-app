@@ -134,7 +134,8 @@ export const getSingleUser = async (req, res, next) => {
 //====================================================================
 export const getAllUsers = async (req, res, next) => {
   try {
-    const users = await Member.find();
+    // Fetch all users and sort them by firstName in ascending order
+    const users = await Member.find().sort({ firstName: 1 });
 
     if (!users) {
       return next(createError(400, "Users not found! Please login!"));
@@ -276,14 +277,29 @@ export const getAllUserServices = async (req, res, next) => {
       return next(createError(400, "User not found! Please login!"));
     }
 
+    // Map the services to extract the _id (the populated Service document)
+    const services = user.services.map((service) => service._id);
+
+    // Sort the services by serviceDate first by year and then by month
+    services.sort((a, b) => {
+      const dateA = new Date(a.serviceDate);
+      const dateB = new Date(b.serviceDate);
+
+      // Compare by year first
+      if (dateA.getFullYear() !== dateB.getFullYear()) {
+        return dateA.getFullYear() - dateB.getFullYear();
+      }
+
+      // If the years are the same, compare by month
+      return dateA.getMonth() - dateB.getMonth();
+    });
+
     return res.status(200).json({
       success: true,
-      result: user.services.map((service) => service._id),
+      result: services,
     });
   } catch (error) {
-    next(
-      createError(500, "The services could not be accessed! Please try again!")
-    );
+    next(createError(500, "Server error!"));
   }
 };
 

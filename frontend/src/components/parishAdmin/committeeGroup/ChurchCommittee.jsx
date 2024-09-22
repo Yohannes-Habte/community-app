@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { useNavigate } from "react-router-dom";
-import "./ChurchCommittees.scss";
+import "./ChurchCommittee.scss";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
 
 const ChurchCommittees = () => {
@@ -52,9 +52,16 @@ const ChurchCommittees = () => {
   };
 
   return (
-    <section className="committees-container">
-      <h3 className="committees-title">Committee Members</h3>
+    <section className="committee-container">
+      <h3 className="committee-title">Committee Members</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <p className="user-information">
+        Kindly select a year range from the options below to view the list of
+        committee members who served within the specified period. This will
+        allow you to identify individuals who were active during the selected
+        years, offering a more focused view of their tenure and contributions.{" "}
+      </p>
 
       <form onSubmit={fetchCommitteeMembers} className="committee-query-form">
         <div className="input-container">
@@ -80,13 +87,11 @@ const ChurchCommittees = () => {
       </form>
 
       <section className="committee-card-wrapper">
-        {committeeMembers && committeeMembers.length > 0 ? (
+        {committeeMembers &&
+          committeeMembers.length > 0 &&
           committeeMembers.map((member) => {
             return <CommitteeCard key={member._id} data={member} />;
-          })
-        ) : (
-          <p>No members found</p>
-        )}
+          })}
       </section>
     </section>
   );

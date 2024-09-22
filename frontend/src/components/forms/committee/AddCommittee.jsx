@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Committee.scss";
+import "./AddCommittee.scss";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
@@ -15,10 +15,14 @@ import {
   cloud_name,
   upload_preset,
 } from "../../../utiles/securitiy/secreteKey";
-import { postCommitteeFailure, postCommitteeStart, postCommitteeSuccess } from "../../../redux/reducers/committeeReducer";
+import {
+  postCommitteeFailure,
+  postCommitteeStart,
+  postCommitteeSuccess,
+} from "../../../redux/reducers/committeeReducer";
 import { toast } from "react-toastify";
 
-const Committee = () => {
+const AddCommittee = ({ setOpenCommittee }) => {
   // Global state variables
   const { error } = useSelector((state) => state.committee);
   const dispatch = useDispatch();
@@ -116,20 +120,19 @@ const Committee = () => {
   };
 
   return (
-    <section className="committee-members-wrapper">
-      <h3 className="committee-members-title"> Committee Members </h3>
+    <article className="add-committee-modal">
+      <section className="add-committee-popup">
+        <span className="close-popup" onClick={() => setOpenCommittee(false)}>
+          X
+        </span>
+        <h3 className="add-committee-title"> Add Committee Member </h3>
 
-      {error ? <p className="error-message"> {error} </p> : null}
-
-      <fieldset className="committee-members-fieldset">
-        <legend className="committee-members-legend">
-          Add Committee Member
-        </legend>
-
+        {error ? <p className="error-message"> {error} </p> : null}
+    
         <form
           onSubmit={handleSubmit}
           action=""
-          className="committee-members-form"
+          className="add-committee-member-form"
         >
           <div className="inputs-wrapper">
             {/* First Name */}
@@ -305,9 +308,9 @@ const Committee = () => {
 
           <button className="add-committee-btn">Send</button>
         </form>
-      </fieldset>
-    </section>
+      </section>
+    </article>
   );
 };
 
-export default Committee;
+export default AddCommittee;

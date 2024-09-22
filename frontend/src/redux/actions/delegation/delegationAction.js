@@ -91,6 +91,21 @@ export const fetchAllDelegatedPriests = () => async (dispatch) => {
 };
 
 //==============================================================================
+// Fetch All Delegated Priests
+//==============================================================================
+export const fetchDelegatedPriests = () => async (dispatch) => {
+  dispatch(fetchAllDelegatedPriestsStart());
+  try {
+    const response = await axios.get(`${API}/delegations/all/priests`, {
+      withCredentials: true,
+    });
+    dispatch(fetchAllDelegatedPriestsSuccess(response.data.priests));
+  } catch (error) {
+    dispatch(fetchAllDelegatedPriestsFailure(error.response.data.message));
+  }
+};
+
+//==============================================================================
 // Clear Errors
 //==============================================================================
 export const clearErrorsAction = () => (dispatch) => {

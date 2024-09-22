@@ -29,13 +29,22 @@ const AllEvents = () => {
   const rows = [];
   events &&
     events.map((event) => {
+      const formattedDate = new Date(event.eventDate).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
+
       return rows.push({
         id: event._id,
         eventName: event.eventName,
         eventPurpose: event.eventPurpose,
         eventOrganizer: event.eventOrganizer,
         eventFacilitator: event.eventFacilitator,
-        eventAddress: event.eventAddress,
+        eventAddress: formattedDate,
         eventDate: event.eventDate,
       });
     });
