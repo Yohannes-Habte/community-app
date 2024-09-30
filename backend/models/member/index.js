@@ -17,7 +17,11 @@ const memberSchema = new Schema(
     city: { type: String, required: true },
     state: { type: String, required: true },
     country: { type: String, required: true },
-    maritalStatus: { type: String, default: "Single" },
+    maritalStatus: {
+      type: String,
+      enum: ["Single", "Married", "Divorced", "Widowed"],
+      default: "Single",
+    },
 
     addresses: [
       {
@@ -36,7 +40,7 @@ const memberSchema = new Schema(
 
     services: [
       {
-        _id: { type: mongoose.Types.ObjectId, ref: "Service" }
+        _id: { type: mongoose.Types.ObjectId, ref: "Service" },
       },
     ],
 
@@ -74,4 +78,3 @@ const Member = mongoose.model("User", memberSchema);
 
 // Export User Model
 export default Member;
-

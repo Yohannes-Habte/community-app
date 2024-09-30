@@ -10,7 +10,11 @@ import {
   Area,
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllFinancialReportsFailure, fetchAllFinancialReportsStart, fetchAllFinancialReportsSuccess } from "../../../redux/reducers/financeReducer";
+import {
+  fetchAllFinancialReportsFailure,
+  fetchAllFinancialReportsStart,
+  fetchAllFinancialReportsSuccess,
+} from "../../../redux/reducers/financeReducer";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import axios from "axios";
 
@@ -31,7 +35,9 @@ const monthsMap = {
 
 const FinancialReportChart = () => {
   // Global state variables
-  const { financialReports } = useSelector((state) => state.finance);
+  const { financialReports, loading, error } = useSelector(
+    (state) => state.finance
+  );
   const dispatch = useDispatch();
 
   // Local state variable
@@ -104,32 +110,41 @@ const FinancialReportChart = () => {
         <button className="year-form-btn">Search</button>
       </form>
 
-      <ResponsiveContainer width="100%" aspect={2 / 1}>
-        <AreaChart
-          width={730}
-          height={250}
-          data={row}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <defs>
-            <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis dataKey="name" stroke="gray" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" className="chart-Grid" />
-          <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="total"
-            stroke="#8884d8"
-            fillOpacity={1}
-            fill="url(#total)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {financialReports.length === 0 && <p>No financial reports found</p>}
+
+      {!loading &&
+        !error &&
+        financialReports &&
+        financialReports.length !== 0 && (
+          <ResponsiveContainer width="100%" aspect={2 / 1}>
+            <AreaChart
+              width={730}
+              height={250}
+              data={row}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="name" stroke="gray" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" className="chart-Grid" />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="total"
+                stroke="#8884d8"
+                fillOpacity={1}
+                fill="url(#total)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
     </section>
   );
 };

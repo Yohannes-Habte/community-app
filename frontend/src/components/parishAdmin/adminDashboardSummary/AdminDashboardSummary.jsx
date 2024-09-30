@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import FinancialReportChart from "../charts/FinancialReportChart";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -22,7 +22,6 @@ const AdminDashboardSummary = ({ setIsActive }) => {
   const { services, loading, error } = useSelector((state) => state.service);
   const { parishioners } = useSelector((state) => state.member);
   const { events } = useSelector((state) => state.event);
-  const [contributorsCount, setContributorsCount] = useState(0);
 
   useEffect(() => {
     dispatch(allServices());
@@ -50,14 +49,6 @@ const AdminDashboardSummary = ({ setIsActive }) => {
       dispatch(clearAllMemberErrors());
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    // Filter the users who have made at least one contribution
-    const contributors = parishioners.filter(
-      (user) => user.monthlyContributions.length > 0
-    );
-    setContributorsCount(contributors.length);
-  }, []);
 
   /// Categorizing services
   const categorizeServices = (category) => {
@@ -91,6 +82,59 @@ const AdminDashboardSummary = ({ setIsActive }) => {
     }
   };
 
+  // Count events based on their status
+  const totalEvents = events.length;
+  const pastEvents = events.filter(
+    (event) => event.eventStatus === "past"
+  ).length;
+  const upcomingEvents = events.filter(
+    (event) => event.eventStatus === "upcoming"
+  ).length;
+  const cancelledEvents = events.filter(
+    (event) => event.eventStatus === "cancelled"
+  ).length;
+
+  // Count members based on their marital status
+  const totalMembers = parishioners.length;
+  const singleMembers = parishioners.filter(
+    (member) => member.maritalStatus === "Single"
+  ).length;
+  const marriedMembers = parishioners.filter(
+    (member) => member.maritalStatus === "Married"
+  ).length;
+  const divorcedMembers = parishioners.filter(
+    (member) => member.maritalStatus === "Divorced"
+  ).length;
+  const widowedMembers = parishioners.filter(
+    (member) => member.maritalStatus === "Widowed"
+  ).length;
+
+  // Count members based on their contribution status
+  const zeroContribution = parishioners.filter(
+    (member) => member.monthlyContributions.length === 0
+  ).length;
+  const contributionLessThanOrEqualToThree = parishioners.filter(
+    (member) =>
+      member.monthlyContributions.length > 0 &&
+      member.monthlyContributions.length <= 2
+  ).length;
+
+  const contributionGreaterThanThreeAndLessOrEqualToSix = parishioners.filter(
+    (member) =>
+      member.monthlyContributions.length >= 3 &&
+      member.monthlyContributions.length <= 5
+  ).length;
+  const contributionGreaterThanSixAndLessOrEqualToNine = parishioners.filter(
+    (member) =>
+      member.monthlyContributions.length >= 6 &&
+      member.monthlyContributions.length <= 8
+  ).length;
+  const contributionGreaterThanNine = parishioners.filter(
+    (member) => member.monthlyContributions.length >= 9
+  ).length;
+
+  console.log("4-6 months =", contributionGreaterThanThreeAndLessOrEqualToSix);
+
   const handleViewServices = () => {
     navigate("/admin/dashboard");
     setIsActive(12);
@@ -98,17 +142,19 @@ const AdminDashboardSummary = ({ setIsActive }) => {
 
   const handleViewMembers = () => {
     navigate("/admin/dashboard");
-    setIsActive(2);
+    setIsActive(5);
   };
 
   const handleViewEvents = () => {
     navigate("/admin/dashboard");
-    setIsActive(6);
+    setIsActive(8);
   };
 
   return (
     <section className="admin-dashboard-summary">
-      <h2 className="admin-dashboard-summary-title"> Dashboard Summary</h2>
+      <h2 className="admin-dashboard-summary-title">
+        Overview of Church Performance Summary{" "}
+      </h2>
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
@@ -208,7 +254,20 @@ const AdminDashboardSummary = ({ setIsActive }) => {
 
           <aside className="service-aside">
             <h4 className="service-title"> Church Events </h4>
-            <p className="service-count"> Counts: {events.length} </p>
+            <p className="service-total-category-count">
+              <strong>Total Events:</strong> {totalEvents}
+            </p>
+            <p className="service-status">
+              Past: <span>{pastEvents}</span>
+            </p>
+
+            <p className="service-status">
+              Cancelled: <span>{cancelledEvents}</span>
+            </p>
+            <p className="service-status">
+              Upcoming: <span>{upcomingEvents}</span>
+            </p>
+
             <p className="service-link">
               <button onClick={handleViewEvents} className="view">
                 View Events
@@ -218,7 +277,25 @@ const AdminDashboardSummary = ({ setIsActive }) => {
 
           <aside className="service-aside">
             <h4 className="service-title"> Parishioners </h4>
-            <h4 className="service-count"> Counts: {parishioners.length} </h4>
+
+            <p className="service-total-category-count">
+              Total Members: <span> {totalMembers} </span>
+            </p>
+
+            <p className="service-status">
+              Single: <span>{singleMembers}</span>
+            </p>
+            <p className="service-status">
+              Married: <span>{marriedMembers}</span>
+            </p>
+            <p className="service-status">
+              Divorced: <span>{divorcedMembers}</span>
+            </p>
+
+            <p className="service-status">
+              Widowed: <span>{widowedMembers}</span>
+            </p>
+
             <p className="service-link">
               <button onClick={handleViewMembers} className="view">
                 View Parishioners
@@ -228,7 +305,26 @@ const AdminDashboardSummary = ({ setIsActive }) => {
 
           <aside className="service-aside">
             <h4 className="service-title"> Contributed Members </h4>
-            <p className="service-count"> Counts: {contributorsCount} </p>
+            <p className="service-status">
+              No Contribution: <span>{zeroContribution}</span>
+            </p>
+
+            <p className="service-status">
+              0 - 3 Months: <span>{contributionLessThanOrEqualToThree}</span>
+            </p>
+            <p className="service-status">
+              4 - 6 Months:{" "}
+              <span>{contributionGreaterThanThreeAndLessOrEqualToSix}</span>
+            </p>
+            <p className="service-status">
+              7 - 9 Months:{" "}
+              <span>{contributionGreaterThanSixAndLessOrEqualToNine}</span>
+            </p>
+
+            <p className="service-status">
+              10 - 12 Months: <span>{contributionGreaterThanNine}</span>
+            </p>
+
             <p className="service-link">
               <button onClick={handleViewMembers} className="view">
                 View Contributions

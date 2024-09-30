@@ -8,10 +8,12 @@
   .admin-dashboard-summary-title {
     @include subTitle;
     font-size: $aafs;
+    text-align: center;
   }
 
   .summary-wrapper {
     @include threeGridTemplateEqualColumns;
+    row-gap: 3rem;
 
     .service-aside {
       @include shadow1;
@@ -76,6 +78,7 @@
 
       .service-link {
         font-size: $nfs;
+        margin: 0.6rem 0;
 
         .view {
           font-size: $nfs;
