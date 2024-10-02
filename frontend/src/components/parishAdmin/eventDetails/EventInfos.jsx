@@ -13,7 +13,7 @@ const EventInfos = ({ setIsActive }) => {
   const { events } = useSelector((state) => state.event);
 
   // Local state variable to track the selected year
-  const [year, setYear] = useState("2023");
+  const [year, setYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     dispatch(fetchAllEvents());
@@ -49,10 +49,15 @@ const EventInfos = ({ setIsActive }) => {
     const cancelledEvents = filteredEvents.filter(
       (event) => event.eventStatus === "cancelled"
     ).length;
-    
+
     const totalEvents = filteredEvents.length;
 
-    return { pastEvents, upcomingEvents, cancelledEvents, totalEvents };
+    return {
+      pastEvents,
+      upcomingEvents,
+      cancelledEvents,
+      totalEvents,
+    };
   };
 
   // ================================================================
@@ -61,6 +66,15 @@ const EventInfos = ({ setIsActive }) => {
 
   const { pastEvents, upcomingEvents, cancelledEvents, totalEvents } =
     countEventsByYear(events, year);
+
+  // ================================================================
+  // Event facilitators by year
+  // ================================================================
+  const eventFacilitators = events.filter(
+    (event) => new Date(event.eventDate).getFullYear().toString() === year
+  );
+
+
 
   // ================================================================
   // Function to handle form submission
@@ -73,40 +87,64 @@ const EventInfos = ({ setIsActive }) => {
 
   return (
     <section className="events-information-container">
-      <h4 className="event-information-title">Events</h4>
+      <h4 className="event-information-title">Events Services for the Year {year} </h4>
 
-      <form action="" onSubmit={handleSubmit} className="year-form">
+      <form action="" onSubmit={handleSubmit} className="event-year-form">
         <input
           type="number"
           name="year"
-          defaultValue={2023}
+          defaultValue={year}
           placeholder="Enter Year only"
-          className="year-input-field"
+          className="input-field"
         />
         <button className="year-form-btn">Search</button>
       </form>
 
       <article className="event-infos-wrapper">
         <h4 className="event-title">Events in {year}</h4>
+        <div className="event-box">
+          <aside className="left-event-box">
+            <p className="event-status">
+              Past Events: <span className="span">{pastEvents}</span>
+            </p>
+            <p className="event-status">
+              Cancelled Events: <span className="span">{cancelledEvents}</span>
+            </p>
+            <p className="event-status">
+              Upcoming Events: <span className="span">{upcomingEvents}</span>
+            </p>
+            <p className="event-status">
+              Total Events: <span className="span">{totalEvents}</span>
+            </p>
 
-        <p className="event-status">
-          Past: <span>{pastEvents}</span>
-        </p>
-        <p className="event-status">
-          Cancelled: <span>{cancelledEvents}</span>
-        </p>
-        <p className="event-status">
-          Upcoming: <span>{upcomingEvents}</span>
-        </p>
-        <p className="event-status">
-          Total Events: <span>{totalEvents}</span>
-        </p>
+            <h4 className="event-link">
+              <button onClick={handleViewEvents} className="view">
+                View Events
+              </button>
+            </h4>
+          </aside>
 
-        <p className="event-link">
-          <button onClick={handleViewEvents} className="view">
-            View Events
-          </button>
-        </p>
+          <aside className="right-event-box">
+            {eventFacilitators && eventFacilitators.length > 0 ? (
+              eventFacilitators.map((event, index) => {
+                return (
+                  <ul key={index} className="event-facilitators-list">
+                    <li className="event-facilitator">
+                      {event.eventName}:{" "}
+                      <span className="facilitator">
+                        {event.eventFacilitator}
+                      </span>
+                    </li>
+                  </ul>
+                );
+              })
+            ) : (
+              <h4 className="no-facilitators">
+                Facilitators Unavailable for the Selected Year
+              </h4>
+            )}
+          </aside>
+        </div>
       </article>
     </section>
   );

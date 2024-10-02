@@ -72,7 +72,7 @@
       }
 
       .add-committee-btn {
-        @include button1;
+        @include buttonWithInput;
       }
     }
   }

@@ -144,6 +144,24 @@
   align-items: center;
   gap: 0.4rem;
 }
+
+@mixin inputWithButton {
+  width: 10rem;
+  padding: 0.5rem;
+  font-size: $nfs;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+@mixin buttonWithInput {
+  padding: 0.5rem;
+  font-size: $nfs;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: $blue;
+  color: white;
+  cursor: pointer;
+}
 // ==============================================================================================
 // Button styling
 // ==============================================================================================

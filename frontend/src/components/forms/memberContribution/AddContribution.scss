@@ -42,7 +42,7 @@
       }
 
       .add-member-contribution-btn {
-        @include button1;
+        @include buttonWithInput;
       }
     }
   }

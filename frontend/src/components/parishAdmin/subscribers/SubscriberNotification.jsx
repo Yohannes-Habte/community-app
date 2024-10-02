@@ -28,7 +28,7 @@ const SubscriberNotification = () => {
 
   return (
     <section className="subscribers-notification-wrapper">
-      <h2 className="subscribers-notification-title">Send Notification</h2>
+      <h2 className="subscribers-notification-title"> Notify Subscribed ERCCH Members </h2>
       <form onSubmit={handleSubmit} className="subscribers-notification-form">
         <div className="input-container">
           <label>Subject:</label>

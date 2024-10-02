@@ -64,7 +64,7 @@ const ServicesInfos = ({ setIsActive }) => {
 
   const handleViewServices = () => {
     navigate("/admin/dashboard");
-    setIsActive(12);
+    setIsActive(10);
   };
 
   const handleSubmit = (e) => {
@@ -74,15 +74,15 @@ const ServicesInfos = ({ setIsActive }) => {
 
   return (
     <section className="services-information-container">
-      <h3 className="services-information-title">Church Services - {year}</h3>
+      <h3 className="services-information-title">Church Services for the Year {year}</h3>
 
-      <form action="" onSubmit={handleSubmit} className="year-form">
+      <form action="" onSubmit={handleSubmit} className="services-year-form">
         <input
           type="number"
           name="year"
-          defaultValue={new Date().getFullYear()}
+          defaultValue={year}
           placeholder="Enter Year only"
-          className="year-input-field"
+          className="input-field"
         />
         <button className="year-form-btn">Search</button>
       </form>
@@ -95,7 +95,7 @@ const ServicesInfos = ({ setIsActive }) => {
         <div className="services-infos-wrapper">
           {/* Sacraments Summary */}
           <article className="service-article">
-            <h4 className="service-title">Sacraments</h4>
+            <h4 className="service-title">Sacramental Services </h4>
 
             <p className="service-status">
               <strong>Completed:</strong>
@@ -131,7 +131,7 @@ const ServicesInfos = ({ setIsActive }) => {
 
           {/* Spiritual Development Summary */}
           <article className="service-article">
-            <h4 className="service-title">Spiritual Development</h4>
+            <h4 className="service-title">Spiritual Development Services </h4>
 
             <p className="service-status">
               <strong>Completed:</strong>
@@ -167,7 +167,7 @@ const ServicesInfos = ({ setIsActive }) => {
 
           {/* Soul Prayers Summary */}
           <article className="service-article">
-            <h4 className="service-title">Soul Prayers</h4>
+            <h4 className="service-title">Soul Prayers Services</h4>
 
             <p className="service-status">
               <strong>Completed:</strong>

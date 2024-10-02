@@ -32,17 +32,9 @@ const AdminDashboarView = ({ isActive, setIsActive }) => {
 
       {isActive === 9 && <ServiceCategories />}
 
-      {isActive === 10 && <ChurchServices />}
+      {isActive === 10 && <ChurchServices setIsActive={setIsActive} />}
 
       {isActive === 11 && <SubscriberNotification />}
-
- 
-
-   
-
-    
-
-      
     </article>
   );
 };

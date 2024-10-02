@@ -3,30 +3,25 @@
 
 .chart-wrapper {
   position: relative;
+  margin: 2rem 0;
 
   .chart-title {
     @include subTitle;
-    color: $green;
-    margin-top: 2rem;
+    font-size: $aafs;
+    
   }
 
-  .year-form {
+  .financial-year-form {
     position: absolute;
-    top: 0;
+    top: 1rem;
     right: 2rem;
 
-    .year-input-field {
-      padding: 0.7rem;
-      border: 1px solid #ced4da;
-      border-radius: 4px;
-      outline: none;
-      font-size: 16px;
-      transition: border-color 0.3s ease;
-      cursor: none;
+    .input-field {
+      @include inputWithButton;
     }
 
     .year-form-btn {
-      @include button2;
+      @include buttonWithInput;
     }
   }
 }

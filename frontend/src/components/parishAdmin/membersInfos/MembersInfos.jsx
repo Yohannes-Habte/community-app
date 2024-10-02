@@ -12,8 +12,8 @@ const MembersInfos = ({ setIsActive }) => {
   const dispatch = useDispatch();
   const { parishioners } = useSelector((state) => state.member);
 
-  // Local state variable to track the selected year
-  const [year, setYear] = useState("2023");
+  // Local state variable for the selected year
+  const [year, setYear] = useState(new Date().getFullYear().toString());
 
   useEffect(() => {
     dispatch(fetchParishioners());
@@ -100,17 +100,20 @@ const MembersInfos = ({ setIsActive }) => {
   return (
     <section className="parishioners-information-container">
       <h4 className="parishioners-information-title">
-        {" "}
-        Parishioners Information{" "}
+        Parishioners Information for the year {year}
       </h4>
 
-      <form action="" onSubmit={handleSubmit} className="year-form">
+      <form
+        action=""
+        onSubmit={handleSubmit}
+        className="parishioners-year-form"
+      >
         <input
           type="number"
           name="year"
-          defaultValue={2023}
+          defaultValue={year}
           placeholder="Enter Year only"
-          className="year-input-field"
+          className="input-field"
         />
         <button className="year-form-btn">Search</button>
       </form>

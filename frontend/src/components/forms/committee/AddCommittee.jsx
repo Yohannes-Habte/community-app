@@ -128,7 +128,7 @@ const AddCommittee = ({ setOpenCommittee }) => {
         <h3 className="add-committee-title"> Add Committee Member </h3>
 
         {error ? <p className="error-message"> {error} </p> : null}
-    
+
         <form
           onSubmit={handleSubmit}
           action=""
@@ -306,7 +306,7 @@ const AddCommittee = ({ setOpenCommittee }) => {
             <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
           </div>
 
-          <button className="add-committee-btn">Send</button>
+          <button className="add-committee-btn">Add Committee Member</button>
         </form>
       </section>
     </article>

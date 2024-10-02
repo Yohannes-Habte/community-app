@@ -40,8 +40,8 @@ const FinancialReportChart = () => {
   );
   const dispatch = useDispatch();
 
-  // Local state variable
-  const [year, setYear] = useState("2023");
+  // Local state variable for the selected year
+  const [year, setYear] = useState("2022");
 
   // Display all financial income and expenses in the table
   useEffect(() => {
@@ -99,13 +99,13 @@ const FinancialReportChart = () => {
       <h3 className="chart-title">
         Monthly Financial Report chart for the year {year}{" "}
       </h3>
-      <form action="" onSubmit={handleSubmit} className="year-form">
+      <form action="" onSubmit={handleSubmit} className="financial-year-form">
         <input
           type="number"
           name="year"
-          defaultValue={2023}
+          defaultValue={"2022"}
           placeholder="Enter Year only"
-          className="year-input-field"
+          className="input-field"
         />
         <button className="year-form-btn">Search</button>
       </form>

@@ -2,11 +2,26 @@
 @import "../../../styles/mixins.scss";
 
 .parishioners-information-container {
+  position: relative;
   margin: 2rem 0;
 
   .parishioners-information-title {
     @include subTitle;
     font-size: $aafs;
+  }
+
+  .parishioners-year-form {
+    position: absolute;
+    top: 1rem;
+    right: 0;
+
+    .input-field {
+      @include inputWithButton;
+    }
+
+    .year-form-btn {
+      @include buttonWithInput;
+    }
   }
 
   .parishioners-infos-wrapper {
