@@ -137,7 +137,7 @@ const AllChurchServices = () => {
 
   return (
     <section className="church-services-table-wrapper">
-      <h1> Church Services </h1>
+      <h1 className="church-services-table-title"> Church Services </h1>
 
       {loading && <PageLoader />}
 

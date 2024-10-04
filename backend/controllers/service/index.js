@@ -115,8 +115,6 @@ export const createServiceRequest = async (req, res, next) => {
       session.endSession();
     }
 
-    logger.error(`Service request creation failed: ${error.message}`, error);
-
     // Handle specific error messages or fallback to a generic message
     return next(error.status ? error : createError(500, "Server error"));
   }

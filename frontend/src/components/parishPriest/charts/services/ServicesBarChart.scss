@@ -1,0 +1,45 @@
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
+
+.services-bar-chart-container {
+  position: relative;
+  margin: 2rem 0;
+  background-color: $chart-bg;
+  padding: 1rem 2rem;
+  border-radius: $radius;
+
+  .service-chart-title {
+    @include subTitle;
+    font-size: $afs;
+  }
+
+  .service-chart-form {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    .input-field {
+      @include inputWithButton;
+    }
+
+    .service-form-btn {
+      @include buttonWithInput;
+    }
+  }
+
+  .services-chart-info-text {
+    @include flexSpaceBetween;
+    margin: 1rem;
+    .services-count {
+      mark {
+        padding: 0.2rem 0.5rem;
+      }
+    }
+
+    .details {
+      .view-services {
+        color: $red;
+      }
+    }
+  }
+}

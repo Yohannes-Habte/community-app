@@ -69,8 +69,10 @@ const AllParishioners = () => {
     });
 
   return (
-    <section>
-      <h1>Current Members of the Eritrean Roman Catholic Church in Hamburg</h1>
+    <section className="parishioners-container">
+      <h1 className="parishioners-title">
+        Current Members of the Eritrean Roman Catholic Church in Hamburg
+      </h1>
 
       {loading && <PageLoader />}
 

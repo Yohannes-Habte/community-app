@@ -1,0 +1,33 @@
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
+
+.sacraments-line-chart-container {
+  position: relative;
+  margin: 2rem 0;
+  background-color: $chart-bg;
+  padding: 1rem 2rem;
+  border-radius: $radius;
+
+  .sacraments-line-chart-title {
+    @include subTitle;
+    font-size: $afs;
+  }
+
+  .sacrament-info-text {
+    @include flexSpaceBetween;
+    margin: 1rem;
+    .sacrament-count {
+      margin: 0.5rem 0;
+      .mark {
+        padding: 0.2rem 0.5rem;
+      }
+    }
+
+    .more-information {
+      .view-more {
+        color: $red;
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}

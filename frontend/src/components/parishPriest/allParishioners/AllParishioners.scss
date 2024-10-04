@@ -1,0 +1,13 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.parishioners-container {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .parishioners-title {
+    @include subTitle;
+    font-size: $afs;
+    padding: 2rem 0;
+  }
+}

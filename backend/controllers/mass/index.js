@@ -78,11 +78,23 @@ export const createMass = async (req, res) => {
 // ================================================================================================
 export const getAllMasses = async (req, res, next) => {
   try {
-    const masses = await Mass.find().sort({ date: 1 }); // Sort by date ascending
+    // Get the current year
+    const currentYear = new Date().getFullYear();
 
-    if (!masses) {
-      next(createError(404, "No Masses found"));
+    // Create start and end date for the current year
+    const startOfYear = new Date(`${currentYear}-01-01T00:00:00.000Z`);
+    const endOfYear = new Date(`${currentYear}-12-31T23:59:59.999Z`);
+
+    // Fetch masses that fall within the current year
+    const masses = await Mass.find({
+      date: { $gte: startOfYear, $lte: endOfYear },
+    }).sort({ date: 1 }); // Sort by date in ascending order
+
+    if (!masses || masses.length === 0) {
+      return next(createError(404, "No Masses found for the current year"));
     }
+
+    // Send the response
     res.status(200).json({ success: true, result: masses });
   } catch (error) {
     res

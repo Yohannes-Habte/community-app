@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./LineCharts.scss";
+import "./SacramentsLineChart.scss";
 import {
   LineChart,
   Line,
@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearAllErrors,
   fetchAllServices,
-} from "../../../redux/actions/service/serviceAction";
+} from "../../../../redux/actions/service/serviceAction";
+import { Link, useNavigate } from "react-router-dom";
 
-const SacramentsLineChart = () => {
+const SacramentsLineChart = ({ setActive }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { services } = useSelector((state) => state.service);
   const [sacramentData, setSacramentData] = useState([]);
@@ -57,9 +59,20 @@ const SacramentsLineChart = () => {
     }
   }, [services]);
 
+  // =======================================================================================
+  // Handle view services
+  // =======================================================================================
+
+  const handleViewServices = () => {
+    navigate("/priest/dashboard");
+    setActive(3);
+  };
+
   return (
-    <section className="linechart-container">
-      <h4 className="chart-title"> Sacrament Services </h4>
+    <section className="sacraments-line-chart-container">
+      <h4 className="sacraments-line-chart-title">
+        Statistical Insights on Sacrament Services{" "}
+      </h4>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={sacramentData}>
           <XAxis
@@ -80,6 +93,30 @@ const SacramentsLineChart = () => {
           <Line type="monotone" dataKey="Sacrament Size" stroke="#82ca9d" />
         </LineChart>
       </ResponsiveContainer>
+
+      <aside className="sacrament-info-text">
+        <h4 className="sacrament-count">
+          Sacrament Services Count:{" "}
+          <mark className="mark">
+            {services &&
+              services.length > 0 &&
+              services?.filter(
+                (service) => service.serviceCategory.category === "Sacraments"
+              ).length}{" "}
+          </mark>
+        </h4>
+
+        <p className="more-information">
+          For more information, click on
+          <Link
+            onClick={handleViewServices}
+            to={"/priest/dashboard"}
+            className="view-more"
+          >
+            View More
+          </Link>
+        </p>
+      </aside>
     </section>
   );
 };

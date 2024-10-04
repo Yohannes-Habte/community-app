@@ -31,24 +31,29 @@ const Footer = () => {
           </ul>
 
           <ul className="footer-ul">
+            {/* Link to Parish Priest section */}
             <li className="footer-ul-li">
-              <Link className="footer-ul-li-link" to={"/about"}>
+              <Link className="footer-ul-li-link" to={"/about#priest"}>
                 Priest
               </Link>
             </li>
+
+            {/* Link to Committee section */}
             <li className="footer-ul-li">
-              <Link className="footer-ul-li-link" to={"/about"}>
+              <Link className="footer-ul-li-link" to={"/about#committee"}>
                 Committee
               </Link>
             </li>
+
             <li className="footer-ul-li">
-              <Link className="footer-ul-li-link" to={"/home"}>
+              <Link className="footer-ul-li-link" to="/news#latest-event">
                 New Event
               </Link>
             </li>
+
             <li className="footer-ul-li">
-              <Link className="footer-ul-li-link" to={"/report"}>
-                Report
+              <Link className="footer-ul-li-link" to={"/news"}>
+                News
               </Link>
             </li>
           </ul>

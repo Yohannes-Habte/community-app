@@ -19,7 +19,7 @@ const PriestDashboardPage = () => {
 
         <div className="parish-priest-dashboard-wrapper">
           <PriestDashboardSidebar active={active} setActive={setActive} />
-          <PriestDashboardOverview active={active} />
+          <PriestDashboardOverview active={active} setActive={setActive} />
         </div>
       </section>
       <Footer />  

@@ -99,15 +99,15 @@ const AllDelegations = () => {
   };
 
   return (
-    <section className="delegated-priests-wrapper">
-      <h2 className="delegated-priests-title"> Priests Delegation List </h2>
+    <section className="delegated-priests-table-container">
+      <h2 className="delegated-priests-table-title"> Priests Delegation List </h2>
 
       {loading && <PageLoader />}
 
       {error ? <p className="error-message"> {error} </p> : null}
 
-      <aside className="add-delegation-aside">
-        <h3 className="add-delegation-aside-title">Add Delegated Priest</h3>
+      <aside className="add-delegation-priest-wrapper">
+        <h3 className="add-delegation-priest-title">Add Delegated Priest</h3>
         <button
           onClick={() => setOpenDelegation(true)}
           className="add-delegation-btn"

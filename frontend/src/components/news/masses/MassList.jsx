@@ -38,9 +38,15 @@ const MassList = () => {
     <section className="mass-list-container">
       <h2 className="mass-list-title">Scheduled Mass Services</h2>
       <div className="mass-list-wrapper">
-        {massData.map((mass) => (
-          <MassCard key={mass._id} mass={mass} />
-        ))}
+        {loading && <p>Loading...</p>}
+        {error && <p>Error loading data: {error.message}</p>}
+
+        {massData.length === 0 && <p>No Masses scheduled at the moment</p>}
+
+        {massData &&
+          massData.map((mass) => {
+            return <MassCard key={mass._id} mass={mass} />;
+          })}
       </div>
     </section>
   );

@@ -1,28 +1,29 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.delegated-priests-wrapper{
+.delegated-priests-table-container {
   width: $laptop;
   margin: 1rem auto;
 
-  .delegated-priests-title {
+  .delegated-priests-table-title {
     @include subTitle;
-    font-size: $aafs;
+    font-size: $afs;
+    padding: 2rem 0;
   }
 
-  .add-delegation-aside {
+  .add-delegation-priest-wrapper{
     @include flexSpaceBetween;
     background-color: $form-bg;
-   margin-bottom: 2rem;
-   padding: 0.2rem 1rem;
+    margin-bottom: 2rem;
+    padding: 0.2rem 1rem;
 
-    .add-delegation-aside-title {
-      @include subTitle
+    .add-delegation-priest-title {
+      @include subTitle;
+      font-size: $nfs;
     }
 
     .add-delegation-btn {
       @include button2;
-      
     }
   }
 }

@@ -1,0 +1,33 @@
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
+
+.soul-prayer-line-chart-container {
+  position: relative;
+  margin: 2rem 0;
+  background-color: $chart-bg;
+  padding: 1rem 2rem;
+  border-radius: $radius;
+
+  .soul-prayer-line-chart-title {
+    @include subTitle;
+    font-size: $afs;
+  }
+
+  .soul-prayer-line-chart-info {
+    @include flexSpaceBetween;
+    margin: 1rem;
+    .soul-prayer-count {
+      margin: 0.5rem 0;
+      .mark {
+        padding: 0.2rem 0.5rem;
+      }
+    }
+
+    .more-information {
+      .view-more {
+        color: $red;
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}

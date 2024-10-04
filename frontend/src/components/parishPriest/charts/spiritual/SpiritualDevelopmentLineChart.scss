@@ -1,0 +1,33 @@
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
+
+.spiritual-development-line-chart-container {
+  position: relative;
+  margin: 2rem 0;
+  background-color: $chart-bg;
+  padding: 1rem 2rem;
+  border-radius: $radius;
+
+  .spiritual-development-line-chart-title {
+    @include subTitle;
+    font-size: $afs;
+  }
+
+  .spiritual-development-line-chart-info {
+    @include flexSpaceBetween;
+    margin: 1rem;
+    .spiritual-development-count {
+      margin: 0.5rem 0;
+      mark {
+        padding: 0.2rem 0.5rem;
+      }
+    }
+
+    .more-information {
+      .view-more {
+        color: $red;
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}

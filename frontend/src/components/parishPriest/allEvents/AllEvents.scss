@@ -1,0 +1,13 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.church-events-table-container {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .church-events-table-title {
+    @include subTitle;
+    font-size: $afs;
+    padding: 2rem 0;
+  }
+}

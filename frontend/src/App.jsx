@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import AboutPage from "./views/aboutPage/AboutPage";
 import ContactPage from "./views/contactPage/ContactPage";
-import ReportsPage from "./views/reportPage/ReportsPage";
 import HomePage from "./views/homePage/HomePage";
 import UserProfilePage from "./views/userPages/userProfilePage/UserProfilePage";
 import PriestDashboardPage from "./views/priestPages/priestDashboardPage/PriestDashboardPage";
@@ -20,6 +19,7 @@ import { fetchUser } from "./redux/actions/user/userAction";
 import UpdateServicePage from "./views/priestPages/updateServicePage/UpdateServicePage";
 import LoginPage from "./views/loginPage/LoginPage";
 import RegisterPage from "./views/registerPage/RegisterPage";
+import NewsPage from "./views/newsPage/NewsPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/reports" element={<ReportsPage />} />
+        <Route path="/news" element={<NewsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />

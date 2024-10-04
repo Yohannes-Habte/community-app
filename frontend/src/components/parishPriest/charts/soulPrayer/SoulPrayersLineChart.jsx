@@ -1,5 +1,5 @@
+import "./SoulPrayersLineChart.scss";
 import { useEffect, useState } from "react";
-import "./LineCharts.scss";
 import {
   LineChart,
   Line,
@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearAllErrors,
   fetchAllServices,
-} from "../../../redux/actions/service/serviceAction";
+} from "../../../../redux/actions/service/serviceAction";
+import { Link, useNavigate } from "react-router-dom";
 
-const PrayersLineChart = () => {
+const SoulPrayersLineChart = ({ setActive }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { services } = useSelector((state) => state.service);
   const [soulPrayersData, setSoulPrayersData] = useState([]);
@@ -57,9 +59,18 @@ const PrayersLineChart = () => {
     }
   }, [services]);
 
+  // =======================================================================================
+  // Handle view services
+  // =======================================================================================
+
+  const handleViewServices = () => {
+    navigate("/priest/dashboard");
+    setActive(3);
+  };
+
   return (
-    <section className="linechart-container">
-      <h4 className="chart-title"> Soul Prayer Services </h4>
+    <section className="soul-prayer-line-chart-container">
+      <h4 className="soul-prayer-line-chart-title"> Soul Prayer Services </h4>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={soulPrayersData}>
           <XAxis
@@ -80,8 +91,33 @@ const PrayersLineChart = () => {
           <Line type="monotone" dataKey="Soul Prayer" stroke="#82ca9d" />
         </LineChart>
       </ResponsiveContainer>
+
+      <aside className="soul-prayer-line-chart-info">
+        <h4 className="soul-prayer-count">
+          Sacrament Services Count:{" "}
+          <mark className="mark">
+            {services &&
+              services.length > 0 &&
+              services?.filter(
+                (service) =>
+                  service.serviceCategory.category === "Spiritual development"
+              ).length}{" "}
+          </mark>
+        </h4>
+
+        <p className="more-information">
+          For more information, click on
+          <Link
+            to={"/priest/dashboard"}
+            onClick={handleViewServices}
+            className="view-more"
+          >
+            View More
+          </Link>
+        </p>
+      </aside>
     </section>
   );
 };
 
-export default PrayersLineChart;
+export default SoulPrayersLineChart;

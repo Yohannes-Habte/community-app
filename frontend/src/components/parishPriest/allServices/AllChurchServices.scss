@@ -1,54 +1,13 @@
-@import "../../../styles/Variables.scss";
-@import "../../../styles/Mixins.scss";
-
-.action-wrapper {
-  @include flexRow;
-
-  .delete {
-    @include deleteIcon;
-  }
-
-  .edit {
-    @include editIcon;
-  }
-}
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
 
 .church-services-table-wrapper {
-    position: relative;
-}
+  width: $laptop;
+  margin: 1rem auto;
 
-.service-delete-confirmation-wrapper {
-    @include shadow1;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #e4eaf1;
-    padding: 2rem 3rem;
-
-
-  .delete-icon {
-    @include deleteIcon;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-  }
-
-  .you-want-delete {
+  .church-services-table-title {
     @include subTitle;
-  }
-
-  .cancel-or-confirm-delete {
-    @include flexRow;
-    align-items: center;
-
-    .cancel-delete {
-      @include button2;
-      background-color: tomato;
-    }
-
-    .confirm-delete {
-      @include button2;
-    }
+    font-size: $afs;
+    padding: 2rem 0;
   }
 }

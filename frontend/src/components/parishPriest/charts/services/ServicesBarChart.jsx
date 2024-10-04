@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Barcharts.scss";
+import "./ServicesBarChart.scss";
 import {
   BarChart,
   Bar,
@@ -12,7 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearAllErrors,
   fetchAllServices,
-} from "../../../redux/actions/service/serviceAction";
+} from "../../../../redux/actions/service/serviceAction";
+import { Link, useNavigate } from "react-router-dom";
 
 const monthsMap = {
   "01": "Jan",
@@ -29,13 +30,14 @@ const monthsMap = {
   12: "Dec",
 };
 
-const ParishionersBarChart = () => {
+const ServicesBarChart = ({ setActive }) => {
+  const navigate = useNavigate();
   // Global state variables
   const dispatch = useDispatch();
   const { services } = useSelector((state) => state.service);
 
   // Local state variable
-  const [year, setYear] = useState("2023");
+  const [year, setYear] = useState(new Date().getFullYear().toString());
 
   useEffect(() => {
     dispatch(fetchAllServices());
@@ -103,18 +105,29 @@ const ParishionersBarChart = () => {
     setYear(e.target.elements.year.value);
   };
 
+  // =======================================================================================
+  // Handle view services
+  // =======================================================================================
+
+  const handleViewServices = () => {
+    navigate("/priest/dashboard");
+    setActive(3);
+  };
+
   return (
-    <section className="parishioners-barchart-container">
-      <h4 className="chart-title"> Parishioners Participation Bar Chart </h4>
-      <form action="" onSubmit={handleSubmit} className="year-form">
+    <section className="services-bar-chart-container">
+      <h4 className="service-chart-title">
+        Assessment of Parish Services: Year {year}
+      </h4>
+      <form action="" onSubmit={handleSubmit} className="service-chart-form">
         <input
           type="number"
           name="year"
-          defaultValue={2023}
+          defaultValue={year}
           placeholder="Enter Year only"
-          className="year-input-field"
+          className="input-field"
         />
-        <button className="year-form-btn">Search</button>
+        <button className="service-form-btn">Search</button>
       </form>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} barSize={15}>
@@ -139,8 +152,26 @@ const ParishionersBarChart = () => {
           <Bar dataKey="Soul Prayer" fill="#ffc658" />
         </BarChart>
       </ResponsiveContainer>
+
+      <aside className="services-chart-info-text">
+        <h4 className="services-count">
+          Comprehensive Count of Parish Services:{" "}
+          <mark> {services.length} </mark>
+        </h4>
+        <p className="details">
+          For more details, click on{" "}
+          <Link
+            className="view-services"
+            to={"/priest/dashboard"}
+            onClick={handleViewServices}
+          >
+            {" "}
+            View Services
+          </Link>
+        </p>
+      </aside>
     </section>
   );
 };
 
-export default ParishionersBarChart;
+export default ServicesBarChart;

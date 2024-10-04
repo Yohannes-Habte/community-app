@@ -6,10 +6,10 @@ import DashboardSummary from "../dashboardSummary/DashboardSummary";
 import AllEvents from "../allEvents/AllEvents";
 import AllDelegations from "../allDelegations/AllDelegations";
 
-const PriestDashboardOverview = ({ active }) => {
+const PriestDashboardOverview = ({ active, setActive }) => {
   return (
     <article className="priest-dashboard-overview-wrapper">
-      {active === 1 && <DashboardSummary />}
+      {active === 1 && <DashboardSummary setActive={setActive} />}
 
       {active === 2 && <AllParishioners />}
 

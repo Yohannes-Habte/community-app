@@ -2,6 +2,7 @@ import axios from "axios";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import "./AllEvents.scss";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
@@ -50,8 +51,8 @@ const AllEvents = () => {
     });
 
   return (
-    <section className="members-contribution-wrapper">
-      <h3 className="members-contribution-title">List of Events</h3>
+    <section className="church-events-table-container">
+      <h3 className="church-events-table-title">List of Events</h3>
 
       <DataGrid
         // Rows
