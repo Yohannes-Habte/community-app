@@ -10,13 +10,8 @@ import {
   Area,
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllFinancialReportsFailure,
-  fetchAllFinancialReportsStart,
-  fetchAllFinancialReportsSuccess,
-} from "../../../redux/reducers/financeReducer";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import axios from "axios";
+
+import { clearFinancialReportErrors, fetchAllFinancialReports } from "../../../redux/actions/finance/financeAction";
 
 const monthsMap = {
   "01": "Jan",
@@ -45,18 +40,13 @@ const FinancialReportChart = () => {
 
   // Display all financial income and expenses in the table
   useEffect(() => {
-    const fetchAllFinancialReportData = async () => {
-      try {
-        dispatch(fetchAllFinancialReportsStart());
-        const { data } = await axios.get(`${API}/reports/financial-reports`);
+    dispatch(fetchAllFinancialReports());
 
-        dispatch(fetchAllFinancialReportsSuccess(data.reports));
-      } catch (error) {
-        dispatch(fetchAllFinancialReportsFailure(error.response.data.message));
-      }
+    // clear errors on component unmount
+    return () => {
+      dispatch(clearFinancialReportErrors());
     };
-    fetchAllFinancialReportData();
-  }, []);
+  }, [dispatch]);
 
   const row = [];
 

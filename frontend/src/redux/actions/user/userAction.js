@@ -157,6 +157,27 @@ export const fetchParishioners = () => async (dispatch) => {
 };
 
 //==============================================================================
+// Action to fetch parishioners list for finance manager
+//==============================================================================
+export const fetchAllParishionersForFinancialManager =
+  () => async (dispatch) => {
+    try {
+      // Start fetching parishioners
+      dispatch(fetchParishionersRequest());
+
+      const res = await axios.get(`${API}/members/finance`, {
+        withCredentials: true,
+      });
+
+      dispatch(fetchParishionersSuccess(res.data.users));
+    } catch (error) {
+      dispatch(
+        fetchParishionersFailure(error.response?.data?.message || error.message)
+      );
+    }
+  };
+
+//==============================================================================
 // Action to fetch parishioners count
 //==============================================================================
 export const fetchParishionersCount = () => async (dispatch) => {

@@ -1,28 +1,50 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.financial-report-container {
-  .financial-report-title {
-    @include title;
+.financial-report-table-container {
+  position: relative;
+  width: $laptop;
+  margin: 2rem auto;
+
+  .financial-report-table-title {
+    @include subTitle;
+    font-size: $afs;
+    margin: 2rem 0;
+    padding: 0;
+  }
+
+  .finance-report-table-form {
+    position: absolute;
+    top: 4rem;
+    left: 40%;
+
+    .input-field {
+      @include inputWithButton;
+    }
+
+    .finance-report-table-form-btn {
+      @include buttonWithInput;
+    }
+  }
+
+  .add-new-report {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .add-new-report-title {
+      @include subTitle;
+      margin: 1rem 0;
+      padding: 0;
+    }
+
+    .add-new-report-btn {
+      @include button2;
+    }
   }
 
   .financial-reports-table {
-    .add-expense {
-      width: $tablet;
-      margin: 1rem auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .add-title {
-        @include subTitle;
-      }
-
-      .link {
-        @include button1;
-      }
-    }
-
+    margin-top: 1rem;
     .financial-report-table {
       width: 100%;
 
@@ -35,6 +57,7 @@
 
           .head-cell {
             padding: 1rem 0.3rem;
+            font-size: $nfs;
           }
         }
       }
@@ -45,6 +68,7 @@
             border-bottom: 1px solid $table_border;
             padding: 0 0.5rem;
             padding: 1rem 0.5rem;
+            font-size: $nfs;
           }
 
           .negative {

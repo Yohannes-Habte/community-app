@@ -56,7 +56,7 @@ const serviceReducer = createSlice({
     servicesCountFailure: setFailure,
 
     // Clear errors
-    clearErrors: (state) => {
+    clearServiceErrors: (state) => {
       state.error = null;
     },
   },
@@ -83,7 +83,7 @@ export const {
   servicesCountSuccess,
   servicesCountFailure,
 
-  clearErrors,
+  clearServiceErrors,
 } = serviceReducer.actions;
 
 export default serviceReducer.reducer;

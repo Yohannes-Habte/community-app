@@ -19,8 +19,8 @@ const memberSchema = new Schema(
     country: { type: String, required: true },
     maritalStatus: {
       type: String,
-      enum: ["Single", "Married", "Divorced", "Widowed"],
-      default: "Single",
+      enum: ["single", "married", "divorced", "widowed"],
+      default: "single",
     },
 
     addresses: [

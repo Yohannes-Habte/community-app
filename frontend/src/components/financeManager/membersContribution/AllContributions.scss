@@ -1,20 +1,24 @@
-@import "../../../styles/Mixins.scss";
 @import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.action-wrapper {
-  @include flexRow;
-  align-items: center;
-
-  .edit {
-    @include editIcon;
+.members-contribution-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+  .members-contribution-title {
+    @include subTitle;
+    text-align: center;
   }
 
-  .delete {
-    @include deleteIcon;
-  }
-}
+  .add-contribution-aside {
+    @include flexSpaceBetween;
+    margin: 2rem 0;
 
-.MuiDataGrid-cell {
-    @include flexRow;
-    align-items: center;
+    .add-contribution-aside-title {
+      @include subTitle;
+    }
+
+    .add-contribution-btn {
+      @include button2;
+    }
+  }
 }

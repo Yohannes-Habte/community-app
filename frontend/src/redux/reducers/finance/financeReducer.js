@@ -23,7 +23,7 @@ const setError = (state, action) => {
   state.loading = false;
 };
 
-const financeSlice = createSlice({
+const financeReducer = createSlice({
   name: "finance",
   initialState,
   reducers: {
@@ -58,13 +58,8 @@ const financeSlice = createSlice({
     fetchAllFinancialReportsFailure: (state, action) => setError(state, action),
 
     // Clear all errors
-    clearErrors: (state) => {
+    clearFinanceErrors: (state) => {
       state.error = null;
-    },
-
-    // Clear loading state
-    clearLoading: (state) => {
-      state.loading = false;
     },
   },
 });
@@ -90,8 +85,7 @@ export const {
   fetchAllFinancialReportsSuccess,
   fetchAllFinancialReportsFailure,
 
-  clearErrors,
-  clearLoading,
-} = financeSlice.actions;
+  clearFinanceErrors,
+} = financeReducer.actions;
 
-export default financeSlice.reducer;
+export default financeReducer.reducer;

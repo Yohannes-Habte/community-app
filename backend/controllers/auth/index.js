@@ -151,6 +151,7 @@ export const updateUser = async (req, res, next) => {
     try {
       await user.save();
     } catch (error) {
+      console.log("Update error:",error);
       return next(createError(500, "Update could not be saved!"));
     }
 
@@ -160,6 +161,7 @@ export const updateUser = async (req, res, next) => {
       message: "Account successfully updated!",
     });
   } catch (error) {
+    console.log(error);
     next(createError(500, "Something went wrong!"));
   }
 };

@@ -8,10 +8,12 @@ import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import {
-} from "../../../redux/reducers/financeReducer";
-import { postCommitteeFailure, postCommitteeStart, postCommitteeSuccess } from "../../../redux/reducers/committeeReducer";
+  postFinancialReportFailure,
+  postFinancialReportStart,
+  postFinancialReportSuccess,
+} from "../../../redux/reducers/finance/financeReducer";
 
-const ExpenseReportForm = ({ setOpen }) => {
+const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
   // Global state variables
   const { loading } = useSelector((state) => state.finance);
   const dispatch = useDispatch();
@@ -95,7 +97,7 @@ const ExpenseReportForm = ({ setOpen }) => {
     e.preventDefault();
 
     try {
-      dispatch(postCommitteeStart());
+      dispatch(postFinancialReportStart());
       // The body
       const newReport = {
         contribution: contribution,
@@ -114,18 +116,18 @@ const ExpenseReportForm = ({ setOpen }) => {
 
       const { data } = await axios.post(`${API}/reports/new-report`, newReport);
 
-      dispatch(postCommitteeSuccess(data.report));
+      dispatch(postFinancialReportSuccess(data.report));
       toast.success(data.success);
 
       reset();
     } catch (error) {
-      dispatch(postCommitteeFailure(error.response.data.message));
+      dispatch(postFinancialReportFailure(error.response.data.message));
     }
   };
   return (
-    <div className="add-financial-expense">
-      <section className="modal">
-        <span onClick={() => setOpen(false)} className="close">
+    <article className="add-financial-expense-modal">
+      <section className="add-financial-expense-popup">
+        <span onClick={() => setOpenAddFinancialReport(false)} className="close">
           X
         </span>
         <h3 className="title"> Add New Monthly Report </h3>
@@ -373,7 +375,7 @@ const ExpenseReportForm = ({ setOpen }) => {
           </button>
         </form>
       </section>
-    </div>
+    </article>
   );
 };
 

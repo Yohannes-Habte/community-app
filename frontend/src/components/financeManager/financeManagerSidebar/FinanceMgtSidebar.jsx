@@ -20,31 +20,29 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
     <section className="finance-manager-dashboard-sidebar-wrapper">
       <h2 className="finance-manager-dashboard-sidebar-title">Dashboard</h2>
 
+      
       <aside
         onClick={() => setActive(1)}
         className="finance-manager-dashboard-sidebar-item"
       >
-        <SiEventstore
-          title="Events"
+        <SiGooglemessages
+          title="Inbox"
           className={active === 1 ? "active-icon" : "passive-icon"}
         />
-
-        <h4 className={active === 1 ? "active-text" : "passive-text"}>
-          Financial Reports
-        </h4>
+        <h4 className={active === 1 ? "active-text" : "passive-text"}>Summary</h4>
       </aside>
 
       <aside
         onClick={() => setActive(2)}
         className="finance-manager-dashboard-sidebar-item"
       >
-        <MdSupport
-          title="Contributions"
+        <SiEventstore
+          title="Events"
           className={active === 2 ? "active-icon" : "passive-icon"}
         />
 
         <h4 className={active === 2 ? "active-text" : "passive-text"}>
-          Contributions
+          Financial Reports
         </h4>
       </aside>
 
@@ -52,12 +50,16 @@ const FinanceMgtSidebar = ({ active, setActive }) => {
         onClick={() => setActive(3)}
         className="finance-manager-dashboard-sidebar-item"
       >
-        <SiGooglemessages
-          title="Inbox"
+        <MdSupport
+          title="Contributions"
           className={active === 3 ? "active-icon" : "passive-icon"}
         />
-        <h4 className={active === 3 ? "active-text" : "passive-text"}>Inbox</h4>
+
+        <h4 className={active === 3 ? "active-text" : "passive-text"}>
+          Contributions
+        </h4>
       </aside>
+
 
       <Link
         to={"/user/profile"}

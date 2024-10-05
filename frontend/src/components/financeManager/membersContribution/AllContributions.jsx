@@ -1,87 +1,68 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import "./AllContributions.scss"
 import { useEffect, useState } from "react";
 import AddContribution from "../../forms/memberContribution/AddContribution";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
-import { toast } from "react-toastify";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaEdit } from "react-icons/fa";
-import "./AllContributions.scss";
 
-const AllContributions = () => {
+const MembersContribution = () => {
   const [openAddContribution, setOpenAddContribution] = useState(false);
   const [contributions, setContributions] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const allContributions = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(`${API}/contributions`);
         setContributions(data.result);
+        setLoading(false);
       } catch (error) {
+        setError("Something went wrong!");
         console.log(error);
+        setLoading(false);
       }
     };
     allContributions();
   }, []);
 
-  // Delete a contribution
-  const handleDelete = async (id) => {
-    try {
-      const { data } = await axios.delete(`${API}/contributions/${id}`);
-      setContributions(data.result);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-  // Parishioners header
   const columns = [
-    { field: "id", headerName: "Contribution ID", width: 350 },
-    { field: "user", headerName: "User ID", width: 350 },
-    { field: "firstName", headerName: "First Name", width: 200 },
-    { field: "lastName", headerName: "Last Name", width: 200 },
-    { field: "date", headerName: "Contribution Date", width: 200 },
-    { field: "amount", headerName: "Contribution Amount", width: 200 },
-
-    {
-      field: "action",
-      headerName: "Action",
-      width: 130,
-      renderCell: (params) => {
-        return (
-          <div className="action-wrapper">
-            <button onClick={() => setOpen(true)} className="edit">
-              <FaEdit />{" "}
-            </button>
-            <button onClick={handleDelete(params.id)} className="delete">
-              <FaTrashAlt />{" "}
-            </button>
-          </div>
-        );
-      },
-    },
+    { field: "id", headerName: "Contribution ID", width: 200 },
+    { field: "user", headerName: "User ID", width: 250 },
+    { field: "firstName", headerName: "First Name", width: 150 },
+    { field: "lastName", headerName: "Last Name", width: 150 },
+    { field: "date", headerName: "Date", width: 150 },
+    { field: "amount", headerName: "Amount", width: 80 },
   ];
 
   const rows = [];
+
   contributions &&
     contributions.map((contribution) => {
+      const formattedDate = new Date(contribution.date).toLocaleDateString(
+        "en-GB",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }
+      );
       return rows.push({
         id: contribution._id,
         user: contribution.user,
         firstName: contribution.firstName,
         lastName: contribution.lastName,
-        date: contribution.date,
+        date: formattedDate,
         amount: contribution.amount,
       });
     });
-
 
   return (
     <section className="members-contribution-wrapper">
       <h3 className="members-contribution-title">
         Parishioners Contribution Table
       </h3>
-
       <aside className="add-contribution-aside">
         <h3 className="add-contribution-aside-title">
           Add Member Contribution
@@ -94,32 +75,40 @@ const AllContributions = () => {
         </button>
       </aside>
 
-      <DataGrid
-        // Rows
-        rows={rows}
-        // Columns
-        columns={columns}
-        // Initial state
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        // Create search bar
-        slots={{ toolbar: GridToolbar }}
-        // Search a specific user
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        // Page size optons
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        //
-      />
+      {loading && <h3>Loading...</h3>}
+      {error && <h3>{error}</h3>}
+      {contributions.length === 0 && <h3>No contributions found!</h3>}
+
+      {!loading && !error && contributions.length > 0 && (
+        <DataGrid
+          // Rows
+          rows={rows}
+          // Columns
+          columns={columns}
+          // autoHeight
+          autoHeight
+          // Initial state
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          // Create search bar
+          slots={{ toolbar: GridToolbar }}
+          // Search a specific user
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          // Page size optons
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          //
+        />
+      )}
 
       {openAddContribution && (
         <AddContribution setOpen={setOpenAddContribution} />
@@ -128,4 +117,4 @@ const AllContributions = () => {
   );
 };
 
-export default AllContributions;
+export default MembersContribution;

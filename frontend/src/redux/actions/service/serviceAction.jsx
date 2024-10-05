@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import {
+  clearServiceErrors,
   deleteServiceFailure,
   deleteServiceStart,
   deleteServiceSuccess,
@@ -17,7 +18,6 @@ import {
   servicesCountStart,
   servicesCountSuccess,
 } from "../../reducers/service/serviceReducer";
-import { clearErrors } from "../../reducers/userReducer";
 
 //==============================================================================
 // Post Service Request
@@ -88,7 +88,6 @@ export const allServices = () => async (dispatch) => {
   }
 };
 
-
 //==============================================================================
 // Count All Services
 //==============================================================================
@@ -106,5 +105,5 @@ export const countServices = () => async (dispatch) => {
 // Clear Errors
 //==============================================================================
 export const clearAllErrors = () => (dispatch) => {
-  dispatch(clearErrors());
+  dispatch(clearServiceErrors());
 };

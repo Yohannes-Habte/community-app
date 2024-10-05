@@ -98,7 +98,7 @@ const ServicesBarChart = ({ setActive }) => {
   const data = processData();
 
   // =======================================================================================
-  // Handle submit for the all charts
+  // Handle submit 
   // =======================================================================================
   const handleSubmit = (e) => {
     e.preventDefault();

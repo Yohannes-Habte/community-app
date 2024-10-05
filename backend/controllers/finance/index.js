@@ -103,58 +103,85 @@ export const getFinance = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get all Financial reports
+// Get all Financial reports and sort by year and month
 //==========================================================================
-export const financialReports = async (req, res, next) => {
+
+export const getAllFinancialReports = async (req, res, next) => {
   try {
+    // Fetch all finance reports
     const financeReports = await Finance.find();
 
-    if (!financeReports) {
+    if (!financeReports || financeReports.length === 0) {
       return next(
         createError(400, "Finance reports not found. Please try again.")
       );
     }
 
+    // Sort finance reports by year and then by month
+    financeReports.sort((a, b) => {
+      const dateA = new Date(a.date); // Parse date string to Date object
+      const dateB = new Date(b.date); // Parse date string to Date object
+
+      // First, compare by year
+      if (dateA.getFullYear() !== dateB.getFullYear()) {
+        return dateA.getFullYear() - dateB.getFullYear(); // Sort by year
+      }
+
+      // If years are equal, compare by month
+      return dateA.getMonth() - dateB.getMonth(); // Sort by month
+    });
+
+    // Return sorted reports
     return res.status(200).json({
       success: true,
-      reports: financeReports,
+      result: financeReports,
     });
   } catch (error) {
-    console.log(error);
-    return next(
-      createError(
-        500,
-        "Financial reports could not be accessed! Please try again"
-      )
-    );
+    return next(createError(500, "Server error! "));
   }
 };
+//==========================================================================
+// Get total financial report for the year
+//==========================================================================
 
-//==========================================================================
-//! Get total financial report
-//==========================================================================
 export const totalIncome = async (req, res, next) => {
   try {
-    const financialReport = await Finance.find();
+    const { year } = req.query;
 
-    const annualTotalIncome = financialReport.reduce(
-      (totalSumMonthlyReportIncome, monthlyFinancialReport) =>
-        totalSumMonthlyReportIncome + monthlyFinancialReport.total,
+    // Ensure year is provided and is a valid number
+    if (!year || isNaN(year)) {
+      return next(createError(400, "Please provide a valid year."));
+    }
+
+    // Use regex to find financial reports for the specified year
+    const financialReports = await Finance.find({
+      date: { $regex: new RegExp(`^${year}`) }, // Match the year at the beginning of the date string
+    });
+
+    // If no reports are found, return a response with 0 income
+    if (financialReports.length === 0) {
+      return res.status(200).json({
+        success: true,
+        result: 0,
+        message: `No financial reports found for the year ${year}.`,
+      });
+    }
+
+    // Calculate the total income for the specified year
+    const annualTotalIncome = financialReports.reduce(
+      (totalSum, report) => totalSum + (report.total || 0),
       0
     );
 
+    console.log("Annual Total Income =", annualTotalIncome);
+
     return res.status(200).json({
       success: true,
-      totalSum: annualTotalIncome,
+      result: annualTotalIncome,
     });
   } catch (error) {
     console.log(error);
-    return next(
-      createError(
-        400,
-        "The monthly financial reports could not be accessed! Please try again"
-      )
-    );
+    return next(createError(500, "Server error! Please try again."));
   }
 };
 

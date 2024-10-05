@@ -1,0 +1,42 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.members-contribution-pei-chart-container {
+  position: relative;
+  width: $laptop;
+  margin: 2rem auto;
+
+  .members-contribution-pei-chart-title {
+    @include subTitle;
+    font-size: 1.3rem;
+  }
+
+  .pie-chart-wrapper {
+    margin-left: -10rem;
+  }
+
+  .illustration {
+    @include paragraph;
+
+    .count-mark {
+      color: $blue;
+      margin-left: 0.3rem;
+      background-color: $lightGray;
+      padding: 0.1rem 0.5rem;
+    }
+  }
+
+  .members-contribution-pei-chart-form {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+
+    .input-field {
+      @include inputWithButton;
+    }
+
+    .members-contribution-pei-chart-form-btn {
+      @include buttonWithInput;
+    }
+  }
+}

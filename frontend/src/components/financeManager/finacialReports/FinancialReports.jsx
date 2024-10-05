@@ -1,149 +1,299 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "./FinancialReports.scss";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { useDispatch, useSelector } from "react-redux";
-import { FaTrashAlt } from "react-icons/fa";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import ExpenseReportForm from "../financeReportForm/ExpenseReportForm";
-import {
-  fetchAllFinancialReportsFailure,
-  fetchAllFinancialReportsStart,
-  fetchAllFinancialReportsSuccess,
-} from "../../../redux/reducers/financeReducer";
 import { toast } from "react-toastify";
+import { MdEditSquare } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { FaTrashAlt } from "react-icons/fa";
+import {
+  clearFinancialReportErrors,
+  fetchAllFinancialReports,
+} from "../../../redux/actions/finance/financeAction";
 
 const FinancialReports = () => {
   // Global state variables
-  const { reportsLoading, reportsError, financialReports } = useSelector(
+  const { loading, error, financialReports } = useSelector(
     (state) => state.finance
   );
   const dispatch = useDispatch();
 
   // Local state variables
-  const [total, setTotal] = useState();
+  const [annualIncome, setAnnualIncome] = useState();
+  const [openAddFinancialReport, setOpenAddFinancialReport] = useState(false);
+  const [reportId, setReportId] = useState("");
   const [open, setOpen] = useState(false);
+  const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [filteredReports, setFilteredReports] = useState([]);
 
-  // Display all financial income and expenses in the table
+  // =======================================================================================
+  // Fetch all financial reports without year filter
+  // =======================================================================================
   useEffect(() => {
-    const fetchAllFinancialReportData = async () => {
-      try {
-        dispatch(fetchAllFinancialReportsStart());
-        const { data } = await axios.get(`${API}/reports/financial-reports`);
+    dispatch(fetchAllFinancialReports());
 
-        dispatch(fetchAllFinancialReportsSuccess(data.reports));
-      } catch (error) {
-        dispatch(fetchAllFinancialReportsFailure(error.response.data.message));
-      }
+    // clear errors on component unmount
+    return () => {
+      dispatch(clearFinancialReportErrors());
     };
-    fetchAllFinancialReportData();
-  }, []);
+  }, [dispatch]);
 
-  // Total Income
+  // =======================================================================================
+  // Total Surplus or Deficit
+  // =======================================================================================
   useEffect(() => {
     const totalSum = async () => {
       try {
         const { data } = await axios.get(
-          `${API}/reports/total/surplus-or-deficit`
+          `${API}/reports/total/income?year=${year}`,
+          { withCredentials: true }
         );
-        setTotal(data.totalSum);
+        setAnnualIncome(data.result);
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response?.data?.message || "An error occurred.");
       }
     };
-    totalSum();
-  }, []);
+
+    if (year) {
+      totalSum();
+    }
+  }, [year]);
+
+  // =======================================================================================
+  // Update filtered reports whenever financialReports or year changes
+  // =======================================================================================
+  useEffect(() => {
+    if (financialReports) {
+      const filtered = financialReports.filter((report) => {
+        const reportYear = new Date(report.date).getFullYear();
+        return reportYear.toString() === year; // Compare with selected year
+      });
+      setFilteredReports(filtered);
+    }
+  }, [financialReports, year]);
+
+  // =======================================================================================
+  // Financial Reports header
+  // =======================================================================================
+  const columns = [
+    { field: "date", headerName: "Date", width: 120 },
+    { field: "contribution", headerName: "Contribution", width: 150 },
+    { field: "offer", headerName: "Offer", width: 100 },
+    { field: "servicePayment", headerName: "Service Payment", width: 150 },
+    { field: "frekdasie", headerName: "Frekdasie", width: 100 },
+    { field: "choirExpense", headerName: "Choir", width: 100 },
+    { field: "eventExpense", headerName: "Event", width: 100 },
+    { field: "priestExpense", headerName: "Priest", width: 100 },
+    { field: "guestExpense", headerName: "Guest", width: 100 },
+    { field: "presentExpense", headerName: "Preset", width: 100 },
+    { field: "tripExpense", headerName: "Trip", width: 100 },
+    { field: "otherExpense", headerName: "Other", width: 100 },
+    {
+      field: "total",
+      headerName: "Total",
+      width: 100,
+      renderCell: (params) => {
+        const totalValue = params.value;
+        return (
+          <span
+            style={{
+              color: totalValue < 0 ? "red" : "green",
+              fontWeight: "bold",
+            }}
+          >
+            € {totalValue}
+          </span>
+        );
+      },
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 70,
+      renderCell: (params) => {
+        return (
+          <div className="action-wrapper">
+            <Link to={`/services/${params.id}`} className="edit">
+              <MdEditSquare />
+            </Link>
+
+            <button
+              className="delete"
+              onClick={() => setReportId(params.id) || setOpen(true)}
+            >
+              <FaTrashAlt />
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
+
+  // =======================================================================================
+  // Financial Reports rows
+  // =======================================================================================
+  const rows = [];
+
+  filteredReports &&
+    filteredReports.map((report) => {
+      const date = new Date(report.date);
+      const formattedDate = `${String(date.getDate()).padStart(
+        2,
+        "0"
+      )}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+
+      return rows.push({
+        id: report._id,
+        date: formattedDate,
+        contribution: report?.contribution?.toFixed(2),
+        offer: report?.offer?.toFixed(2),
+        servicePayment: report.servicePayment?.toFixed(2),
+        frekdasie: report?.frekdasie?.toFixed(2),
+        choirExpense: report?.choirExpense?.toFixed(2),
+        eventExpense: report?.eventExpense?.toFixed(2),
+        priestExpense: report?.priestExpense?.toFixed(2),
+        guestExpense: report?.guestExpense?.toFixed(2),
+        presentExpense: report?.presentExpense?.toFixed(2),
+        tripExpense: report?.tripExpense?.toFixed(2),
+        otherExpense: report?.otherExpense?.toFixed(2),
+        total: report?.total?.toFixed(2),
+      });
+    });
 
   // Handle delete for each report
   const handleDelete = async (id) => {
     try {
-      const { data } = await axios.delete(`${API}/reports/delete-report/${id}`);
+      const { data } = await axios.delete(
+        `${API}/reports/delete-report/${id}`,
+        { withCredentials: true }
+      );
       console.log("delete:", data.message);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Handle submit for year filter
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const enteredYear = e.target.elements.year.value;
+
+    // Basic validation for the year
+    if (enteredYear < 2000 || enteredYear > new Date().getFullYear()) {
+      toast.error("Please enter a valid year.");
+      return;
+    }
+
+    setYear(enteredYear); // Set the year in state
+  };
+
   return (
-    <section className="financial-report-container">
-      <h1 className="financial-report-title">Financial Reports</h1>
+    <section className="financial-report-table-container">
+      <h1 className="financial-report-table-title">
+        Financial Reports for the year {year}
+      </h1>
+
+      <form
+        action=""
+        onSubmit={handleSubmit}
+        className="finance-report-table-form"
+      >
+        <input
+          type="number"
+          name="year"
+          defaultValue={year}
+          placeholder="Enter Year only"
+          className="input-field"
+        />
+        <button className="finance-report-table-form-btn">Search</button>
+      </form>
+
+      <article className="add-new-report">
+        <h3 className="add-new-report-title"> Add Financial Reports </h3>
+        <button
+          onClick={() => setOpenAddFinancialReport(true)}
+          className={"add-new-report-btn"}
+        >
+          Add New
+        </button>
+      </article>
+
       <section className="financial-reports-table">
-        <article className="add-expense">
-          <h3 className="add-title"> Add Financial Reports </h3>
-          <button onClick={() => setOpen(true)} className={"link"}>
-            Add New
-          </button>
-        </article>
+        {loading && <PageLoader />}
 
-        <table className="financial-report-table">
-          <thead className="table-head">
-            <tr className="table-head-row">
-              <th className="head-cell"> Date </th>
-              <th className="head-cell"> Offer </th>
-              <th className="head-cell"> Contribution </th>
-              <th className="head-cell"> Frekdassie </th>
-              <th className="head-cell"> Event </th>
-              <th className="head-cell"> Services </th>
-              <th className="head-cell"> Choir </th>
-              <th className="head-cell"> Priest </th>
-              <th className="head-cell"> Guest </th>
-              <th className="head-cell"> Present </th>
-              <th className="head-cell"> Trip </th>
-              <th className="head-cell"> Other </th>
-              <th className="head-cell"> Total </th>
-              <th className="head-cell"> Action </th>
-            </tr>
-          </thead>
+        {error ? <p className="error-message"> {error} </p> : null}
 
-          <tbody className="table-body">
-            {reportsLoading ? (
-              <PageLoader />
-            ) : reportsError ? (
-              <p>{reportsError} </p>
-            ) : (
-              financialReports.map((report) => {
-                return (
-                  <tr key={report._id} className="table-body-row">
-                    <td className="body-cell"> {report.date} </td>
-                    <td className="body-cell"> €{report.offer} </td>
-                    <td className="body-cell"> €{report.contribution} </td>
-                    <td className="body-cell"> €{report.frekdasie} </td>
-                    <td className="body-cell"> €{report.eventExpense} </td>
-                    <td className="body-cell"> €{report.servicePayment} </td>
-                    <td className="body-cell"> €{report.choirExpense} </td>
-                    <td className="body-cell">€{report.priestExpense} </td>
-                    <td className="body-cell">€{report.guestExpense} </td>
-                    <td className="body-cell">€{report.presentExpense} </td>
-                    <td className="body-cell">€{report.tripExpense} </td>
-                    <td className="body-cell"> €{report.otherExpense} </td>
-                    <td className={report.total < 0 ? "negative" : "positive"}>
-                      <strong>€{report.total}</strong>{" "}
-                    </td>
-                    <td className="body-cell-action">
-                      <FaTrashAlt
-                        className="delete-icon"
-                        onClick={() => handleDelete(report._id)}
-                      />
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+        {!loading && !error && (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 12 },
+              },
+            }}
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
+            pageSizeOptions={[5, 12]}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
+        )}
 
-        {total && total >= 0 ? (
+        {annualIncome >= 0 ? (
           <h4 className="total-income-status">
             Total Surplus :{" "}
-            <strong className="total-surplus">€ {total?.toFixed(2)} </strong>
+            <strong className="total-surplus">
+              € {annualIncome?.toFixed(2)}{" "}
+            </strong>
           </h4>
         ) : (
           <h4 className="total-income-status">
             Total Deficit :{" "}
-            <strong className="total-deficit">€ {total?.toFixed(2)} </strong>
+            <strong className="total-deficit">
+              € {annualIncome?.toFixed(2)}{" "}
+            </strong>
           </h4>
         )}
       </section>
-      {open && <ExpenseReportForm setOpen={setOpen} />}
+
+      {open && (
+        <article className="service-delete-confirmation-wrapper">
+          <span className="delete-icon" onClick={() => setOpen(false)}>
+            X
+          </span>
+
+          <h3 className="you-want-delete">Are you sure you want delete?</h3>
+
+          <aside className="cancel-or-confirm-delete">
+            <h3
+              className={`confirm-delete`}
+              onClick={() => setOpen(false) || handleDelete(reportId)}
+            >
+              confirm
+            </h3>
+            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
+              cancel
+            </p>
+          </aside>
+        </article>
+      )}
+
+      {openAddFinancialReport && (
+        <ExpenseReportForm
+          setOpenAddFinancialReport={setOpenAddFinancialReport}
+        />
+      )}
     </section>
   );
 };

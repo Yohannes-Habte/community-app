@@ -100,11 +100,10 @@ const AllDelegations = () => {
 
   return (
     <section className="delegated-priests-table-container">
-      <h2 className="delegated-priests-table-title"> Priests Delegation List </h2>
-
-      {loading && <PageLoader />}
-
-      {error ? <p className="error-message"> {error} </p> : null}
+      <h2 className="delegated-priests-table-title">
+        {" "}
+        Priests Delegation List{" "}
+      </h2>
 
       <aside className="add-delegation-priest-wrapper">
         <h3 className="add-delegation-priest-title">Add Delegated Priest</h3>
@@ -115,6 +114,10 @@ const AllDelegations = () => {
           Add New Delegation
         </button>
       </aside>
+
+      {loading && <PageLoader />}
+
+      {error ? <p className="error-message"> {error} </p> : null}
 
       {!loading && !error && (
         <div style={{ height: 400, width: "100%" }}>

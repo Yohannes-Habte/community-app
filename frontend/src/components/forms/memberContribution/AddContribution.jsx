@@ -10,7 +10,7 @@ const initialState = {
   amount: 5,
   date: "",
 };
-const AddContribution = ({ setOpen }) => {
+const AddContribution = ({ setOpenAddFinancialReport }) => {
   // const { currentUser } = useSelector((state) => state.user);
   const [contributionInfos, setContributionInfos] = useState(initialState);
   const [userNames, setUserNames] = useState([]);
@@ -65,7 +65,7 @@ const AddContribution = ({ setOpen }) => {
       );
 
       if (data.success === true) {
-        toast.error(data.message);
+        toast.success(data.message);
         handleReset();
         setLoading(false);
       } else {
@@ -80,7 +80,7 @@ const AddContribution = ({ setOpen }) => {
   return (
     <article className="add-contribution-modal">
       <section className="member-contribution-popup-Box">
-        <span onClick={() => setOpen(false)} className="close-modal">
+        <span onClick={() => setOpenAddFinancialReport(false)} className="close-modal">
           X
         </span>
         <h3 className="member-contribution-title">

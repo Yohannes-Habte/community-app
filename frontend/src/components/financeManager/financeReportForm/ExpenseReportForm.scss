@@ -1,12 +1,13 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.add-financial-expense {
+.add-financial-expense-modal {
   @include modal;
 
-  .modal {
+  .add-financial-expense-popup {
     @include popupBox;
-    width: 700px;
+    width:50rem;
+    padding: 1rem 2rem 2rem;
 
     .close {
       @include closeModal;
@@ -51,7 +52,7 @@
       }
 
       .add-btn {
-        @include button1;
+        @include button3;
         margin-top: 2rem;
 
         .loading {
