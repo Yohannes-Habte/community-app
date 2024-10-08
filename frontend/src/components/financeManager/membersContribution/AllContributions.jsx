@@ -1,5 +1,5 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import "./AllContributions.scss"
+import "./AllContributions.scss";
 import { useEffect, useState } from "react";
 import AddContribution from "../../forms/memberContribution/AddContribution";
 import axios from "axios";
@@ -111,7 +111,7 @@ const MembersContribution = () => {
       )}
 
       {openAddContribution && (
-        <AddContribution setOpen={setOpenAddContribution} />
+        <AddContribution setOpenAddContribution={setOpenAddContribution} />
       )}
     </section>
   );

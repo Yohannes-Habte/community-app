@@ -109,6 +109,7 @@ export const createServiceRequest = async (req, res, next) => {
       message: "Service request successfully completed!",
     });
   } catch (error) {
+    console.error("Error creating service request:", error);
     // Abort transaction if an error occurs
     if (session) {
       await session.abortTransaction();

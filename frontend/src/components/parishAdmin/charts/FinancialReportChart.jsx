@@ -11,7 +11,10 @@ import {
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
 
-import { clearFinancialReportErrors, fetchAllFinancialReports } from "../../../redux/actions/finance/financeAction";
+import {
+  clearFinancialReportErrors,
+  fetchAllFinancialReportsForAdmin,
+} from "../../../redux/actions/finance/financeAction";
 
 const monthsMap = {
   "01": "Jan",
@@ -40,7 +43,7 @@ const FinancialReportChart = () => {
 
   // Display all financial income and expenses in the table
   useEffect(() => {
-    dispatch(fetchAllFinancialReports());
+    dispatch(fetchAllFinancialReportsForAdmin());
 
     // clear errors on component unmount
     return () => {

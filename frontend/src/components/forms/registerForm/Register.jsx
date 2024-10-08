@@ -272,7 +272,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                   <span className="input-highlight"></span>
                 </div>
 
-                {/* User confirm email adddress */}
+                {/* User confirm email address */}
                 <div className="input-container">
                   <MdEmail className="input-icon" />
                   <input
@@ -328,7 +328,8 @@ const Register = ({ signUp, addMember, setAddUser }) => {
 
                 {/* User phone number */}
                 <div className="input-container">
-                  <MdLocationPin className="input-icon" />
+                  <FaPhone className="input-icon" />
+
                   <input
                     type="text"
                     name="phone"
@@ -345,9 +346,9 @@ const Register = ({ signUp, addMember, setAddUser }) => {
                   <span className="input-highlight"></span>
                 </div>
 
-                {/* User street adddress */}
+                {/* User street address */}
                 <div className="input-container">
-                  <FaPhone className="input-icon" />
+                  <MdLocationPin className="input-icon" />
                   <input
                     type="text"
                     name="street"
@@ -759,7 +760,9 @@ const Register = ({ signUp, addMember, setAddUser }) => {
             </div>
 
             <aside className="password-conditions">
-              <h3 className="password-condition-title">Checking Password Confirmation</h3>
+              <h3 className="password-condition-title">
+                Checking Password Confirmation
+              </h3>
               <p className="text">
                 {switchIcon(letterCase)} &nbsp; Lowercase & UpperCase
               </p>

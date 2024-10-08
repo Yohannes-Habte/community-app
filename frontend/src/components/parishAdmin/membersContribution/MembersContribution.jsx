@@ -111,7 +111,7 @@ const MembersContribution = () => {
       )}
 
       {openAddContribution && (
-        <AddContribution setOpen={setOpenAddContribution} />
+        <AddContribution setOpenAddContribution={setOpenAddContribution} />
       )}
     </section>
   );

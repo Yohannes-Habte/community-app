@@ -22,6 +22,7 @@ import globalErrorHandler from "./middlewares/globalError/index.js";
 import serviceRouter from "./routes/service/index.js";
 import serviceCategoryRouter from "./routes/serviceCategory/index.js";
 import massRouter from "./routes/mass/index.js";
+import videoRouter from "./routes/video/index.js";
 
 // Express app
 dotenv.config();
@@ -59,6 +60,7 @@ app.use("/api/v1/contributions", contributionRouter);
 app.use("/api/v1/events", eventRouter);
 app.use("/api/v1/data", staticRouter);
 app.use("/api/v1/subscribers", subscribeRouter);
+app.use("/api/v1/videos", videoRouter);
 
 // Static assets
 app.use(express.static("assets"));

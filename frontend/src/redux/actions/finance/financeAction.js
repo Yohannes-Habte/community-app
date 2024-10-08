@@ -86,7 +86,7 @@ export const deleteFinancialReport = (reportId) => async (dispatch) => {
 };
 
 //==============================================================================
-// Fetch All Financial Reports
+// Fetch All Financial Reports for finance manager
 //==============================================================================
 export const fetchAllFinancialReports = () => async (dispatch) => {
   dispatch(fetchAllFinancialReportsStart());
@@ -99,6 +99,21 @@ export const fetchAllFinancialReports = () => async (dispatch) => {
     dispatch(fetchAllFinancialReportsFailure(error.message));
   }
 };
+
+//==============================================================================
+// Fetch All Financial Reports for admin
+//==============================================================================
+export const fetchAllFinancialReportsForAdmin = () => async (dispatch) => {
+    dispatch(fetchAllFinancialReportsStart());
+    try {
+      const response = await axios.get(`${API}/reports/finance/admin`, {
+        withCredentials: true,
+      });
+      dispatch(fetchAllFinancialReportsSuccess(response.data.result));
+    } catch (error) {
+      dispatch(fetchAllFinancialReportsFailure(error.message));
+    }
+  };
 
 //==============================================================================
 // Clear Financial Report Errors

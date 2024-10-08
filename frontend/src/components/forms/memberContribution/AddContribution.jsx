@@ -10,7 +10,7 @@ const initialState = {
   amount: 5,
   date: "",
 };
-const AddContribution = ({ setOpenAddFinancialReport }) => {
+const AddContribution = ({ setOpenAddContribution }) => {
   // const { currentUser } = useSelector((state) => state.user);
   const [contributionInfos, setContributionInfos] = useState(initialState);
   const [userNames, setUserNames] = useState([]);
@@ -80,7 +80,7 @@ const AddContribution = ({ setOpenAddFinancialReport }) => {
   return (
     <article className="add-contribution-modal">
       <section className="member-contribution-popup-Box">
-        <span onClick={() => setOpenAddFinancialReport(false)} className="close-modal">
+        <span onClick={() => setOpenAddContribution(false)} className="close-modal">
           X
         </span>
         <h3 className="member-contribution-title">

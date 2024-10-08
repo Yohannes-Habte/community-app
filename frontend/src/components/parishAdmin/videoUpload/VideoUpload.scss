@@ -1,0 +1,64 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.video-upload-container {
+  max-width: 50%;
+  margin: 2rem auto;
+  background-color: $form-bg;
+  padding: 1rem 2rem;
+  @include shadow1;
+
+  .video-upload-title {
+    @include subTitle;
+    padding-left: 0;
+  }
+
+  .video-upload-form {
+    @include flexColumn;
+    margin-top: 2rem;
+
+    .input-container {
+      position: relative;
+      @include flexColumn;
+      margin-bottom: 1.2rem;
+
+      .input-label {
+        position: absolute;
+        top: -1.5rem;
+      }
+
+      .icon {
+        position: absolute;
+        top: 0.7rem;
+        left: 0.5rem;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+    .video-submit-btn {
+      @include button3;
+      margin-bottom: 1rem;
+
+      &:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .video-preview {
+    .video-preview-title {
+      @include subTitle;
+      padding-left: 0;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import SubscriberNotification from "../../subscribers/SubscriberNotification";
 import ServiceCategories from "../../serviceCategories/ServiceCategories";
 import Masses from "../../masses/Masses";
 import ChurchServices from "../../services/ChurchServices";
+import VideoUpload from "../../videoUpload/VideoUpload";
 
 const AdminDashboarView = ({ isActive, setIsActive }) => {
   return (
@@ -35,6 +36,8 @@ const AdminDashboarView = ({ isActive, setIsActive }) => {
       {isActive === 10 && <ChurchServices setIsActive={setIsActive} />}
 
       {isActive === 11 && <SubscriberNotification />}
+
+      {isActive === 12 && <VideoUpload />}
     </article>
   );
 };

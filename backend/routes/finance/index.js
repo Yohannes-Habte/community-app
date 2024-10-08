@@ -9,6 +9,7 @@ import {
 import validateFinance from "../../validators/finance/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
 import {
+  isAdmin,
   isAuthenticated,
   isFinanceManager,
 } from "../../middlewares/auth/auth.js";
@@ -30,6 +31,13 @@ financeRouter.get(
   "/financial-reports",
   isAuthenticated,
   isFinanceManager,
+  getAllFinancialReports
+);
+
+financeRouter.get(
+  "/finance/admin",
+  isAuthenticated,
+  isAdmin,
   getAllFinancialReports
 );
 

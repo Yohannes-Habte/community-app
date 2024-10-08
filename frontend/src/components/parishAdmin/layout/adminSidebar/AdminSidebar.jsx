@@ -195,15 +195,30 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         </h4>
       </aside>
 
+      {/* Upload Video Form */}
+      <aside
+        onClick={() => setIsActive(12)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
+          className={isActive === 12 ? "active-icon" : "passive-icon"}
+        />
+
+        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
+          Add Video
+        </h4>
+      </aside>
+
       {/* Settings */}
 
       <Link to={"/user/profile"} className="admin-dashboard-sidebar-item">
         <IoSettings
           title="Settings"
-          className={isActive === 12 ? "active-icon" : "passive-icon"}
+          className={isActive === 13 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
+        <h4 className={isActive === 13 ? "active-text" : "passive-text"}>
           Settings
         </h4>
       </Link>
@@ -213,7 +228,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
       <aside className="admin-dashboard-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={isActive === 13 ? "active-icon" : "passive-icon"}
+          className={isActive === 14 ? "active-icon" : "passive-icon"}
         />
 
         <h4>
