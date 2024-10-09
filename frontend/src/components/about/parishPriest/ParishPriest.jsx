@@ -23,7 +23,9 @@ const ParishPriest = () => {
       <div className="image-description-container">
         <figure className="image-container">
           <img className="priest-image" src={priest?.image} alt="Abba Siyum" />
-          <figcaption className="priest-name"> Siyum Zera Ghiorgis </figcaption>
+          <figcaption className="priest-name">
+            Fr. Siyum Zera Ghiorgis{" "}
+          </figcaption>
         </figure>
 
         <div className="priest-description">
