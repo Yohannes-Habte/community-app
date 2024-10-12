@@ -57,7 +57,7 @@
     @include flexSpaceBetween;
 
     .login-checkbox-keep-signed-in {
-        @include display;
+      @include display;
 
       .login-checkbox {
         width: $sfs;
@@ -74,10 +74,6 @@
 
   .login-button {
     @include button1;
-
-    .loading {
-      @include loader;
-    }
   }
 
   .have-no-account {

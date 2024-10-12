@@ -22,11 +22,13 @@ const Members = () => {
         const { data } = await axios.get(`${API}/members/all`, {
           withCredentials: true,
         });
-
         setMembers(data.users);
-        setLoading(false);
       } catch (error) {
-        setError(error.response.data.message);
+        const errorMessage =
+          error.response?.data?.message ||
+          "An error occurred while fetching members.";
+        setError(errorMessage);
+      } finally {
         setLoading(false);
       }
     };
@@ -41,7 +43,7 @@ const Members = () => {
     { field: "maritalStatus", headerName: "Status", width: 100 },
     { field: "email", headerName: "Email", width: 180 },
     { field: "phone", headerName: "Phone", width: 130 },
-    { field: "street", headerName: "Street Name", type: "number", width: 130 },
+    { field: "street", headerName: "Street Name", type: "string", width: 130 },
     { field: "zipCode", headerName: "Zip Code", width: 70 },
     { field: "city", headerName: "City", width: 100 },
     { field: "state", headerName: "State", width: 100 },
@@ -51,13 +53,19 @@ const Members = () => {
       field: "action",
       headerName: "Action",
       width: 70,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div className="action-wrapper">
-            <button className="edit">
+            <button
+              className="edit"
+              aria-label={`Edit ${params.row.firstName} ${params.row.lastName}`}
+            >
               <FaEdit />
             </button>
-            <button className="delete">
+            <button
+              className="delete"
+              aria-label={`Delete ${params.row.firstName} ${params.row.lastName}`}
+            >
               <MdDelete />
             </button>
           </div>
@@ -66,25 +74,20 @@ const Members = () => {
     },
   ];
 
-  const rows = [];
-
-  members &&
-    members.forEach((parishioner) => {
-      rows.push({
-        id: parishioner._id,
-        firstName: parishioner.firstName,
-        lastName: parishioner.lastName,
-        maritalStatus: parishioner.maritalStatus,
-        email: parishioner.email,
-        phone: parishioner.phone,
-        street: parishioner.street,
-        zipCode: parishioner.zipCode,
-        city: parishioner.city,
-        state: parishioner.state,
-        country: parishioner.country,
-        role: parishioner.role,
-      });
-    });
+  const rows = members.map((parishioner) => ({
+    id: parishioner._id,
+    firstName: parishioner.firstName,
+    lastName: parishioner.lastName,
+    maritalStatus: parishioner.maritalStatus,
+    email: parishioner.email,
+    phone: parishioner.phone,
+    street: parishioner.street,
+    zipCode: parishioner.zipCode,
+    city: parishioner.city,
+    state: parishioner.state,
+    country: parishioner.country,
+    role: parishioner.role,
+  }));
 
   return (
     <section className="members-container">
@@ -99,44 +102,41 @@ const Members = () => {
         </button>
       </aside>
 
-      {loading && <PageLoader />}
+      {loading && <PageLoader isLoading={loading} message="" size={90} />}
 
-      {error ? <p className="error-message"> {error} </p> : null}
+      {error && <p className="error-message"> {error} </p>}
 
-      {!loading && !error && (
+      {!loading && !error && members.length !== 0 ? (
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
-            // Rows
             rows={rows}
-            // Columns
             columns={columns}
-            // Automatically adjust grid height based on rows
             autoHeight
-            // Initial state
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 10 },
               },
             }}
-            // Create search bar
             slots={{ toolbar: GridToolbar }}
-            // Search a specific user
             slotProps={{
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
               },
             }}
-            // Page size optons
             pageSizeOptions={[5, 10]}
             checkboxSelection
             disableRowSelectionOnClick
-            //
           />
         </div>
+      ) : (
+        !loading && <p>No members found.</p>
       )}
 
-      {openAddUser && " add user form"}
+      {
+        openAddUser &&
+          " Add user form" /* This would ideally be a modal or form component */
+      }
     </section>
   );
 };

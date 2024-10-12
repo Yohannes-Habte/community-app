@@ -1,42 +1,53 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
 
-.members-contribution-pei-chart-container {
-  position: relative;
+.finance-mgt-summary-view {
   width: $laptop;
   margin: 2rem auto;
 
-  .members-contribution-pei-chart-title {
-    @include subTitle;
-    font-size: 1.3rem;
+  .finance-mgt-summary-view-title {
+    @include title;
+    margin-bottom: 2rem;
   }
+  .members-contribution-pie-chart-container {
+    position: relative;
 
-  .pie-chart-wrapper {
-    margin-left: -10rem;
-  }
-
-  .illustration {
-    @include paragraph;
-
-    .count-mark {
-      color: $blue;
-      margin-left: 0.3rem;
-      background-color: $lightGray;
-      padding: 0.1rem 0.5rem;
-    }
-  }
-
-  .members-contribution-pei-chart-form {
-    position: absolute;
-    top: 0;
-    right: 1rem;
-
-    .input-field {
-      @include inputWithButton;
+    .members-contribution-pie-chart-title {
+      @include subTitle;
+      font-size: $afs;
     }
 
-    .members-contribution-pei-chart-form-btn {
-      @include buttonWithInput;
+    .pie-chart-wrapper {
+      margin-left: -10rem;
+    }
+
+    .illustration {
+      @include paragraph;
+
+      .count-mark {
+        color: $blue;
+        margin-left: 0.3rem;
+        background-color: $lightGray;
+        padding: 0.1rem 0.5rem;
+      }
+    }
+
+    .members-contribution-pie-chart-form {
+      position: absolute;
+      top: 0;
+      right: 1rem;
+
+      .input-field {
+        @include inputWithButton;
+      }
+
+      .members-contribution-pie-chart-form-btn {
+        @include buttonWithInput;
+      }
+    }
+
+    .message-error {
+      @include errorMessage;
     }
   }
 }

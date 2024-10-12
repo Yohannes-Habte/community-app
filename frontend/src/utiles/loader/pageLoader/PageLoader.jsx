@@ -1,10 +1,11 @@
 import { Oval } from "react-loader-spinner";
+import './PageLoader.scss'; 
 
 const PageLoader = ({ isLoading, message = "Loading...", size = 80 }) => {
   if (!isLoading) return null; // Do not render the spinner if not loading
 
   return (
-    <div style={styles.container}>
+    <div className="page-loader">
       <Oval
         height={size}
         width={size}
@@ -15,25 +16,9 @@ const PageLoader = ({ isLoading, message = "Loading...", size = 80 }) => {
         visible={true}
         ariaLabel="oval-loading"
       />
-      <p style={styles.message}>{message}</p>
+      <span className="loader-message">{message}</span>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh", // Center the spinner in full viewport height
-    width: "100%", // Full width
-  },
-  message: {
-    marginTop: "10px",
-    fontSize: "18px",
-    color: "#555",
-  },
 };
 
 export default PageLoader;

@@ -47,9 +47,9 @@ const Register = ({ signUp, addMember, setAddUser }) => {
 
   // Global state variables
   // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
-  const loading = useSelector((state) => state.user.loading.update);
-  const error = useSelector((state) => state.user.error.update);
+  const { currentUser } = useSelector((state) => state.member);
+  const loading = useSelector((state) => state.member.loading);
+  const error = useSelector((state) => state.member.error);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -467,9 +467,7 @@ const Register = ({ signUp, addMember, setAddUser }) => {
 
                   <button className="register-button" disabled={loading}>
                     {loading ? (
-                      <span className="loading">
-                        <ButtonLoader /> Loading...
-                      </span>
+                      <ButtonLoader isLoading={loading} size={30} />
                     ) : (
                       "Sign Up"
                     )}

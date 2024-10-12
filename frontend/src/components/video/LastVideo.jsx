@@ -3,7 +3,7 @@ import "./LastVideo.scss";
 import axios from "axios";
 import { API } from "../../utiles/securitiy/secreteKey";
 import { RiPlayCircleFill } from "react-icons/ri";
-import ButtonLoader from "../../utiles/loader/buttonLoader/ButtonLoader";
+import PageLoader from "../../utiles/loader/pageLoader/PageLoader";
 
 const LastVideo = () => {
   const [videoFile, setVideoFile] = useState(null);
@@ -38,7 +38,7 @@ const LastVideo = () => {
   return (
     <>
       {loading ? (
-        <ButtonLoader isLoading={loading} />
+        <PageLoader isLoading={loading} />
       ) : error ? (
         <h2>{error}</h2>
       ) : videoFile ? (

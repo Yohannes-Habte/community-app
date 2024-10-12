@@ -1,14 +1,13 @@
-.spinner-button-container {
-  display: "flex";
-  flex-direction: "column";
+.button-loader {
+  display: flex;
   align-items: center;
   justify-content: center;
-  height: "100vh";
-  width: "100%";
+  gap: 0.5rem;  
+  height: 100%; 
 }
 
-.spinner-message {
-  margin-top: "10px";
-  font-size: "18px";
-  color: "#555";
+.loader-message {
+  color: #555; 
+  font-size: 0.875rem; 
 }
+

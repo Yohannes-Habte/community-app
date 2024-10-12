@@ -28,16 +28,16 @@ financeRouter.post(
 );
 
 financeRouter.get(
-  "/financial-reports",
+  "/parish/admin",
   isAuthenticated,
-  isFinanceManager,
+  isAdmin,
   getAllFinancialReports
 );
 
 financeRouter.get(
-  "/finance/admin",
+  "/finance/manager",
   isAuthenticated,
-  isAdmin,
+  isFinanceManager,
   getAllFinancialReports
 );
 

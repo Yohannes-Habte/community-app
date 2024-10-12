@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import "./Charts.scss";
+import "./AnnualFinancialReportChart.scss";
 import {
   XAxis,
   YAxis,
@@ -10,11 +10,12 @@ import {
   Area,
 } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader"; // Import ButtonLoader
 import {
   clearFinancialReportErrors,
-  fetchAllFinancialReportsForAdmin,
+  fetchAllFinancialReports,
 } from "../../../redux/actions/finance/financeAction";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 // Map for months (for cleaner readability)
 const monthsMap = {
@@ -32,19 +33,20 @@ const monthsMap = {
   12: "Dec",
 };
 
-const FinancialReportChart = () => {
+const AnnualFinancialReportChart = () => {
   // Global state variables from Redux
   const { financialReports, loading, error } = useSelector(
     (state) => state.finance
   );
   const dispatch = useDispatch();
 
-  // Local state for the selected year
+  // Local state for the selected year and button loading state
   const [year, setYear] = useState("2022");
+  const [buttonLoading, setButtonLoading] = useState(false); // State for button loading
 
   // Fetch financial reports on component mount
   useEffect(() => {
-    dispatch(fetchAllFinancialReportsForAdmin());
+    dispatch(fetchAllFinancialReports());
 
     // Clear errors when the component unmounts
     return () => {
@@ -66,7 +68,7 @@ const FinancialReportChart = () => {
   }, [financialReports, year]);
 
   // Handle form submission for changing the year
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const inputYear = e.target.elements.year.value.trim();
 
@@ -77,7 +79,13 @@ const FinancialReportChart = () => {
       return;
     }
 
+    setButtonLoading(true); // Set button loading state
+
     setYear(inputYear);
+
+    // Simulate data fetch (or perform real fetch)
+    await dispatch(fetchAllFinancialReports()); // Fetch the reports after year change
+    setButtonLoading(false); // Reset button loading state after data is fetched
   };
 
   return (
@@ -103,20 +111,24 @@ const FinancialReportChart = () => {
           className="input-field"
           aria-label="Year input field"
         />
-        <button className="year-form-btn" aria-label="Search financial reports">
-          Search
+        <button
+          className="year-form-btn"
+          aria-label="Search financial reports"
+          disabled={buttonLoading}
+        >
+          {buttonLoading ? (
+            <ButtonLoader isLoading={buttonLoading} message="" size={24} />
+          ) : (
+            "Search"
+          )}
         </button>
       </form>
 
-      {loading && (
-        <PageLoader
-          isLoading={loading}
-          message={"Loading reports..."}
-          size={80}
-        />
-      )}
+      {/* Show PageLoader when the entire page is loading */}
+      {loading && <PageLoader isLoading={loading} message="" />}
       {error && <p className="error-message">Error: {error}</p>}
 
+      {/* Render the chart only if there are no errors and the data is available */}
       {!loading && !error && row.length > 0 ? (
         <ResponsiveContainer width="100%" aspect={2 / 1}>
           <AreaChart
@@ -145,12 +157,14 @@ const FinancialReportChart = () => {
           </AreaChart>
         </ResponsiveContainer>
       ) : (
-        <h3 className="no-reports-message">
-          No financial reports found for the year {year}
-        </h3>
+        !loading && (
+          <h3 className="no-reports-message">
+            No financial reports found for the year {year}
+          </h3>
+        )
       )}
     </section>
   );
 };
 
-export default FinancialReportChart;
+export default AnnualFinancialReportChart;

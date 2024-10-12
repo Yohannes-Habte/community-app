@@ -1,30 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import "./ServicesInfos.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   allServices,
   clearAllErrors,
 } from "../../../redux/actions/service/serviceAction";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 const ServicesInfos = ({ setIsActive }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { services, loading, error } = useSelector((state) => state.service);
 
-  // Local state variable for the selected year
   const [year, setYear] = useState(new Date().getFullYear().toString());
 
   useEffect(() => {
     dispatch(allServices());
-
-    // Optional: Clear errors on component unmount
     return () => {
       dispatch(clearAllErrors());
     };
   }, [dispatch]);
 
-  /// Helper function to categorize services by status and year
   const categorizeServicesByYear = (category) => {
     return services.filter((service) => {
       const serviceYear = new Date(service.serviceDate).getFullYear();
@@ -35,20 +32,24 @@ const ServicesInfos = ({ setIsActive }) => {
     });
   };
 
-  // Services by categories
-  const sacraments = categorizeServicesByYear("Sacraments");
-  const spiritualDevelopment = categorizeServicesByYear(
-    "Spiritual development"
+  const sacraments = useMemo(
+    () => categorizeServicesByYear("Sacraments"),
+    [services, year]
   );
-  const soulPrayers = categorizeServicesByYear("Soul prayer");
+  const spiritualDevelopment = useMemo(
+    () => categorizeServicesByYear("Spiritual development"),
+    [services, year]
+  );
+  const soulPrayers = useMemo(
+    () => categorizeServicesByYear("Soul prayer"),
+    [services, year]
+  );
 
-  // Helper function to count service status
   const countServicesByStatus = (category, status) => {
     return category.filter((service) => service.serviceStatus === status)
       .length;
   };
 
-  // Helper function to style service status with font weight bold
   const getStatusStyle = (status) => {
     switch (status) {
       case "completed":
@@ -58,49 +59,70 @@ const ServicesInfos = ({ setIsActive }) => {
       case "pending":
         return { color: "orange", fontWeight: "bold", marginLeft: "1rem" };
       default:
-        return { fontWeight: "bold" }; // Default bold if status doesn't match
+        return { fontWeight: "bold" };
     }
   };
 
-  const handleViewServices = () => {
-    navigate("/admin/dashboard");
+  const handleViewServices = (category) => {
+    navigate(`/admin/dashboard/${category}`);
     setIsActive(10);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setYear(e.target.elements.year.value);
+    const selectedYear = e.target.elements.year.value;
+    const currentYear = new Date().getFullYear();
+
+    if (
+      isNaN(selectedYear) ||
+      selectedYear < 2022 ||
+      selectedYear > currentYear
+    ) {
+      alert(`Please enter a valid year between 2022 and ${currentYear}`);
+    } else {
+      setYear(selectedYear);
+    }
   };
+
+  const totalServices =
+    sacraments.length + spiritualDevelopment.length + soulPrayers.length;
 
   return (
     <section className="services-information-container">
-      <h3 className="services-information-title">Church Services for the Year {year}</h3>
+      <h3 className="services-information-title">
+        Church Services for the Year {year}
+      </h3>
 
-      <form action="" onSubmit={handleSubmit} className="services-year-form">
+      <form onSubmit={handleSubmit} className="services-year-form">
         <input
           type="number"
           name="year"
           defaultValue={year}
           placeholder="Enter Year only"
           className="input-field"
+          aria-label="Enter year for services"
         />
         <button className="year-form-btn">Search</button>
       </form>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {services && services.length === 0 && <p>No services found</p>}
+      <h4>
+        Total Services for {year}: {totalServices}
+      </h4>
 
-      {!loading && !error && services && services.length !== 0 && (
+      {loading && <PageLoader isLoading={loading} message={""} size={80} />}
+      {error && <p className="error-message">An error occurred: {error}</p>}
+      {services.length === 0 && (
+        <p>No services available for the year {year}</p>
+      )}
+
+      {!loading && !error && services.length !== 0 && (
         <div className="services-infos-wrapper">
-          {/* Sacraments Summary */}
           <article className="service-article">
-            <h4 className="service-title">Sacramental Services </h4>
-
+            <h4 className="service-title">Sacramental Services</h4>
             <p className="service-status">
               <strong>Completed:</strong>
               <span style={getStatusStyle("completed")}>
-                {countServicesByStatus(sacraments, "completed")}{" "}
+                {countServicesByStatus(sacraments, "completed")}
               </span>
             </p>
             <p className="service-status">
@@ -115,24 +137,22 @@ const ServicesInfos = ({ setIsActive }) => {
                 {countServicesByStatus(sacraments, "cancelled")}
               </span>
             </p>
-
             <p className="service-status">
-              <strong>Total: </strong>
-              <span>{sacraments.length}</span>
+              <strong>Total:</strong> <span>{sacraments.length}</span>
             </p>
-
             <p className="more-infos">
               For more information click on{" "}
-              <button onClick={handleViewServices} className="view">
+              <button
+                onClick={() => handleViewServices("sacraments")}
+                className="view"
+              >
                 View
-              </button>{" "}
+              </button>
             </p>
           </article>
 
-          {/* Spiritual Development Summary */}
           <article className="service-article">
-            <h4 className="service-title">Spiritual Development Services </h4>
-
+            <h4 className="service-title">Spiritual Development Services</h4>
             <p className="service-status">
               <strong>Completed:</strong>
               <span style={getStatusStyle("completed")}>
@@ -151,24 +171,22 @@ const ServicesInfos = ({ setIsActive }) => {
                 {countServicesByStatus(spiritualDevelopment, "cancelled")}
               </span>
             </p>
-
             <p className="service-status">
-              <strong>Total: </strong>
-              <span>{spiritualDevelopment.length}</span>
+              <strong>Total:</strong> <span>{spiritualDevelopment.length}</span>
             </p>
-
             <p className="more-infos">
               For more information click on{" "}
-              <button onClick={handleViewServices} className="view">
+              <button
+                onClick={() => handleViewServices("spiritualDevelopment")}
+                className="view"
+              >
                 View
-              </button>{" "}
+              </button>
             </p>
           </article>
 
-          {/* Soul Prayers Summary */}
           <article className="service-article">
             <h4 className="service-title">Soul Prayers Services</h4>
-
             <p className="service-status">
               <strong>Completed:</strong>
               <span style={getStatusStyle("completed")}>
@@ -187,16 +205,17 @@ const ServicesInfos = ({ setIsActive }) => {
                 {countServicesByStatus(soulPrayers, "cancelled")}
               </span>
             </p>
-
             <p className="service-status">
-              <strong>Total: </strong>
-              <span> {soulPrayers.length}</span>
+              <strong>Total:</strong> <span>{soulPrayers.length}</span>
             </p>
             <p className="more-infos">
               For more information click on{" "}
-              <button onClick={handleViewServices} className="view">
+              <button
+                onClick={() => handleViewServices("soulPrayers")}
+                className="view"
+              >
                 View
-              </button>{" "}
+              </button>
             </p>
           </article>
         </div>

@@ -1,32 +1,54 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "./AllContributions.scss";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AddContribution from "../../forms/memberContribution/AddContribution";
-import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import {
+  clearContributionErrors,
+  fetchAllContributions,
+} from "../../../redux/actions/contributions/contributionAction";
+import { Alert } from "@mui/material";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 const MembersContribution = () => {
+  const dispatch = useDispatch();
+  const { contributions, loading, error } = useSelector(
+    (state) => state.contributions
+  );
+
   const [openAddContribution, setOpenAddContribution] = useState(false);
-  const [contributions, setContributions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [buttonLoading, setButtonLoading] = useState(false);
 
+  // Fetch all contributions when the component mounts
   useEffect(() => {
-    const allContributions = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get(`${API}/contributions`);
-        setContributions(data.result);
-        setLoading(false);
-      } catch (error) {
-        setError("Something went wrong!");
-        console.log(error);
-        setLoading(false);
-      }
+    dispatch(fetchAllContributions());
+    return () => {
+      dispatch(clearContributionErrors());
     };
-    allContributions();
-  }, []);
+  }, [dispatch]);
 
+  // Prepare rows for DataGrid
+  const rows = contributions
+    .filter((contribution) => {
+      if (!selectedYear) return true; // Show all if no year is selected
+      const contributionYear = new Date(contribution.date).getFullYear();
+      return contributionYear === parseInt(selectedYear);
+    })
+    .map((contribution) => ({
+      id: contribution._id,
+      user: contribution.user,
+      firstName: contribution.firstName,
+      lastName: contribution.lastName,
+      date: new Date(contribution.date).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+      amount: contribution.amount,
+    }));
+
+  // Define columns for DataGrid
   const columns = [
     { field: "id", headerName: "Contribution ID", width: 200 },
     { field: "user", headerName: "User ID", width: 250 },
@@ -36,33 +58,33 @@ const MembersContribution = () => {
     { field: "amount", headerName: "Amount", width: 80 },
   ];
 
-  const rows = [];
+  // Handle year filter submission and validation
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const inputYear = parseInt(selectedYear, 10);
+    const currentYear = new Date().getFullYear();
 
-  contributions &&
-    contributions.map((contribution) => {
-      const formattedDate = new Date(contribution.date).toLocaleDateString(
-        "en-GB",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
+    // Validate the year input
+    if (!inputYear || inputYear < 2022 || inputYear > currentYear) {
+      setErrorMessage(
+        `Please enter a valid year between 2022 and ${currentYear}.`
       );
-      return rows.push({
-        id: contribution._id,
-        user: contribution.user,
-        firstName: contribution.firstName,
-        lastName: contribution.lastName,
-        date: formattedDate,
-        amount: contribution.amount,
-      });
-    });
+      return;
+    }
+
+    setButtonLoading(true); // Show loading state for button
+    await dispatch(fetchAllContributions());
+    setButtonLoading(false); // Reset button loading state after fetch
+  };
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <section className="members-contribution-wrapper">
       <h3 className="members-contribution-title">
         Parishioners Contribution Table
       </h3>
+
       <aside className="add-contribution-aside">
         <h3 className="add-contribution-aside-title">
           Add Member Contribution
@@ -75,41 +97,64 @@ const MembersContribution = () => {
         </button>
       </aside>
 
-      {loading && <h3>Loading...</h3>}
-      {error && <h3>{error}</h3>}
-      {contributions.length === 0 && <h3>No contributions found!</h3>}
+      {/* Year filter input */}
+      <form className="year-filter-form" onSubmit={handleSubmit}>
+        <label htmlFor="selectedYear" className="year-filter-label">
+          Filter by Year:
+        </label>
+        <input
+          type="number"
+          name="selectedYear"
+          id="selectedYear"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+          placeholder={`Enter year e.g. ${selectedYear}`}
+          className="year-filter-input"
+          aria-label="Year filter input"
+          required
+        />
+        <button
+          type="submit"
+          disabled={buttonLoading}
+          className="year-filter-btn"
+        >
+          {buttonLoading ? "Searching..." : "Search"}
+        </button>
+      </form>
 
-      {!loading && !error && contributions.length > 0 && (
+      {/* Display messages for loading or error */}
+      {loading && <PageLoader isLoading={loading} message="" />}
+      {error && <Alert severity="error">{error}</Alert>}
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+      {!loading && rows.length === 0 && (
+        <h3>No contributions found for the selected year!</h3>
+      )}
+
+      {/* Display the DataGrid with filtered contributions */}
+      {!loading && rows.length > 0 && (
         <DataGrid
-          // Rows
           rows={rows}
-          // Columns
           columns={columns}
-          // autoHeight
           autoHeight
-          // Initial state
           initialState={{
             pagination: {
               paginationModel: { page: 0, pageSize: 10 },
             },
           }}
-          // Create search bar
           slots={{ toolbar: GridToolbar }}
-          // Search a specific user
           slotProps={{
             toolbar: {
               showQuickFilter: true,
               quickFilterProps: { debounceMs: 500 },
             },
           }}
-          // Page size optons
           pageSizeOptions={[5, 10]}
           checkboxSelection
           disableRowSelectionOnClick
-          //
         />
       )}
 
+      {/* Show modal for adding a new contribution */}
       {openAddContribution && (
         <AddContribution setOpenAddContribution={setOpenAddContribution} />
       )}

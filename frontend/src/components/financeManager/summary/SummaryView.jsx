@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "./SummaryView.scss";
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,10 +6,11 @@ import {
   clearAllMemberErrors,
   fetchAllParishionersForFinancialManager,
 } from "../../../redux/actions/user/userAction";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import AnnualFinancialReportChart from "../chart/AnnualFinancialReportChart";
 
-// =======================================================================================
 // Custom label to display percentage inside the slices
-// =======================================================================================
 const renderCustomLabel = ({
   cx,
   cy,
@@ -35,61 +36,48 @@ const renderCustomLabel = ({
   );
 };
 
-// =======================================================================================
 // Custom legend component
-// =======================================================================================
-const CustomLegend = ({ payload }) => {
-  return (
-    <ul style={{ listStyleType: "none", padding: 0 }}>
-      {payload.map((entry, index) => (
-        <li
-          key={`item-${index}`}
+const CustomLegend = ({ payload }) => (
+  <ul style={{ listStyleType: "none", padding: 0 }}>
+    {payload.map((entry, index) => (
+      <li
+        key={`item-${index}`}
+        style={{ marginBottom: "1rem", display: "flex", alignItems: "center" }}
+      >
+        <span
           style={{
-            marginBottom: "1rem",
-            display: "flex",
-            alignItems: "center",
+            backgroundColor: entry.color,
+            width: "1rem",
+            height: "1rem",
+            borderRadius: "50%",
+            marginRight: "0.7rem",
           }}
-        >
-          <span
-            style={{
-              backgroundColor: entry.color,
-              width: "1rem",
-              height: "1rem",
-              borderRadius: "50%",
-              marginRight: "0.7rem",
-            }}
-          />
-          {entry.value}
-        </li>
-      ))}
-    </ul>
-  );
-};
+          aria-label={entry.value}
+        />
+        {entry.value}
+      </li>
+    ))}
+  </ul>
+);
 
 const SummaryView = () => {
-  // Global state variables
   const dispatch = useDispatch();
-  const { parishioners } = useSelector((state) => state.member);
+  const { parishioners, error, loading } = useSelector((state) => state.member);
 
-  // Local state variable
   const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [formLoading, setFormLoading] = useState(false); // State for button loading
 
-  // =======================================================================================
-  // Fetch all parishioners
-  // =======================================================================================
+  // Fetch all parishioners on component mount
   useEffect(() => {
     dispatch(fetchAllParishionersForFinancialManager());
-
-    // Optional: Clear errors on component unmount
     return () => {
       dispatch(clearAllMemberErrors());
     };
   }, [dispatch]);
 
-  // =======================================================================================
-  // Calculate membership fee counts for the selected year
-  // =======================================================================================
-  const calculateMembershipCounts = (year) => {
+  // Calculate membership fee counts for the selected year (Memoized)
+  const data = useMemo(() => {
+    if (!parishioners) return [];
     const counts = {
       unpaid: 0,
       paid1to3: 0,
@@ -155,82 +143,118 @@ const SummaryView = () => {
       },
       { name: "Fully paid members", value: counts.fullyPaid, fill: "#004b23" },
     ];
-  };
+  }, [parishioners, year]);
 
-  const data01 = calculateMembershipCounts(year);
-
-  // =======================================================================================
-  // Handle submit
-  // =======================================================================================
-  const handleSubmit = (e) => {
+  // Handle submit (Input validation and sanitization)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setYear(e.target.elements.year.value);
+    const inputYear = e.target.elements.year.value;
+
+    // Validate that the input is a valid year
+    const currentYear = new Date().getFullYear();
+    if (inputYear && inputYear >= 2022 && inputYear <= currentYear) {
+      setYear(inputYear);
+      setFormLoading(true); // Set loading state for the button
+
+      // Simulate fetching data for the selected year (you can remove this in production)
+      await dispatch(fetchAllParishionersForFinancialManager()); // This might need to be adjusted based on your action
+      setFormLoading(false); // Reset loading state after data fetching
+    } else {
+      alert(`Please enter a valid year between 2022 and ${currentYear}`);
+    }
   };
 
   return (
-    <section className="members-contribution-pei-chart-container">
-      <h1 className="members-contribution-pei-chart-title">{` Parishioners' Monthly Contributions Overview for ${year}`}</h1>
+    <article className="finance-mgt-summary-view">
+      <h1 className="finance-mgt-summary-view-title">
+        Comprehensive Financial Overview
+      </h1>
 
-      <form
-        action=""
-        onSubmit={handleSubmit}
-        className="members-contribution-pei-chart-form"
-      >
-        <input
-          type="number"
-          name="year"
-          defaultValue={year}
-          placeholder="Enter Year only"
-          className="input-field"
-        />
-        <button className="members-contribution-pei-chart-form-btn">
-          Search
-        </button>
-      </form>
+      <section className="members-contribution-pie-chart-container">
+        <h1 className="members-contribution-pie-chart-title">
+          {`Parishioners' Monthly Contributions Overview for ${year}`}
+        </h1>
 
-      <div className="pie-chart-wrapper">
-        <ResponsiveContainer width="65%" height={500}>
-          <PieChart>
-            <Pie
-              dataKey="value"
-              isAnimationActive={false}
-              data={data01}
-              outerRadius={200}
-              labelLine={false}
-              label={renderCustomLabel}
-              fill="#8884d8"
-            />
-            <Tooltip />
+        {/* Form for year selection */}
+        <form
+          onSubmit={handleSubmit}
+          className="members-contribution-pie-chart-form"
+        >
+          <input
+            type="number"
+            name="year"
+            defaultValue={year}
+            placeholder="Enter Year only"
+            className="input-field"
+            aria-label="Enter the year"
+          />
+          <button
+            type="submit"
+            disabled={loading || formLoading}
+            className="members-contribution-pie-chart-form-btn"
+          >
+            {formLoading ? (
+              <ButtonLoader
+                isLoading={formLoading}
+                message="Searching..."
+                size={30}
+              />
+            ) : (
+              "Search"
+            )}
+          </button>
+        </form>
 
-            {/* Custom legend component */}
-            <Legend
-              content={<CustomLegend />}
-              layout="vertical"
-              align="left"
-              verticalAlign="middle"
-              wrapperStyle={{
-                position: "absolute",
-                right: "-14rem",
-                top: "50%",
-                transform: "translateY(-50%)",
-                pointerEvents: "none",
-              }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-      <p className="illustration">
-        This pie chart illustrates the distribution of parishioners actively
-        registered for the year
-        <strong className="count-mark">{year}</strong>, with a total of{" "}
-        <strong className="count-mark">{parishioners.length}</strong> members.
-        The chart visually represents how frequently parishioners contributed
-        financially throughout the year, categorized into distinct payment
-        tiers. It offers a clear breakdown of those who contributed over
-        different periods, providing an easy-to-understand snapshot of their
-        financial engagement.
-      </p>
-    </section>
+        {/* Loading state for the page */}
+        {loading ? (
+          <PageLoader isLoading={loading} />
+        ) : error ? (
+          <p className="message-error">Error loading data: {error.message}</p>
+        ) : (
+          <div className="pie-chart-wrapper">
+            <ResponsiveContainer width="65%" height={500}>
+              <PieChart>
+                <Pie
+                  dataKey="value"
+                  isAnimationActive={false}
+                  data={data}
+                  outerRadius={200}
+                  labelLine={false}
+                  label={renderCustomLabel}
+                />
+                <Tooltip />
+                <Legend
+                  content={<CustomLegend />}
+                  layout="vertical"
+                  align="left"
+                  verticalAlign="middle"
+                  wrapperStyle={{
+                    position: "absolute",
+                    right: "-14rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+
+        <p className="illustration">
+          This pie chart illustrates the distribution of parishioners actively
+          registered for the year <strong className="count-mark">{year}</strong>
+          , with a total of{" "}
+          <strong className="count-mark">{parishioners?.length || 0}</strong>{" "}
+          members. The chart visually represents how frequently parishioners
+          contributed financially throughout the year, categorized into distinct
+          payment tiers. It offers a clear breakdown of those who contributed
+          over different periods, providing an easy-to-understand snapshot of
+          their financial engagement.
+        </p>
+      </section>
+
+      <AnnualFinancialReportChart />
+    </article>
   );
 };
 

@@ -9,6 +9,25 @@
     text-align: center;
   }
 
+  .year-filter-form {
+    @include flexRow;
+    align-items: center;
+    margin: 0 0 1rem 0;
+
+    .year-filter-label {
+      font-size: $nfs;
+    }
+
+    .year-filter-input {
+      @include inputWithButton;
+      width: 15rem;
+    }
+
+    .year-filter-btn {
+      @include buttonWithInput;
+    }
+  }
+
   .add-contribution-aside {
     @include flexSpaceBetween;
     margin: 2rem 0;

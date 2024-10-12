@@ -86,27 +86,13 @@ export const deleteFinancialReport = (reportId) => async (dispatch) => {
 };
 
 //==============================================================================
-// Fetch All Financial Reports for finance manager
+// Fetch All Financial Reports for parish finance manager
 //==============================================================================
-export const fetchAllFinancialReports = () => async (dispatch) => {
-  dispatch(fetchAllFinancialReportsStart());
-  try {
-    const response = await axios.get(`${API}/reports/financial-reports`, {
-      withCredentials: true,
-    });
-    dispatch(fetchAllFinancialReportsSuccess(response.data.result));
-  } catch (error) {
-    dispatch(fetchAllFinancialReportsFailure(error.message));
-  }
-};
-
-//==============================================================================
-// Fetch All Financial Reports for admin
-//==============================================================================
-export const fetchAllFinancialReportsForAdmin = () => async (dispatch) => {
+export const fetchAllFinancialReports =
+  () => async (dispatch) => {
     dispatch(fetchAllFinancialReportsStart());
     try {
-      const response = await axios.get(`${API}/reports/finance/admin`, {
+      const response = await axios.get(`${API}/reports/finance/manager`, {
         withCredentials: true,
       });
       dispatch(fetchAllFinancialReportsSuccess(response.data.result));
@@ -114,6 +100,21 @@ export const fetchAllFinancialReportsForAdmin = () => async (dispatch) => {
       dispatch(fetchAllFinancialReportsFailure(error.message));
     }
   };
+
+//==============================================================================
+// Fetch All Financial Reports for admin
+//==============================================================================
+export const fetchAllFinancialReportsForAdmin = () => async (dispatch) => {
+  dispatch(fetchAllFinancialReportsStart());
+  try {
+    const response = await axios.get(`${API}/reports/parish/admin`, {
+      withCredentials: true,
+    });
+    dispatch(fetchAllFinancialReportsSuccess(response.data.result));
+  } catch (error) {
+    dispatch(fetchAllFinancialReportsFailure(error.message));
+  }
+};
 
 //==============================================================================
 // Clear Financial Report Errors
