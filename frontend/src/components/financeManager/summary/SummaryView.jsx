@@ -65,7 +65,7 @@ const SummaryView = () => {
   const { parishioners, error, loading } = useSelector((state) => state.member);
 
   const [year, setYear] = useState(new Date().getFullYear().toString());
-  const [formLoading, setFormLoading] = useState(false); // State for button loading
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   // Fetch all parishioners on component mount
   useEffect(() => {
@@ -154,11 +154,11 @@ const SummaryView = () => {
     const currentYear = new Date().getFullYear();
     if (inputYear && inputYear >= 2022 && inputYear <= currentYear) {
       setYear(inputYear);
-      setFormLoading(true); // Set loading state for the button
+      setButtonLoading(true); // Set loading state for the button
 
       // Simulate fetching data for the selected year (you can remove this in production)
       await dispatch(fetchAllParishionersForFinancialManager()); // This might need to be adjusted based on your action
-      setFormLoading(false); // Reset loading state after data fetching
+      setButtonLoading(false); // Reset loading state after data fetching
     } else {
       alert(`Please enter a valid year between 2022 and ${currentYear}`);
     }
@@ -190,15 +190,11 @@ const SummaryView = () => {
           />
           <button
             type="submit"
-            disabled={loading || formLoading}
+            disabled={buttonLoading}
             className="members-contribution-pie-chart-form-btn"
           >
-            {formLoading ? (
-              <ButtonLoader
-                isLoading={formLoading}
-                message="Searching..."
-                size={30}
-              />
+            {buttonLoading ? (
+              <ButtonLoader isLoading={buttonLoading} message="" size={24} />
             ) : (
               "Search"
             )}
@@ -207,7 +203,7 @@ const SummaryView = () => {
 
         {/* Loading state for the page */}
         {loading ? (
-          <PageLoader isLoading={loading} />
+          <PageLoader isLoading={loading} message="" size={80} />
         ) : error ? (
           <p className="message-error">Error loading data: {error.message}</p>
         ) : (

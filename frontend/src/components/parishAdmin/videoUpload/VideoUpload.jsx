@@ -7,57 +7,102 @@ import {
   cloud_name,
   upload_preset,
 } from "../../../utiles/securitiy/secreteKey";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+
+const initialState = {
+  videoFile: null,
+  title: "",
+  description: "",
+  loading: false,
+  videoUrl: null,
+};
+
+const initialErrors = {
+  title: "",
+  description: "",
+  videoFile: "",
+  general: "",
+};
+
+// Function to determine the MIME type based on the video URL
+const getVideoMimeType = (url) => {
+  const extension = url.split(".").pop().toLowerCase();
+  switch (extension) {
+    case "mp4":
+      return "video/mp4";
+    case "avi":
+      return "video/x-msvideo";
+    case "mkv":
+      return "video/x-matroska";
+    case "webm":
+      return "video/webm";
+    default:
+      return "video/mp4"; // Default MIME type
+  }
+};
 
 const VideoUpload = () => {
-  const [videoFile, setVideoFile] = useState(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [videoUrl, setVideoUrl] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState(initialErrors);
+  const { videoFile, title, description, loading, videoUrl } = formData;
 
   // Allowed video types
   const allowedTypes = ["video/mp4", "video/avi", "video/mkv", "video/webm"];
 
+  // Handler for file input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
     // Check if the file type is valid
     if (file) {
       if (allowedTypes.includes(file.type)) {
-        setVideoFile(file);
-        setError(""); // Clear any previous error messages
+        setFormData((prevState) => ({
+          ...prevState,
+          videoFile: file,
+        }));
+        setErrors((prevErrors) => ({ ...prevErrors, videoFile: "" })); // Clear previous file error
       } else {
-        setError(
-          "Invalid file type. Please upload an MP4, AVI, MKV, or WEBM video."
-        );
-        setVideoFile(null); // Clear the video file
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          videoFile:
+            "Invalid file type. Please upload an MP4, AVI, MKV, or WEBM video.",
+        }));
       }
     }
   };
 
-  // Get the MIME type of the video file
-
-  const getVideoMimeType = (url) => {
-    const extension = url.split(".").pop().toLowerCase();
-    switch (extension) {
-      case "mp4":
-        return "video/mp4";
-      case "avi":
-        return "video/x-msvideo";
-      case "mkv":
-        return "video/x-matroska";
-      case "webm":
-        return "video/webm";
-      default:
-        return ""; // Return empty if the format is unsupported
-    }
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear error on input change
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form inputs
+    let hasError = false;
+    const newErrors = { ...initialErrors };
+
+    if (!title.trim()) {
+      newErrors.title = "Title is required.";
+      hasError = true;
+    }
+    if (!description.trim()) {
+      newErrors.description = "Description is required.";
+      hasError = true;
+    }
     if (!videoFile) {
-      alert("Please select a valid video to upload.");
+      newErrors.videoFile = "Please select a valid video to upload.";
+      hasError = true;
+    }
+
+    if (hasError) {
+      setErrors(newErrors);
       return;
     }
 
@@ -66,60 +111,75 @@ const VideoUpload = () => {
     formData.append("cloud_name", cloud_name);
     formData.append("upload_preset", upload_preset);
 
-    // Move cloud_URL initialization here, before the axios call
+    // Cloudinary URL for video upload
     const cloud_URL = `https://api.cloudinary.com/v1_1/${cloud_name}/video/upload`;
 
     try {
-      setUploading(true);
-      // Save video to cloudinary
+      setFormData((prevState) => ({ ...prevState, loading: true }));
+      setErrors(initialErrors); // Clear all previous errors
+
+      // Upload video to Cloudinary
       const response = await axios.post(cloud_URL, formData);
       const videoUrl = response.data.secure_url;
-      setVideoUrl(videoUrl);
 
       // Save video details to the database
       await axios.post(
         `${API}/videos/new`,
-        {
-          title,
-          description,
-          videoUrl,
-        },
+        { title, description, videoUrl },
         { withCredentials: true }
       );
+
+      // Set video URL for preview
+      setFormData((prevState) => ({
+        ...prevState,
+        videoUrl,
+        loading: false,
+      }));
     } catch (error) {
       console.error("Error uploading video:", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general:
+          "An error occurred while uploading the video. Please try again.",
+      }));
     } finally {
-      setUploading(false);
+      setFormData((prevState) => ({ ...prevState, loading: false }));
     }
   };
 
   return (
     <section className="video-upload-container">
-      <h2 className="video-upload-title"> Video Content Upload Form</h2>
+      <h2 className="video-upload-title">Video Content Upload Form</h2>
       <form onSubmit={handleSubmit} className="video-upload-form">
         <div className="input-container">
           <label className="input-label">Title:</label>
           <RiFileTextFill className="icon" />
           <input
             type="text"
+            name="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleChange}
             placeholder="Enter the video title here..."
             className="input-field"
           />
+          {errors.title && <p className="error-message">{errors.title}</p>}
         </div>
 
         <div className="input-container">
           <label className="input-label">Description:</label>
           <RiVideoFill className="icon" />
           <textarea
+            name="description"
             value={description}
             cols={30}
             rows={5}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={handleChange}
             placeholder="Enter your video description here..."
             className="input-field"
           ></textarea>
+          {errors.description && (
+            <p className="error-message">{errors.description}</p>
+          )}
         </div>
 
         <div className="input-container">
@@ -131,17 +191,24 @@ const VideoUpload = () => {
             onChange={handleFileChange}
             className="input-field"
           />
+          {errors.videoFile && (
+            <p className="error-message">{errors.videoFile}</p>
+          )}
         </div>
 
-        {/* Display error message if the file type is invalid */}
-        {error && <p className="error-message">{error}</p>}
+        {/* Display general error message if any */}
+        {errors.general && <p className="error-message">{errors.general}</p>}
 
-        <button
-          type="submit"
-          className="video-submit-btn"
-          disabled={uploading || !!error}
-        >
-          {uploading ? "Uploading..." : "Upload Video"}
+        <button type="submit" className="video-submit-btn" disabled={loading}>
+          {loading ? (
+            <ButtonLoader
+              isLoading={loading}
+              message="Uploading..."
+              size={24}
+            />
+          ) : (
+            "Upload Video"
+          )}
         </button>
       </form>
 
@@ -154,8 +221,6 @@ const VideoUpload = () => {
           </video>
         </section>
       )}
-
-     
     </section>
   );
 };

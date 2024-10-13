@@ -24,31 +24,37 @@
     }
   }
 
+  .total-year-services {
+    font-size: $afs;
+    margin: 1rem 0;
+    color: $gray;
+  }
+
   .services-infos-wrapper {
     @include threeGridTemplateEqualColumns;
     margin-bottom: 2rem;
-  
+
     .service-article {
       @include shadow1;
       background-color: $form-bg;
-  
+
       .service-title {
         @include subTitle;
         padding: 0.1rem;
         font-size: $afs;
       }
-  
+
       .service-status {
         font-size: $nfs;
         @include twoGridTemplateEqualColumns;
         row-gap: 0.3rem;
         column-gap: 1rem;
-  
+
         strong {
           font-size: $nfs;
           font-weight: $afw;
         }
-  
+
         span {
           display: inline-block;
           width: 10rem;
@@ -63,11 +69,12 @@
           margin-left: 5px;
         }
       }
-  
+
+
       .more-infos {
         font-size: $nfs;
         margin: 1.5rem 0 0.6rem 0;
-  
+
         .view {
           font-size: $nfs;
           color: $blue;
@@ -77,6 +84,4 @@
       }
     }
   }
-  
 }
-

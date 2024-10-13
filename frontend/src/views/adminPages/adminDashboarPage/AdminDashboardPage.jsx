@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import './AdminDashboardPage.scss';
-import AdminHeader from '../../../components/parishAdmin/layout/adminHeader/AdminHeader';
-import AdminSidebar from '../../../components/parishAdmin/layout/adminSidebar/AdminSidebar';
-import AdminDashboarView from '../../../components/parishAdmin/layout/adminDashboardView/AdminDashboarView';
-import Footer from '../../../components/layout/footer/Footer';
+import { useState } from "react";
+import "./AdminDashboardPage.scss";
+import AdminHeader from "../../../components/parishAdmin/layout/adminHeader/AdminHeader";
+import AdminSidebar from "../../../components/parishAdmin/layout/adminSidebar/AdminSidebar";
+import Footer from "../../../components/layout/footer/Footer";
+import AdminDashboardView from "../../../components/parishAdmin/layout/adminDashboardView/AdminDashboardView";
 
 const AdminDashboardPage = () => {
   const [isActive, setIsActive] = useState(1);
@@ -16,10 +16,10 @@ const AdminDashboardPage = () => {
 
         <div className="admin-dashboarw-sections-wrapper">
           <AdminSidebar isActive={isActive} setIsActive={setIsActive} />
-          <AdminDashboarView isActive={isActive}  setIsActive={setIsActive} />
+          <AdminDashboardView isActive={isActive} setIsActive={setIsActive} />
         </div>
       </section>
-      <Footer />  
+      <Footer />
     </main>
   );
 };

@@ -2,7 +2,7 @@
 @import "../../../styles/variables.scss";
 
 .video-upload-container {
-  max-width: 50%;
+  max-width: $laptop;
   margin: 2rem auto;
   background-color: $form-bg;
   padding: 1rem 2rem;
@@ -10,12 +10,13 @@
 
   .video-upload-title {
     @include subTitle;
-    padding-left: 0;
+    padding-left: 2rem;
   }
 
   .video-upload-form {
     @include flexColumn;
     margin-top: 2rem;
+    padding: 0 2rem;
 
     .input-container {
       position: relative;
@@ -39,10 +40,8 @@
     }
 
     .error-message {
-        color: red;
-        font-size: 14px;
-        margin-top: 5px;
-      }
+      @include formInputError;
+    }
 
     .video-submit-btn {
       @include button3;

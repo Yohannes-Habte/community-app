@@ -45,6 +45,8 @@ const LastVideo = () => {
         <section className="video-preview-container">
           <h3 className="video-preview-title"> {videoFile.title} </h3>
 
+          <p className="video-description">{videoFile?.description}</p>
+
           <div className="video-wrapper">
             {!playing && (
               <div className="video-overlay" onClick={handlePlayClick}>
@@ -63,7 +65,7 @@ const LastVideo = () => {
             </video>
           </div>
 
-          <p className="video-description">{videoFile?.description}</p>
+ 
         </section>
       ) : (
         <h2>No video found.</h2>

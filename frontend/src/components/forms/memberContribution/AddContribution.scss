@@ -4,7 +4,7 @@
 .add-contribution-modal {
   @include modal;
 
-  .member-contribution-popup-Box {
+  .member-contribution-popup-box {
     @include popupBox;
     width: 600px;
     padding: 2rem;
@@ -17,7 +17,7 @@
       @include subTitle;
     }
 
-    .member-contribution-form {
+    .member-contribution-form{
       @include flexColumn;
 
       .input-container {

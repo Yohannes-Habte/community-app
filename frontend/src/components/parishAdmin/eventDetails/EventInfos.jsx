@@ -7,13 +7,16 @@ import {
 } from "../../../redux/actions/event/eventAction";
 import { useNavigate } from "react-router-dom";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import { Alert } from "@mui/material";
 
 const EventInfos = ({ setIsActive }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { events, loading, error } = useSelector((state) => state.event);
-
+  const { events = [], loading, error } = useSelector((state) => state.event);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [inputError, setInputError] = useState("");
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllEvents());
@@ -25,25 +28,26 @@ const EventInfos = ({ setIsActive }) => {
 
   const handleViewEvents = () => {
     navigate("/admin/dashboard");
-    setIsActive(8);
+    setIsActive(7);
   };
 
-  const countEventsByYear = (events, selectedYear) => {
-    const filteredEvents = events.filter(
+  // Function to count events by their year and status
+  const countEventsByYear = (eventsList, selectedYear) => {
+    const filteredEvents = eventsList.filter(
       (event) =>
-        new Date(event.eventDate).getFullYear() === parseInt(selectedYear)
+        new Date(event?.eventDate).getFullYear() === parseInt(selectedYear)
     );
 
     const pastEvents = filteredEvents.filter(
-      (event) => event.eventStatus === "past"
+      (event) => event?.eventStatus === "past"
     ).length;
 
     const upcomingEvents = filteredEvents.filter(
-      (event) => event.eventStatus === "upcoming"
+      (event) => event?.eventStatus === "upcoming"
     ).length;
 
     const cancelledEvents = filteredEvents.filter(
-      (event) => event.eventStatus === "cancelled"
+      (event) => event?.eventStatus === "cancelled"
     ).length;
 
     return {
@@ -54,48 +58,68 @@ const EventInfos = ({ setIsActive }) => {
     };
   };
 
+  // Get the counts of different types of events
   const { pastEvents, upcomingEvents, cancelledEvents, totalEvents } =
     countEventsByYear(events, year);
 
   const eventFacilitators = useMemo(() => {
     return events.filter(
-      (event) => new Date(event.eventDate).getFullYear() === parseInt(year)
+      (event) => new Date(event?.eventDate).getFullYear() === parseInt(year)
     );
   }, [events, year]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setButtonLoading(true);
+    setInputError("");
+
     const selectedYear = e.target.elements.year.value;
+    const currentYear = new Date().getFullYear();
+
+    // Validate the selected year input
     if (
       isNaN(selectedYear) ||
       selectedYear < 2022 ||
-      selectedYear > new Date().getFullYear()
+      selectedYear > currentYear
     ) {
-      alert(
-        `Please enter a valid year between 2022 and ${new Date().getFullYear()}`
+      setInputError(
+        `Please enter a valid year between 2022 and ${currentYear}`
       );
+      setButtonLoading(false);
     } else {
       setYear(selectedYear);
+      setButtonLoading(false);
     }
   };
 
   return (
     <section className="events-information-container">
       <h4 className="event-information-title">
-        Events Services for the Year {year}{" "}
+        Event Services for the Year {year}
       </h4>
 
-      <form action="" onSubmit={handleSubmit} className="event-year-form">
+      <form onSubmit={handleSubmit} className="event-year-form">
         <input
           type="number"
           name="year"
           defaultValue={year}
-          placeholder="Enter Year only"
+          placeholder="Enter Year"
           className="input-field"
-          aria-label="Enter Year"
+          aria-label="Enter year for event services"
+          min="2022"
+          max={new Date().getFullYear()}
         />
-        <button className="year-form-btn">Search</button>
+        <button className="year-form-btn" disabled={buttonLoading}>
+          {buttonLoading ? (
+            <ButtonLoader isLoading={buttonLoading} message="" size={24} />
+          ) : (
+            "Search"
+          )}
+        </button>
       </form>
+
+      {/* Display input validation error */}
+      {inputError && <Alert className="error-message">{inputError}</Alert>}
 
       <article className="event-infos-wrapper">
         <h4 className="event-title">Events in {year}</h4>
@@ -120,28 +144,37 @@ const EventInfos = ({ setIsActive }) => {
               </button>
             </h4>
           </aside>
-          {loading && <PageLoader isLoading={loading} message={""} size={80} />}
-          {error && <p>{error}</p>}
-          {events && events.length === 0 && <p>No events found</p>}
 
-          {!loading && !error && events && events.length !== 0 && (
+          {/* Loader when loading events */}
+          {loading && <PageLoader isLoading={loading} message="" size={80} />}
+
+          {/* Display error message if there's an error */}
+          {error && (
+            <Alert className="error-message">An error occurred: {error}</Alert>
+          )}
+
+          {/* Display when no events are found */}
+          {!loading && !error && events && events.length === 0 && (
+            <Alert>No events found for the year {year}</Alert>
+          )}
+
+          {/* Right-side event facilitators */}
+          {!loading && !error && events && events.length > 0 && (
             <aside className="right-event-box">
               {eventFacilitators.length > 0 ? (
-                eventFacilitators.map((event, index) => {
-                  return (
-                    <ul key={index} className="event-facilitators-list">
-                      <li className="event-facilitator">
-                        {event.eventName}:{" "}
-                        <span className="facilitator">
-                          {event.eventFacilitator}
-                        </span>
-                      </li>
-                    </ul>
-                  );
-                })
+                eventFacilitators.map((event, index) => (
+                  <ul key={index} className="event-facilitators-list">
+                    <li className="event-facilitator">
+                      {event.eventName}:{" "}
+                      <span className="facilitator">
+                        {event.eventFacilitator}
+                      </span>
+                    </li>
+                  </ul>
+                ))
               ) : (
                 <h4 className="no-facilitators">
-                  Facilitators Unavailable for the Selected Year
+                  No facilitators available for the selected {year}
                 </h4>
               )}
             </aside>

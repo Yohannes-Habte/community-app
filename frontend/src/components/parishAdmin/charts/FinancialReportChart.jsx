@@ -15,6 +15,8 @@ import {
   fetchAllFinancialReportsForAdmin,
 } from "../../../redux/actions/finance/financeAction";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import { Alert } from "@mui/material";
 
 // Map for months (for cleaner readability)
 const monthsMap = {
@@ -33,20 +35,18 @@ const monthsMap = {
 };
 
 const FinancialReportChart = () => {
-  // Global state variables from Redux
+  const dispatch = useDispatch();
   const { financialReports, loading, error } = useSelector(
     (state) => state.finance
   );
-  const dispatch = useDispatch();
 
-  // Local state for the selected year
-  const [year, setYear] = useState("2022");
+  const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [formError, setFormError] = useState("");
+  const [buttonLoading, setButtonLoading] = useState(false); // State for button loading
 
-  // Fetch financial reports on component mount
   useEffect(() => {
     dispatch(fetchAllFinancialReportsForAdmin());
 
-    // Clear errors when the component unmounts
     return () => {
       dispatch(clearFinancialReportErrors());
     };
@@ -54,11 +54,13 @@ const FinancialReportChart = () => {
 
   // Memoized calculation for monthly financial data to optimize rendering
   const row = useMemo(() => {
+    if (!financialReports || financialReports.length === 0) return [];
+
     return financialReports.reduce((acc, report) => {
       if (report.date.startsWith(year)) {
         acc.push({
-          name: monthsMap[report?.date.slice(5, 7)], // Extract month
-          total: report?.total, // Total amount
+          name: monthsMap[report?.date.slice(5, 7)] || "Unknown",
+          total: report?.total || 0,
         });
       }
       return acc;
@@ -66,18 +68,28 @@ const FinancialReportChart = () => {
   }, [financialReports, year]);
 
   // Handle form submission for changing the year
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const inputYear = e.target.elements.year.value.trim();
+    setFormError("");
+    setButtonLoading(true);
 
-    // Validate the input year
+    const inputYear = e.target.elements.year.value.trim();
     const currentYear = new Date().getFullYear();
-    if (!inputYear || inputYear < 2022 || inputYear > currentYear) {
-      alert(`Please enter a valid year between 2022 and ${currentYear}`);
+
+    // Validate input year
+    if (
+      !inputYear ||
+      isNaN(inputYear) ||
+      inputYear < 2022 ||
+      inputYear > currentYear
+    ) {
+      setFormError(`Please enter a valid year between 2022 and ${currentYear}`);
+      setButtonLoading(false);
       return;
     }
 
     setYear(inputYear);
+    setButtonLoading(false);
   };
 
   return (
@@ -86,6 +98,7 @@ const FinancialReportChart = () => {
         Monthly Financial Report for the Year {year}
       </h3>
 
+      {/* Year Selection Form */}
       <form
         aria-label="Financial year selection"
         onSubmit={handleSubmit}
@@ -102,20 +115,34 @@ const FinancialReportChart = () => {
           placeholder="Enter Year"
           className="input-field"
           aria-label="Year input field"
+          min="2022"
+          max={new Date().getFullYear()}
+          required
         />
-        <button className="year-form-btn" aria-label="Search financial reports">
-          Search
+        <button
+          type="submit"
+          className="year-form-btn"
+          aria-label="Search financial reports"
+          disabled={buttonLoading}
+        >
+          {buttonLoading ? (
+            <ButtonLoader isLoading={buttonLoading} message="" />
+          ) : (
+            "Search"
+          )}{" "}
         </button>
       </form>
 
-      {loading && (
-        <PageLoader
-          isLoading={loading}
-          message={"Loading reports..."}
-          size={80}
-        />
+      {/* Form Error Handling */}
+      {formError && <Alert className="form-error-message">{formError}</Alert>}
+
+      {/* Loading, Error, and Chart Display */}
+      {loading && <PageLoader isLoading={loading} message={""} size={80} />}
+      {error && (
+        <Alert className="error-message" role="alert">
+          Error: {error}
+        </Alert>
       )}
-      {error && <p className="error-message">Error: {error}</p>}
 
       {!loading && !error && row.length > 0 ? (
         <ResponsiveContainer width="100%" aspect={2 / 1}>
@@ -145,9 +172,12 @@ const FinancialReportChart = () => {
           </AreaChart>
         </ResponsiveContainer>
       ) : (
-        <h3 className="no-reports-message">
-          No financial reports found for the year {year}
-        </h3>
+        !loading &&
+        !error && (
+          <Alert className="no-reports-message">
+            No financial reports found for the year {year}
+          </Alert>
+        )
       )}
     </section>
   );

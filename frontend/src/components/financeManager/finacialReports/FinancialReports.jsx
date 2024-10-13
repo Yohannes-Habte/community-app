@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "./FinancialReports.scss";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { useDispatch, useSelector } from "react-redux";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import ExpenseReportForm from "../financeReportForm/ExpenseReportForm";
@@ -15,6 +14,8 @@ import {
   fetchAllFinancialReports,
 } from "../../../redux/actions/finance/financeAction";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import { Alert } from "@mui/material";
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const FinancialReports = () => {
   const { loading, error, financialReports } = useSelector(
@@ -26,33 +27,33 @@ const FinancialReports = () => {
   const [openAddFinancialReport, setOpenAddFinancialReport] = useState(false);
   const [reportId, setReportId] = useState("");
   const [open, setOpen] = useState(false);
-  const [year, setYear] = useState("2022"); // Initialize with 2022
+  const [year, setYear] = useState("2022");
   const [filteredReports, setFilteredReports] = useState([]);
-  const [isButtonLoading, setIsButtonLoading] = useState(false); // New state for button loader
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   // Fetch all financial reports and annual income for the default year (2022)
   useEffect(() => {
     dispatch(fetchAllFinancialReports());
-    fetchTotalIncome("2022"); // Fetch income for the default year
+    fetchTotalIncome("2022");
     return () => {
       dispatch(clearFinancialReportErrors());
     };
   }, [dispatch]);
 
   // Function to fetch total income based on the selected year
-  const fetchTotalIncome = async (year) => {
+  const fetchTotalIncome = useCallback(async (year) => {
     try {
       const { data } = await axios.get(
         `${API}/reports/total/income?year=${year}`,
         { withCredentials: true }
       );
-      setAnnualIncome(data.result || 0); // Fallback to 0 if result is undefined
+      setAnnualIncome(data.result || 0);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Failed to fetch income data."
-      );
+      const message =
+        error.response?.data?.message || "Failed to fetch income data.";
+      toast.error(message);
     }
-  };
+  }, []);
 
   // Filter reports based on the selected year
   useEffect(() => {
@@ -68,20 +69,20 @@ const FinancialReports = () => {
   // DataGrid columns for displaying financial reports
   const columns = [
     { field: "date", headerName: "Date", width: 120 },
-    { field: "contribution", headerName: "Contribution", width: 150 },
-    { field: "offer", headerName: "Offer", width: 100 },
-    { field: "servicePayment", headerName: "Service Payment", width: 150 },
-    { field: "frekdasie", headerName: "Frekdasie", width: 100 },
-    { field: "choirExpense", headerName: "Choir", width: 100 },
-    { field: "eventExpense", headerName: "Event", width: 100 },
-    { field: "priestExpense", headerName: "Priest", width: 100 },
-    { field: "guestExpense", headerName: "Guest", width: 100 },
-    { field: "presentExpense", headerName: "Preset", width: 100 },
-    { field: "tripExpense", headerName: "Trip", width: 100 },
-    { field: "otherExpense", headerName: "Other", width: 100 },
+    { field: "contribution", headerName: "Contribution (€)", width: 150 },
+    { field: "offer", headerName: "Offer (€)", width: 100 },
+    { field: "servicePayment", headerName: "Service Payment (€)", width: 150 },
+    { field: "frekdasie", headerName: "Frekdasie (€)", width: 100 },
+    { field: "choirExpense", headerName: "Choir (€)", width: 100 },
+    { field: "eventExpense", headerName: "Event (€)", width: 100 },
+    { field: "priestExpense", headerName: "Priest (€)", width: 100 },
+    { field: "guestExpense", headerName: "Guest (€)", width: 100 },
+    { field: "presentExpense", headerName: "Preset (€)", width: 100 },
+    { field: "tripExpense", headerName: "Trip (€)", width: 100 },
+    { field: "otherExpense", headerName: "Other (€)", width: 100 },
     {
       field: "total",
-      headerName: "Total",
+      headerName: "Total (€)",
       width: 100,
       renderCell: (params) => {
         const totalValue = params.value;
@@ -100,13 +101,14 @@ const FinancialReports = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 70,
+      width: 100,
       renderCell: (params) => (
         <div className="action-wrapper">
           <Link
             to={`/services/${params.id}`}
             className="edit"
             aria-label="Edit report"
+            title="Edit report"
           >
             <MdEditSquare />
           </Link>
@@ -117,6 +119,7 @@ const FinancialReports = () => {
               setOpen(true);
             }}
             aria-label="Delete report"
+            title="Delete report"
           >
             <FaTrashAlt />
           </button>
@@ -132,66 +135,73 @@ const FinancialReports = () => {
       date.getMonth() + 1
     ).padStart(2, "0")}/${date.getFullYear()}`;
 
+    const formatWithEuro = (value) =>
+      value !== undefined ? `€ ${value.toFixed(2)}` : "€0.00";
+
     return {
       id: report._id,
       date: formattedDate,
-      contribution: report?.contribution?.toFixed(2),
-      offer: report?.offer?.toFixed(2),
-      servicePayment: report?.servicePayment?.toFixed(2),
-      frekdasie: report?.frekdasie?.toFixed(2),
-      choirExpense: report?.choirExpense?.toFixed(2),
-      eventExpense: report?.eventExpense?.toFixed(2),
-      priestExpense: report?.priestExpense?.toFixed(2),
-      guestExpense: report?.guestExpense?.toFixed(2),
-      presentExpense: report?.presentExpense?.toFixed(2),
-      tripExpense: report?.tripExpense?.toFixed(2),
-      otherExpense: report?.otherExpense?.toFixed(2),
-      total: report?.total?.toFixed(2),
+      contribution: formatWithEuro(report?.contribution),
+      offer: formatWithEuro(report?.offer),
+      servicePayment: formatWithEuro(report?.servicePayment),
+      frekdasie: formatWithEuro(report?.frekdasie),
+      choirExpense: formatWithEuro(report?.choirExpense),
+      eventExpense: formatWithEuro(report?.eventExpense),
+      priestExpense: formatWithEuro(report?.priestExpense),
+      guestExpense: formatWithEuro(report?.guestExpense),
+      presentExpense: formatWithEuro(report?.presentExpense),
+      tripExpense: formatWithEuro(report?.tripExpense),
+      otherExpense: formatWithEuro(report?.otherExpense),
+      total: report?.total?.toFixed(2) || "€0.00",
     };
   });
 
   // Handle deleting a financial report
   const handleDelete = async (id) => {
-    setIsButtonLoading(true); // Set button loading when delete is initiated
+    setIsButtonLoading(true);
     try {
       await axios.delete(`${API}/reports/delete-report/${id}`, {
         withCredentials: true,
       });
       toast.success("Report deleted successfully.");
-      dispatch(fetchAllFinancialReports()); // Refresh data after deletion
+      dispatch(fetchAllFinancialReports());
     } catch (error) {
       toast.error("Failed to delete report. Please try again.");
     } finally {
-      setIsButtonLoading(false); // Stop button loading after deletion
+      setIsButtonLoading(false);
     }
   };
 
   // Handle form submission for year filtering
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const enteredYear = e.target.elements.year.value.trim();
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const enteredYear = e.target.elements.year.value.trim();
 
-    // Validate the year input
-    if (
-      !enteredYear ||
-      isNaN(enteredYear) ||
-      enteredYear < 2022 ||
-      enteredYear > new Date().getFullYear()
-    ) {
-      alert(`Please enter a valid year between 2022 and ${year}`);
-      return;
-    }
+      if (
+        !enteredYear ||
+        isNaN(enteredYear) ||
+        enteredYear < 2022 ||
+        enteredYear > new Date().getFullYear()
+      ) {
+        alert(
+          `Please enter a valid year between 2022 and ${new Date().getFullYear()}`
+        );
+        return;
+      }
 
-    setYear(enteredYear); // Set the year for filtering
-    setIsButtonLoading(true); // Show button loader while fetching income data
-    await fetchTotalIncome(enteredYear); // Fetch income for the entered year
-    setIsButtonLoading(false); // Stop button loading after data is fetched
-  };
+      setYear(enteredYear);
+      setIsButtonLoading(true);
+      await fetchTotalIncome(enteredYear);
+      setIsButtonLoading(false);
+    },
+    [fetchTotalIncome]
+  );
 
   return (
     <section className="financial-report-table-container">
       <h1 className="financial-report-table-title">
-        Financial Reports for the Year {year}
+        Financial Reports for {year}
       </h1>
 
       {/* Year Filter Form */}
@@ -210,12 +220,12 @@ const FinancialReports = () => {
         />
         <button
           type="submit"
-          disabled={loading || isButtonLoading} // Disable if button loading or general loading
+          disabled={loading || isButtonLoading}
           className="finance-report-table-form-btn"
           aria-label="Submit year filter"
         >
           {isButtonLoading ? (
-            <ButtonLoader isLoading={isButtonLoading} message="" size={24} />
+            <ButtonLoader isLoading={isButtonLoading} size={24} />
           ) : (
             "Search"
           )}
@@ -224,7 +234,7 @@ const FinancialReports = () => {
 
       {/* Add New Report */}
       <article className="add-new-report">
-        <h3 className="add-new-report-title"> Add Financial Report </h3>
+        <h3 className="add-new-report-title">Add Financial Report</h3>
         <button
           onClick={() => setOpenAddFinancialReport(true)}
           className="add-new-report-btn"
@@ -237,10 +247,10 @@ const FinancialReports = () => {
       {/* Financial Reports Table */}
       <section className="financial-reports-table">
         {loading ? (
-          <PageLoader isLoading={loading} message="" size={80} />
+          <PageLoader isLoading={loading} size={80} />
         ) : error ? (
-          <p className="error-message">{error}</p>
-        ) : (
+          <Alert severity="error">{error}</Alert>
+        ) : !loading && !error && financialReports.length > 0 ? (
           <DataGrid
             rows={rows}
             columns={columns}
@@ -262,11 +272,13 @@ const FinancialReports = () => {
             disableRowSelectionOnClick
             aria-label="Financial reports table"
           />
+        ) : (
+          <Alert severity="error">No financial reports found for {year}!</Alert>
         )}
 
         {annualIncome !== null && (
           <h4 className="total-income-status">
-            {annualIncome >= 0 ? "Total Surplus" : "Total Deficit"} :{" "}
+            {annualIncome >= 0 ? "Total Surplus" : "Total Deficit"}:{" "}
             <strong
               className={annualIncome >= 0 ? "total-surplus" : "total-deficit"}
             >

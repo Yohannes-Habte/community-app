@@ -24,4 +24,9 @@
       @include buttonWithInput;
     }
   }
+
+  .no-reports-message {
+    @include subTitle;
+    color: $tomato;
+  }
 }

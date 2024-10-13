@@ -6,13 +6,17 @@ import {
   clearAllMemberErrors,
   fetchParishioners,
 } from "../../../redux/actions/user/userAction";
+import { Alert } from "@mui/material";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 
 const MembersInfos = ({ setIsActive }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { parishioners, loading, error } = useSelector((state) => state.member);
-
   const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => {
     dispatch(fetchParishioners());
@@ -24,15 +28,15 @@ const MembersInfos = ({ setIsActive }) => {
 
   // Filter parishioners by the selected year
   const parishionersForSelectedYear = useMemo(() => {
-    return parishioners.filter(
+    return parishioners?.filter(
       (member) => new Date(member.createdAt).getFullYear().toString() === year
     );
   }, [parishioners, year]);
 
-  // Count members based on their marital status
+  // Count members based on criteria
   const countByCriteria = (arr, criteria) => arr.filter(criteria).length;
 
-  const totalMembers = parishionersForSelectedYear.length;
+  const totalMembers = parishionersForSelectedYear?.length || 0;
   const singleMembers = countByCriteria(
     parishionersForSelectedYear,
     (member) => member.maritalStatus === "Single"
@@ -50,43 +54,38 @@ const MembersInfos = ({ setIsActive }) => {
     (member) => member.maritalStatus === "Widowed"
   );
 
-  // Count members based on their contribution status
   const zeroContribution = countByCriteria(
     parishionersForSelectedYear,
-    (member) => member.monthlyContributions.length === 0
+    (member) => member.monthlyContributions?.length === 0
   );
   const contributionLessThanOrEqualToThree = countByCriteria(
     parishionersForSelectedYear,
     (member) =>
-      member.monthlyContributions.length > 0 &&
+      member.monthlyContributions?.length > 0 &&
       member.monthlyContributions.length <= 2
   );
   const contributionGreaterThanThreeAndLessOrEqualToSix = countByCriteria(
     parishionersForSelectedYear,
     (member) =>
-      member.monthlyContributions.length >= 3 &&
+      member.monthlyContributions?.length >= 3 &&
       member.monthlyContributions.length <= 5
   );
   const contributionGreaterThanSixAndLessOrEqualToNine = countByCriteria(
     parishionersForSelectedYear,
     (member) =>
-      member.monthlyContributions.length >= 6 &&
+      member.monthlyContributions?.length >= 6 &&
       member.monthlyContributions.length <= 8
   );
   const contributionGreaterThanNine = countByCriteria(
     parishionersForSelectedYear,
-    (member) => member.monthlyContributions.length >= 9
+    (member) => member.monthlyContributions?.length >= 9
   );
 
-  // Function to handle view members
-  const handleViewMembers = () => {
-    navigate("/admin/dashboard");
-    setIsActive(5);
-  };
-
-  // Function to handle form submission
+  // Validate the form submission year
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormError(null); // Reset any previous errors
+
     const selectedYear = e.target.elements.year.value;
     const currentYear = new Date().getFullYear();
 
@@ -95,10 +94,18 @@ const MembersInfos = ({ setIsActive }) => {
       selectedYear < 2022 ||
       selectedYear > currentYear
     ) {
-      alert(`Please enter a valid year between 2022 and ${currentYear}`);
+      setFormError(`Please enter a valid year between 2022 and ${currentYear}`);
     } else {
       setYear(selectedYear);
     }
+  };
+
+  // Navigate to the dashboard and set the active tab
+  const handleViewMembers = () => {
+    setIsButtonLoading(true);
+    navigate("/admin/dashboard");
+    setIsActive(2);
+    setIsButtonLoading(false);
   };
 
   return (
@@ -107,28 +114,48 @@ const MembersInfos = ({ setIsActive }) => {
         Parishioners Information for the year {year}
       </h4>
 
-      <form
-        action=""
-        onSubmit={handleSubmit}
-        className="parishioners-year-form"
-      >
+      <form onSubmit={handleSubmit} className="parishioners-year-form">
+        <label htmlFor="year" className="visually-hidden">
+          Enter Year for Parishioners
+        </label>
         <input
           type="number"
+          id="year"
           name="year"
           defaultValue={year}
-          placeholder="Enter Year only"
+          placeholder="Enter Year"
           className="input-field"
           aria-label="Enter year for parishioners"
+          min="2022"
+          max={new Date().getFullYear()}
+          required
         />
-        <button className="year-form-btn">Search</button>
+        <button
+          type="submit"
+          className="year-form-btn"
+          disabled={isButtonLoading}
+        >
+          {isButtonLoading ? (
+            <ButtonLoader isLoading={isButtonLoading} message="" />
+          ) : (
+            "Search"
+          )}
+        </button>
       </form>
 
-      {loading && <p>Loading parishioners...</p>}
-      {error && <p className="error-message">An error occurred: {error}</p>}
+      {formError && <p className="error-message">{formError}</p>}
+
+      {/* Loading and Error States */}
+      {loading && <PageLoader isLoading={loading} message="" size={80} />}
+      {error && (
+        <Alert className="error-message" role="alert">
+          An error occurred: {error}
+        </Alert>
+      )}
 
       <div className="parishioners-infos-wrapper">
         <aside className="parishioners-status-container">
-          <h4 className="parishioners-status-title"> Parishioners </h4>
+          <h4 className="parishioners-status-title">Parishioners</h4>
           <p className="parishioners-status">
             Single: <span>{singleMembers}</span>
           </p>
@@ -145,14 +172,19 @@ const MembersInfos = ({ setIsActive }) => {
             Total Members: <span>{totalMembers}</span>
           </p>
           <p className="parishioners-link">
-            <button onClick={handleViewMembers} className="view">
-              View Parishioners
+            <button
+              onClick={handleViewMembers}
+              className="view"
+              disabled={isButtonLoading}
+            >
+              {isButtonLoading ? "Loading..." : "View Parishioners"}
             </button>
           </p>
         </aside>
 
+        {/* Contribution Information */}
         <aside className="parishioners-status-container">
-          <h4 className="parishioners-status-title"> Contributed Members </h4>
+          <h4 className="parishioners-status-title">Contributed Members</h4>
           <p className="parishioners-status">
             No Contribution: <span>{zeroContribution}</span>
           </p>
@@ -171,8 +203,12 @@ const MembersInfos = ({ setIsActive }) => {
             10 - 12 Months: <span>{contributionGreaterThanNine}</span>
           </p>
           <p className="parishioners-link">
-            <button onClick={handleViewMembers} className="view">
-              View Contributions
+            <button
+              onClick={handleViewMembers}
+              className="view"
+              disabled={isButtonLoading}
+            >
+              {isButtonLoading ? "Loading..." : "View Contributions"}
             </button>
           </p>
         </aside>

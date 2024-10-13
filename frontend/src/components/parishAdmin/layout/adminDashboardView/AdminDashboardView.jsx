@@ -1,9 +1,8 @@
-import "./AdminDashboarView.scss";
+import "./AdminDashboardView.scss";
 import AdminDashboardSummary from "../../adminDashboardSummary/AdminDashboardSummary";
 import Members from "../../members/Members";
 import Events from "../../events/Events";
 import Delegations from "../../delegations/Delegations";
-import MembersContribution from "../../membersContribution/MembersContribution";
 import CommitteeList from "../../committees/Committees";
 import ChurchCommittee from "../../committeeGroup/ChurchCommittee";
 import SubscriberNotification from "../../subscribers/SubscriberNotification";
@@ -12,7 +11,7 @@ import Masses from "../../masses/Masses";
 import ChurchServices from "../../services/ChurchServices";
 import VideoUpload from "../../videoUpload/VideoUpload";
 
-const AdminDashboarView = ({ isActive, setIsActive }) => {
+const AdminDashboardView = ({ isActive, setIsActive }) => {
   return (
     <article className="admin-dashboard-right-box-wrapper">
       {isActive === 1 && <AdminDashboardSummary setIsActive={setIsActive} />}
@@ -23,23 +22,21 @@ const AdminDashboarView = ({ isActive, setIsActive }) => {
 
       {isActive === 4 && <ChurchCommittee />}
 
-      {isActive === 5 && <MembersContribution />}
+      {isActive === 5 && <Masses />}
 
-      {isActive === 6 && <Masses />}
+      {isActive === 6 && <Delegations />}
 
-      {isActive === 7 && <Delegations />}
+      {isActive === 7 && <Events setIsActive={setIsActive} />}
 
-      {isActive === 8 && <Events setIsActive={setIsActive} />}
+      {isActive === 8 && <ServiceCategories />}
 
-      {isActive === 9 && <ServiceCategories />}
+      {isActive === 9 && <ChurchServices setIsActive={setIsActive} />}
 
-      {isActive === 10 && <ChurchServices setIsActive={setIsActive} />}
+      {isActive === 10 && <SubscriberNotification />}
 
-      {isActive === 11 && <SubscriberNotification />}
-
-      {isActive === 12 && <VideoUpload />}
+      {isActive === 11 && <VideoUpload />}
     </article>
   );
 };
 
-export default AdminDashboarView;
+export default AdminDashboardView;

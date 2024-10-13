@@ -2,6 +2,7 @@ import createError from "http-errors";
 import Contribution from "../../models/contribution/index.js";
 import Member from "../../models/member/index.js";
 import moment from "moment";
+import mongoose from "mongoose";
 
 // =============================================================================
 // Create member contribution
@@ -9,10 +10,14 @@ import moment from "moment";
 
 export const createContribution = async (req, res, next) => {
   const { user, date, amount } = req.body;
-  try {
-    // Find the user by ID
-    const foundUser = await Member.findById(user);
 
+  // Validate user ID is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(user)) {
+    return next(createError(400, "User ID must be a valid MongoDB ObjectId"));
+  }
+
+  try {
+    const foundUser = await Member.findById(user);
     if (!foundUser) {
       return next(createError(404, "User not found"));
     }
@@ -20,6 +25,7 @@ export const createContribution = async (req, res, next) => {
     // Parse the date from the request body
     const contributionDate = moment(date, "YYYY-MM-DD");
 
+    // Validate the date format
     if (!contributionDate.isValid()) {
       return next(createError(400, "Invalid date format"));
     }
@@ -28,16 +34,14 @@ export const createContribution = async (req, res, next) => {
     const existingContribution = await Contribution.findOne({
       user: user,
       date: {
-        $gte: contributionDate.startOf("month").format("YYYY-MM-DD"), // First day of the month
-        $lte: contributionDate.endOf("month").format("YYYY-MM-DD"), // Last day of the month
+        $gte: contributionDate.startOf("month").format("YYYY-MM-DD"),
+        $lte: contributionDate.endOf("month").format("YYYY-MM-DD"),
       },
     });
 
     if (existingContribution) {
-      // Extract month name and year from the contribution date
       const existingMonth = moment(existingContribution.date).format("MMMM");
       const existingYear = moment(existingContribution.date).format("YYYY");
-
       return next(
         createError(
           400,

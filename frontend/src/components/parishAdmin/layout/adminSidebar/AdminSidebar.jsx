@@ -6,7 +6,6 @@ import { IoSettings } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
 import { SiEventstore } from "react-icons/si";
 import { RiAdminFill } from "react-icons/ri";
-import { MdSupport } from "react-icons/md";
 import { SiGooglemessages } from "react-icons/si";
 import { Link } from "react-router-dom";
 import Logout from "../../../../utiles/globalFunctions/Logout";
@@ -84,34 +83,18 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         </h4>
       </aside>
 
-      {/* Contributions */}
+      {/* Masses */}
 
       <aside
         onClick={() => setIsActive(5)}
         className="admin-dashboard-sidebar-item"
       >
-        <MdSupport
-          title="Contributions"
+        <SiGooglemessages
+          title="Inbox"
           className={isActive === 5 ? "active-icon" : "passive-icon"}
         />
 
         <h4 className={isActive === 5 ? "active-text" : "passive-text"}>
-          Contributions
-        </h4>
-      </aside>
-
-      {/* Masses */}
-
-      <aside
-        onClick={() => setIsActive(6)}
-        className="admin-dashboard-sidebar-item"
-      >
-        <SiGooglemessages
-          title="Inbox"
-          className={isActive === 6 ? "active-icon" : "passive-icon"}
-        />
-
-        <h4 className={isActive === 6 ? "active-text" : "passive-text"}>
           Masses
         </h4>
       </aside>
@@ -119,15 +102,15 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
       {/* Delegations */}
 
       <aside
-        onClick={() => setIsActive(7)}
+        onClick={() => setIsActive(6)}
         className="admin-dashboard-sidebar-item"
       >
         <GiSunPriest
           title="Delegation"
-          className={isActive === 7 ? "active-icon" : "passive-icon"}
+          className={isActive === 6 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 7 ? "active-text" : "passive-text"}>
+        <h4 className={isActive === 6 ? "active-text" : "passive-text"}>
           Delegations
         </h4>
       </aside>
@@ -135,20 +118,36 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
       {/* Events */}
 
       <aside
-        onClick={() => setIsActive(8)}
+        onClick={() => setIsActive(7)}
         className="admin-dashboard-sidebar-item"
       >
         <SiEventstore
           title="Events"
-          className={isActive === 8 ? "active-icon" : "passive-icon"}
+          className={isActive === 7 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
+        <h4 className={isActive === 7 ? "active-text" : "passive-text"}>
           Events
         </h4>
       </aside>
 
       {/* Service Categories */}
+
+      <aside
+        onClick={() => setIsActive(8)}
+        className="admin-dashboard-sidebar-item"
+      >
+        <SiGooglemessages
+          title="Inbox"
+          className={isActive === 8 ? "active-icon" : "passive-icon"}
+        />
+
+        <h4 className={isActive === 8 ? "active-text" : "passive-text"}>
+          Service Categories
+        </h4>
+      </aside>
+
+      {/* Services */}
 
       <aside
         onClick={() => setIsActive(9)}
@@ -160,12 +159,11 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4 className={isActive === 9 ? "active-text" : "passive-text"}>
-          Service Categories
+          Services
         </h4>
       </aside>
 
-      {/* Services */}
-
+      {/* Notifications */}
       <aside
         onClick={() => setIsActive(10)}
         className="admin-dashboard-sidebar-item"
@@ -176,11 +174,11 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4 className={isActive === 10 ? "active-text" : "passive-text"}>
-          Services
+          Notifications
         </h4>
       </aside>
 
-      {/* Notifications */}
+      {/* Upload Video Form */}
       <aside
         onClick={() => setIsActive(11)}
         className="admin-dashboard-sidebar-item"
@@ -191,21 +189,6 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4 className={isActive === 11 ? "active-text" : "passive-text"}>
-          Notifications
-        </h4>
-      </aside>
-
-      {/* Upload Video Form */}
-      <aside
-        onClick={() => setIsActive(12)}
-        className="admin-dashboard-sidebar-item"
-      >
-        <SiGooglemessages
-          title="Inbox"
-          className={isActive === 12 ? "active-icon" : "passive-icon"}
-        />
-
-        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
           Add Video
         </h4>
       </aside>
@@ -215,10 +198,10 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
       <Link to={"/user/profile"} className="admin-dashboard-sidebar-item">
         <IoSettings
           title="Settings"
-          className={isActive === 13 ? "active-icon" : "passive-icon"}
+          className={isActive === 12 ? "active-icon" : "passive-icon"}
         />
 
-        <h4 className={isActive === 13 ? "active-text" : "passive-text"}>
+        <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
           Settings
         </h4>
       </Link>
@@ -228,7 +211,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
       <aside className="admin-dashboard-sidebar-item">
         <IoMdLogOut
           title="Log Out"
-          className={isActive === 14 ? "active-icon" : "passive-icon"}
+          className={isActive === 13 ? "active-icon" : "passive-icon"}
         />
 
         <h4>

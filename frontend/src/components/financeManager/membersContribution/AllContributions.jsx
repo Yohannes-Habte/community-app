@@ -127,7 +127,9 @@ const MembersContribution = () => {
       {error && <Alert severity="error">{error}</Alert>}
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       {!loading && rows.length === 0 && (
-        <h3>No contributions found for the selected year!</h3>
+        <Alert severity="error">
+          No contributions found for the year {selectedYear}!
+        </Alert>
       )}
 
       {/* Display the DataGrid with filtered contributions */}

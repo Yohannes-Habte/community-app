@@ -40,4 +40,9 @@
       @include button2;
     }
   }
+
+  .no-financial-contribution {
+    @include subTitle;
+    color: $tomato;
+  }
 }
