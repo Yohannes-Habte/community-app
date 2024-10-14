@@ -3,47 +3,65 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "./Members.scss";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearAllMemberErrors,
+  fetchParishioners,
+} from "../../../redux/actions/user/userAction";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import { Alert } from "@mui/material";
+import Register from "../../forms/createAccount/Register";
 
 const Members = () => {
-  // Local state variables
-  const [members, setMembers] = useState([]);
+  const { parishioners, loading, error } = useSelector((state) => state.member);
+  const dispatch = useDispatch();
+
+  const [memberId, setMemberId] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
   const [openAddUser, setOpenAddUser] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
-  // Display all users
+  // Fetch members when the component mounts
   useEffect(() => {
-    const getAllParishioners = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(`${API}/members/all`, {
-          withCredentials: true,
-        });
-        setMembers(data.users);
-      } catch (error) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "An error occurred while fetching members.";
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
+    dispatch(fetchParishioners());
+
+    return () => {
+      dispatch(clearAllMemberErrors());
     };
+  }, [dispatch]);
 
-    getAllParishioners();
-  }, []);
+  // Handle member deletion with proper error handling
+  const handleDelete = async (id) => {
+    try {
+      setDeleteLoading(true);
+      const response = await axios.delete(`${API}/members/${id}`, {
+        withCredentials: true,
+      });
 
-  // Parishioners header
+      if (response.status === 200) {
+        dispatch(fetchParishioners());
+      }
+    } catch (err) {
+      setDeleteError(
+        err.response?.data?.message ||
+          "An error occurred while deleting the member."
+      );
+    } finally {
+      setDeleteLoading(false);
+      setOpenDeleteConfirm(false); // Close confirmation dialog after delete
+    }
+  };
+
+  // Define the columns for the DataGrid
   const columns = [
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
     { field: "maritalStatus", headerName: "Status", width: 100 },
     { field: "email", headerName: "Email", width: 180 },
     { field: "phone", headerName: "Phone", width: 130 },
-    { field: "street", headerName: "Street Name", type: "string", width: 130 },
+    { field: "street", headerName: "Street Name", width: 130 },
     { field: "zipCode", headerName: "Zip Code", width: 70 },
     { field: "city", headerName: "City", width: 100 },
     { field: "state", headerName: "State", width: 100 },
@@ -52,29 +70,26 @@ const Members = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 70,
-      renderCell: (params) => {
-        return (
-          <div className="action-wrapper">
-            <button
-              className="edit"
-              aria-label={`Edit ${params.row.firstName} ${params.row.lastName}`}
-            >
-              <FaEdit />
-            </button>
-            <button
-              className="delete"
-              aria-label={`Delete ${params.row.firstName} ${params.row.lastName}`}
-            >
-              <MdDelete />
-            </button>
-          </div>
-        );
-      },
+      width: 80,
+      renderCell: (params) => (
+        <div className="action-wrapper">
+          <button
+            onClick={() => {
+              setOpenDeleteConfirm(true);
+              setMemberId(params.row.id);
+            }}
+            className="delete"
+            disabled={deleteLoading}
+            aria-label={`Delete member: ${params.row.firstName} ${params.row.lastName}`}
+          >
+            <MdDelete />
+          </button>
+        </div>
+      ),
     },
   ];
 
-  const rows = members.map((parishioner) => ({
+  const rows = parishioners.map((parishioner) => ({
     id: parishioner._id,
     firstName: parishioner.firstName,
     lastName: parishioner.lastName,
@@ -89,6 +104,33 @@ const Members = () => {
     role: parishioner.role,
   }));
 
+  // Separate Delete Confirmation Modal component
+  const DeleteConfirmationModal = ({ onCancel, onConfirm, deleteLoading }) => {
+    return (
+      <article className="delete-confirmation-modal">
+        <span className="close-icon" onClick={onCancel}>
+          X
+        </span>
+        <h3 className="confirmation-text">
+          Are you sure you want to delete this member?
+        </h3>
+        <aside className="action-buttons">
+          <button
+            className="confirm-button"
+            onClick={onConfirm}
+            disabled={deleteLoading}
+          >
+            {deleteLoading ? "Deleting..." : "Confirm"}
+          </button>
+          <button className="cancel-button" onClick={onCancel}>
+            Cancel
+          </button>
+        </aside>
+        {deleteError && <Alert severity="error"> {deleteError} </Alert>}
+      </article>
+    );
+  };
+
   return (
     <section className="members-container">
       <h1 className="members-title">
@@ -96,17 +138,31 @@ const Members = () => {
       </h1>
 
       <aside className="new-member-wrapper">
-        <h3 className="title"> Add New Member</h3>
-        <button onClick={() => setOpenAddUser(true)} className="add-member">
-          Add User
+        <h3 className="title">Add New Member</h3>
+        <button
+          onClick={() => setOpenAddUser(true)}
+          className="add-member"
+          aria-label="Add a new member"
+        >
+          Add Member
         </button>
       </aside>
 
-      {loading && <PageLoader isLoading={loading} message="" size={90} />}
+      {loading && (
+        <PageLoader
+          isLoading={loading}
+          message="Loading members..."
+          size={90}
+        />
+      )}
 
-      {error && <p className="error-message"> {error} </p>}
+      {error && (
+        <Alert severity="error" className="error-message">
+          {error}
+        </Alert>
+      )}
 
-      {!loading && !error && members.length !== 0 ? (
+      {!loading && !error && parishioners.length > 0 ? (
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             rows={rows}
@@ -130,13 +186,21 @@ const Members = () => {
           />
         </div>
       ) : (
-        !loading && <p>No members found.</p>
+        !loading && <Alert severity="info">No members found.</Alert>
       )}
 
-      {
-        openAddUser &&
-          " Add user form" /* This would ideally be a modal or form component */
-      }
+      {openDeleteConfirm && (
+        <DeleteConfirmationModal
+          memberId={memberId}
+          onCancel={() => setOpenDeleteConfirm(false)}
+          onConfirm={() => handleDelete(memberId)}
+          deleteLoading={deleteLoading}
+        />
+      )}
+
+      {openAddUser && (
+        <Register openAddUser={openAddUser} setOpenAddUser={setOpenAddUser} />
+      )}
     </section>
   );
 };

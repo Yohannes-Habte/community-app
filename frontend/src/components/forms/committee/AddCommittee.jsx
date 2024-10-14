@@ -19,7 +19,7 @@ import {
   postCommitteeFailure,
   postCommitteeStart,
   postCommitteeSuccess,
-} from "../../../redux/reducers/committeeReducer";
+} from "../../../redux/reducers/committee/committeeReducer";
 import { toast } from "react-toastify";
 
 const AddCommittee = ({ setOpenCommittee }) => {

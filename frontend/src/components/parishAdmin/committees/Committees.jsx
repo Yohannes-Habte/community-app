@@ -6,9 +6,12 @@ import "./Committees.scss";
 import { useNavigate } from "react-router-dom";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
 import AddCommittee from "../../forms/committee/AddCommittee";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import { Alert } from "@mui/material";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 const CommitteeList = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [committees, setCommittees] = useState([]);
   const [startYear, setStartYear] = useState(2022);
   const [endYear, setEndYear] = useState(2023);
@@ -16,6 +19,12 @@ const CommitteeList = () => {
   const [error, setError] = useState(null);
   const [openCommittee, setOpenCommittee] = useState(false);
 
+  // display all committees
+  useEffect(() => {
+    fetchCommittees();
+  }, []);
+
+  // Fetch committees when startYear or endYear changes
   useEffect(() => {
     fetchCommittees();
   }, [startYear, endYear]);
@@ -23,26 +32,46 @@ const CommitteeList = () => {
   const fetchCommittees = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await axios.get(
         `${API}/committees/committee?startYear=${startYear}&endYear=${endYear}`
       );
       setCommittees(response.data);
-      setLoading(false);
     } catch (error) {
-      setError(error);
+      if (error.response) {
+        setError(`Error: ${error.response.status} - ${error.response.data}`);
+      } else if (error.request) {
+        setError("Error: No response from the server. Please try again.");
+      } else {
+        setError(`Error: ${error.message}`);
+      }
+    } finally {
       setLoading(false);
     }
   };
 
+  // Validate year inputs before fetching committees
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Year validation
+    if (startYear > endYear) {
+      setError("Error: Start year cannot be later than end year.");
+      return;
+    }
+
+    if (startYear < 2022 || endYear > new Date().getFullYear() + 1) {
+      setError("Error: Please enter a valid year range.");
+      return;
+    }
+
     fetchCommittees();
-    navigate(`/admin/dashboard?startYear=${startYear}&endYear=${endYear}`); // Navigate to new URL
+    navigate(`/admin/dashboard?startYear=${startYear}&endYear=${endYear}`);
   };
 
   return (
     <article className="committees-container">
-      <h2 className="committees-title">Committee Lists </h2>
+      <h2 className="committees-title">Committee Lists</h2>
 
       <aside className="add-committee-aside">
         <h3 className="add-committee-aside-title">Add New Committee Member</h3>
@@ -59,11 +88,9 @@ const CommitteeList = () => {
         committee members. This functionality enables you to explore in-depth
         information about the individuals who served, providing valuable
         insights into their roles, length of service, and overall contributions.
-        By specifying the required details, you will gain a clearer
-        understanding of the composition of committee and the impact of members
-        during their tenure.
       </p>
-      <form onSubmit={handleSubmit} className="committee-query-form">
+
+      <form onSubmit={handleSubmit} className="committee-query-form" noValidate>
         <div className="input-container">
           <GiCalendarHalfYear className="icon" />
           <input
@@ -72,12 +99,17 @@ const CommitteeList = () => {
             onChange={(e) => setStartYear(parseInt(e.target.value))}
             placeholder="Starting Service Year"
             className="input-field"
+            min="2022"
+            max={new Date().getFullYear()}
+            required
+            aria-label="Start Year"
           />
           <label htmlFor="startYear" className="input-label">
             Starting Year
           </label>
           <span className="input-highlight"></span>
         </div>
+
         <div className="input-container">
           <GiCalendarHalfYear className="icon" />
           <input
@@ -86,27 +118,42 @@ const CommitteeList = () => {
             onChange={(e) => setEndYear(parseInt(e.target.value))}
             placeholder="Ending Service Year"
             className="input-field"
+            min="2023"
+            max={new Date().getFullYear() + 1}
+            required
+            aria-label="End Year"
           />
           <label htmlFor="endYear" className="input-label">
             Ending Year
           </label>
           <span className="input-highlight"></span>
         </div>
+
         <button type="submit" className="committees-btn">
-          Search
+          {loading ? (
+            <ButtonLoader isLoading={loading} message="" size={24} />
+          ) : (
+            "Search"
+          )}
         </button>
       </form>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error.message}</p>}
-      {!loading && !error && committees.length !== 0 && (
+
+      {/* Error Message */}
+      {error && <Alert className="error-message">{error}</Alert>}
+
+      {/* Loading Spinner */}
+      {loading && <PageLoader isLoading={loading} message="" size={80} />}
+
+      {/* Display committees */}
+      {!loading && !error && committees.length > 0 && (
         <section className="committee-card-wrapper">
-          {committees &&
-            committees.map((committee) => {
-              return <CommitteeCard key={committee._id} data={committee} />;
-            })}
+          {committees.map((committee) => (
+            <CommitteeCard key={committee._id} data={committee} />
+          ))}
         </section>
       )}
 
+      {/* Add Committee Popup */}
       {openCommittee && <AddCommittee setOpenCommittee={setOpenCommittee} />}
     </article>
   );

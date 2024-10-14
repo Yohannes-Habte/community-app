@@ -32,12 +32,14 @@
 
     .input-container {
       @include inputContainer;
+      width: 100%;
       .icon {
         @include inputIcon;
       }
 
       .input-field {
         @include inputField;
+       
       }
 
       .input-label {
@@ -50,10 +52,6 @@
 
       .input-field:focus + .input-label {
         @include focusInputFieldAndInputLabel;
-      }
-
-      .input-field:focus + .input-label + .input-highlight {
-        width: 100%;
       }
     }
 

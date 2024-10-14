@@ -4,13 +4,16 @@ import { API } from "../../../utiles/securitiy/secreteKey";
 import { useNavigate } from "react-router-dom";
 import "./ChurchCommittee.scss";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
+import { Alert } from "@mui/material";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 
 const ChurchCommittees = () => {
+  const navigate = useNavigate();
   const [yearRanges, setYearRanges] = useState([]);
   const [selectedRange, setSelectedRange] = useState("");
   const [committeeMembers, setCommitteeMembers] = useState([]);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchYearRanges = async () => {
@@ -36,6 +39,7 @@ const ChurchCommittees = () => {
 
     const [startYear, endYear] = selectedRange.split("-");
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `${API}/committees/members/service?startYear=${startYear}&endYear=${endYear}`
       );
@@ -46,15 +50,18 @@ const ChurchCommittees = () => {
       } else {
         setError("No committee members found for the selected year range");
       }
+
+      setLoading(false);
     } catch (error) {
       setError("Error fetching committee members");
+      setLoading(false);
     }
   };
 
   return (
     <section className="committee-container">
       <h3 className="committee-title">Committee Members</h3>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <Alert style={{ color: "red" }}>{error}</Alert>}
 
       <p className="user-information">
         Kindly select a year range from the options below to view the list of
@@ -71,6 +78,7 @@ const ChurchCommittees = () => {
             value={selectedRange}
             onChange={(e) => setSelectedRange(e.target.value)}
             className="select-field"
+            aria-label="Year Range Selection"
           >
             <option value="">--Select Year Range--</option>
             {yearRanges.map((range, index) => (
@@ -81,8 +89,12 @@ const ChurchCommittees = () => {
           </select>
         </div>
 
-        <button type="submit" className="committees-btn">
-          Search
+        <button type="submit" className="committees-btn" disabled={loading}>
+          {loading ? (
+            <ButtonLoader isLoading={loading} message="" size={24} />
+          ) : (
+            "Search"
+          )}
         </button>
       </form>
 

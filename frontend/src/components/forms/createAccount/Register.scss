@@ -1,0 +1,18 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.modal {
+  @include modal;
+  .register-popup-box {
+    @include popupBox;
+
+    .close-popup-box {
+      @include closeModal;
+    }
+
+    .register-title {
+      @include subTitle;
+      text-align: center;
+    }
+  }
+}

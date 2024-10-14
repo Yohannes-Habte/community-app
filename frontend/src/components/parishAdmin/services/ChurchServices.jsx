@@ -7,6 +7,8 @@ import {
   clearAllErrors,
 } from "../../../redux/actions/service/serviceAction";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import { toast } from "react-toastify"; // For improved error notifications
+import { Alert } from "@mui/material";
 
 const ChurchServices = () => {
   const dispatch = useDispatch();
@@ -15,13 +17,13 @@ const ChurchServices = () => {
   useEffect(() => {
     dispatch(allServices());
 
-    // Optional: Clear errors on component unmount
+    // Clear errors on component unmount
     return () => {
       dispatch(clearAllErrors());
     };
   }, [dispatch]);
 
-  // Parishioners header
+  // Define the columns for the DataGrid
   const columns = [
     { field: "id", headerName: "Service ID", width: 250 },
     { field: "serviceName", headerName: "Service Name", width: 200 },
@@ -31,7 +33,17 @@ const ChurchServices = () => {
       headerName: "Identification Document",
       width: 300, // Adjust width to fit the document URL
       renderCell: (params) => (
-        <a href={params.value} target="_blank" rel="noopener noreferrer">
+        <a
+          href={params.value}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => {
+            if (!params.value || !params.value.startsWith("http")) {
+              e.preventDefault();
+              toast.error("Invalid document URL");
+            }
+          }}
+        >
           View Document
         </a>
       ),
@@ -43,24 +55,12 @@ const ChurchServices = () => {
       width: 150,
       renderCell: (params) => {
         let color = "";
-
-        // Set the color based on the serviceStatus value
-        if (params.value === "pending") {
-          color = "orange";
-        } else if (params.value === "completed") {
-          color = "green";
-        } else if (params.value === "cancelled") {
-          color = "red";
-        }
+        if (params.value === "pending") color = "orange";
+        if (params.value === "completed") color = "green";
+        if (params.value === "cancelled") color = "red";
 
         return (
-          <span
-            style={{
-              color: color,
-              fontWeight: "bold",
-              fontSize: "14px",
-            }}
-          >
+          <span style={{ color, fontWeight: "bold", fontSize: "14px" }}>
             {params.value.charAt(0).toUpperCase() + params.value.slice(1)}
           </span>
         );
@@ -68,61 +68,47 @@ const ChurchServices = () => {
     },
   ];
 
-  const rows = [];
+  // Prepare rows for the DataGrid
+  const rows =
+    services?.map((service) => ({
+      id: service._id,
+      serviceName: service.serviceName,
+      serviceDate: new Date(service.serviceDate).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }),
+      identificationDocument: service.identificationDocument,
+      message: `${service.message.slice(0, 20)}...`,
+      serviceStatus: service.serviceStatus,
+    })) || [];
 
-  // Sacraments pushed to rows
-  services &&
-    services.forEach((service) => {
-      const formattedDate = new Date(service.serviceDate).toLocaleDateString(
-        "en-GB",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
-      );
-      rows.push({
-        id: service._id,
-        serviceName: service.serviceName,
-        serviceDate: formattedDate,
-        identificationDocument: service.identificationDocument,
-        message: service.message.slice(0, 20) + "...",
-        serviceStatus: service.serviceStatus,
-      });
-    });
   return (
     <section className="church-services-table-wrapper">
-      <h1> Church Services </h1>
+      <h1>Church Services</h1>
 
-      {loading && <PageLoader />}
+      {loading && <PageLoader isLoading={loading} message="" size={80} />}
 
-      {error ? <p className="error-message"> {error} </p> : null}
+      {error && <Alert className="error-message">{error}</Alert>}
 
-      {!loading && !error && (
+      {!loading && !error && services && (
         <div style={{ width: "100%" }}>
           <DataGrid
-            // Rows
             rows={rows}
-            // Columns
             columns={columns}
-            // Automatically adjust grid height based on rows
             autoHeight
-            // Initial state for pagination
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 10 },
               },
             }}
-            // Create search bar
             slots={{ toolbar: GridToolbar }}
-            // Search a specific user
             slotProps={{
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
               },
             }}
-            // Page size options
             pageSizeOptions={[5, 10]}
             checkboxSelection
             disableRowSelectionOnClick

@@ -3,16 +3,6 @@
 
 /* Laptop screen size */
 @media screen and (min-width: 1024px) {
-  .modal {
-    @include modal;
-    .popup-box {
-      @include popupBox;
-      .close-popup-box {
-        @include closeModal;
-      }
-    }
-  }
-
   .register-form {
     background-color: $form-bg;
     @include shadow1;
@@ -54,11 +44,27 @@
       }
     }
 
-    .consent-and-password-conditions-container {
+    .consent-button-password-validation-container {
       @include twoGridTemplateEqualColumns;
 
-      .show-password-consent-terms-button-have-account-container {
+      .consent-button-container {
         @include flexColumn;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        .accept-terms {
+          @include display;
+
+          .consent-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+
+          .terms-of-user {
+            font-size: $nfs;
+            color: $blue;
+            padding-left: 0.5rem;
+          }
+        }
 
         .show-password-container {
           @include display;
@@ -69,43 +75,14 @@
           }
         }
 
-        .register-consent {
-          @include display;
-
-          .register-consent-input {
-            width: $sfs;
-            height: $sfs;
-          }
-
-          .accept {
-            font-size: $nfs;
-          }
-
-          .terms-of-user {
-            font-size: $nfs;
-            color: $blue;
-            padding-left: 0.5rem;
-          }
-
-          .have-account {
-            font-size: $sfs;
-            margin-top: 1.5rem;
-
-            .login-link {
-              font-weight: bold;
-              font-size: $afs;
-              color: $blue;
-              margin-left: 0.5rem;
-            }
+        .register-button-container {
+          .register-button {
+            @include button3;
           }
         }
 
-        .register-button {
-          @include button3;
-
-          .loading {
-            @include loader;
-          }
+        .error-message {
+          @include errorMessage;
         }
 
         .have-account {
@@ -118,25 +95,20 @@
             color: $blue;
           }
         }
-
-        .error-message {
-          @include errorMessage;
-        }
       }
 
-      .password-conditions {
-        display: block;
-        background-color: transparent;
+      .password-conditions-container {
         @include shadow1;
-        padding: 0;
+        background-color: #f8f9fa;
+        padding: 0.3rem 1rem;
+        border-radius: $radius;
 
-        .password-condition-title {
-          font-size: $nfs;
-        }
-
-        .text {
-          line-height: $aafs;
-          font-size: $sfs;
+        .password-rule {
+          @include flexSpaceBetween;
+          align-items: center;
+          .infos {
+            font-size: $sfs;
+          }
         }
       }
     }

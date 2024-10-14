@@ -5,8 +5,31 @@
   width: $laptop;
   margin: 2rem auto;
 
-
   .events-section-title {
     @include subTitle;
+  }
+
+  .event-delete-confirmation-wrapper {
+    @include ModalForConfirmation;
+
+    .delete-icon {
+      @include closeModal;
+    }
+
+    .you-want-delete {
+      @include subTitle;
+    }
+
+    .cancel-or-confirm-delete {
+      @include flexSpaceBetween;
+
+      .confirm-delete {
+        @include buttonForDelete;
+      }
+
+      .cancel-delete {
+        @include buttonForCancel;
+      }
+    }
   }
 }

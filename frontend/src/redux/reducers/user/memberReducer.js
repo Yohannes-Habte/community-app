@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  currentUser: null,
+  parishioners: [],
+  count: null,
+  loading: false,
+  error: null,
+};
+
 // Helper functions
 const setLoading = (state) => {
   state.loading = true;
@@ -14,18 +22,6 @@ const setSuccess = (state, action, key) => {
 const setFailure = (state, action) => {
   state.error = action.payload;
   state.loading = false;
-};
-
-const initialState = {
-  currentUser: null,
-  parishioners: [],
-  count: null,
-
-  // Loading states
-  loading: false,
-
-  // Error states
-  error: null,
 };
 
 const userReducer = createSlice({

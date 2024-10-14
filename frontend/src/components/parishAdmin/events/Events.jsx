@@ -13,13 +13,15 @@ import { MdEditSquare } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import { Alert } from "@mui/material";
 
 const Events = () => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.event);
   // Local state variable
   const [eventId, setEventId] = useState("");
-  const [open, setOpen] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllEvents());
@@ -79,7 +81,7 @@ const Events = () => {
 
             <button
               className="delete"
-              onClick={() => setEventId(params.id) || setOpen(true)}
+              onClick={() => setEventId(params.id) || setOpenDeleteModal(true)}
             >
               <FaTrashAlt />
             </button>
@@ -130,9 +132,9 @@ const Events = () => {
       <AddEvent />
       <h3 className="events-section-title">List of Events</h3>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {events.length === 0 && <p>No events available</p>}
+      {loading && <PageLoader isLoading={loading} message="" size={80} />}
+      {error && <Alert>{error}</Alert>}
+      {events.length === 0 && <Alert>No events available</Alert>}
 
       {!loading && !error && events.length > 0 && (
         <DataGrid
@@ -158,9 +160,12 @@ const Events = () => {
         />
       )}
 
-      {open && (
-        <article className="service-delete-confirmation-wrapper">
-          <span className="delete-icon" onClick={() => setOpen(false)}>
+      {openDeleteModal && (
+        <article className="event-delete-confirmation-wrapper">
+          <span
+            className="delete-icon"
+            onClick={() => setOpenDeleteModal(false)}
+          >
             X
           </span>
 
@@ -169,11 +174,14 @@ const Events = () => {
           <aside className="cancel-or-confirm-delete">
             <h3
               className={`confirm-delete`}
-              onClick={() => setOpen(false) || handleDelete(eventId)}
+              onClick={() => setOpenDeleteModal(false) || handleDelete(eventId)}
             >
               confirm
             </h3>
-            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
+            <p
+              className={`cancel-delete`}
+              onClick={() => setOpenDeleteModal(false)}
+            >
               cancel
             </p>
           </aside>

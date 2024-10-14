@@ -7,7 +7,7 @@
 
   .members-title {
     @include subTitle;
-    text-align: center
+    text-align: center;
   }
 
   .new-member-wrapper {
@@ -20,6 +20,34 @@
 
     .add-member {
       @include button2;
+    }
+  }
+
+  // DeleteConfirmationModal Styles
+
+  .delete-confirmation-modal {
+    @include ModalForConfirmation;
+
+    .close-icon {
+      @include closeModal;
+    }
+
+    .confirmation-text {
+      @include subTitle;
+    }
+
+    .action-buttons {
+      @include flexSpaceBetween;
+
+    
+
+      .confirm-button {
+        @include buttonForDelete;
+      }
+
+      .cancel-button {
+        @include buttonForCancel;
+      }
     }
   }
 }

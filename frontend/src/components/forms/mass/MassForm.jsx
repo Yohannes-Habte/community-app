@@ -111,8 +111,8 @@ const MassForm = () => {
     }
 
     try {
-      setLoading(true); // Set loading state to true
-      // Send POST request to create a new Mass
+      setLoading(true);
+
       const { data } = await axios.post(`${API}/masses/new`, formData, {
         withCredentials: true,
       });
@@ -120,9 +120,11 @@ const MassForm = () => {
       toast.success(data.message);
       resetForm();
     } catch (error) {
-      toast.error(error?.response?.data?.message || "An error occurred.");
+      const errorMessage =
+        error?.response?.data?.message || "An error occurred while submitting.";
+      toast.error(errorMessage);
     } finally {
-      setLoading(false); // Set loading state to false
+      setLoading(false);
     }
   };
 
