@@ -64,7 +64,7 @@ const Delegations = () => {
 
   return (
     <section className="delegated-priests-wrapper">
-      <h1 className="delegated-priests">Priests Delegation List</h1>
+      <h1 className="delegated-priests-title">Priests Delegation List</h1>
 
       {loading && <PageLoader isLoading={loading} message="" size={80} />}
 

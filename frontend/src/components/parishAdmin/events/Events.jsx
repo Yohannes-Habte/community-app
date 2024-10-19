@@ -130,7 +130,7 @@ const Events = () => {
   return (
     <section className="events-section-wrapper">
       <AddEvent />
-      <h3 className="events-section-title">List of Events</h3>
+      <h3 className="events-list-title">List of Events</h3>
 
       {loading && <PageLoader isLoading={loading} message="" size={80} />}
       {error && <Alert>{error}</Alert>}

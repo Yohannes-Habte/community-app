@@ -3,12 +3,6 @@ import "./LoginForm.scss";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
-import {
-  clearErrors,
-  postUserLoginFailure,
-  postUserLoginStart,
-  postUserLoginSuccess,
-} from "../../../redux/reducers/userReducer";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -16,6 +10,12 @@ import { validEmail, validPassword } from "../../../utiles/validation/validate";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import {
+  clearError,
+  loginUserFailure,
+  loginUserRequest,
+  loginUserSuccess,
+} from "../../../redux/reducers/user/memberReducer";
 
 const initialState = {
   email: "",
@@ -28,9 +28,7 @@ const LoginForm = () => {
 
   // Global state variables
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.user);
-  const loading = useSelector((state) => state.user.loading.login);
-  const error = useSelector((state) => state.user.error.login);
+  const { currentUser, loading, error } = useSelector((state) => state.member);
 
   // Local state variables
   const [formData, setFormData] = useState(initialState);
@@ -44,7 +42,7 @@ const LoginForm = () => {
 
   // Clear errors when the component mounts
   useEffect(() => {
-    dispatch(clearErrors());
+    dispatch(clearError());
   }, [dispatch]);
 
   const resetHandler = () => {
@@ -80,7 +78,7 @@ const LoginForm = () => {
     }
 
     try {
-      dispatch(postUserLoginStart());
+      dispatch(loginUserRequest());
 
       // The body
       const loginUser = {
@@ -92,7 +90,7 @@ const LoginForm = () => {
         withCredentials: true,
       });
 
-      dispatch(postUserLoginSuccess(res.data.user));
+      dispatch(loginUserSuccess(res.data.user));
       toast.success(res.data.message);
 
       // Set token in cookies
@@ -118,7 +116,7 @@ const LoginForm = () => {
        */
     } catch (err) {
       console.log(err);
-      dispatch(postUserLoginFailure(err.response.data.message));
+      dispatch(loginUserFailure(err.response.data.message));
     }
   };
   return (

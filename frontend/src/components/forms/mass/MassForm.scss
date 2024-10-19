@@ -17,44 +17,44 @@
 .mass-form {
   .inputs-wrapper {
     @include twoGridTemplateEqualColumns;
-  }
 
-  .input-container {
-    @include inputContainer;
+    .input-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
 
-    .input-icon {
-      @include inputIcon;
+      .input-icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        @include focusInputFieldAndInputLabel;
+      }
+
+      .input-error-message {
+        color: $red;
+        font-size: $sfs;
+        margin: 0.3rem 0 0 0.5rem;
+        text-align: left;
+      }
     }
 
-    .input-field {
-      @include inputField;
-    }
-
-    .input-label {
-      @include inputLabel;
-    }
-
-    .input-highlight {
-      @include inputHighlight;
-    }
-
-    .input-field:focus + .input-label {
-      @include focusInputFieldAndInputLabel;
-    }
-
-    .input-field:focus + .input-label + .input-highlight {
-      width: 100%;
-    }
-  }
-
-  .fieldset-container {
-    margin-top: 1rem;
-    .fieldset {
-      grid-column: span 2;
+    .fieldset-form {
       border: none;
-      margin-bottom: 1rem;
 
-      legend {
+      .fieldset-legend {
         font-weight: bold;
         font-size: $nfs;
       }
@@ -82,17 +82,13 @@
         .input-field:focus + .input-label {
           @include focusInputFieldAndInputLabel;
         }
-
-        .input-field:focus + .input-label + .input-highlight {
-          width: 100%;
-        }
       }
     }
   }
 
   .input-textarea-container {
     @include inputContainer;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 
     .input-icon {
       @include inputIcon;
@@ -113,13 +109,11 @@
     .input-field:focus + .input-label {
       @include focusInputFieldAndInputLabel;
     }
-
-    .input-field:focus + .input-label + .input-highlight {
-      width: 100%;
-    }
   }
 
-  .create-mass-btn {
-    @include button3;
+  .submit-wrapper {
+    .create-mass-btn {
+      @include button3;
+    }
   }
 }

@@ -15,7 +15,9 @@ import {
   FaMapMarkerAlt,
   FaParagraph,
 } from "react-icons/fa";
+import { MdChurch } from "react-icons/md";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 
 const initialState = {
   date: "",
@@ -28,9 +30,9 @@ const initialState = {
   massStatus: "upcoming",
   readings: {
     firstReading: "",
-    psalm: "",
     secondReading: "",
     gospel: "",
+    psalm: "",
   },
   location: {
     name: "St. Mary's Catholic Church",
@@ -41,17 +43,13 @@ const initialState = {
     },
   },
   description:
-    "A regular Mass service in the Eritrean Roman Catholic Church typically begins with an opening prayer, followed by the Penitential Act, where the congregation participates in a moment of confession and seeks God's mercy and forgiveness. This is often accompanied by the recitation or singing of a psalm, aligning with the liturgical calendar and timetable of the parish. The service then progresses to the Liturgy of the Word, featuring Scripture readings, a responsorial psalm, and a homily, which provides spiritual insight and guidance. Depending on the specific needs and spiritual growth objectives of the parishioners, additional elements such as catechesis or spiritual reflections may be incorporated into the service. The Liturgy of the Eucharist follows, where bread and wine are consecrated and the faithful receive Holy Communion, experiencing a profound union with Christ. The Mass concludes with a closing prayer and blessing, inspiring the congregation to continue their spiritual development and live out their faith in daily life.",
+    "A regular Mass service in the Eritrean Roman Catholic Church typically begins with an opening prayer...",
 };
 
 const MassForm = () => {
   const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-
-  // Utility function to capitalize the first letter of a string
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
 
   // Handle input changes
   const handleChange = (e) => {
@@ -60,31 +58,56 @@ const MassForm = () => {
       ...prevData,
       [name]: value,
     }));
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   // Handle nested input changes
   const handleNestedChange = (e, parent, isCoordinates = false) => {
     const { name, value } = e.target;
 
-    if (isCoordinates) {
-      setFormData((prevData) => ({
-        ...prevData,
-        [parent]: {
-          ...prevData[parent],
-          coordinates: {
-            ...prevData[parent].coordinates,
+    try {
+      // Perform basic validation for coordinate fields
+      if (isCoordinates) {
+        if ((name === "latitude" || name === "longitude") && isNaN(value)) {
+          throw new Error("Coordinates must be numeric values.");
+        }
+
+        setFormData((prevData) => ({
+          ...prevData,
+          [parent]: {
+            ...prevData[parent],
+            coordinates: {
+              ...prevData[parent].coordinates,
+              [name]: value,
+            },
+          },
+        }));
+      } else {
+        setFormData((prevData) => ({
+          ...prevData,
+          [parent]: {
+            ...prevData[parent],
             [name]: value,
           },
-        },
+        }));
+      }
+
+      // Clear any previous error messages for the field being updated
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
       }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [parent]: {
-          ...prevData[parent],
-          [name]: value,
-        },
+    } catch (error) {
+      // Set error messages to the state
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: error.message,
       }));
+      toast.error(error.message);
     }
   };
 
@@ -93,22 +116,119 @@ const MassForm = () => {
     setFormData(initialState);
   };
 
+  // Real-time Validation
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = {};
+
+    // Validate Date
+    if (!formData.date) {
+      newErrors.date = "Date is required";
+      valid = false;
+    }
+
+    // Validate Time
+    if (!formData.time) {
+      newErrors.time = "Time is required";
+      valid = false;
+    }
+
+    // Validate Day of the Week
+    if (!formData.type) {
+      newErrors.type = "Day of the Mass is required";
+      valid = false;
+    }
+
+    // Validate Officiant
+    if (!formData.officiant) {
+      newErrors.officiant = "Officiant name is required";
+      valid = false;
+    }
+
+    // Validate Confession
+    if (!formData.confession) {
+      newErrors.confession = "Confession time is required";
+      valid = false;
+    }
+
+    // Validate Pre-Mass Prayer
+    if (!formData.preMassPrayer) {
+      newErrors.preMassPrayer = "Pre-mass prayer is required";
+      valid = false;
+    }
+
+    // Validate Readings
+    if (!formData.readings.firstReading) {
+      newErrors.firstReading = "First reading is required";
+      valid = false;
+    }
+
+    if (!formData.readings.secondReading) {
+      newErrors.secondReading = "Second reading is required";
+      valid = false;
+    }
+
+    if (!formData.readings.gospel) {
+      newErrors.gospel = "Gospel is required";
+      valid = false;
+    }
+
+    if (!formData.readings.psalm) {
+      newErrors.psalm = "Psalm is required";
+      valid = false;
+    }
+
+    // Validate Location - Name
+    if (!formData.location.name) {
+      newErrors.name = "Church name is required";
+      valid = false;
+    }
+
+    // Validate church - address
+    if (!formData.location.address) {
+      newErrors.address = "Church name is required";
+      valid = false;
+    }
+
+    // Validate Location Coordinates - Latitude and Longitude
+    if (
+      !formData.location.coordinates.latitude ||
+      isNaN(formData.location.coordinates.latitude)
+    ) {
+      newErrors.latitude = "Valid latitude is required";
+      valid = false;
+    }
+
+    if (
+      !formData.location.coordinates.longitude ||
+      isNaN(formData.location.coordinates.longitude)
+    ) {
+      newErrors.longitude = "Valid longitude is required";
+      valid = false;
+    }
+
+    // Mass Description
+    if (!formData.description) {
+      newErrors.description = "Mass description is required";
+      valid = false;
+    }
+
+    // Set Errors
+    setErrors(newErrors);
+
+    // Show error toast if form is invalid
+    if (!valid) {
+      toast.error("Please fill in all required fields correctly.");
+    }
+
+    return valid;
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (
-      !formData.date ||
-      !formData.time ||
-      !formData.officiant ||
-      !formData.location.name ||
-      !formData.confession ||
-      !formData.preMassPrayer
-    ) {
-      toast.error("Please fill in all required fields.");
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       setLoading(true);
@@ -131,8 +251,9 @@ const MassForm = () => {
   return (
     <section className="form-mass-container">
       <h3 className="mass-form-title">Create a New Mass</h3>
-      <form onSubmit={handleSubmit} className="mass-form">
+      <form onSubmit={handleSubmit} className="mass-form" noValidate>
         <div className="inputs-wrapper">
+          {/* Mass Date */}
           <div className="input-container">
             <FaCalendarAlt className="input-icon" />
             <input
@@ -141,15 +262,18 @@ const MassForm = () => {
               id="date"
               value={formData.date}
               onChange={handleChange}
-              placeholder="MM-DD-YYYY"
               className="input-field"
+              aria-label="Mass Date"
             />
             <label htmlFor="date" className="input-label">
               Mass Date
             </label>
-            <span className="input-highlight"></span>
+            {errors.date && (
+              <small className="input-error-message">{errors.date}</small>
+            )}
           </div>
 
+          {/* Mass Time */}
           <div className="input-container">
             <FaClock className="input-icon" />
             <input
@@ -159,13 +283,18 @@ const MassForm = () => {
               value={formData.time}
               onChange={handleChange}
               className="input-field"
+              aria-label="Mass Time"
             />
             <label htmlFor="time" className="input-label">
               Mass Time
             </label>
-            <span className="input-highlight"></span>
+
+            {errors.time && (
+              <small className="input-error-message">{errors.time}</small>
+            )}
           </div>
 
+          {/* Type Selection */}
           <div className="input-container">
             <FaListUl className="input-icon" />
             <select
@@ -174,6 +303,8 @@ const MassForm = () => {
               value={formData.type}
               onChange={handleChange}
               className="input-field"
+              aria-label="Mass Program Type"
+              required
             >
               <option value="Daily">Daily</option>
               <option value="Saturday">Saturday</option>
@@ -185,9 +316,13 @@ const MassForm = () => {
             <label htmlFor="type" className="input-label">
               Mass Program Type
             </label>
-            <span className="input-highlight"></span>
+
+            {errors.type && (
+              <small className="input-error-message">{errors.type}</small>
+            )}
           </div>
 
+          {/* Officiant Name */}
           <div className="input-container">
             <FaUserAlt className="input-icon" />
             <input
@@ -198,13 +333,18 @@ const MassForm = () => {
               onChange={handleChange}
               placeholder="Officiant Name (e.g. Fr. Siyum Zera Ghiorghis)"
               className="input-field"
+              aria-label="Officiant Name"
+              maxLength={100}
             />
             <label htmlFor="officiant" className="input-label">
               Officiant Name
             </label>
-            <span className="input-highlight"></span>
+            {errors.type && (
+              <small className="input-error-message">{errors.type}</small>
+            )}
           </div>
 
+          {/* Participants */}
           <div className="input-container">
             <FaUsers className="input-icon" />
             <input
@@ -212,17 +352,19 @@ const MassForm = () => {
               name="participants"
               id="participants"
               min="1"
+              max="1000"
               value={formData.participants}
               onChange={handleChange}
               placeholder="Mass Participants"
               className="input-field"
+              aria-label="Mass Participants"
             />
             <label htmlFor="participants" className="input-label">
               Mass Participants
             </label>
-            <span className="input-highlight"></span>
           </div>
 
+          {/* Confession Time */}
           <div className="input-container">
             <FaQuoteRight className="input-icon" />
             <input
@@ -231,15 +373,20 @@ const MassForm = () => {
               id="confession"
               value={formData.confession}
               onChange={handleChange}
-              placeholder="Confession Time (e.g. 10:30 - 11:40)"
+              placeholder="Confession Time"
               className="input-field"
+              aria-label="Confession Time"
             />
             <label htmlFor="confession" className="input-label">
               Confession Time
             </label>
-            <span className="input-highlight"></span>
+
+            {errors.confession && (
+              <small className="input-error-message">{errors.confession}</small>
+            )}
           </div>
 
+          {/* Pre-Mass Prayer */}
           <div className="input-container">
             <FaPrayingHands className="input-icon" />
             <input
@@ -250,13 +397,21 @@ const MassForm = () => {
               onChange={handleChange}
               placeholder="Pre-Mass Prayer (e.g. Rosary from 11:00 - 11:45)"
               className="input-field"
+              aria-label="Pre-Mass Prayer"
+              required
             />
             <label htmlFor="preMassPrayer" className="input-label">
               Pre-Mass Prayer
             </label>
-            <span className="input-highlight"></span>
+
+            {errors.preMassPrayer && (
+              <small className="input-error-message">
+                {errors.preMassPrayer}
+              </small>
+            )}
           </div>
 
+          {/* Mass Status */}
           <div className="input-container">
             <FaCalendarCheck className="input-icon" />
             <select
@@ -264,120 +419,212 @@ const MassForm = () => {
               id="massStatus"
               value={formData.massStatus}
               onChange={handleChange}
-              placeholder="Mass Status"
               className="input-field"
+              aria-label="Mass Status"
+              required
             >
               <option value="upcoming">Upcoming</option>
-              <option value="past">Past</option>
+              <option value="completed">Completed</option>
+              <option value="canceled">Canceled</option>
             </select>
             <label htmlFor="massStatus" className="input-label">
               Mass Status
             </label>
-            <span className="input-highlight"></span>
           </div>
 
-          <div className="fieldset-container">
-            <fieldset className="fieldset">
-              <legend>Mass Readings & Psalm:</legend>
-              {["firstReading", "psalm", "secondReading", "gospel"].map(
-                (field) => (
-                  <div className="input-container" key={field}>
-                    <FaBookOpen className="input-icon" />
-                    <input
-                      type="text"
-                      name={field}
-                      id={field}
-                      value={formData.readings[field]}
-                      onChange={(e) => handleNestedChange(e, "readings")}
-                      placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`} // Adding the placeholder here
-                      className="input-field"
-                    />
-                    <label htmlFor={field} className="input-label">
-                      {`Mass ${capitalizeFirstLetter(
-                        field.replace(/([A-Z])/g, " $1")
-                      )}`}
-                    </label>
-                    <span className="input-highlight"></span>
-                  </div>
-                )
+          {/* Readings Section */}
+          <fieldset className="fieldset-form">
+            <legend className="fieldset-legend">
+              Mass Readings and Psalm{" "}
+            </legend>
+            {/* First Reading */}
+            <div className="input-container">
+              <FaBookOpen className="input-icon" />
+              <input
+                type="text"
+                name="firstReading"
+                id="firstReading"
+                value={formData.readings.firstReading}
+                onChange={(e) => handleNestedChange(e, "readings")}
+                placeholder="First Reading"
+                className="input-field"
+                aria-label="First Reading"
+              />
+              <label htmlFor="firstReading" className="input-label">
+                First Reading
+              </label>
+
+              {errors.firstReading && (
+                <small className="input-error-message">
+                  {errors.firstReading}
+                </small>
               )}
-            </fieldset>
-          </div>
+            </div>
 
-          <div className="fieldset-container">
-            <fieldset className="fieldset">
-              <legend>Mass Location:</legend>
-              <div className="input-container">
-                <FaMapMarkerAlt className="input-icon" />
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={formData.location.name}
-                  onChange={(e) => handleNestedChange(e, "location")}
-                  placeholder="Enter Church Name"
-                  className="input-field"
-                />
-                <label htmlFor="name" className="input-label">
-                  Church Name
-                </label>
-                <span className="input-highlight"></span>
-              </div>
+            {/* Second Reading */}
+            <div className="input-container">
+              <FaBookOpen className="input-icon" />
+              <input
+                type="text"
+                name="secondReading"
+                id="secondReading"
+                value={formData.readings.secondReading}
+                onChange={(e) => handleNestedChange(e, "readings")}
+                placeholder="Second Reading"
+                className="input-field"
+                aria-label="Second Reading"
+              />
+              <label htmlFor="secondReading" className="input-label">
+                Second Reading
+              </label>
 
-              <div className="input-container">
-                <FaMapMarkerAlt className="input-icon" />
-                <input
-                  type="text"
-                  name="address"
-                  id="address"
-                  value={formData.location.address}
-                  onChange={(e) => handleNestedChange(e, "location")}
-                  placeholder="Enter Church Address"
-                  className="input-field"
-                />
-                <label htmlFor="address" className="input-label">
-                  Church Address
-                </label>
-                <span className="input-highlight"></span>
-              </div>
+              {errors.secondReading && (
+                <small className="input-error-message">
+                  {errors.secondReading}
+                </small>
+              )}
+            </div>
 
-              <div className="input-container">
-                <FaMapMarkerAlt className="input-icon" />
-                <input
-                  type="number"
-                  name="latitude"
-                  id="latitude"
-                  value={formData.location.coordinates.latitude}
-                  onChange={(e) => handleNestedChange(e, "location", true)}
-                  placeholder="Latitude"
-                  className="input-field"
-                />
-                <label htmlFor="latitude" className="input-label">
-                  Latitude
-                </label>
-                <span className="input-highlight"></span>
-              </div>
+            {/* Gospel */}
+            <div className="input-container">
+              <FaBookOpen className="input-icon" />
+              <input
+                type="text"
+                name="gospel"
+                id="gospel"
+                value={formData.readings.gospel}
+                onChange={(e) => handleNestedChange(e, "readings")}
+                placeholder="Gospel"
+                className="input-field"
+                aria-label="Gospel"
+              />
+              <label htmlFor="gospel" className="input-label">
+                Gospel
+              </label>
 
-              <div className="input-container">
-                <FaMapMarkerAlt className="input-icon" />
-                <input
-                  type="number"
-                  name="longitude"
-                  id="longitude"
-                  value={formData.location.coordinates.longitude}
-                  onChange={(e) => handleNestedChange(e, "location", true)}
-                  placeholder="Longitude"
-                  className="input-field"
-                />
-                <label htmlFor="longitude" className="input-label">
-                  Longitude
-                </label>
-                <span className="input-highlight"></span>
-              </div>
-            </fieldset>
-          </div>
+              {errors.gospel && (
+                <small className="input-error-message">{errors.gospel}</small>
+              )}
+            </div>
+
+            {/* Psalm */}
+            <div className="input-container">
+              <FaBookOpen className="input-icon" />
+              <input
+                type="text"
+                name="psalm"
+                id="psalm"
+                value={formData.readings.psalm}
+                onChange={(e) => handleNestedChange(e, "readings")}
+                placeholder="Psalm"
+                className="input-field"
+                aria-label="Psalm"
+              />
+              <label htmlFor="psalm" className="input-label">
+                Psalm
+              </label>
+
+              {errors.psalm && (
+                <small className="input-error-message">{errors.psalm}</small>
+              )}
+            </div>
+          </fieldset>
+
+          {/* Location */}
+          <fieldset className="fieldset-form">
+            <legend className="fieldset-legend">Church Location</legend>
+            {/* Church Name */}
+            <div className="input-container">
+              <MdChurch className="input-icon" />
+              <input
+                type="text"
+                name="name"
+                id="location-name"
+                value={formData.location.name}
+                onChange={(e) => handleNestedChange(e, "location")}
+                placeholder="Church Name"
+                className="input-field"
+                aria-label="Church Name"
+              />
+              <label htmlFor="location-name" className="input-label">
+                Church Name
+              </label>
+
+              {errors.name && (
+                <small className="input-error-message">{errors.name}</small>
+              )}
+            </div>
+
+            {/* Church Address */}
+            <div className="input-container">
+              <FaMapMarkerAlt className="input-icon" />
+              <input
+                type="text"
+                name="address"
+                id="location-address"
+                value={formData.location.address}
+                onChange={(e) => handleNestedChange(e, "location")}
+                placeholder="Church Address"
+                className="input-field"
+                aria-label="Church Address"
+              />
+              <label htmlFor="location-address" className="input-label">
+                Church Address
+              </label>
+
+              {errors.address && (
+                <small className="input-error-message">{errors.address}</small>
+              )}
+            </div>
+
+            {/* Coordinates */}
+            <div className="input-container">
+              <FaMapMarkerAlt className="input-icon" />
+              <input
+                type="text"
+                name="latitude"
+                id="latitude"
+                value={formData.location.coordinates.latitude}
+                onChange={(e) => handleNestedChange(e, "location", true)}
+                placeholder="Latitude"
+                className="input-field"
+                aria-label="Latitude"
+              />
+              <label htmlFor="latitude" className="input-label">
+                Latitude
+              </label>
+
+              {errors.latitude && (
+                <small className="input-error-message">{errors.latitude}</small>
+              )}
+            </div>
+
+            <div className="input-container">
+              <FaMapMarkerAlt className="input-icon" />
+              <input
+                type="text"
+                name="longitude"
+                id="longitude"
+                value={formData.location.coordinates.longitude}
+                onChange={(e) => handleNestedChange(e, "location", true)}
+                placeholder="Longitude"
+                className="input-field"
+                aria-label="Longitude"
+              />
+              <label htmlFor="longitude" className="input-label">
+                Longitude
+              </label>
+
+              {errors.longitude && (
+                <small className="input-error-message">
+                  {errors.longitude}
+                </small>
+              )}
+            </div>
+          </fieldset>
         </div>
 
+        {/* Mass Description */}
         <div className="input-textarea-container">
           <FaParagraph className="input-icon" />
           <textarea
@@ -385,19 +632,31 @@ const MassForm = () => {
             id="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Enter Mass Description"
+            placeholder="Description of the Mass (optional)"
             className="input-field"
-            rows="4"
+            aria-label="Mass Description"
+            rows="5"
+            maxLength="800"
           />
           <label htmlFor="description" className="input-label">
             Mass Description
           </label>
-          <span className="input-highlight"></span>
+
+          {errors.description && (
+            <small className="input-error-message">{errors.description}</small>
+          )}
         </div>
 
-        <button type="submit" className="create-mass-btn" disabled={loading}>
-          {loading ? "Loading..." : "Create Mass"}
-        </button>
+        {/* Submit Button */}
+        <div className="submit-wrapper">
+          <button className="create-mass-btn" disabled={loading}>
+            {loading ? (
+              <ButtonLoader isLoading={loading} message="Loading" size={24} />
+            ) : (
+              "Create Mass"
+            )}
+          </button>
+        </div>
       </form>
     </section>
   );

@@ -85,7 +85,7 @@ const ChurchServices = () => {
 
   return (
     <section className="church-services-table-wrapper">
-      <h1>Church Services</h1>
+      <h1 className="">Church Services</h1>
 
       {loading && <PageLoader isLoading={loading} message="" size={80} />}
 

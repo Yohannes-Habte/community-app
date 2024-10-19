@@ -8,15 +8,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  postUserRegisterFailure,
-  postUserRegisterStart,
-  postUserRegisterSuccess,
-} from "../../../redux/reducers/userReducer";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import { validEmail, validPassword } from "../../../utiles/validation/validate";
 import Cookies from "js-cookie";
+import { registerUserFailure, registerUserRequest, registerUserSuccess } from "../../../redux/reducers/user/memberReducer";
 
 const initialState = {
   firstName: "",
@@ -116,7 +112,7 @@ const SignUpForm = () => {
     }
 
     try {
-      dispatch(postUserRegisterStart());
+      dispatch(registerUserRequest());
 
       const { data } = await axios.post(`${API}/auth/register`, formData, {
         withCredentials: true,
@@ -126,7 +122,7 @@ const SignUpForm = () => {
         },
       });
 
-      dispatch(postUserRegisterSuccess(data.user));
+      dispatch(registerUserSuccess(data.user));
       toast.success("Registration successful!");
 
       // Set secure token in cookies
@@ -142,7 +138,7 @@ const SignUpForm = () => {
       const errorMessage =
         err.response?.data?.message ||
         "Something went wrong. Please try again.";
-      dispatch(postUserRegisterFailure(errorMessage));
+      dispatch(registerUserFailure(errorMessage));
       toast.error(errorMessage);
     }
   };

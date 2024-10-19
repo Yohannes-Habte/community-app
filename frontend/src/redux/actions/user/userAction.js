@@ -1,13 +1,13 @@
 import axios from "axios";
 import { API } from "../../../utiles/securitiy/secreteKey";
 import Cookies from "js-cookie";
-import {
-  fetchSingleUserStart,
-  fetchSingleUserSuccess,
-  fetchSingleUserFailure,
-  logoutUserSuccess,
-  logoutUserFailure,
-} from "../../reducers/userReducer";
+// import {
+//   fetchSingleUserStart,
+//   fetchSingleUserSuccess,
+//   fetchSingleUserFailure,
+//   logoutUserSuccess,
+//   logoutUserFailure,
+// } from "../../reducers/userReducer";
 import {
   changeUserPasswordFailure,
   changeUserPasswordRequest,
@@ -19,10 +19,15 @@ import {
   fetchParishionersFailure,
   fetchParishionersRequest,
   fetchParishionersSuccess,
+  fetchUserFailure,
+  fetchUserRequest,
+  fetchUserSuccess,
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
+  logoutUserFailure,
   logoutUserRequest,
+  logoutUserSuccess,
   registerUserFailure,
   registerUserRequest,
   registerUserSuccess,
@@ -209,7 +214,7 @@ export const clearAllMemberErrors = () => (dispatch) => {
 //==============================================================================
 
 export const fetchUser = () => async (dispatch) => {
-  dispatch(fetchSingleUserStart());
+  dispatch(fetchUserRequest());
 
   try {
     // console.log('All cookies:', Cookies.get());
@@ -224,9 +229,9 @@ export const fetchUser = () => async (dispatch) => {
       withCredentials: true,
     });
     // console.log("user data = ", res);
-    dispatch(fetchSingleUserSuccess(res.data.result));
+    dispatch(fetchUserSuccess(res.data.result));
   } catch (error) {
     // console.error("Fetch User Error:", error);
-    dispatch(fetchSingleUserFailure(error.message));
+    dispatch(fetchUserFailure(error.message));
   }
 };

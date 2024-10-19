@@ -1,5 +1,5 @@
 import "./UserProfileSidebar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaAddressCard } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -10,16 +10,24 @@ import { IoMdLogOut } from "react-icons/io";
 import { GiSunPriest } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import Logout from "../../../utiles/globalFunctions/Logout";
+import { useEffect } from "react";
 
 const UserProfileSidebar = ({ isActive, setIsActive }) => {
+  const navigate = useNavigate();
   // Global state variables
   const { signOut } = Logout();
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.member);
 
   // Handle logout
   const handleLogout = async () => {
-    await signOut(); // This will trigger the logout process
+    await signOut();
   };
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/");
+    }
+  }, [currentUser]);
 
   return (
     <section className="user-profile-sidebar-wrapper">

@@ -9,8 +9,7 @@ import { useSelector } from "react-redux";
 const PriestDashboardHeader = ({ active, setActive }) => {
   // Global state variables
   const { signOut } = Logout();
-  const { currentUser } = useSelector((state) => state.user);
-  console.log("Current priest", currentUser);
+  const { currentUser } = useSelector((state) => state.member);
 
   // Handle logout
   const handleLogout = async () => {

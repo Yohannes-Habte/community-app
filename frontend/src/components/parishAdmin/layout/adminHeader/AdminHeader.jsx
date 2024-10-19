@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 const AdminHeader = ({ isActive, setIsActive }) => {
   // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.member);
 
   return (
     <header className="admin-dashboard-header">

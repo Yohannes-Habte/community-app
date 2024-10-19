@@ -6,5 +6,6 @@
   margin: 1rem auto;
   .user-monthly-contribution-title {
     @include subTitle;
+    margin: 2rem 0;
   }
 }

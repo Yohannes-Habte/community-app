@@ -1,6 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./reducers/userReducer";
-import eventReducer from "./reducers/eventReducer";
 import commentReducer from "./reducers/commentReducer";
 import memberReducer from "./reducers/user/memberReducer";
 import serviceReducer from "./reducers/service/serviceReducer";
@@ -9,10 +7,10 @@ import delegationReducer from "./reducers/delegation/delegationReducer";
 import financeReducer from "./reducers/finance/financeReducer";
 import contributionReducer from "./reducers/contribution/contributionReducer";
 import committeeReducer from "./reducers/committee/committeeReducer";
+import eventReducer from "./reducers/event/eventReducer";
 
 const Store = configureStore({
   reducer: {
-    user: userReducer,
     member: memberReducer,
     priest: delegationReducer,
     contributions: contributionReducer,

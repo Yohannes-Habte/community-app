@@ -13,8 +13,8 @@ import {
   fetchAllEventsStart,
   fetchAllEventsSuccess,
   fetchAllEventsFailure,
+  clearErrors
 } from "../../reducers/event/eventReducer";
-import { clearErrors } from "../../reducers/userReducer";
 
 //==============================================================================
 // Post an Event

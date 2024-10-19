@@ -165,7 +165,8 @@
 
 @mixin formInputError {
   color: $red;
-  font-size: $nfs;
+  font-size: $sfs;
+  margin: 0 0.5rem;
 }
 // ==============================================================================================
 // Button styling
@@ -238,13 +239,15 @@
 
 @mixin button3 {
   width: 100%;
-  padding: 10px 20px;
+  padding: 0.7rem 1rem;
   border: none;
   background-color: $button-bg;
+  font-size: $nfs;
+  font-weight: $aafw;
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  transition: all 0.3s ease;
 
   &:hover {
     background-color: $button-hover;

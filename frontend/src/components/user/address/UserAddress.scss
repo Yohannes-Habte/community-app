@@ -1,21 +1,18 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.user-addresses-wrapper {
+.member-addresses-wrapper {
   width: $laptop;
   margin: 1rem auto;
 
-  .user-address-title {
-    @include title;
+  .member-address-title {
+    @include subTitle;
   }
 
-  .add-user-address {
+  .add-member-address {
     @include flexSpaceBetween;
-    width: $tablet;
-    margin: 1rem auto;
-    padding-right: 1rem;
 
-    .add-title {
+    .add-member-title {
       @include subTitle;
     }
 
@@ -25,9 +22,6 @@
   }
 
   .addresses-list-container {
-    width: $tablet;
-    margin: 1rem auto;
-
     .table-address {
       width: 100%;
       margin-top: 1rem;
@@ -37,8 +31,8 @@
         .head-row {
           .head-cell {
             text-align: start;
-            font-size: $afs;
-            padding: 1rem;
+            font-size: $nfs;
+            padding: 1rem 0.2rem 1rem 0.5rem;
             border-bottom: 1px solid $blue;
           }
         }
@@ -48,8 +42,8 @@
         .body-row {
           .body-cell {
             text-align: start;
-            font-size: $afs;
-            padding: 1rem;
+            font-size: $nfs;
+            padding: 1rem 0.2rem 1rem 0.5rem;
             border-bottom: 1px solid $gray;
 
             .delete-icon {

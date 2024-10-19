@@ -1,0 +1,99 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.update-user-profile-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+  @include shadow1;
+  background-color: $form-bg;
+
+  .update-user-profile-title {
+    @include subTitle;
+    text-align: center;
+  }
+
+  .error-message {
+    @include errorMessage;
+  }
+
+  .update_user-image-container {
+    @include flexColumnCenter;
+    .update-user-image {
+      @include userImage;
+    }
+
+    .update-user-legend {
+      @include legend;
+    }
+  }
+
+  .update-user-profile-fieldset {
+    @include fieldset;
+
+    .update-user-profile-legend {
+      @include legend;
+    }
+
+    .update-user-profile-form {
+      @include flexColumn;
+      .inputs-wrapper {
+        @include twoGridTemplateEqualColumns;
+      }
+      .input-container {
+        @include inputContainer;
+
+        .update-user-account-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .password-display {
+          @include passwordDisplay;
+        }
+      }
+
+      .input-consent {
+        @include inputContainer;
+        @include flexRow;
+        align-items: center;
+        margin: 1rem 0.3rem;
+
+        .consent-checkbox {
+          height: 1rem;
+          width: 1rem;
+          cursor: pointer;
+        }
+
+        .accept {
+        }
+
+        .terms-of-user {
+          color: $blue;
+        }
+      }
+
+      .update-user-profile-btn {
+        @include button3;
+      }
+    }
+  }
+}

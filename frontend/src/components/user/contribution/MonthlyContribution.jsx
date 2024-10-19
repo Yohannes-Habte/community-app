@@ -2,95 +2,99 @@ import { useSelector } from "react-redux";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import "./MonthlyContribution.scss";
+import { Alert } from "@mui/material"; // Loading indicator
+import { toast } from "react-toastify";
+import { API } from "../../../utiles/securitiy/secreteKey";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 
 const MonthlyContribution = () => {
-  // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
-
-  // Local state variables
+  const { currentUser } = useSelector((state) => state.member);
   const [contributions, setContributions] = useState([]);
-  console.log("contributions=", contributions);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Display all users
+  // Fetch member contributions
   useEffect(() => {
-    const getMemberContributions = async () => {
+    const fetchMemberContributions = async () => {
       try {
-        const { data } = await axios.get(
-          `${API}/contributions/${currentUser._id}`
+        setLoading(true); // Start loading
+        const response = await axios.get(
+          `${API}/contributions/${currentUser._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`, // Secure API call
+            },
+          }
         );
-
-        setContributions(data.memberContributions);
+        setContributions(response.data.memberContributions);
+        setLoading(false); // Stop loading
       } catch (error) {
-        console.log(error.message);
+        setError(error.message || "Failed to fetch contributions");
+        toast.error(error.message || "Failed to fetch contributions");
+        setLoading(false);
       }
     };
 
-    getMemberContributions();
-  }, []);
+    if (currentUser?._id) {
+      fetchMemberContributions();
+    }
+  }, [currentUser]);
 
-  // Contribution header
+  // Contribution columns
   const columns = [
     { field: "id", headerName: "Contribution ID", width: 350 },
     { field: "date", headerName: "Contribution Date", width: 300 },
     { field: "amount", headerName: "Contribution Amount", width: 300 },
   ];
 
-  // Row data
-  const rows = [];
+  // Prepare row data
+  const rows = contributions.map((contribution) => ({
+    id: contribution._id,
+    date: new Date(contribution.date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }),
+    amount: contribution.amount.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    }),
+  }));
 
-  contributions &&
-    contributions.map((contribution) => {
-      const formattedDate = new Date(contribution.date).toLocaleDateString(
-        "en-GB",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
-      );
-
-      return rows.push({
-        id: contribution._id,
-        date: formattedDate, // formatted in DD.MM.YYYY
-        amount: contribution.amount,
-      });
-    });
-
-  console.log("rows=", rows);
   return (
     <section className="user-monthly-contribution-container">
       <h1 className="user-monthly-contribution-title">
-        {currentUser ? currentUser.firstName : "User"} Monthly Contribution
+        {currentUser ? `${currentUser.firstName}'s` : "User"} Monthly
+        Contributions
       </h1>
 
-      <DataGrid
-        // Rows
-        rows={rows}
-        // Columns
-        columns={columns}
-        // Initial state
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        // Create search bar
-        slots={{ toolbar: GridToolbar }}
-        // Search a specific user
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        // Page size optons
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        //
-      />
+      {loading ? (
+        <PageLoader isLoading={loading} message="Loading..." size={80} />
+      ) : error ? (
+        <Alert>{error}</Alert>
+      ) : (
+        
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+        />
+      )}
     </section>
   );
 };

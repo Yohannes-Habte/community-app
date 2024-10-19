@@ -8,6 +8,7 @@ import {
   upload_preset,
 } from "../../../utiles/securitiy/secreteKey";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import { toast } from "react-toastify";
 
 const initialState = {
   videoFile: null,
@@ -24,7 +25,7 @@ const initialErrors = {
   general: "",
 };
 
-// Function to determine the MIME type based on the video URL
+// Helper function to determine the MIME type based on the video URL
 const getVideoMimeType = (url) => {
   const extension = url.split(".").pop().toLowerCase();
   switch (extension) {
@@ -53,14 +54,17 @@ const VideoUpload = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
-    // Check if the file type is valid
     if (file) {
+      // Check if the file type is valid
       if (allowedTypes.includes(file.type)) {
         setFormData((prevState) => ({
           ...prevState,
           videoFile: file,
         }));
-        setErrors((prevErrors) => ({ ...prevErrors, videoFile: "" })); // Clear previous file error
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          videoFile: "",
+        }));
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -78,15 +82,13 @@ const VideoUpload = () => {
       ...prevState,
       [name]: value,
     }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear error on input change
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Validate form inputs
-    let hasError = false;
+  // Validate form inputs before submitting
+  const validateInputs = () => {
     const newErrors = { ...initialErrors };
+    let hasError = false;
 
     if (!title.trim()) {
       newErrors.title = "Title is required.";
@@ -101,42 +103,52 @@ const VideoUpload = () => {
       hasError = true;
     }
 
-    if (hasError) {
-      setErrors(newErrors);
-      return;
-    }
+    setErrors(newErrors);
+    return hasError;
+  };
 
-    const formData = new FormData();
-    formData.append("file", videoFile);
-    formData.append("cloud_name", cloud_name);
-    formData.append("upload_preset", upload_preset);
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    // Cloudinary URL for video upload
+    if (validateInputs()) return;
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("file", videoFile);
+    formDataToSend.append("cloud_name", cloud_name);
+    formDataToSend.append("upload_preset", upload_preset);
+
     const cloud_URL = `https://api.cloudinary.com/v1_1/${cloud_name}/video/upload`;
 
     try {
       setFormData((prevState) => ({ ...prevState, loading: true }));
-      setErrors(initialErrors); // Clear all previous errors
+      setErrors(initialErrors);
 
       // Upload video to Cloudinary
-      const response = await axios.post(cloud_URL, formData);
+      const response = await axios.post(cloud_URL, formDataToSend);
       const videoUrl = response.data.secure_url;
 
       // Save video details to the database
-      await axios.post(
+      const { data } = await axios.post(
         `${API}/videos/new`,
         { title, description, videoUrl },
         { withCredentials: true }
       );
 
-      // Set video URL for preview
+      toast.success(data.message);
+
       setFormData((prevState) => ({
         ...prevState,
         videoUrl,
         loading: false,
       }));
     } catch (error) {
-      console.error("Error uploading video:", error);
+      const errorMessage =
+        error.response?.data?.message ||
+        "An error occurred while uploading the video. Please try again.";
+
+      toast.error(errorMessage);
+
       setErrors((prevErrors) => ({
         ...prevErrors,
         general:
@@ -150,9 +162,12 @@ const VideoUpload = () => {
   return (
     <section className="video-upload-container">
       <h2 className="video-upload-title">Video Content Upload Form</h2>
+
       <form onSubmit={handleSubmit} className="video-upload-form">
         <div className="input-container">
-          <label className="input-label">Title:</label>
+          <label htmlFor="title" className="input-label">
+            Title:
+          </label>
           <RiFileTextFill className="icon" />
           <input
             type="text"
@@ -161,12 +176,16 @@ const VideoUpload = () => {
             onChange={handleChange}
             placeholder="Enter the video title here..."
             className="input-field"
+            aria-label="Video Title"
+            required
           />
-          {errors.title && <p className="error-message">{errors.title}</p>}
+          {errors.title && <p className="input-error">{errors.title}</p>}
         </div>
 
         <div className="input-container">
-          <label className="input-label">Description:</label>
+          <label htmlFor="description" className="input-label">
+            Description:
+          </label>
           <RiVideoFill className="icon" />
           <textarea
             name="description"
@@ -176,30 +195,40 @@ const VideoUpload = () => {
             onChange={handleChange}
             placeholder="Enter your video description here..."
             className="input-field"
+            aria-label="Video Description"
+            required
           ></textarea>
           {errors.description && (
-            <p className="error-message">{errors.description}</p>
+            <p className="input-error">{errors.description}</p>
           )}
         </div>
 
         <div className="input-container">
-          <label className="input-label">Upload Video:</label>
+          <label htmlFor="videoFile" className="input-label">
+            Upload Video:
+          </label>
           <RiFileUploadFill className="icon" />
           <input
             type="file"
             accept="video/*"
             onChange={handleFileChange}
             className="input-field"
+            aria-label="Upload Video"
+            required
           />
           {errors.videoFile && (
-            <p className="error-message">{errors.videoFile}</p>
+            <p className="input-error">{errors.videoFile}</p>
           )}
         </div>
 
-        {/* Display general error message if any */}
         {errors.general && <p className="error-message">{errors.general}</p>}
 
-        <button type="submit" className="video-submit-btn" disabled={loading}>
+        <button
+          type="submit"
+          className="video-submit-btn"
+          disabled={loading}
+          aria-busy={loading}
+        >
           {loading ? (
             <ButtonLoader
               isLoading={loading}

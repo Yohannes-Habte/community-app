@@ -29,10 +29,14 @@
       .input-field {
         @include inputField;
       }
+
+      .input-error {
+        @include formInputError;
+      }
     }
 
     .subscriber-notification-btn {
-      @include button1;
+      @include button3;
     }
   }
 }

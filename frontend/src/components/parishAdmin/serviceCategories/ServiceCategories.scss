@@ -2,8 +2,12 @@
 @import "../../../styles/Mixins.scss";
 
 .service-category-table-container {
+  position: relative;
   .service-category-table-title {
     @include subTitle;
+    margin: 2rem 0;
+    font-size: $aafs;
+    text-align: center;
   }
 
   .add-new-service-category {
@@ -28,4 +32,28 @@
 
 .MuiDataGrid-cell {
   @include flexCenter;
+}
+
+.category-delete-confirmation-wrapper {
+  @include ModalForConfirmation;
+
+  .delete-icon {
+    @include closeModal;
+  }
+
+  .you-want-delete {
+    @include paragraph;
+    margin: 1rem 0 2rem 0;
+  }
+
+  .buttons-wrapper {
+    @include flexSpaceBetween;
+    .confirm-delete {
+      @include buttonForDelete;
+    }
+
+    .cancel-delete {
+      @include buttonForCancel;
+    }
+  }
 }

@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import "./AddressForm.scss";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  postUserAddressFailure,
-  postUserAddressStart,
-  postUserAddressSuccess,
-} from "../../../redux/reducers/userReducer";
 import { Country, State, City } from "country-state-city";
 import { MdClose } from "react-icons/md";
 import { RiFileZipFill } from "react-icons/ri";
 import { FaAddressCard } from "react-icons/fa";
+import {
+  postUserAddressFailure,
+  postUserAddressStart,
+  postUserAddressSuccess,
+} from "../../../redux/reducers/user/memberReducer";
+import PageLoader from "../../../utiles/loader/pageLoader/PageLoader"; // Import a loader component
+import { API } from "../../../utiles/securitiy/secreteKey";
 
 const initialState = {
   addressType: "",
@@ -22,17 +23,19 @@ const initialState = {
   state: "",
   country: "",
 };
+
 const AddressForm = ({ setOpenAddress }) => {
-  // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.member);
   const dispatch = useDispatch();
 
-  // Local state variables
+  // Local state for form data
   const [formData, setFormData] = useState(initialState);
   const [addressTypes, setAddressTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // State to show loading while submitting form
 
   const { addressType, address, zipCode, city, state, country } = formData;
 
+  // Update form data when user changes input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -41,235 +44,180 @@ const AddressForm = ({ setOpenAddress }) => {
     }));
   };
 
-  // Address type
+  // Fetch address types on component mount
   useEffect(() => {
     const fetchAddressTypes = async () => {
       try {
         const { data } = await axios.get(`${API}/addressTypes`);
-
         setAddressTypes(data.addresses);
       } catch (error) {
-        console.log(error);
+        toast.error("Error fetching address types.");
       }
     };
 
     fetchAddressTypes();
   }, []);
 
-  // Update input variables
-
-  // Reset variables
+  // Reset form after submission
   const handleReset = () => {
-    setFormData({
-      addressType: "",
-      address: "",
-      zipCode: "",
-      city: "",
-      state: "",
-      country: "",
-    });
+    setFormData(initialState);
   };
 
-  // Handle user address
-  const handleSubmitOfUserAddress = async (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Basic validation
+    if (!addressType || !country || !state || !city || !address || !zipCode) {
+      return toast.error("Please fill out all fields.");
+    }
+
     try {
-      if (
-        addressType === "" ||
-        country === "" ||
-        state === "" ||
-        city === "" ||
-        address === "" ||
-        zipCode === ""
-      ) {
-        toast.error("Please fill all the fields!");
-      } else {
-        dispatch(postUserAddressStart());
+      setIsLoading(true); 
+      dispatch(postUserAddressStart());
 
-        const { data } = await axios.put(
-          `${API}/members/${currentUser._id}/update-address`,
-          formData
-        );
+      const { data } = await axios.put(
+        `${API}/members/${currentUser._id}/update-address`,
+        formData
+      );
 
-        dispatch(postUserAddressSuccess(data.address));
-        toast.success(data.message);
-        handleReset();
-      }
+      dispatch(postUserAddressSuccess(data.address));
+      toast.success(data.message);
+      handleReset();
+      setOpenAddress(false); // Close form after success
     } catch (error) {
-      dispatch(postUserAddressFailure(error.response.data.message));
+      const errorMessage = error.response?.data?.message || "Failed to update address";
+      dispatch(postUserAddressFailure(errorMessage));
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false); 
     }
   };
 
+  // Render
   return (
-    <section className="user-addresses-modal">
-      <section className="new-user-address-popup-Box">
-        <h4 className="user-address-popup-title">Add Your Current Address</h4>
-        <MdClose
-          className="address-close-icon"
-          onClick={() => setOpenAddress(false)}
-        />
+    <section className="member-addresses-modal">
+      <section className="new-member-address-popup-box">
+        <h4 className="member-address-popup-title">Add Your Address</h4>
+        <MdClose className="address-close-icon" onClick={() => setOpenAddress(false)} />
 
-        <form
-          onSubmit={handleSubmitOfUserAddress}
-          action=""
-          className="user-addresses-form"
-        >
-          {/* Choose Country using select */}
+        <form onSubmit={handleSubmit} className="member-addresses-form">
+          {/* Country Select */}
           <div className="select-container">
-            <div className="select-label-wrapper">
-              <label htmlFor={"country"} className="select-label">
-                Country:
-              </label>
-              <select
-                name="country"
-                id="country"
-                value={country}
-                onChange={handleChange}
-                className="select-options"
-              >
-                <option value=""> Choose your country </option>
-                {Country &&
-                  Country.getAllCountries().map((country) => (
-                    <option
-                      className="option"
-                      key={country.isoCode}
-                      value={country.isoCode}
-                    >
-                      {country.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
+            <label htmlFor="country" className="select-label">Country:</label>
+            <select
+              name="country"
+              id="country"
+              value={country}
+              onChange={handleChange}
+              className="select-options"
+            >
+              <option value="">Choose your country</option>
+              {Country.getAllCountries().map((c) => (
+                <option key={c.isoCode} value={c.isoCode}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Choose State using select */}
+          {/* State Select */}
           <div className="select-container">
-            <div className="select-label-wrapper">
-              <label htmlFor={"state"} className="select-label">
-                State:
-              </label>
-              <select
-                name="state"
-                id="state"
-                value={state}
-                onChange={handleChange}
-                className="select-options"
-              >
-                <option value=""> Choose your state </option>
-                {State &&
-                  State.getStatesOfCountry(country).map((state) => (
-                    <option
-                      className="option"
-                      key={state.isoCode}
-                      value={state.isoCode}
-                    >
-                      {state.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
+            <label htmlFor="state" className="select-label">State:</label>
+            <select
+              name="state"
+              id="state"
+              value={state}
+              onChange={handleChange}
+              className="select-options"
+              disabled={!country} // Disable state select until a country is chosen
+            >
+              <option value="">Choose your state</option>
+              {State.getStatesOfCountry(country).map((s) => (
+                <option key={s.isoCode} value={s.isoCode}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Choose City using select */}
+          {/* City Select */}
           <div className="select-container">
-            <div className="select-label-wrapper">
-              <label htmlFor={"city"} className="select-label">
-                City:
-              </label>
-              <select
-                name="city"
-                id="city"
-                value={city}
-                onChange={handleChange}
-                className="select-options"
-              >
-                <option value=""> Choose your city </option>
-                {City &&
-                  City.getCitiesOfCountry(country).map((city) => (
-                    <option
-                      className="option"
-                      key={city.isoCode}
-                      value={city.isoCode}
-                    >
-                      {city.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
+            <label htmlFor="city" className="select-label">City:</label>
+            <select
+              name="city"
+              id="city"
+              value={city}
+              onChange={handleChange}
+              className="select-options"
+              disabled={!state} // Disable city select until a state is chosen
+            >
+              <option value="">Choose your city</option>
+              {City.getCitiesOfState(country, state).map((c) => (
+                <option key={c.isoCode} value={c.isoCode}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Address type using select */}
+          {/* Address Type Select */}
           <div className="select-container">
-            <div className="select-label-wrapper">
-              <label htmlFor={"addressType"} className="select-label">
-                Address Type:
-              </label>
-              <select
-                name="addressType"
-                id="addressType"
-                value={addressType}
-                onChange={handleChange}
-                className="select-options"
-              >
-                <option value=""> Choose Address Type </option>
-                {addressTypes &&
-                  addressTypes.map((address) => (
-                    <option
-                      className="option"
-                      key={address._id}
-                      value={address.addressType}
-                    >
-                      {address.addressType}
-                    </option>
-                  ))}
-              </select>
-            </div>
+            <label htmlFor="addressType" className="select-label">Address Type:</label>
+            <select
+              name="addressType"
+              id="addressType"
+              value={addressType}
+              onChange={handleChange}
+              className="select-options"
+            >
+              <option value="">Choose address type</option>
+              {addressTypes.map((type) => (
+                <option key={type._id} value={type.addressType}>
+                  {type.addressType}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Address */}
+          {/* Address Input */}
           <div className="input-container">
             <FaAddressCard className="icon" />
             <input
               type="text"
-              name={"address"}
-              id={"address"}
-              autoComplete="address1"
-              required
+              name="address"
+              id="address"
               value={address}
               onChange={handleChange}
               placeholder="Address"
               className="input-field"
+              required
             />
-
-            <label htmlFor={"address"} className="input-label">
-              Address
-            </label>
+            <label htmlFor="address" className="input-label">Address</label>
             <span className="input-highlight"></span>
           </div>
 
-          {/* Zip Code */}
+          {/* Zip Code Input */}
           <div className="input-container">
             <RiFileZipFill className="icon" />
             <input
               type="number"
-              name={"zipCode"}
-              id={"zipCode"}
-              autoComplete="zipCode"
-              required
+              name="zipCode"
+              id="zipCode"
               value={zipCode}
               onChange={handleChange}
-              placeholder="Enter Zip Code"
+              placeholder="Zip Code"
               className="input-field"
+              required
             />
-
-            <label htmlFor={"zipCode"} className="input-label">
-              Zip Code
-            </label>
+            <label htmlFor="zipCode" className="input-label">Zip Code</label>
             <span className="input-highlight"></span>
           </div>
 
-          <button className="user-address-btn">Submit</button>
+          {/* Submit Button */}
+          <button className="user-address-btn" type="submit" disabled={isLoading}>
+            {isLoading ? <PageLoader size={20} isLoading={isLoading} /> : "Submit"}
+          </button>
         </form>
       </section>
     </section>

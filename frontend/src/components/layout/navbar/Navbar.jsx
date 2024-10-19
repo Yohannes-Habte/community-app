@@ -7,7 +7,7 @@ import Logout from "../../../utiles/globalFunctions/Logout";
 
 const Navbar = () => {
   // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.member);
   const dispatch = useDispatch();
   const { signOut } = Logout();
 

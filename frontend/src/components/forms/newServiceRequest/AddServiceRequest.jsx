@@ -1,11 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./AddServiceRequest.scss";
 import {
-  postPrayerRequestFailure,
-  postPrayerRequestStart,
-  postPrayerRequestSuccess,
-} from "../../../redux/reducers/prayerReducer";
-import {
   API,
   cloud_name,
   cloud_URL,
@@ -17,9 +12,14 @@ import { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
 import { PiChurchFill } from "react-icons/pi";
-import { MdOutlineMessage } from "react-icons/md";
-import { MdDateRange } from "react-icons/md";
+import { MdOutlineMessage, MdDateRange } from "react-icons/md";
 import { fetchAllCategories } from "../../../redux/actions/serviceCategory/categoryAction";
+import {
+  postServiceRequestFailure,
+  postServiceRequestStart,
+  postServiceRequestSuccess,
+} from "../../../redux/reducers/service/serviceReducer";
+import { clearErrors } from "../../../redux/reducers/serviceCategory/categoryReducer";
 
 const initialState = {
   serviceCategory: "",
@@ -30,134 +30,155 @@ const initialState = {
 };
 
 const AddServiceRequest = () => {
-  // Global state variables
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.user);
-  const { loading } = useSelector((state) => state.service);
+  const { currentUser } = useSelector((state) => state.member);
   const { categories } = useSelector((state) => state.category);
+  const [formData, setFormData] = useState(initialState);
+  const [formErrors, setFormErrors] = useState({});
+  const [formLoading, setFormLoading] = useState(false);
 
-  // Fetch categories on component mount
   useEffect(() => {
     dispatch(fetchAllCategories());
+
+    return () => {
+      dispatch(clearErrors(null));
+    };
   }, [dispatch]);
 
-  // Local state variables
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.serviceCategory)
+      errors.serviceCategory = "Category is required.";
+    if (!formData.serviceName) errors.serviceName = "Service Name is required.";
+    if (!formData.serviceDate) errors.serviceDate = "Service Date is required.";
+    if (!formData.identificationDocument)
+      errors.identificationDocument = "Document upload is required.";
+    if (!formData.message) errors.message = "Message cannot be empty.";
 
-  const [formData, setFormData] = useState(initialState);
-  const {
-    serviceCategory,
-    serviceName,
-    serviceDate,
-    identificationDocument,
-    message,
-  } = formData;
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
-  // Handle change function
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "file" ? files[0] : value,
     }));
+
+    if (formErrors[name]) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
+    }
   };
 
   const handleReset = () => {
-    setFormData({
-      serviceCategory: "",
-      serviceName: "",
-      serviceDate: "",
-      identificationDocument: null,
-      message: "",
-    });
+    setFormData(initialState);
+    setFormErrors({});
+    setFormLoading(false);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error("Please correct the errors in the form.");
+      return;
+    }
+
+    setFormLoading(true);
 
     try {
-      dispatch(postPrayerRequestStart());
-      // Image validation
-      const userFile = new FormData();
-      userFile.append("file", identificationDocument);
-      userFile.append("cloud_name", cloud_name);
-      userFile.append("upload_preset", upload_preset);
+      dispatch(postServiceRequestStart());
 
-      // Save image to cloudinary
-      const response = await axios.post(cloud_URL, userFile);
+      // Upload document to Cloudinary
+      const formDataObj = new FormData();
+      formDataObj.append("file", formData.identificationDocument);
+      formDataObj.append("cloud_name", cloud_name);
+      formDataObj.append("upload_preset", upload_preset);
+
+      const response = await axios.post(cloud_URL, formDataObj);
       const { url } = response.data;
 
-      // The body
+      // Prepare new service request data
       const newService = {
-        serviceCategory: serviceCategory,
-        serviceName: serviceName,
-        serviceDate: serviceDate,
+        serviceCategory: formData.serviceCategory,
+        serviceName: formData.serviceName,
+        serviceDate: formData.serviceDate,
         identificationDocument: url,
-        message: message,
+        message: formData.message,
         userId: currentUser._id,
       };
 
       const { data } = await axios.post(`${API}/services/new`, newService, {
         withCredentials: true,
       });
-      dispatch(postPrayerRequestSuccess(data.result));
+
+      dispatch(postServiceRequestSuccess(data.result));
       toast.success(data.message);
       handleReset();
-      event.target.reset();
     } catch (err) {
-      dispatch(postPrayerRequestFailure(err.response.data.message));
+      const errorMessage =
+        err.response?.data?.message || "Failed to send request";
+      dispatch(postServiceRequestFailure(errorMessage));
+      toast.error(errorMessage);
+      setFormLoading(false);
     }
   };
+
   return (
     <section className="service-form-container">
-      <h3 className="service-form-title"> Service Request Form </h3>
-      <form onSubmit={handleSubmit} className="service-request-form">
-        {/* Service Category */}
+      <h3 className="service-form-title">Service Request Form</h3>
+      <form onSubmit={handleSubmit} className="service-request-form" noValidate>
         <div className="input-container">
           <PiChurchFill className="icon" />
           <select
             name="serviceCategory"
             id="serviceCategory"
-            value={serviceCategory}
+            value={formData.serviceCategory}
             onChange={handleChange}
-            className="input-field"
+            aria-label="Service Category"
+            className={`input-field ${
+              formErrors.serviceCategory ? "error" : ""
+            }`}
           >
-            <option value="default">Select Category</option>
+            <option value="">Select Category</option>
             {categories &&
-              categories.length > 0 &&
               categories.map((category) => (
                 <option key={category._id} value={category._id}>
                   {category.category}
                 </option>
               ))}
           </select>
-          <span className="input-highlight"></span>
+          {formErrors.serviceCategory && (
+            <span className="error-text">{formErrors.serviceCategory}</span>
+          )}
         </div>
 
-        {/* Service Name */}
         <div className="input-container">
           <PiChurchFill className="icon" />
           <select
             name="serviceName"
             id="serviceName"
-            value={serviceName}
+            value={formData.serviceName}
             onChange={handleChange}
-            className="input-field"
+            aria-label="Service Name"
+            className={`input-field ${formErrors.serviceName ? "error" : ""}`}
           >
-            <option value="default">Select Service</option>
+            <option value="">Select Service</option>
             <option value="baptism">Baptism</option>
             <option value="communion">First Communion</option>
-            <option value="confirmation"> Confirmation </option>
-            <option value="confession"> Confession </option>
+            <option value="confirmation">Confirmation</option>
+            <option value="confession">Confession</option>
             <option value="anointing">Anointing of the Sick</option>
             <option value="marriage">Marriage</option>
             <option value="others">Others</option>
           </select>
-
-          <label className="input-label" htmlFor="serviceName">
-            Service Name
-          </label>
-          <span className="input-highlight"></span>
+          {formErrors.serviceName && (
+            <span className="error-text">{formErrors.serviceName}</span>
+          )}
         </div>
 
         <div className="input-container">
@@ -166,18 +187,16 @@ const AddServiceRequest = () => {
             type="date"
             name="serviceDate"
             id="serviceDate"
-            value={serviceDate}
+            value={formData.serviceDate}
             onChange={handleChange}
-            placeholder="Service Date"
-            className="input-field"
+            className={`input-field ${formErrors.serviceDate ? "error" : ""}`}
+            aria-label="Service Date"
           />
-          <label className="input-label" htmlFor="serviceDate">
-            Service Date
-          </label>
-          <span className="input-highlight"></span>
+          {formErrors.serviceDate && (
+            <span className="error-text">{formErrors.serviceDate}</span>
+          )}
         </div>
 
-        {/* PDF input */}
         <div className="file-container">
           <FaCloudUploadAlt className="icon" />
           <input
@@ -185,44 +204,58 @@ const AddServiceRequest = () => {
             name="identificationDocument"
             id="identificationDocument"
             onChange={handleChange}
-            className="file-field"
+            aria-label="Religious Identification Document"
+            className={`file-field ${
+              formErrors.identificationDocument ? "error" : ""
+            }`}
           />
-
-          <label htmlFor="file" className="file-label">
-            Upload Germany Religious Recognition Document{" "}
+          <label htmlFor="identificationDocument" className="file-label">
+            Upload Religious Recognition Document (PDF only)
           </label>
-
-          <span className="input-highlight"></span>
+          {formErrors.identificationDocument && (
+            <span className="error-text">
+              {formErrors.identificationDocument}
+            </span>
+          )}
         </div>
 
         <div className="input-container">
           <MdOutlineMessage className="icon" />
           <textarea
             name="message"
-            value={message}
+            value={formData.message}
             id="message"
             rows={8}
-            cols={30}
             onChange={handleChange}
-            placeholder="Enter text message..."
-            className="input-field"
+            className={`input-field ${formErrors.message ? "error" : ""}`}
+            aria-label="Service Text Message"
+            placeholder="Enter your message..."
           />
-
-          <label className="input-label" htmlFor="message">
-            Service Text Message
-          </label>
-          <span className="input-highlight"></span>
+          {formErrors.message && (
+            <span className="error-text">{formErrors.message}</span>
+          )}
         </div>
 
-        <button className="service-request-btn" disabled={loading}>
-          {loading ? (
-            <span className="loading">
-              <ButtonLoader /> Loading...
-            </span>
+        <div className="service-request-btn-wrapper">
+
+        <button
+          type="submit"
+          aria-label="Submit Service Request"
+          className="service-request-btn"
+          disabled={formLoading}
+        >
+          {formLoading ? (
+            <ButtonLoader isLoading={formLoading} />
           ) : (
-            <span>Send</span>
+            "Submit Request"
           )}
         </button>
+
+        </div>
+
+        
+
+   
       </form>
     </section>
   );

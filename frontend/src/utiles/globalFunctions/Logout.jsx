@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  logoutUserFailure,
-  logoutUserStart,
   logoutUserSuccess,
-} from "../../redux/reducers/userReducer";
+  logoutUserFailure,
+  logoutUserRequest,
+} from "../../redux/reducers/user/memberReducer";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../securitiy/secreteKey";
@@ -12,12 +12,12 @@ import Cookies from "js-cookie";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const { error, currentUser } = useSelector((state) => state.user);
+  const { error, currentUser } = useSelector((state) => state.member);
   const dispatch = useDispatch();
 
   const signOut = async () => {
     try {
-      dispatch(logoutUserStart());
+      dispatch(logoutUserRequest());
 
       const { data } = await axios.get(`${API}/auth/logout`);
 

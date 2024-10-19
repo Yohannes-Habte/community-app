@@ -15,9 +15,10 @@ import {
   updateDelegatedPriestFailure,
   updateDelegatedPriestStart,
   updateDelegatedPriestSuccess,
+  clearErrors
 } from "../../reducers/delegation/delegationReducer";
 import { API } from "../../../utiles/securitiy/secreteKey";
-import { clearErrors } from "../../reducers/userReducer";
+
 
 //==============================================================================
 // Post Delegate Priest

@@ -25,7 +25,9 @@
     }
 
     .input-container {
-      @include inputContainer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
 
       .input-icon {
         @include inputIcon;
@@ -54,6 +56,13 @@
       .password-display {
         @include passwordDisplay;
       }
+    }
+
+    .input-error {
+      color: $red;
+      font-size: $sfs;
+      margin: 0.5rem 0 0 0.3rem;
+      
     }
 
     .input-consent {

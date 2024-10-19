@@ -12,25 +12,42 @@ import {
 import CategoryForm from "../../forms/serviceCategory/CategoryForm";
 import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
 import { API } from "../../../utiles/securitiy/secreteKey";
+import { Alert } from "@mui/material";
 
 const ServiceCategories = () => {
   const dispatch = useDispatch();
   const { categories, loading, error } = useSelector((state) => state.category);
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryId, setCategoryId] = useState(null);
   const [confirmDeletion, setConfirmDeletion] = useState(false);
   const [openCategory, setOpenCategory] = useState(false);
 
-  // ========================================================================
-  // Fetch all service categories on component mount
-  // ========================================================================
   useEffect(() => {
     dispatch(fetchAllCategories());
 
-    // Optional: Clear errors when the component unmounts
+    // Clear errors when the component unmounts or when the error state changes
     return () => {
-      dispatch(clearAllErrors());
+      if (error) {
+        dispatch(clearAllErrors());
+      }
     };
-  }, [dispatch]);
+  }, [dispatch, error]);
+
+  const handleDelete = async (id) => {
+    try {
+      const { data } = await axios.delete(`${API}/categories/${id}`, {
+        withCredentials: true,
+      });
+      toast.success(data.message);
+      // Refetch categories after deletion
+      dispatch(fetchAllCategories());
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "An error occurred during deletion.";
+      toast.error(errorMessage);
+    } finally {
+      setConfirmDeletion(false);
+    }
+  };
 
   // ========================================================================
   // Column definitions for DataGrid
@@ -51,6 +68,7 @@ const ServiceCategories = () => {
               setConfirmDeletion(true);
             }}
             className="delete"
+            aria-label={`Delete category ${params.id}`}
           />
         </div>
       ),
@@ -66,25 +84,6 @@ const ServiceCategories = () => {
     description: category.description || "No description provided",
   }));
 
-  // ========================================================================
-  // Delete a service category
-  // ========================================================================
-  const handleDelete = async (id) => {
-    try {
-      const { data } = await axios.delete(`${API}/categories/${id}`, {
-        withCredentials: true,
-      });
-      toast.success(data.message);
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to delete category.";
-      toast.error(errorMessage);
-    } finally {
-      // Refetch categories after deletion to ensure updated state
-      dispatch(fetchAllCategories());
-    }
-  };
-
   return (
     <section
       className="service-category-table-container"
@@ -97,15 +96,19 @@ const ServiceCategories = () => {
         <button
           onClick={() => setOpenCategory(true)}
           className="add-new-service-category-btn"
+          aria-label="Add New Category"
         >
           Add New
         </button>
       </aside>
 
-      {loading && <PageLoader />}
+      {loading && (
+        <PageLoader isLoading={loading} message="Loading" size={80} />
+      )}
 
-      {error ? <p className="error-message"> {error} </p> : null}
+      {error ? <Alert className="error-message"> {error} </Alert> : null}
 
+      {/* Categories DataGrid */}
       {!loading && !error && (
         <DataGrid
           rows={rows || []}
@@ -131,7 +134,7 @@ const ServiceCategories = () => {
       )}
 
       {confirmDeletion && (
-        <article className="service-delete-confirmation-wrapper">
+        <article className="category-delete-confirmation-wrapper">
           <span
             className="delete-icon"
             onClick={() => setConfirmDeletion(false)}
@@ -141,23 +144,25 @@ const ServiceCategories = () => {
 
           <h3 className="you-want-delete">Are you sure you want to delete?</h3>
 
-          <aside className="cancel-or-confirm-delete">
-            <h3
+          <div className="buttons-wrapper">
+            <button
               className="confirm-delete"
+              aria-label="Confirm deletion"
               onClick={() => {
                 setConfirmDeletion(false);
                 handleDelete(categoryId);
               }}
             >
               Confirm
-            </h3>
-            <p
+            </button>
+            <button
               className="cancel-delete"
+              aria-label="Cancel deletion"
               onClick={() => setConfirmDeletion(false)}
             >
               Cancel
-            </p>
-          </aside>
+            </button>
+          </div>
         </article>
       )}
 

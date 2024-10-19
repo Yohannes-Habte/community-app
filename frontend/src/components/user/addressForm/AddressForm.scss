@@ -1,15 +1,16 @@
 @import "../../../styles/Variables.scss";
 @import "../../../styles/Mixins.scss";
 
-.user-addresses-modal {
+.member-addresses-modal {
   @include modal;
 
-  .new-user-address-popup-Box {
+  .new-member-address-popup-box {
     @include popupBox;
     width: 900px;
 
-    .user-address-popup-title {
-      @include title;
+    .member-address-popup-title {
+      @include subTitle;
+      text-align: center;
     }
 
     .address-close-icon {
@@ -20,13 +21,21 @@
       @include subTitle;
     }
 
-    .user-addresses-form {
+    .member-addresses-form {
       @include flexColumn;
 
       .select-container {
         width: 100%;
         @include flexRow;
         gap: 0.5rem;
+
+        .select-label {
+          width: 20%;
+        }
+
+        .select-options {
+          @include inputField;
+        }
 
         .select-icon {
           font-size: $afs;
@@ -83,7 +92,7 @@
       }
 
       .user-address-btn {
-        @include button2;
+        @include button3;
       }
     }
   }

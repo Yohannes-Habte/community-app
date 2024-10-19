@@ -79,6 +79,22 @@ const userReducer = createSlice({
     },
     changeUserPasswordFailure: (state, action) => setFailure(state, action),
 
+    // Address-related actions
+    postUserAddressStart: setLoading,
+    postUserAddressSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+    },
+    postUserAddressFailure: setFailure,
+
+    // Delete user address actions
+    deleteUserAddressStart: setLoading,
+    deleteUserAddressSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+    },
+    deleteUserAddressFailure: setFailure,
+
     // Clear all errors
     clearAllErrors: (state) => {
       state.error = null;
@@ -96,27 +112,43 @@ export const {
   registerUserRequest,
   registerUserSuccess,
   registerUserFailure,
+
   loginUserRequest,
   loginUserSuccess,
   loginUserFailure,
+
   fetchUserRequest,
   fetchUserSuccess,
   fetchUserFailure,
+
   updateUserProfileRequest,
   updateUserProfileSuccess,
   updateUserProfileFailure,
+
   logoutUserRequest,
   logoutUserSuccess,
   logoutUserFailure,
+
   fetchParishionersRequest,
   fetchParishionersSuccess,
   fetchParishionersFailure,
+
   fetchParishionersCountRequest,
   fetchParishionersCountSuccess,
   fetchParishionersCountFailure,
+
   changeUserPasswordRequest,
   changeUserPasswordSuccess,
   changeUserPasswordFailure,
+
+  postUserAddressStart,
+  postUserAddressSuccess,
+  postUserAddressFailure,
+
+  deleteUserAddressStart,
+  deleteUserAddressSuccess,
+  deleteUserAddressFailure,
+
   clearAllErrors,
   clearError,
 } = userReducer.actions;

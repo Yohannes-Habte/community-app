@@ -3,10 +3,9 @@
 
 /* Labtop screen size */
 .service-form-container {
-  width: $laptop;
-  margin: 1rem auto;
   @include shadow1;
   background-color: $form-bg;
+  padding: 1rem 3rem;
 
   .service-form-title {
     @include subTitle;
@@ -15,7 +14,9 @@
     @include flexColumn;
 
     .input-container {
-      @include inputContainer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
 
       .icon {
         @include inputIcon;
@@ -39,13 +40,17 @@
         color: $gray;
       }
 
-      .input-field:focus + .input-label + .input-highlight {
-        width: 100%;
+      .error-text {
+        color: $red;
+        font-size: $sfs;
+        margin: 0.2rem 0.5rem;
       }
     }
 
     .file-container {
-      @include inputContainer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
 
       .icon {
         @include inputIcon;
@@ -59,14 +64,22 @@
       .file-label {
         @include inputLabel;
       }
-    }
 
-    .service-request-btn {
-      @include button1;
-
-      .loading {
-        @include loader;
+      .error-text {
+        color: $red;
+        font-size: $sfs;
+        margin: 0.2rem 0.5rem;
       }
     }
+
+    .service-request-btn-wrapper {
+      margin: 1rem 0;
+
+      .service-request-btn {
+        @include button3;
+      }
+    }
+
+    
   }
 }

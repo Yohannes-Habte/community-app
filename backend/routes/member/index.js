@@ -27,7 +27,12 @@ memberRouter.get("/search/user", getMemberBySearch);
 memberRouter.get("/services", isAuthenticated, getAllUserServices);
 memberRouter.get("/count/total", countMembers);
 memberRouter.put("/:id/update-address", updateUserAddress);
-memberRouter.delete("/:userId/address/:addressId", deleteUserAddress);
+
+memberRouter.delete(
+  "/:userId/address/:addressId",
+  isAuthenticated,
+  deleteUserAddress
+);
 
 // Export user router
 export default memberRouter;
