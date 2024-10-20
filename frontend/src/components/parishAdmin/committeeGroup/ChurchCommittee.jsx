@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { useNavigate } from "react-router-dom";
 import "./ChurchCommittee.scss";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
 import { Alert } from "@mui/material";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const ChurchCommittees = () => {
   const navigate = useNavigate();

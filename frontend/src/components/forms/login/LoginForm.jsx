@@ -1,21 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./LoginForm.scss";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { validEmail, validPassword } from "../../../utiles/validation/validate";
+import { validEmail, validPassword } from "../../../utile/validation/validate";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import {
   clearError,
   loginUserFailure,
   loginUserRequest,
   loginUserSuccess,
 } from "../../../redux/reducers/user/memberReducer";
+import { API } from "../../../utile/security/secreteKey";
+
 
 const initialState = {
   email: "",

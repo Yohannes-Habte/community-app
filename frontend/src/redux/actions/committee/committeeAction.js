@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+
 
 import {
   postCommitteeStart,
@@ -21,6 +21,7 @@ import {
   deleteCommitteeSuccess,
   deleteCommitteeFailure,
 } from "../../reducers/committee/committeeReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 //==============================================================================
 // Post New Committee

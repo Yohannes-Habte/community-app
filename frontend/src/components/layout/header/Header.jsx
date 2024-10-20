@@ -2,7 +2,8 @@ import "./Header.scss";
 import Navbar from "../navbar/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
+
 
 const Header = () => {
   const [images, setImages] = useState({});

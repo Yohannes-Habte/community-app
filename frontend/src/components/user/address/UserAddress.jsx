@@ -10,7 +10,7 @@ import {
   deleteUserAddressStart,
   deleteUserAddressSuccess,
 } from "../../../redux/reducers/user/memberReducer";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import {
   Alert,
   Button,
@@ -20,7 +20,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
+
 
 const UserAddress = () => {
   // Global state variables

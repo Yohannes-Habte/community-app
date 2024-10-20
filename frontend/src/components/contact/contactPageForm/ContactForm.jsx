@@ -10,7 +10,7 @@ import {
   commentPostStart,
   commentPostSuccess,
 } from "../../../redux/reducers/commentReducer";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
 
 const initialState = {
   email: "",
@@ -18,7 +18,7 @@ const initialState = {
 };
 const ContactForm = () => {
   // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.member);
   const dispatch = useDispatch();
 
   // State variables

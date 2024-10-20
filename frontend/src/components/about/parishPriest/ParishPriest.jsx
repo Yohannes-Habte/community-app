@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./ParishPriest.scss";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
 
 const ParishPriest = () => {
   const [priest, setPriest] = useState({});

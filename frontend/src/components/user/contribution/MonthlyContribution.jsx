@@ -5,8 +5,8 @@ import axios from "axios";
 import "./MonthlyContribution.scss";
 import { Alert } from "@mui/material"; // Loading indicator
 import { toast } from "react-toastify";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const MonthlyContribution = () => {
   const { currentUser } = useSelector((state) => state.member);

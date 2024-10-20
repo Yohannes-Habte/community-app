@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import "./AllParishioners.scss";
+import { useEffect, useState, useMemo } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
-
+import { Alert } from "@mui/material";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import "./AllParishioners.scss";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const AllParishioners = () => {
   // Local state variables
@@ -13,19 +12,22 @@ const AllParishioners = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Display all users
+  // Fetch all parishioners on component mount
   useEffect(() => {
     const getAllParishioners = async () => {
+      setLoading(true);
+      setError("");
       try {
-        setLoading(true);
         const { data } = await axios.get(`${API}/members`, {
           withCredentials: true,
         });
 
-        setMembers(data.users);
-        setLoading(false);
-      } catch (error) {
-        setError(error.response.data.message);
+        setMembers(data?.users || []);
+      } catch (err) {
+        setError(
+          err?.response?.data?.message || "Failed to load parishioners."
+        );
+      } finally {
         setLoading(false);
       }
     };
@@ -33,26 +35,28 @@ const AllParishioners = () => {
     getAllParishioners();
   }, []);
 
-  // Parishioners header
-  const columns = [
-    { field: "firstName", headerName: "First Name", width: 150 },
-    { field: "lastName", headerName: "Last Name", width: 150 },
-    { field: "maritalStatus", headerName: "Status", width: 100 },
-    { field: "email", headerName: "Email", width: 200 },
-    { field: "phone", headerName: "Phone", width: 150 },
-    { field: "street", headerName: "Street Name", type: "number", width: 150 },
-    { field: "zipCode", headerName: "Zip Code", width: 100 },
-    { field: "city", headerName: "City", width: 100 },
-    { field: "state", headerName: "State", width: 100 },
-    { field: "country", headerName: "Country", width: 100 },
-    { field: "role", headerName: "Role", width: 100 },
-  ];
+  // Define the columns for the DataGrid
+  const columns = useMemo(
+    () => [
+      { field: "firstName", headerName: "First Name", width: 150 },
+      { field: "lastName", headerName: "Last Name", width: 150 },
+      { field: "maritalStatus", headerName: "Status", width: 100 },
+      { field: "email", headerName: "Email", width: 200 },
+      { field: "phone", headerName: "Phone", width: 150 },
+      { field: "street", headerName: "Street Name", width: 150 },
+      { field: "zipCode", headerName: "Zip Code", width: 100 },
+      { field: "city", headerName: "City", width: 100 },
+      { field: "state", headerName: "State", width: 100 },
+      { field: "country", headerName: "Country", width: 100 },
+      { field: "role", headerName: "Role", width: 100 },
+    ],
+    []
+  );
 
-  const rows = [];
-
-  members &&
-    members.forEach((parishioner) => {
-      rows.push({
+  // Prepare rows using memoization for performance optimization
+  const rows = useMemo(
+    () =>
+      members.map((parishioner) => ({
         id: parishioner._id,
         firstName: parishioner.firstName,
         lastName: parishioner.lastName,
@@ -65,50 +69,45 @@ const AllParishioners = () => {
         state: parishioner.state,
         country: parishioner.country,
         role: parishioner.role,
-      });
-    });
+      })),
+    [members]
+  );
 
   return (
-    <section className="parishioners-container">
+    <section className="priest-dashboard-parishioners-container">
       <h1 className="parishioners-title">
         Current Members of the Eritrean Roman Catholic Church in Hamburg
       </h1>
 
-      {loading && <PageLoader />}
-
-      {error ? <p className="error-message"> {error} </p> : null}
-
-      {!loading && !error && (
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            // Rows
-            rows={rows}
-            // Columns
-            columns={columns}
-            // Automatically adjust grid height based on rows
-            autoHeight
-            // Initial state
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            // Create search bar
-            slots={{ toolbar: GridToolbar }}
-            // Search a specific user
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
-            }}
-            // Page size optons
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            //
-          />
-        </div>
+      {/* Loading state */}
+      {loading ? (
+        <PageLoader isLoading={loading} message="Loading..." size={90} />
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : rows.length === 0 ? (
+        <Alert severity="info">No parishioners found.</Alert>
+      ) : (
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          // Create a search bar with a toolbar
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
       )}
     </section>
   );

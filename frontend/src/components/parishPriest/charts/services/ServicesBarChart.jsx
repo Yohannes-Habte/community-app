@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import "./ServicesBarChart.scss";
 import {
   BarChart,
@@ -14,6 +14,8 @@ import {
   fetchAllServices,
 } from "../../../../redux/actions/service/serviceAction";
 import { Link, useNavigate } from "react-router-dom";
+import PageLoader from "../../../../utile/loader/pageLoader/PageLoader";
+import { Alert } from "@mui/material";
 
 const monthsMap = {
   "01": "Jan",
@@ -32,27 +34,23 @@ const monthsMap = {
 
 const ServicesBarChart = ({ setActive }) => {
   const navigate = useNavigate();
-  // Global state variables
   const dispatch = useDispatch();
-  const { services } = useSelector((state) => state.service);
+  const { services, loading, error } = useSelector((state) => state.service);
 
-  // Local state variable
   const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [formError, setFormError] = useState("");
 
+  // Fetch all services on component mount
   useEffect(() => {
     dispatch(fetchAllServices());
 
-    // Optional: Clear errors on component unmount
     return () => {
       dispatch(clearAllErrors());
     };
   }, [dispatch]);
 
-  // =======================================================================================
-  // Process data for the selected year
-  // =======================================================================================
-  const processData = () => {
-    // Initialize an object to count the services per month and category
+  // Helper function to process data
+  const processData = useCallback(() => {
     const counts = {
       Jan: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
       Feb: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
@@ -68,46 +66,52 @@ const ServicesBarChart = ({ setActive }) => {
       Dec: { "Spiritual Development": 0, Sacrament: 0, "Soul Prayer": 0 },
     };
 
-    // Loop through services and count based on category and month
     services &&
       services.forEach((service) => {
-        const serviceYear = service.serviceDate.split("-")[0];
-        const serviceMonth = service.serviceDate.split("-")[1];
+        const [serviceYear, serviceMonth] = service.serviceDate.split("-");
         const monthName = monthsMap[serviceMonth];
 
         if (serviceYear === year && monthName) {
-          if (service.serviceCategory.category === "Spiritual development") {
+          const category = service.serviceCategory.category;
+          if (category === "Spiritual development") {
             counts[monthName]["Spiritual Development"] += 1;
-          } else if (service.serviceCategory.category === "Sacraments") {
+          } else if (category === "Sacraments") {
             counts[monthName].Sacrament += 1;
-          } else if (service.serviceCategory.category === "Soul prayer") {
+          } else if (category === "Soul prayer") {
             counts[monthName]["Soul Prayer"] += 1;
           }
         }
       });
 
-    // Convert the counts object into an array for the BarChart
     return Object.keys(counts).map((month) => ({
       month,
       "Spiritual Development": counts[month]["Spiritual Development"],
       Sacrament: counts[month].Sacrament,
       "Soul Prayer": counts[month]["Soul Prayer"],
     }));
-  };
+  }, [services, year]);
 
   const data = processData();
 
-  // =======================================================================================
-  // Handle submit 
-  // =======================================================================================
+  // Handle year form submission with validation
   const handleSubmit = (e) => {
     e.preventDefault();
-    setYear(e.target.elements.year.value);
-  };
+    const inputYear = e.target.elements.year.value;
 
-  // =======================================================================================
-  // Handle view services
-  // =======================================================================================
+    if (
+      !inputYear ||
+      inputYear < 1900 ||
+      inputYear > new Date().getFullYear()
+    ) {
+      setFormError(
+        `Enter a valid year between 2022 and ${new Date().getFullYear()}.`
+      );
+      return;
+    }
+
+    setYear(inputYear);
+    setFormError("");
+  };
 
   const handleViewServices = () => {
     navigate("/priest/dashboard");
@@ -119,44 +123,68 @@ const ServicesBarChart = ({ setActive }) => {
       <h4 className="service-chart-title">
         Assessment of Parish Services: Year {year}
       </h4>
-      <form action="" onSubmit={handleSubmit} className="service-chart-form">
+
+      <form
+        onSubmit={handleSubmit}
+        className="service-chart-form"
+        aria-label="Service Year Form"
+      >
         <input
           type="number"
           name="year"
           defaultValue={year}
-          placeholder="Enter Year only"
+          placeholder="Enter Year"
           className="input-field"
+          aria-label="Year Input"
         />
-        <button className="service-form-btn">Search</button>
+        <button className="service-form-btn" aria-label="Submit Year Search">
+          Search
+        </button>
       </form>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data} barSize={15}>
-          <XAxis
-            dataKey="month"
-            scale="point"
-            padding={{ left: 10, right: 10 }}
-          />
-          <YAxis />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#ffefd5",
-              borderRadius: "5px",
-              color: "dark",
-            }}
-            labelStyle={{ display: "none" }}
-            cursor={{ fill: "none" }}
-          />
 
-          <Bar dataKey="Spiritual Development" fill="#8884d8" />
-          <Bar dataKey="Sacrament" fill="#82ca9d" />
-          <Bar dataKey="Soul Prayer" fill="#ffc658" />
-        </BarChart>
-      </ResponsiveContainer>
+      {formError && (
+        <Alert severity="warning" aria-live="assertive">
+          {formError}
+        </Alert>
+      )}
+
+      {loading ? (
+        <PageLoader isLoading={loading} message="Loading data..." size={90} />
+      ) : error ? (
+        <Alert severity="error" aria-live="assertive">
+          An error occurred: {error}
+        </Alert>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data} barSize={15}>
+            <XAxis
+              dataKey="month"
+              scale="point"
+              padding={{ left: 10, right: 10 }}
+              aria-label="Months"
+            />
+            <YAxis aria-label="Service Count" />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#ffefd5",
+                borderRadius: "5px",
+                color: "dark",
+              }}
+              labelStyle={{ display: "none" }}
+              cursor={{ fill: "none" }}
+            />
+
+            <Bar dataKey="Spiritual Development" fill="#8884d8" />
+            <Bar dataKey="Sacrament" fill="#82ca9d" />
+            <Bar dataKey="Soul Prayer" fill="#ffc658" />
+          </BarChart>
+        </ResponsiveContainer>
+      )}
 
       <aside className="services-chart-info-text">
         <h4 className="services-count">
           Comprehensive Count of Parish Services:{" "}
-          <mark> {services.length} </mark>
+          <mark>{services.length || 0}</mark>
         </h4>
         <p className="details">
           For more details, click on{" "}
@@ -164,8 +192,8 @@ const ServicesBarChart = ({ setActive }) => {
             className="view-services"
             to={"/priest/dashboard"}
             onClick={handleViewServices}
+            aria-label="View Services"
           >
-            {" "}
             View Services
           </Link>
         </p>

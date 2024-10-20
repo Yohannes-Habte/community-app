@@ -12,8 +12,9 @@ import {
   postUserAddressStart,
   postUserAddressSuccess,
 } from "../../../redux/reducers/user/memberReducer";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader"; // Import a loader component
-import { API } from "../../../utiles/securitiy/secreteKey";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader"; // Import a loader component
+import { API } from "../../../utile/security/secreteKey";
+
 
 const initialState = {
   addressType: "",

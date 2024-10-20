@@ -1,6 +1,4 @@
-import axios from "axios";
-
-import { API } from "../../../utiles/securitiy/secreteKey"; // Import API key or endpoint
+import axios from "axios";// Import API key or endpoint
 import {
   postContributionStart,
   postContributionSuccess,
@@ -19,6 +17,7 @@ import {
   fetchAllContributionsFailure,
   clearErrors,
 } from "../../reducers/contribution/contributionReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 //==============================================================================
 // Fetch All Contributions

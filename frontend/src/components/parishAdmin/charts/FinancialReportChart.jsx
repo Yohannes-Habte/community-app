@@ -14,8 +14,8 @@ import {
   clearFinancialReportErrors,
   fetchAllFinancialReportsForAdmin,
 } from "../../../redux/actions/finance/financeAction";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { Alert } from "@mui/material";
 
 // Map for months (for cleaner readability)

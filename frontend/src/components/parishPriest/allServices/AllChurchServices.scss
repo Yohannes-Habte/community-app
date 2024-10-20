@@ -11,3 +11,27 @@
     padding: 2rem 0;
   }
 }
+
+.service-delete-confirmation-modal {
+  @include deleteConfirmationModal;
+
+  .delete-confirmation-title {
+    @include deleteConfirmationTitle;
+  }
+
+  .delete-confirmation-statement {
+    @include deleteConfirmationStatement;
+  }
+
+  .confirmation-buttons-wrapper {
+    @include buttonsWrapper;
+
+    .confirm-delete-btn {
+      @include buttonForDelete;
+    }
+
+    .cancel-delete-btn {
+      @include buttonForCancel;
+    }
+  }
+}

@@ -1,11 +1,12 @@
 import { PiChurchFill } from "react-icons/pi";
 import "./UpdateService.scss";
 import { useState } from "react";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { API } from "../../../utile/security/secreteKey";
+
 
 const UpdateService = () => {
   const navigation = useNavigate();

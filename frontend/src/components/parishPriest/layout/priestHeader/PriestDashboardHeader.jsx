@@ -3,7 +3,7 @@ import { FaCross, FaUsers } from "react-icons/fa";
 import { GiSunPriest } from "react-icons/gi";
 import { SiEventstore } from "react-icons/si";
 import { ImUsers } from "react-icons/im";
-import Logout from "../../../../utiles/globalFunctions/Logout";
+import Logout from "../../../../utile/globalFunctions/Logout";
 import { useSelector } from "react-redux";
 
 const PriestDashboardHeader = ({ active, setActive }) => {

@@ -17,8 +17,7 @@ import {
   fetchAllFinancialReportsFailure,
   clearFinanceErrors,
 } from "../../reducers/finance/financeReducer";
-
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
 
 //==============================================================================
 // Post a Financial Report

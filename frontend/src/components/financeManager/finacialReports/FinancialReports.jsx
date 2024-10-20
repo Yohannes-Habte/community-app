@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "./FinancialReports.scss";
 import { useDispatch, useSelector } from "react-redux";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import ExpenseReportForm from "../financeReportForm/ExpenseReportForm";
 import { toast } from "react-toastify";
 import { MdEditSquare } from "react-icons/md";
@@ -13,9 +13,10 @@ import {
   clearFinancialReportErrors,
   fetchAllFinancialReports,
 } from "../../../redux/actions/finance/financeAction";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { Alert } from "@mui/material";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
+
 
 const FinancialReports = () => {
   const { loading, error, financialReports } = useSelector(

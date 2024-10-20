@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
 import { FiLayers, FiFileText } from "react-icons/fi";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { useDispatch, useSelector } from "react-redux";
 import * as Action from "../../../redux/reducers/serviceCategory/categoryReducer";
 import "./CategoryForm.scss";
+import { API } from "../../../utile/security/secreteKey";
 
 const initialFormData = {
   category: "",

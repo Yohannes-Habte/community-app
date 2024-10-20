@@ -10,17 +10,12 @@ import { GiCalendarHalfYear } from "react-icons/gi";
 import { MdCloudUpload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  API,
-  cloud_URL,
-  cloud_name,
-  upload_preset,
-} from "../../../utiles/securitiy/secreteKey";
-import {
   postCommitteeFailure,
   postCommitteeStart,
   postCommitteeSuccess,
 } from "../../../redux/reducers/committee/committeeReducer";
 import { toast } from "react-toastify";
+import { API, cloud_name, cloud_URL, upload_preset } from "../../../utile/security/secreteKey";
 
 const AddCommittee = ({ setOpenCommittee }) => {
   // Global state variables

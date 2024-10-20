@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./Delegations.scss";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import {
   clearErrorsAction,
   fetchAllDelegatedPriests,

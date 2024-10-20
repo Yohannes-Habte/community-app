@@ -1,8 +1,8 @@
 // frontend/src/components/SubscribeForm.js
 import { useState } from "react";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import "./Subscribe.scss";
+import { API } from "../../../utile/security/secreteKey";
 
 const Subscribe = () => {
   const [email, setEmail] = useState("");

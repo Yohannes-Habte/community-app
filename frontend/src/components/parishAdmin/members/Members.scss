@@ -25,27 +25,25 @@
 
   // DeleteConfirmationModal Styles
 
-  .delete-confirmation-modal {
-    @include ModalForConfirmation;
+  .member-delete-confirmation-modal {
+    @include deleteConfirmationModal;
 
-    .close-icon {
-      @include closeModal;
+    .delete-confirmation-title {
+      @include deleteConfirmationTitle;
     }
 
-    .confirmation-text {
-      @include subTitle;
+    .delete-confirmation-statement {
+      @include deleteConfirmationStatement;
     }
 
-    .action-buttons {
-      @include flexSpaceBetween;
+    .confirmation-buttons-wrapper {
+      @include buttonsWrapper;
 
-    
-
-      .confirm-button {
+      .confirm-delete-btn {
         @include buttonForDelete;
       }
 
-      .cancel-button {
+      .cancel-delete-btn {
         @include buttonForCancel;
       }
     }

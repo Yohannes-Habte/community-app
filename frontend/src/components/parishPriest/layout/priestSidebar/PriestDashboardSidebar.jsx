@@ -9,7 +9,7 @@ import { GiSunPriest } from "react-icons/gi";
 import { ImUsers } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { IoMdLogOut } from "react-icons/io";
-import Logout from "../../../../utiles/globalFunctions/Logout";
+import Logout from "../../../../utile/globalFunctions/Logout";
 
 const PriestDashboardSidebar = ({ active, setActive }) => {
   // Global state variables

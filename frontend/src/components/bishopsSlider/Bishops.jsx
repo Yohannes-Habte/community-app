@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./Bishops.scss";
 import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
-import { API } from "../../utiles/securitiy/secreteKey";
-import FetchData from "../../utiles/globalFunctions/GlobalClientFunction";
+import FetchData from "../../utile/globalFunctions/GlobalClientFunction";
+import { API } from "../../utile/security/secreteKey";
 
 const Bishops = () => {
   const { data } = FetchData(`${API}/data/home/shepherds`);

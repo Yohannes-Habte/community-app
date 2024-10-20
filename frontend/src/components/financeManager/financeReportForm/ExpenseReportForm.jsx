@@ -5,13 +5,13 @@ import { FaMoneyBill } from "react-icons/fa";
 import { CgCalendarDates } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import {
   postFinancialReportFailure,
   postFinancialReportStart,
   postFinancialReportSuccess,
 } from "../../../redux/reducers/finance/financeReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
   // Global state variables
@@ -127,7 +127,10 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
   return (
     <article className="add-financial-expense-modal">
       <section className="add-financial-expense-popup">
-        <span onClick={() => setOpenAddFinancialReport(false)} className="close">
+        <span
+          onClick={() => setOpenAddFinancialReport(false)}
+          className="close"
+        >
           X
         </span>
         <h3 className="title"> Add New Monthly Report </h3>

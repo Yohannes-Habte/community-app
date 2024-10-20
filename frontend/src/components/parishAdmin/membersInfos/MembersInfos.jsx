@@ -7,8 +7,8 @@ import {
   fetchParishioners,
 } from "../../../redux/actions/user/userAction";
 import { Alert } from "@mui/material";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 
 const MembersInfos = ({ setIsActive }) => {
   const navigate = useNavigate();

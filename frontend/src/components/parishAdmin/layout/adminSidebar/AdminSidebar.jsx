@@ -8,7 +8,7 @@ import { SiEventstore } from "react-icons/si";
 import { RiAdminFill } from "react-icons/ri";
 import { SiGooglemessages } from "react-icons/si";
 import { Link } from "react-router-dom";
-import Logout from "../../../../utiles/globalFunctions/Logout";
+import Logout from "../../../../utile/globalFunctions/Logout";
 
 const AdminSidebar = ({ isActive, setIsActive }) => {
   // Global state variables

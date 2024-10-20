@@ -6,7 +6,7 @@ import {
   allServices,
   clearAllErrors,
 } from "../../../redux/actions/service/serviceAction";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import { toast } from "react-toastify"; // For improved error notifications
 import { Alert } from "@mui/material";
 

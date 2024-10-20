@@ -1,16 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./AddServiceRequest.scss";
-import {
-  API,
-  cloud_name,
-  cloud_URL,
-  upload_preset,
-} from "../../../utiles/securitiy/secreteKey";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { PiChurchFill } from "react-icons/pi";
 import { MdOutlineMessage, MdDateRange } from "react-icons/md";
 import { fetchAllCategories } from "../../../redux/actions/serviceCategory/categoryAction";
@@ -20,6 +14,7 @@ import {
   postServiceRequestSuccess,
 } from "../../../redux/reducers/service/serviceReducer";
 import { clearErrors } from "../../../redux/reducers/serviceCategory/categoryReducer";
+import { API, cloud_name, cloud_URL, upload_preset } from "../../../utile/security/secreteKey";
 
 const initialState = {
   serviceCategory: "",

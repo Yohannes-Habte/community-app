@@ -1,11 +1,11 @@
 import "./AboutPage.scss";
 import StrategicIntent from "../../components/about/strategicIntent/StrategicIntent";
-import Committees from "../../components/about/committees/Committees";
 import ParishPriest from "../../components/about/parishPriest/ParishPriest";
 import Header from "../../components/layout/header/Header";
 import Footer from "../../components/layout/footer/Footer";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import Committees from "../../components/about/committees/Committees";
 const AboutPage = () => {
   /**
  To navigate directly to the Committee or priest section on the About Page when clicking on the Committee or Priest link in the Footer Component, you can use React's useRef and useEffect hooks along with the Link component from react-router-dom. The idea is to scroll to the specific section (i.e., the Committee component) on the page after navigation.

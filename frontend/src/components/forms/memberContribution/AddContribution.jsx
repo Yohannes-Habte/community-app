@@ -3,9 +3,9 @@ import { FaUserAlt } from "react-icons/fa";
 import "./AddContribution.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { Alert } from "@mui/material";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 // Initial form state
 const initialState = {

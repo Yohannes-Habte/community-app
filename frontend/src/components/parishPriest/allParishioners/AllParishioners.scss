@@ -1,8 +1,9 @@
 @import "../../../styles/variables.scss";
 @import "../../../styles/mixins.scss";
 
-.parishioners-container {
+.priest-dashboard-parishioners-container {
   width: $laptop;
+  min-height: 100vh;
   margin: 1rem auto;
 
   .parishioners-title {

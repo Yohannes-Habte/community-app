@@ -6,8 +6,8 @@ import {
   fetchAllEvents,
 } from "../../../redux/actions/event/eventAction";
 import { useNavigate } from "react-router-dom";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { Alert } from "@mui/material";
 
 const EventInfos = ({ setIsActive }) => {

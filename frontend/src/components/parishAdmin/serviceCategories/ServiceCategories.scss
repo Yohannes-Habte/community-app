@@ -34,25 +34,27 @@
   @include flexCenter;
 }
 
-.category-delete-confirmation-wrapper {
-  @include ModalForConfirmation;
 
-  .delete-icon {
-    @include closeModal;
+
+.category-service-delete-confirmation-modal {
+  @include deleteConfirmationModal;
+
+  .delete-confirmation-title {
+    @include deleteConfirmationTitle;
   }
 
-  .you-want-delete {
-    @include paragraph;
-    margin: 1rem 0 2rem 0;
+  .delete-confirmation-statement {
+    @include deleteConfirmationStatement;
   }
 
-  .buttons-wrapper {
-    @include flexSpaceBetween;
-    .confirm-delete {
+  .confirmation-buttons-wrapper {
+    @include buttonsWrapper;
+
+    .confirm-delete-btn {
       @include buttonForDelete;
     }
 
-    .cancel-delete {
+    .cancel-delete-btn {
       @include buttonForCancel;
     }
   }

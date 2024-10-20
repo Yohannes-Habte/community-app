@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "./Members.scss";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,9 +9,9 @@ import {
   clearAllMemberErrors,
   fetchParishioners,
 } from "../../../redux/actions/user/userAction";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { Alert } from "@mui/material";
 import Register from "../../forms/createAccount/Register";
+import { API } from "../../../utile/security/secreteKey";
 
 const Members = () => {
   const { parishioners, loading, error } = useSelector((state) => state.member);
@@ -107,25 +107,25 @@ const Members = () => {
   // Separate Delete Confirmation Modal component
   const DeleteConfirmationModal = ({ onCancel, onConfirm, deleteLoading }) => {
     return (
-      <article className="delete-confirmation-modal">
-        <span className="close-icon" onClick={onCancel}>
-          X
-        </span>
-        <h3 className="confirmation-text">
-          Are you sure you want to delete this member?
-        </h3>
-        <aside className="action-buttons">
+      <article className="member-delete-confirmation-modal">
+        <h3 className="delete-confirmation-title">Delete ERCCH Member </h3>
+        <p className="delete-confirmation-statement">
+          Are you sure you want to delete this ERCCH member? This action cannot
+          be undone.
+        </p>
+        <div className="confirmation-buttons-wrapper">
+          <button className="cancel-delete-btn" onClick={onCancel}>
+            Cancel
+          </button>
+
           <button
-            className="confirm-button"
+            className="confirm-delete-btn"
             onClick={onConfirm}
             disabled={deleteLoading}
           >
-            {deleteLoading ? "Deleting..." : "Confirm"}
+            {deleteLoading ? "Deleting..." : "Delete"}
           </button>
-          <button className="cancel-button" onClick={onCancel}>
-            Cancel
-          </button>
-        </aside>
+        </div>
         {deleteError && <Alert severity="error"> {deleteError} </Alert>}
       </article>
     );

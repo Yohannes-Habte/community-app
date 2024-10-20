@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../../redux/actions/user/userAction";
-import Logout from "../../../utiles/globalFunctions/Logout";
+import Logout from "../../../utile/globalFunctions/Logout";
 
 const Navbar = () => {
   // Global state variables

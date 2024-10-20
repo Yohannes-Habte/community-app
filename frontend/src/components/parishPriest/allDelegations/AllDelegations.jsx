@@ -1,8 +1,8 @@
 import "./AllDelegations.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import {
   clearErrorsAction,
   fetchDelegatedPriests,
@@ -12,29 +12,52 @@ import { MdEditSquare } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
+import { Alert } from "@mui/material";
+import { API } from "../../../utile/security/secreteKey";
 
+// Component to manage all delegation operations
 const AllDelegations = () => {
-  // Global state variables
+  // Redux state and dispatch hook
   const { priests, error, loading } = useSelector((state) => state.priest);
   const dispatch = useDispatch();
 
-  // Local state variable
+  // Local state variables
   const [delegationId, setDelegationId] = useState("");
-  const [open, setOpen] = useState(false);
-  const [openDelegation, setOpenDelegation] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddDelegationOpen, setIsAddDelegationOpen] = useState(false);
 
+  // Fetch delegated priests on component mount
   useEffect(() => {
     dispatch(fetchDelegatedPriests());
 
-    // clear errors on component unmount
+    // Clear errors on unmount
     return () => {
       dispatch(clearErrorsAction());
     };
   }, [dispatch]);
 
-  // Parishioners header
+  // Memoize rows to prevent unnecessary recalculations
+  const rows = useMemo(() => {
+    return (
+      priests?.map((delegation) => ({
+        id: delegation._id,
+        fullName: delegation.fullName,
+        email: delegation.email,
+        phoneNumber: delegation.phoneNumber,
+        serviceDate: new Date(delegation.serviceDate).toLocaleDateString(
+          "en-GB",
+          {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }
+        ),
+      })) || []
+    );
+  }, [priests]);
+
+  // DataGrid column configuration
   const columns = [
     { field: "id", headerName: "User ID", width: 250 },
     { field: "fullName", headerName: "Full Name", width: 200 },
@@ -45,81 +68,72 @@ const AllDelegations = () => {
       field: "action",
       headerName: "Action",
       width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="action-wrapper">
-            <Link to={`/services/${params.id}`} className="edit">
-              <MdEditSquare />
-            </Link>
-
-            <button
-              className="delete"
-              onClick={() => setDelegationId(params.id) || setOpen(true)}
-            >
-              <FaTrashAlt />
-            </button>
-          </div>
-        );
-      },
+      renderCell: (params) => (
+        <div className="action-wrapper">
+          <Link to={`/services/${params.id}`} className="edit">
+            <MdEditSquare />
+          </Link>
+          <button
+            className="delete"
+            onClick={() => handleOpenDeleteModal(params.id)}
+          >
+            <FaTrashAlt />
+          </button>
+        </div>
+      ),
     },
   ];
 
-  const rows = [];
+  // Handle opening and closing of delete modal
+  const handleOpenDeleteModal = (id) => {
+    setDelegationId(id);
+    setIsDeleteModalOpen(true);
+  };
 
-  priests &&
-    priests.forEach((delegation) => {
-      const formattedDate = new Date(delegation.serviceDate).toLocaleDateString(
-        "en-GB",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
-      );
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
 
-      rows.push({
-        id: delegation._id,
-        fullName: delegation.fullName,
-        email: delegation.email,
-        phoneNumber: delegation.phoneNumber,
-        serviceDate: formattedDate,
-      });
-    });
-
-  const handleDelete = async (id) => {
+  // Handle delete operation for a delegation with error handling and confirmation
+  const handleDelete = useCallback(async () => {
     try {
-      const { data } = await axios.delete(`${API}/services/${id}`, {
+      const { data } = await axios.delete(`${API}/services/${delegationId}`, {
         withCredentials: true,
       });
       toast.success(data.message);
       dispatch(fetchDelegatedPriests());
     } catch (error) {
-      toast.error(error.response.data.message);
+      const errorMessage =
+        error?.response?.data?.message || "An error occurred.";
+      toast.error(errorMessage);
+    } finally {
+      setIsDeleteModalOpen(false);
     }
-  };
+  }, [delegationId, dispatch]);
 
   return (
     <section className="delegated-priests-table-container">
-      <h2 className="delegated-priests-table-title">
-        {" "}
-        Priests Delegation List{" "}
-      </h2>
+      <h2 className="delegated-priests-table-title">Priests Delegation List</h2>
 
+      {/* Add Delegation Section */}
       <aside className="add-delegation-priest-wrapper">
         <h3 className="add-delegation-priest-title">Add Delegated Priest</h3>
         <button
-          onClick={() => setOpenDelegation(true)}
+          onClick={() => setIsAddDelegationOpen(true)}
           className="add-delegation-btn"
         >
           Add New Delegation
         </button>
       </aside>
 
-      {loading && <PageLoader />}
-
-      {error ? <p className="error-message"> {error} </p> : null}
-
-      {!loading && !error && (
+      {/* Loader, Error, and Data Display */}
+      {loading ? (
+        <PageLoader isLoading={loading} message="Loading..." size={90} />
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : !loading && !error && rows.length === 0 ? (
+        <Alert severity="info">No delegated priest found</Alert>
+      ) : (
         <div style={{ height: 400, width: "100%" }}>
           <DataGrid
             rows={rows}
@@ -130,51 +144,52 @@ const AllDelegations = () => {
                 paginationModel: { page: 0, pageSize: 10 },
               },
             }}
-            // Create search bar
             slots={{ toolbar: GridToolbar }}
-            // Search a specific user
             slotProps={{
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
               },
             }}
-            // Page size optons
             pageSizeOptions={[5, 10]}
             checkboxSelection
             disableRowSelectionOnClick
-            //
           />
         </div>
       )}
 
-      {open && (
-        <article className="service-delete-confirmation-wrapper">
-          <span className="delete-icon" onClick={() => setOpen(false)}>
-            X
-          </span>
-
-          <h3 className="you-want-delete">Are you sure you want delete?</h3>
-
-          <aside className="cancel-or-confirm-delete">
-            <h3
-              className={`confirm-delete`}
-              onClick={() => setOpen(false) || handleDelete(delegationId)}
-            >
-              confirm
-            </h3>
-            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
-              cancel
-            </p>
-          </aside>
-        </article>
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <DeleteConfirmationModal
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleDelete}
+        />
       )}
 
-      {openDelegation && (
-        <AddDelegation setOpenDelegation={setOpenDelegation} />
+      {/* Add Delegation Modal */}
+      {isAddDelegationOpen && (
+        <AddDelegation setOpenDelegation={setIsAddDelegationOpen} />
       )}
     </section>
   );
 };
+
+const DeleteConfirmationModal = ({ onClose, onConfirm }) => (
+  <article className="delegated-priest-delete-confirmation-modal">
+    <h3 className="delete-confirmation-title"> Delete Delegated Priest</h3>
+    <p className="delete-confirmation-statement">
+      Are you sure you want to delete this delegated priest? This action cannot
+      be undone.
+    </p>
+    <div className="confirmation-buttons-wrapper">
+      <button className="cancel-delete-btn" onClick={onClose}>
+        Cancel
+      </button>
+      <button className="confirm-delete-btn" onClick={onConfirm}>
+        Delete
+      </button>
+    </div>
+  </article>
+);
 
 export default AllDelegations;

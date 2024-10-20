@@ -272,48 +272,6 @@
   }
 }
 
-@mixin buttonForDelete {
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: #d32f2f;
-  color: #fff;
-  border: none;
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: #b71c1c;
-  }
-}
-
-@mixin buttonForCancel {
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  background-color: #ccdbfd;
-  color: #333;
-  border: none;
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-
-  &:hover {
-    background-color: #c1d3fe;
-  }
-}
-
 // ==============================================================================================
 // tab styling
 // ==============================================================================================
@@ -465,20 +423,6 @@
   }
 }
 
-@mixin ModalForConfirmation {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  @include shadow1;
-  width: 20rem;
-  padding: $afs;
-  background-color: #edf2fb;
-  border-radius: 8px;
-  z-index: 1000;
-  text-align: center;
-}
-
 // ==============================================================================================
 // Modal styling
 // ==============================================================================================
@@ -549,5 +493,87 @@
 
   &:hover {
     color: #29da29;
+  }
+}
+
+// ==============================================================================================
+// Delete confirmation styling
+// ==============================================================================================
+
+@mixin deleteConfirmationModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include shadow1;
+  width: 30rem;
+  height: 12rem;
+  padding: $afs;
+  background-color: #d8e2dc;
+  border-radius: 8px;
+  z-index: 1000;
+ 
+}
+
+@mixin deleteConfirmationTitle {
+  font-size: $afs;
+  font-weight: $aafw;
+  padding: $textPadding;
+
+}
+
+@mixin deleteConfirmationStatement {
+  font-size: $nfs;
+  line-height: 1.5rem;
+  padding: $textPadding;
+  margin-top: 0.5rem;
+}
+
+@mixin buttonsWrapper {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@mixin buttonForDelete {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #b71c1c;
+  }
+}
+
+@mixin buttonForCancel {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #a0b9f3;
+  color: #333;
+  border: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  &:hover {
+    background-color: #c1d3fe;
   }
 }

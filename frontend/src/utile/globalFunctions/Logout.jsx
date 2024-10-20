@@ -6,9 +6,9 @@ import {
 } from "../../redux/reducers/user/memberReducer";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { API } from "../securitiy/secreteKey";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { API } from "../security/secreteKey";
 
 const Logout = () => {
   const navigate = useNavigate();

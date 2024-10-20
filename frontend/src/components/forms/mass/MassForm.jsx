@@ -16,8 +16,8 @@ import {
   FaParagraph,
 } from "react-icons/fa";
 import { MdChurch } from "react-icons/md";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const initialState = {
   date: "",

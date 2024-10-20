@@ -1,5 +1,4 @@
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import {
   eventPostStart,
   eventPostSuccess,
@@ -15,6 +14,7 @@ import {
   fetchAllEventsFailure,
   clearErrors
 } from "../../reducers/event/eventReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 //==============================================================================
 // Post an Event

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./LatestEvent.scss";
-import { API } from "../../utiles/securitiy/secreteKey";
+import { API } from "../../utile/security/secreteKey";
+
 
 const LatestEvent = () => {
   const [event, setEvent] = useState(null);

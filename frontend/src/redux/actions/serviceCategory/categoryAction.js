@@ -14,7 +14,8 @@ import {
   countCategoriesFailure,
   clearErrors,
 } from "../../reducers/serviceCategory/categoryReducer";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
+
 
 // =============================================================================
 // Fetch all categories

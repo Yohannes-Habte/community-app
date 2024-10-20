@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import "./AllUserServices.scss";
+import { API } from "../../../utile/security/secreteKey";
 
 const useFetchUserServices = () => {
   const [services, setServices] = useState([]);
@@ -41,9 +41,10 @@ const AllUserServices = () => {
 
   // Define DataGrid columns
   const columns = [
+    { field: "serviceDate", headerName: "Service Date", width: 150 },
     { field: "id", headerName: "Service ID", width: 150 },
     { field: "serviceName", headerName: "Service Name", width: 150 },
-    { field: "serviceDate", headerName: "Service Date", width: 150 },
+
     {
       field: "identificationDocument",
       headerName: "Identification Document",
@@ -103,8 +104,8 @@ const AllUserServices = () => {
   // Prepare rows for DataGrid
   const rows = services.map((service) => ({
     id: service._id?.slice(-10).concat("..."),
-    serviceName: service.serviceName,
     serviceDate: formatDate(service.serviceDate),
+    serviceName: service.serviceName,
     identificationDocument: service.identificationDocument,
     serviceStatus: service.serviceStatus,
   }));
@@ -114,11 +115,7 @@ const AllUserServices = () => {
       <h1>Church Services</h1>
 
       {loading ? (
-        <PageLoader
-          isLoading={loading}
-          message="Loading ..."
-          size={90}
-        />
+        <PageLoader isLoading={loading} message="Loading ..." size={90} />
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : services.length === 0 ? (

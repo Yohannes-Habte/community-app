@@ -11,7 +11,7 @@
     padding: 2rem 0;
   }
 
-  .add-delegation-priest-wrapper{
+  .add-delegation-priest-wrapper {
     @include flexSpaceBetween;
     background-color: $form-bg;
     margin-bottom: 2rem;
@@ -24,6 +24,30 @@
 
     .add-delegation-btn {
       @include button2;
+    }
+  }
+}
+
+.delegated-priest-delete-confirmation-modal {
+  @include deleteConfirmationModal;
+
+  .delete-confirmation-title {
+    @include deleteConfirmationTitle;
+  }
+
+  .delete-confirmation-statement {
+    @include deleteConfirmationStatement;
+  }
+
+  .confirmation-buttons-wrapper {
+    @include buttonsWrapper;
+
+    .confirm-delete-btn {
+      @include buttonForDelete;
+    }
+
+    .cancel-delete-btn {
+      @include buttonForCancel;
     }
   }
 }

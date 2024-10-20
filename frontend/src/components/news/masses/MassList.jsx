@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./MassList.scss";
-import { API } from "../../../utiles/securitiy/secreteKey";
+
 import { toast } from "react-toastify";
 import MassCard from "../massCard/MassCard";
+import { API } from "../../../utile/security/secreteKey";
 
 const MassList = () => {
   const [massData, setMassData] = useState([]);

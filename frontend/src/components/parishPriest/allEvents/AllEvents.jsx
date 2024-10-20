@@ -1,87 +1,98 @@
 import axios from "axios";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { useEffect, useState, useMemo } from "react";
 import "./AllEvents.scss";
+import { Alert } from "@mui/material";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   useEffect(() => {
     const getAllEvents = async () => {
+      setLoading(true); // Show loading indicator
+      setError(""); // Reset error state
       try {
         const { data } = await axios.get(`${API}/events`);
-        setEvents(data.result);
-      } catch (error) {
-        console.log(error);
+        setEvents(data.result || []); // Safely set events
+      } catch (err) {
+        setError(err?.response?.data?.message || "Failed to fetch events.");
+      } finally {
+        setLoading(false); // Stop loading indicator
       }
     };
     getAllEvents();
   }, []);
 
-  const columns = [
-    { field: "eventName", headerName: "Event Name", width: 250 },
-    { field: "eventPurpose", headerName: "Event PUrpose", width: 400 },
-    { field: "eventOrganizer", headerName: "Event Organizer", width: 150 },
-    { field: "eventFacilitator", headerName: "Event Facilitator", width: 150 },
-    { field: "eventAddress", headerName: "Event Address", width: 200 },
-    { field: "eventDate", headerName: "Event Date", width: 150 },
-  ];
+  // DataGrid columns configuration
+  const columns = useMemo(
+    () => [
+      { field: "eventDate", headerName: "Event Date", width: 150 },
+      { field: "eventName", headerName: "Event Name", width: 250 },
+      { field: "eventOrganizer", headerName: "Organizer", width: 250 },
+      { field: "eventFacilitator", headerName: "Facilitator", width: 250 },
+      { field: "eventAddress", headerName: "Address", width: 200 },
+    ],
+    []
+  );
 
-  const rows = [];
-  events &&
-    events.map((event) => {
-      const formattedDate = new Date(event.eventDate).toLocaleDateString(
-        "en-GB",
-        {
+  // Memoize rows to prevent unnecessary recalculations
+  const rows = useMemo(
+    () =>
+      events.map((event) => ({
+        id: event._id,
+        eventName: event.eventName,
+        eventPurpose: event.eventPurpose?.slice(0, 30).concat("...") || "N/A",
+        eventOrganizer: event.eventOrganizer,
+        eventFacilitator: event.eventFacilitator,
+        eventAddress: event.eventAddress,
+        eventDate: new Date(event.eventDate).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
-        }
-      );
-
-      return rows.push({
-        id: event._id,
-        eventName: event.eventName,
-        eventPurpose: event.eventPurpose,
-        eventOrganizer: event.eventOrganizer,
-        eventFacilitator: event.eventFacilitator,
-        eventAddress: formattedDate,
-        eventDate: event.eventDate,
-      });
-    });
+        }),
+      })),
+    [events]
+  );
 
   return (
     <section className="church-events-table-container">
       <h3 className="church-events-table-title">List of Events</h3>
 
-      <DataGrid
-        // Rows
-        rows={rows}
-        // Columns
-        columns={columns}
-        // Automatically adjust grid height based on rows
-        autoHeight
-        // Initial state
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
-          },
-        }}
-        // Create search bar
-        slots={{ toolbar: GridToolbar }}
-        // Search a specific user
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        // Page size optons
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        //
-      />
+      {/* Show loading spinner if the data is loading */}
+      {loading ? (
+        <PageLoader isLoading={loading} message="Loading..." size={90} />
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : rows.length === 0 ? (
+        <Alert severity="info">No events found.</Alert>
+      ) : (
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 10 },
+              },
+            }}
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
+        </div>
+      )}
     </section>
   );
 };

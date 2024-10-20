@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "./PopularServices.scss";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
+import { API } from "../../../utile/security/secreteKey";
+
 
 const PopularServices = () => {
   const [services, setServices] = useState([]);

@@ -10,9 +10,9 @@ import {
   fetchAllCategories,
 } from "../../../redux/actions/serviceCategory/categoryAction";
 import CategoryForm from "../../forms/serviceCategory/CategoryForm";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import { Alert } from "@mui/material";
+import { API } from "../../../utile/security/secreteKey";
 
 const ServiceCategories = () => {
   const dispatch = useDispatch();
@@ -134,17 +134,22 @@ const ServiceCategories = () => {
       )}
 
       {confirmDeletion && (
-        <article className="category-delete-confirmation-wrapper">
-          <span
-            className="delete-icon"
-            onClick={() => setConfirmDeletion(false)}
-          >
-            X
-          </span>
-
-          <h3 className="you-want-delete">Are you sure you want to delete?</h3>
-
-          <div className="buttons-wrapper">
+        <article className="category-service-delete-confirmation-modal">
+          <h3 className="delete-confirmation-title">
+            Delete Service Category
+          </h3>
+          <p className="delete-confirmation-statement">
+            Are you sure you want to delete this category service? This action
+            cannot be undone.
+          </p>
+          <div className="confirmation-buttons-wrapper">
+            <button
+              className="cancel-delete"
+              aria-label="Cancel deletion"
+              onClick={() => setConfirmDeletion(false)}
+            >
+              Cancel
+            </button>
             <button
               className="confirm-delete"
               aria-label="Confirm deletion"
@@ -153,14 +158,7 @@ const ServiceCategories = () => {
                 handleDelete(categoryId);
               }}
             >
-              Confirm
-            </button>
-            <button
-              className="cancel-delete"
-              aria-label="Cancel deletion"
-              onClick={() => setConfirmDeletion(false)}
-            >
-              Cancel
+              Delete
             </button>
           </div>
         </article>

@@ -6,14 +6,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { GrStatusInfo } from "react-icons/gr";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { toast } from "react-toastify";
-import {
-  API,
-  cloud_URL,
-  cloud_name,
-  upload_preset,
-} from "../../../utiles/securitiy/secreteKey";
 import {
   clearError,
   updateUserProfileFailure,
@@ -21,6 +15,7 @@ import {
   updateUserProfileSuccess,
 } from "../../../redux/reducers/user/memberReducer";
 import "./UpdateMemberProfile.scss";
+import { API, cloud_name, cloud_URL, upload_preset } from "../../../utile/security/secreteKey";
 
 const UpdateMemberProfile = () => {
   const navigate = useNavigate();

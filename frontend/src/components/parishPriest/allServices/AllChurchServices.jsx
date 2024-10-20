@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import {
   clearAllErrors,
   fetchAllServices,
 } from "../../../redux/actions/service/serviceAction";
 import ReactIcons from "../../reactIcons/ReactIcons";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
 import "./AllChurchServices.scss";
 import { Link } from "react-router-dom";
+import { API } from "../../../utile/security/secreteKey";
 
 const AllChurchServices = () => {
-  const { trashIcon, editIcon, closeIcon } = ReactIcons();
+  const { trashIcon, editIcon } = ReactIcons();
   const dispatch = useDispatch();
   const { services, loading, error } = useSelector((state) => state.service);
 
@@ -146,13 +146,9 @@ const AllChurchServices = () => {
       {!loading && !error && (
         <div style={{ width: "100%" }}>
           <DataGrid
-            // Rows
             rows={rows}
-            // Columns
             columns={columns}
-            // Automatically adjust grid height based on rows
             autoHeight
-            // Initial state for pagination
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 10 },
@@ -176,25 +172,24 @@ const AllChurchServices = () => {
       )}
 
       {open && (
-        <article className="service-delete-confirmation-wrapper">
-          <span className="delete-icon" onClick={() => setOpen(false)}>
-            {" "}
-            {closeIcon}{" "}
-          </span>
+        <article className="service-delete-confirmation-modal">
+          <h3 className="delete-confirmation-title">Delete Church Service</h3>
+          <p className="delete-confirmation-statement">
+            Are you sure you want to delete this church service? This action
+            cannot be undone.
+          </p>
+          <div className="confirmation-buttons-wrapper">
+            <button className={`cancel-delete-btn`} onClick={() => setOpen(false)}>
+              cancel
+            </button>
 
-          <h3 className="you-want-delete">Are you sure you want delete?</h3>
-
-          <aside className="cancel-or-confirm-delete">
-            <h3
-              className={`confirm-delete`}
+            <button
+              className={`confirm-delete-btn`}
               onClick={() => setOpen(false) || handleDelete(serviceId)}
             >
-              confirm
-            </h3>
-            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
-              cancel
-            </p>
-          </aside>
+              Delete
+            </button>
+          </div>
         </article>
       )}
     </section>

@@ -12,9 +12,9 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdEditSquare } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import { Alert } from "@mui/material";
+import { API } from "../../../utile/security/secreteKey";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -161,30 +161,27 @@ const Events = () => {
       )}
 
       {openDeleteModal && (
-        <article className="event-delete-confirmation-wrapper">
-          <span
-            className="delete-icon"
-            onClick={() => setOpenDeleteModal(false)}
-          >
-            X
-          </span>
+        <article className="event-delete-confirmation-modal">
+          <h3 className="delete-confirmation-title">Delete Event</h3>
+          <p className="delete-confirmation-statement">
+            Are you sure you want to delete this event? This action cannot be
+            undone.
+          </p>
 
-          <h3 className="you-want-delete">Are you sure you want delete?</h3>
-
-          <aside className="cancel-or-confirm-delete">
-            <h3
-              className={`confirm-delete`}
-              onClick={() => setOpenDeleteModal(false) || handleDelete(eventId)}
-            >
-              confirm
-            </h3>
-            <p
+          <div className="confirmation-buttons-wrapper">
+            <button
               className={`cancel-delete`}
               onClick={() => setOpenDeleteModal(false)}
             >
-              cancel
-            </p>
-          </aside>
+              Cancel
+            </button>
+            <button
+              className={`confirm-delete`}
+              onClick={() => setOpenDeleteModal(false) || handleDelete(eventId)}
+            >
+              Delete
+            </button>
+          </div>
         </article>
       )}
     </section>

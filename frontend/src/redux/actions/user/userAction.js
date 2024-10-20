@@ -1,13 +1,5 @@
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import Cookies from "js-cookie";
-// import {
-//   fetchSingleUserStart,
-//   fetchSingleUserSuccess,
-//   fetchSingleUserFailure,
-//   logoutUserSuccess,
-//   logoutUserFailure,
-// } from "../../reducers/userReducer";
 import {
   changeUserPasswordFailure,
   changeUserPasswordRequest,
@@ -35,6 +27,7 @@ import {
   updateUserProfileRequest,
   updateUserProfileSuccess,
 } from "../../reducers/user/memberReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 //==============================================================================
 // Action to register a new user

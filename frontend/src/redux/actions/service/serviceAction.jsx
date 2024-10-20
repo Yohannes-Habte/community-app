@@ -1,5 +1,4 @@
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import {
   clearServiceErrors,
   deleteServiceFailure,
@@ -18,6 +17,7 @@ import {
   servicesCountStart,
   servicesCountSuccess,
 } from "../../reducers/service/serviceReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 //==============================================================================
 // Post Service Request

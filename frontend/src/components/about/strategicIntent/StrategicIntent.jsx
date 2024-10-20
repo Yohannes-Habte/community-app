@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./StrategicIntent.scss";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
+import { API } from "../../../utile/security/secreteKey";
 
 const StrategicIntent = () => {
   // Local variables

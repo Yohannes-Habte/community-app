@@ -2,13 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 import { RiVideoFill, RiFileTextFill, RiFileUploadFill } from "react-icons/ri";
 import "./VideoUpload.scss";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { toast } from "react-toastify";
 import {
   API,
   cloud_name,
   upload_preset,
-} from "../../../utiles/securitiy/secreteKey";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
-import { toast } from "react-toastify";
+} from "../../../utile/security/secreteKey";
 
 const initialState = {
   videoFile: null,
@@ -177,7 +177,6 @@ const VideoUpload = () => {
             placeholder="Enter the video title here..."
             className="input-field"
             aria-label="Video Title"
-            required
           />
           {errors.title && <p className="input-error">{errors.title}</p>}
         </div>
@@ -196,7 +195,6 @@ const VideoUpload = () => {
             placeholder="Enter your video description here..."
             className="input-field"
             aria-label="Video Description"
-            required
           ></textarea>
           {errors.description && (
             <p className="input-error">{errors.description}</p>
@@ -214,7 +212,6 @@ const VideoUpload = () => {
             onChange={handleFileChange}
             className="input-field"
             aria-label="Upload Video"
-            required
           />
           {errors.videoFile && (
             <p className="input-error">{errors.videoFile}</p>
@@ -227,6 +224,7 @@ const VideoUpload = () => {
           type="submit"
           className="video-submit-btn"
           disabled={loading}
+          aria-label="Upload Video"
           aria-busy={loading}
         >
           {loading ? (

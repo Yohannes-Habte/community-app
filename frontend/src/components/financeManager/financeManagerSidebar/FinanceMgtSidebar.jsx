@@ -5,7 +5,7 @@ import { SiEventstore } from "react-icons/si";
 import { MdSupport } from "react-icons/md";
 import { SiGooglemessages } from "react-icons/si";
 import { Link } from "react-router-dom";
-import Logout from "../../../utiles/globalFunctions/Logout";
+import Logout from "../../../utile/globalFunctions/Logout";
 
 const FinanceMgtSidebar = ({ active, setActive }) => {
   // Global state variables

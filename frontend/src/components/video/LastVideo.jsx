@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import "./LastVideo.scss";
 import axios from "axios";
-import { API } from "../../utiles/securitiy/secreteKey";
 import { RiPlayCircleFill } from "react-icons/ri";
-import PageLoader from "../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../utile/loader/pageLoader/PageLoader";
+import { API } from "../../utile/security/secreteKey";
+
 
 const LastVideo = () => {
   const [videoFile, setVideoFile] = useState(null);

@@ -8,11 +8,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import { validEmail, validPassword } from "../../../utiles/validation/validate";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { validEmail, validPassword } from "../../../utile/validation/validate";
 import Cookies from "js-cookie";
 import { registerUserFailure, registerUserRequest, registerUserSuccess } from "../../../redux/reducers/user/memberReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 const initialState = {
   firstName: "",

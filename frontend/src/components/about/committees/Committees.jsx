@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Committees.scss";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
+import { API } from "../../../utile/security/secreteKey";
 
 const Committees = () => {
   // Local variables

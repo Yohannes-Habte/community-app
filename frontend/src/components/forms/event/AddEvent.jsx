@@ -12,13 +12,13 @@ import {
 } from "react-icons/fa";
 
 import { toast } from "react-toastify";
-import { API } from "../../../utiles/securitiy/secreteKey";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import {
   postServiceRequestFailure,
   postServiceRequestStart,
   postServiceRequestSuccess,
 } from "../../../redux/reducers/service/serviceReducer";
+import { API } from "../../../utile/security/secreteKey";
 
 const initialState = {
   eventName: "",

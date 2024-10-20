@@ -10,25 +10,25 @@
     margin: 3rem 0 1.5rem 0;
   }
 
-  .event-delete-confirmation-wrapper {
-    @include ModalForConfirmation;
-
-    .delete-icon {
-      @include closeModal;
+  .event-delete-confirmation-modal {
+    @include deleteConfirmationModal;
+  
+    .delete-confirmation-title {
+      @include deleteConfirmationTitle;
     }
-
-    .you-want-delete {
-      @include subTitle;
+  
+    .delete-confirmation-statement {
+      @include deleteConfirmationStatement;
     }
-
-    .cancel-or-confirm-delete {
-      @include flexSpaceBetween;
-
-      .confirm-delete {
+  
+    .confirmation-buttons-wrapper {
+      @include buttonsWrapper;
+  
+      .confirm-delete-btn {
         @include buttonForDelete;
       }
-
-      .cancel-delete {
+  
+      .cancel-delete-btn {
         @include buttonForCancel;
       }
     }

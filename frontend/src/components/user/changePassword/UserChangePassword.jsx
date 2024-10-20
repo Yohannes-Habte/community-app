@@ -4,17 +4,17 @@ import { AiFillEyeInvisible } from "react-icons/ai";
 import { HiOutlineEye } from "react-icons/hi";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { validPassword } from "../../../utiles/validation/validate";
+import { validPassword } from "../../../utile/validation/validate";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import {
   changeUserPasswordFailure,
   changeUserPasswordRequest,
   changeUserPasswordSuccess,
 } from "../../../redux/reducers/user/memberReducer";
-import { API } from "../../../utiles/securitiy/secreteKey";
+import { API } from "../../../utile/security/secreteKey";
 
 const UserChangePassword = () => {
   const navigate = useNavigate();

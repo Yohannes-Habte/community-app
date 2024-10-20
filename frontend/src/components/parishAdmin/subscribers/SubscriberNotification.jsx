@@ -1,13 +1,13 @@
 // frontend/src/components/NotificationForm.js
 import { useState } from "react";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import "./SubscriberNotification.scss";
 import { RiMessage2Fill } from "react-icons/ri";
 import { MdSubject } from "react-icons/md";
 import { toast } from "react-toastify";
 import { Alert } from "@mui/material";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const initialState = {
   subject: "",

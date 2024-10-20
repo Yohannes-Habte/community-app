@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API } from "../../../utiles/securitiy/secreteKey";
 import { GiCalendarHalfYear } from "react-icons/gi";
 import "./Committees.scss";
 import { useNavigate } from "react-router-dom";
 import CommitteeCard from "../../committees/committeeCard/CommitteeCard";
 import AddCommittee from "../../forms/committee/AddCommittee";
-import ButtonLoader from "../../../utiles/loader/buttonLoader/ButtonLoader";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { Alert } from "@mui/material";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import { API } from "../../../utile/security/secreteKey";
 
 const CommitteeList = () => {
   const navigate = useNavigate();

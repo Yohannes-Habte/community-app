@@ -8,7 +8,7 @@ import {
   fetchAllContributions,
 } from "../../../redux/actions/contributions/contributionAction";
 import { Alert } from "@mui/material";
-import PageLoader from "../../../utiles/loader/pageLoader/PageLoader";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 
 const MembersContribution = () => {
   const dispatch = useDispatch();

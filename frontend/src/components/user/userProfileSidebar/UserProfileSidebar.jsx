@@ -9,7 +9,7 @@ import { RiMoneyEuroBoxFill } from "react-icons/ri";
 import { IoMdLogOut } from "react-icons/io";
 import { GiSunPriest } from "react-icons/gi";
 import { useSelector } from "react-redux";
-import Logout from "../../../utiles/globalFunctions/Logout";
+import Logout from "../../../utile/globalFunctions/Logout";
 import { useEffect } from "react";
 
 const UserProfileSidebar = ({ isActive, setIsActive }) => {
