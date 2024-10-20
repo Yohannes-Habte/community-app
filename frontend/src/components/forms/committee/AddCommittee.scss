@@ -24,7 +24,9 @@
         @include twoGridTemplateEqualColumns;
       }
       .input-container {
-        @include inputContainer;
+        position: relative;
+        display: flex;
+        flex-direction: column;
 
         .input-icon {
           @include inputIcon;
@@ -46,8 +48,10 @@
           @include focusInputFieldAndInputLabel;
         }
 
-        .input-field:focus + .input-label + .input-highlight {
-          width: 100%;
+        .error-text {
+          color: $red;
+          font-size: $sfs;
+          margin: 0.2rem 0 0 0.3rem;
         }
 
         .password-display {
@@ -59,16 +63,23 @@
         @include inputContainer;
         @include flexRow;
         align-items: center;
+        margin-left: 0.3rem;
 
         .consent-checkbox {
-          height: 1.6rem;
-          width: 1.3rem;
+          height: $nfs;
+          width: $nfs;
           cursor: pointer;
         }
 
         .terms-of-user {
           color: $blue;
         }
+      }
+
+      .error-consent-text {
+        color: $red;
+        font-size: $sfs;
+        margin: -1rem 0 0 0.5rem;
       }
 
       .add-committee-btn {

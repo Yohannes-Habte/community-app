@@ -6,7 +6,6 @@ import { MdEmail } from "react-icons/md";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { validEmail, validPassword } from "../../../utile/validation/validate";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {
@@ -16,7 +15,7 @@ import {
   loginUserSuccess,
 } from "../../../redux/reducers/user/memberReducer";
 import { API } from "../../../utile/security/secreteKey";
-
+import { validEmail, validPassword } from "../../../utile/validation/validate";
 
 const initialState = {
   email: "",
@@ -24,15 +23,14 @@ const initialState = {
   showPassword: false,
   rememberMe: false,
 };
+
 const LoginForm = () => {
   const navigate = useNavigate();
-
-  // Global state variables
   const dispatch = useDispatch();
   const { currentUser, loading, error } = useSelector((state) => state.member);
 
-  // Local state variables
   const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState({});
   const { email, password, showPassword, rememberMe } = formData;
 
   useEffect(() => {
@@ -41,52 +39,54 @@ const LoginForm = () => {
     }
   }, [currentUser]);
 
-  // Clear errors when the component mounts
   useEffect(() => {
     dispatch(clearError());
   }, [dispatch]);
 
   const resetHandler = () => {
-    setFormData({
-      email: "",
-      password: "",
-      showPassword: false,
-      rememberMe: false,
-    });
+    setFormData(initialState);
+    setErrors({});
   };
 
-  // change handler
   const changeHandler = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const validateForm = () => {
+    const formErrors = {};
+
+    // Email validation
+    if (!email) {
+      formErrors.email = "Email is required.";
+    } else if (!validEmail(email)) {
+      formErrors.email = "Please enter a valid email address.";
+    }
+
+    // Password validation
+    if (!password) {
+      formErrors.password = "Password is required.";
+    } else if (password.length < 8) {
+      formErrors.password = "Password must be at least 8 characters long.";
+    } else if (!validPassword(password)) {
+      formErrors.password = "Please enter a valid password.";
+    }
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0; // Return true if there are no errors
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
-
-    if (!validEmail(email)) {
-      return toast.error("Please enter a valid email");
-    }
-
-    if (!validPassword(password)) {
-      return toast.error(
-        "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"
-      );
-    }
+    if (!validateForm()) return;
 
     try {
       dispatch(loginUserRequest());
-
-      // The body
-      const loginUser = {
-        email: email,
-        password: password,
-        rememberMe: rememberMe,
-      };
+      const loginUser = { email, password, rememberMe };
       const res = await axios.post(`${API}/auth/login`, loginUser, {
         withCredentials: true,
       });
@@ -94,32 +94,24 @@ const LoginForm = () => {
       dispatch(loginUserSuccess(res.data.user));
       toast.success(res.data.message);
 
-      // Set token in cookies
       const token = res.data?.token;
-
       Cookies.set("token", token, {
         expires: rememberMe ? 30 : 1,
-        secure: true,
+        secure: true, // This should be true if served over HTTPS
         sameSite: "strict",
       });
 
       resetHandler();
       navigate("/");
-
-      /**
-      const tokenExpiry = rememberMe
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
-        : new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day
-
-      // Save user data and expiration time to local storage
-      localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("token", tokenExpiry);
-       */
     } catch (err) {
-      console.log(err);
-      dispatch(loginUserFailure(err.response.data.message));
+      console.error(err);
+      const errorMessage =
+        err.response?.data?.message || "An error occurred. Please try again.";
+      dispatch(loginUserFailure(errorMessage));
+      toast.error(errorMessage);
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className="login-form">
       {/* Email input container */}
@@ -132,11 +124,13 @@ const LoginForm = () => {
           onChange={changeHandler}
           placeholder="Enter Email"
           className="input-field"
+          aria-label="Email Address"
         />
-        <label htmlFor="" className="input-label">
+        <label htmlFor="email" className="input-label">
           Email Address
         </label>
         <span className="input-highlight"></span>
+        {errors.email && <p className="input-error-message">{errors.email}</p>}
       </div>
 
       {/* Password input container */}
@@ -147,17 +141,20 @@ const LoginForm = () => {
           name="password"
           value={password}
           onChange={changeHandler}
-          //onBlur={checkPasswordFormat}
           placeholder="Enter Password"
           className="input-field"
+          aria-label="Password"
         />
-        <label htmlFor="" className="input-label">
+        <label htmlFor="password" className="input-label">
           Password
         </label>
+        <span className="input-highlight"></span>
+        {errors.password && (
+          <p className="input-error-message">{errors.password}</p>
+        )}
       </div>
 
       {/* Show or hide Password input container */}
-
       <div className="show-password-container">
         <input
           type="checkbox"
@@ -182,9 +179,8 @@ const LoginForm = () => {
           />
           <span>Keep me signed in</span>
         </div>
-
         <Link className="forgot-password" to={"/forgot-password"}>
-          Forgot your password?{" "}
+          Forgot your password?
         </Link>
       </div>
 
@@ -200,7 +196,7 @@ const LoginForm = () => {
           Sign Up
         </Link>
       </p>
-      {error ? <p className="error-message"> {error} </p> : null}
+      {error && <p className="error-message">{error}</p>}
     </form>
   );
 };

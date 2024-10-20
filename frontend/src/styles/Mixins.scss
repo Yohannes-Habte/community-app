@@ -512,14 +512,12 @@
   background-color: #d8e2dc;
   border-radius: 8px;
   z-index: 1000;
- 
 }
 
 @mixin deleteConfirmationTitle {
   font-size: $afs;
   font-weight: $aafw;
   padding: $textPadding;
-
 }
 
 @mixin deleteConfirmationStatement {

@@ -3,11 +3,16 @@
 
 .add-financial-expense-modal {
   @include modal;
+  overflow-y: scroll;
+
 
   .add-financial-expense-popup {
     @include popupBox;
-    width:50rem;
+    width: 50rem;
     padding: 1rem 2rem 2rem;
+    margin-top: 2rem;
+
+   
 
     .close {
       @include closeModal;
@@ -23,7 +28,9 @@
         @include twoGridTemplateEqualColumns;
 
         .input-container {
-          @include inputContainer;
+          position: relative;
+          display: flex;
+          flex-direction: column;
 
           .input-icon {
             @include inputIcon;
@@ -47,6 +54,12 @@
 
           .input-field:focus + .input-label + .input-highlight {
             width: 100%;
+          }
+
+          .error-text {
+            color: $red;
+            font-size: $sfs;
+            margin: 0.3rem 0 0 0.2rem;
           }
         }
       }

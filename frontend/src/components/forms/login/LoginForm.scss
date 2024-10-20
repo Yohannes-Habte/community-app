@@ -8,7 +8,9 @@
   padding: 2rem;
 
   .input-container {
-    @include inputContainer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
     .input-field {
       @include inputField;
@@ -42,6 +44,12 @@
     .password-display {
       @include passwordDisplay;
     }
+
+    .input-error-message {
+      color: $red;
+      font-size: $sfs;
+      margin: 0.5rem 0 0 0.4rem;
+    }
   }
 
   .show-password-container {
@@ -73,7 +81,7 @@
   }
 
   .login-button {
-    @include button1;
+    @include button3;
   }
 
   .have-no-account {

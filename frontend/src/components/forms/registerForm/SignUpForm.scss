@@ -12,7 +12,9 @@
       @include twoGridTemplateEqualColumns;
 
       .input-container {
-        @include inputContainer;
+        position: relative;
+        display: flex;
+        flex-direction: column;
 
         .input-icon {
           @include inputIcon;
@@ -41,6 +43,12 @@
         .icon {
           @include passwordDisplay;
         }
+      }
+
+      .input-error-message {
+        color: $red;
+        font-size: $sfs;
+        margin: 0.2rem 0 0 0.3rem;
       }
     }
 
@@ -75,6 +83,12 @@
           }
         }
 
+        .input-error-message {
+          color: $red;
+          font-size: $sfs;
+          margin: -1rem 0 0 0.3rem;
+        }
+
         .register-button-container {
           .register-button {
             @include button3;
@@ -103,9 +117,15 @@
         padding: 0.3rem 1rem;
         border-radius: $radius;
 
+        .password-validation-title {
+          font-size: $nfs;
+          padding: 0.5rem 0;
+        }
+
         .password-rule {
           @include flexSpaceBetween;
           align-items: center;
+          padding: 0.3rem 0;
           .infos {
             font-size: $sfs;
           }

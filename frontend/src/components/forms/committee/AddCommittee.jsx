@@ -4,102 +4,179 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { MdEmail, MdLocationPin } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { RiAdminFill } from "react-icons/ri";
+import { RiLockPasswordFill, RiAdminFill } from "react-icons/ri";
 import { GiCalendarHalfYear } from "react-icons/gi";
 import { MdCloudUpload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { Alert } from "@mui/material";
 import {
   postCommitteeFailure,
   postCommitteeStart,
   postCommitteeSuccess,
 } from "../../../redux/reducers/committee/committeeReducer";
 import { toast } from "react-toastify";
-import { API, cloud_name, cloud_URL, upload_preset } from "../../../utile/security/secreteKey";
+import {
+  API,
+  cloud_name,
+  cloud_URL,
+  upload_preset,
+} from "../../../utile/security/secreteKey";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import {
+  validEmail,
+  validPassword,
+  validPhone,
+} from "../../../utile/validation/validate";
+
+const initialState = {
+  fullName: "",
+  email: "",
+  password: "",
+  title: "",
+  phone: "",
+  startingTime: "",
+  endingTime: "",
+  image: null,
+  consent: false,
+};
 
 const AddCommittee = ({ setOpenCommittee }) => {
-  // Global state variables
   const { error } = useSelector((state) => state.committee);
   const dispatch = useDispatch();
 
-  // Local state variables
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [title, setTitle] = useState("");
-  const [phone, setPhone] = useState("");
-  const [startingTime, setStartingTime] = useState("");
-  const [endingTime, setEndingTime] = useState("");
-  const [image, setImage] = useState("");
+  // Local state
+  const [formData, setFormData] = useState(initialState);
+  const [formLoading, setFormLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  // Function to update login user data
-  const updateData = (event) => {
-    switch (event.target.name) {
-      case "fullName":
-        setFullName(event.target.value);
-        break;
-      case "email":
-        setEmail(event.target.value);
-        break;
-      case "password":
-        setPassword(event.target.value);
-        break;
-      case "title":
-        setTitle(event.target.value);
-        break;
-      case "phone":
-        setPhone(event.target.value);
-        break;
-      case "startingTime":
-        setStartingTime(event.target.value);
-        break;
+  const {
+    fullName,
+    email,
+    password,
+    title,
+    phone,
+    startingTime,
+    endingTime,
+    image,
+    consent,
+  } = formData;
 
-      case "endingTime":
-        setEndingTime(event.target.value);
-        break;
-      default:
-        break;
+  // Handle input change
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+
+    if (type === "checkbox") {
+      setFormData((prev) => ({ ...prev, [name]: checked }));
+
+      if (name === "consent" && checked) {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+    } else if (type === "file") {
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
+
+      if (name === "image") {
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  // Reset all state variables for the login form
-  const reset = () => {
-    setFullName("");
-    setEmail("");
-    setPassword("");
-    setTitle("");
-    setPhone("");
-    setStartingTime("");
-    setEndingTime("");
+  // Input validation
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!fullName.trim()) newErrors.fullName = "Full Name is required";
+
+    if (!email || !validEmail(email))
+      newErrors.email = "Valid Email is required";
+
+    if (!password || password.length < 8 || !validPassword(password))
+      newErrors.password = "Valid Password is required";
+
+    if (!title.trim()) newErrors.title = "Title is required";
+
+    if (!phone || !validPhone(phone))
+      newErrors.phone = "Valid phone number is required (10-15 digits)";
+
+    if (!startingTime) newErrors.startingTime = "Start date is required";
+
+    if (!endingTime) newErrors.endingTime = "End date is required";
+
+    if (!image) newErrors.image = "Image is required";
+
+    if (!consent) newErrors.consent = "You must agree to the Terms of Use";
+
+    return newErrors;
   };
 
-  // handle submit
+  const resetForm = () => {
+    setFormData(initialState);
+    setErrors({});
+    setFormLoading(false);
+  };
+
+  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
       dispatch(postCommitteeStart());
-      // Image validation
-      const committeePhoto = new FormData();
-      committeePhoto.append("file", image);
-      committeePhoto.append("cloud_name", cloud_name);
-      committeePhoto.append("upload_preset", upload_preset);
+      setFormLoading(true);
 
-      // Save image to cloudinary
-      const response = await axios.post(cloud_URL, committeePhoto);
-      const { url } = response.data;
+      // Image validation (max size 2MB, file type)
+      if (image.size > 2 * 1024 * 1024) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "File size should be less than 2MB",
+        }));
+        setFormLoading(false);
+        return;
+      }
 
-      // body
+      if (!["image/jpeg", "image/png"].includes(image.type)) {
+        setErrors((prev) => ({
+          ...prev,
+          image: "Invalid file type. Only JPEG/PNG allowed",
+        }));
+        setFormLoading(false);
+        return;
+      }
+
+      // Upload Image to Cloudinary
+      const imageUploadForm = new FormData();
+      imageUploadForm.append("file", image);
+      imageUploadForm.append("cloud_name", cloud_name);
+      imageUploadForm.append("upload_preset", upload_preset);
+
+      const { data: uploadResponse } = await axios.post(
+        cloud_URL,
+        imageUploadForm
+      );
+      const { url } = uploadResponse;
+
+      // Construct new committee member data
       const newCommitteeMember = {
-        fullName: fullName,
-        email: email,
-        password: password,
-        title: title,
-        phone: phone,
-        startingTime: startingTime,
-        endingTime: endingTime,
+        fullName,
+        email,
+        password,
+        title,
+        phone,
+        startingTime,
+        endingTime,
         image: url,
+        consent,
       };
+
+      // Submit to the API
       const { data } = await axios.post(
         `${API}/committees/register`,
         newCommitteeMember
@@ -108,9 +185,16 @@ const AddCommittee = ({ setOpenCommittee }) => {
       dispatch(postCommitteeSuccess(data.committee));
       toast.success(data.message);
 
-      reset();
-    } catch (error) {
-      dispatch(postCommitteeFailure(error.response.data.message));
+      resetForm();
+    } catch (err) {
+      dispatch(
+        postCommitteeFailure(
+          err.response?.data?.message || "Failed to add committee member"
+        )
+      );
+      toast.error("Failed to add committee member");
+    } finally {
+      setFormLoading(false);
     }
   };
 
@@ -122,50 +206,46 @@ const AddCommittee = ({ setOpenCommittee }) => {
         </span>
         <h3 className="add-committee-title"> Add Committee Member </h3>
 
-        {error ? <p className="error-message"> {error} </p> : null}
+        {error && <p className="error-message">{error}</p>}
 
-        <form
-          onSubmit={handleSubmit}
-          action=""
-          className="add-committee-member-form"
-        >
+        <form onSubmit={handleSubmit} className="add-committee-member-form">
           <div className="inputs-wrapper">
-            {/* First Name */}
+            {/* Full Name */}
             <div className="input-container">
               <FaUserAlt className="input-icon" />
               <input
                 type="text"
                 name="fullName"
-                id="fullName"
                 value={fullName}
-                onChange={updateData}
+                onChange={handleChange}
                 placeholder="Enter Full Name"
-                className="input-field"
+                className={`input-field ${
+                  errors.fullName ? "input-error" : ""
+                }`}
+                aria-label="Full Name"
               />
-
-              <label htmlFor="fullName" className="input-label">
-                Full Name
-              </label>
+              <label className="input-label">Full Name</label>
+              {errors.fullName && (
+                <small className="error-text">{errors.fullName}</small>
+              )}
             </div>
 
-            {/* Email Address */}
+            {/* Email */}
             <div className="input-container">
               <MdEmail className="input-icon" />
               <input
                 type="email"
                 name="email"
-                id="email"
                 value={email}
-                onChange={updateData}
+                onChange={handleChange}
                 placeholder="Enter Email"
-                className="input-field"
+                className={`input-field ${errors.email ? "input-error" : ""}`}
+                aria-label="Email Address"
               />
-
-              <label htmlFor="email" className="input-label">
-                Email Address
-              </label>
-
-              <span className="input-highlight"></span>
+              <label className="input-label">Email Address</label>
+              {errors.email && (
+                <small className="error-text">{errors.email}</small>
+              )}
             </div>
 
             {/* Password */}
@@ -174,18 +254,18 @@ const AddCommittee = ({ setOpenCommittee }) => {
               <input
                 type="password"
                 name="password"
-                id="password"
                 value={password}
-                onChange={updateData}
+                onChange={handleChange}
                 placeholder="Enter Password"
-                className="input-field"
+                className={`input-field ${
+                  errors.password ? "input-error" : ""
+                }`}
+                aria-label="Password"
               />
-
-              <label htmlFor="password" className="input-label">
-                Password
-              </label>
-
-              <span className="input-highlight"></span>
+              <label className="input-label">Password</label>
+              {errors.password && (
+                <small className="error-text">{errors.password}</small>
+              )}
             </div>
 
             {/* Title */}
@@ -194,38 +274,34 @@ const AddCommittee = ({ setOpenCommittee }) => {
               <input
                 type="text"
                 name="title"
-                id="title"
                 value={title}
-                onChange={updateData}
+                onChange={handleChange}
                 placeholder="Enter Title"
-                className="input-field"
+                className={`input-field ${errors.title ? "input-error" : ""}`}
+                aria-label="Title / Role"
               />
-
-              <label htmlFor="title" className="input-label">
-                Title / Role
-              </label>
-
-              <span className="input-highlight"></span>
+              <label className="input-label">Title / Role</label>
+              {errors.title && (
+                <small className="error-text">{errors.title}</small>
+              )}
             </div>
 
-            {/* Phone Number */}
+            {/* Phone */}
             <div className="input-container">
               <MdLocationPin className="input-icon" />
               <input
                 type="text"
                 name="phone"
-                id="phone"
                 value={phone}
-                onChange={updateData}
+                onChange={handleChange}
                 placeholder="Enter Phone Number"
-                className="input-field"
+                className={`input-field ${errors.phone ? "input-error" : ""}`}
+                aria-label="Phone Number"
               />
-
-              <label htmlFor="phone" className="input-label">
-                Phone Number
-              </label>
-
-              <span className="input-highlight"></span>
+              <label className="input-label">Phone Number</label>
+              {errors.phone && (
+                <small className="error-text">{errors.phone}</small>
+              )}
             </div>
 
             {/* Starting Service Time */}
@@ -234,18 +310,17 @@ const AddCommittee = ({ setOpenCommittee }) => {
               <input
                 type="date"
                 name="startingTime"
-                id="startingTime"
                 value={startingTime}
-                onChange={updateData}
-                placeholder="Enter Starting Time"
-                className="input-field"
+                onChange={handleChange}
+                className={`input-field ${
+                  errors.startingTime ? "input-error" : ""
+                }`}
+                aria-label="Starting Time"
               />
-
-              <label htmlFor="servicePeriod" className="input-label">
-                Service Starting Time
-              </label>
-
-              <span className="input-highlight"></span>
+              <label className="input-label">Service Starting Time</label>
+              {errors.startingTime && (
+                <small className="error-text">{errors.startingTime}</small>
+              )}
             </div>
 
             {/* Ending Service Time */}
@@ -254,35 +329,33 @@ const AddCommittee = ({ setOpenCommittee }) => {
               <input
                 type="date"
                 name="endingTime"
-                id="endingTime"
                 value={endingTime}
-                onChange={updateData}
-                placeholder="Enter Service Ending Time"
-                className="input-field"
+                onChange={handleChange}
+                className={`input-field ${
+                  errors.endingTime ? "input-error" : ""
+                }`}
+                aria-label="Ending Time"
               />
-
-              <label htmlFor="endingTime" className="input-label">
-                Service Ending Time
-              </label>
-
-              <span className="input-highlight"></span>
+              <label className="input-label">Service Ending Time</label>
+              {errors.endingTime && (
+                <small className="error-text">{errors.endingTime}</small>
+              )}
             </div>
 
-            {/* User Image */}
+            {/* Image Upload */}
             <div className="input-container">
               <MdCloudUpload className="input-icon" />
               <input
                 type="file"
                 name="image"
-                id="image"
-                onChange={(e) => setImage(e.target.files[0])}
-                className="input-field"
+                onChange={handleChange}
+                className={`input-field ${errors.image ? "input-error" : ""}`}
+                aria-label="Upload Photo"
               />
-
-              <label htmlFor="image" className="input-label">
-                Upload Photo
-              </label>
-              <span className="input-highlight"></span>
+              <label className="input-label">Upload Photo</label>
+              {errors.image && (
+                <small className="error-text">{errors.image}</small>
+              )}
             </div>
           </div>
 
@@ -290,18 +363,35 @@ const AddCommittee = ({ setOpenCommittee }) => {
           <div className="input-consent">
             <input
               type="checkbox"
-              name="agree"
-              id="agree"
+              name="consent"
+              id="consent"
+              checked={consent}
+              onChange={handleChange}
               className="consent-checkbox"
+              aria-label="User Consent"
             />
-            <label htmlFor="agree" className="accept">
-              I accept
+            <label htmlFor="consent" className="accept">
+              I accept the{" "}
+              <NavLink className="terms-of-user">Terms of Use</NavLink>
             </label>
-
-            <NavLink className={"terms-of-user"}> Terms of Use</NavLink>
           </div>
+          {errors.consent && (
+            <small className="error-consent-text">{errors.consent}</small>
+          )}
 
-          <button className="add-committee-btn">Add Committee Member</button>
+          <button
+            className="add-committee-btn"
+            disabled={formLoading}
+            aria-label="Add Committee Member"
+          >
+            {formLoading ? (
+              <ButtonLoader isLoading={formLoading} size={24} />
+            ) : (
+              "Add Committee Member"
+            )}
+          </button>
+
+          {error && <Alert severity="error" className="error-message">{error}</Alert>}
         </form>
       </section>
     </article>

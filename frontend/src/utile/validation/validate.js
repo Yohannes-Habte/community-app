@@ -1,28 +1,28 @@
-
 // ===============================================================
 // Validate Email
 // ===============================================================
 export const validEmail = (email) => {
-    const emailRegex = email.match(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-  
-    return emailRegex;
-  };
-  
-  // ===============================================================
-  // Validate password
-  // ===============================================================
-  export const validPassword = (password) => {
-    const passwordRegex = password.match(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    );
-    return passwordRegex;
-  };
-  
-  export const validDate = (date) => {
-    const dateRegex = date.matches(
-      /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/
-    );
-    return dateRegex;
-  };
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
+};
+
+// ===============================================================
+// Validate password
+// ===============================================================
+export const validPassword = (password) => {
+  const passwordRegex = password.match(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  );
+  return passwordRegex;
+};
+
+// ===============================================================
+// Validate phone
+// ===============================================================
+
+export const validPhone = (phone) => {
+  const sanitizedPhone = phone.replace(/\D/g, ""); // Remove non-digit characters
+  const phoneRegex = /^\d{10,15}$/;
+
+  return phoneRegex.test(sanitizedPhone);
+};

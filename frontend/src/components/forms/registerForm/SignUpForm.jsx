@@ -3,15 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SignUpForm.scss";
 import { FaMapMarker, FaPhone, FaTimes, FaUserAlt } from "react-icons/fa";
 import { BsCheck2All } from "react-icons/bs";
-import { MdEmail, MdLocationPin } from "react-icons/md";
+import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
-import { validEmail, validPassword } from "../../../utile/validation/validate";
+import {
+  validEmail,
+  validPassword,
+  validPhone,
+} from "../../../utile/validation/validate";
 import Cookies from "js-cookie";
-import { registerUserFailure, registerUserRequest, registerUserSuccess } from "../../../redux/reducers/user/memberReducer";
+import {
+  registerUserFailure,
+  registerUserRequest,
+  registerUserSuccess,
+} from "../../../redux/reducers/user/memberReducer";
 import { API } from "../../../utile/security/secreteKey";
 
 const initialState = {
@@ -37,10 +45,13 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState(initialState);
-  const [letterCase, setLetterCase] = useState(false);
-  const [number, setNumber] = useState(false);
-  const [specialCharacter, setSpecialCharacter] = useState(false);
-  const [passwordLength, setPasswordLength] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    letterCase: false,
+    number: false,
+    specialCharacter: false,
+    length: false,
+  });
 
   const {
     firstName,
@@ -73,14 +84,60 @@ const SignUpForm = () => {
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    setFormErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   }, []);
+
+  // Input validation
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!firstName.trim()) newErrors.firstName = "First Name is required";
+
+    if (!lastName.trim()) newErrors.lastName = "Last Name is required";
+
+    if (!email || !validEmail(email))
+      newErrors.email = "Valid Email is required";
+
+    if (!confirmEmail || !validEmail(email))
+      newErrors.confirmEmail = "Valid Email is required";
+
+    if (!password || password.length < 8 || !validPassword(password))
+      newErrors.password = "Valid Password is required";
+
+    if (
+      !confirmPassword ||
+      confirmPassword.length < 8 ||
+      !validPassword(password)
+    )
+      newErrors.confirmPassword = "Valid Password is required";
+
+    if (!phone || !validPhone(phone))
+      newErrors.phone = "Valid phone number is required (10-15 digits)";
+
+    if (!street) newErrors.street = "Street Address is required";
+
+    if (!zipCode) newErrors.zipCode = "Zip Code is required";
+
+    if (!city) newErrors.city = "City is required";
+
+    if (!state) newErrors.state = "State is required";
+
+    if (!country) newErrors.country = "Country is required";
+
+    if (!agree) newErrors.agree = "You must agree to the Terms of Use";
+
+    return newErrors;
+  };
 
   // Password validation rules
   useEffect(() => {
-    setLetterCase(/([a-z].*[A-Z])|([A-Z].*[a-z])/.test(password));
-    setNumber(/\d/.test(password));
-    setSpecialCharacter(/[\W_]/.test(password)); // includes non-word characters
-    setPasswordLength(password.length >= 8);
+    setPasswordRequirements({
+      letterCase: /([a-z].*[A-Z])|([A-Z].*[a-z])/.test(password),
+      number: /\d/.test(password),
+      specialCharacter: /[\W_]/.test(password), // includes non-word characters
+      length: password.length >= 8,
+    });
   }, [password]);
 
   // Reset form fields
@@ -90,25 +147,10 @@ const SignUpForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    // Email & Password validation
-    if (!validEmail(email)) {
-      return toast.error("Please enter a valid email.");
-    }
-    if (email !== confirmEmail) {
-      return toast.error("Emails do not match.");
-    }
-    if (password !== confirmPassword) {
-      return toast.error("Passwords do not match.");
-    }
-    if (!validPassword(password)) {
-      return toast.error(
-        "Password must be at least 8 characters, contain an uppercase letter, a number, and a special character."
-      );
-    }
-
-    // Check if user has accepted terms
-    if (!agree) {
-      return toast.error("You must accept the Terms of Use.");
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setFormErrors(validationErrors);
+      return;
     }
 
     try {
@@ -118,7 +160,7 @@ const SignUpForm = () => {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-Token": Cookies.get("csrfToken"), // Example of CSRF protection
+          "X-CSRF-Token": Cookies.get("csrfToken"),
         },
       });
 
@@ -144,9 +186,16 @@ const SignUpForm = () => {
   };
 
   // Password strength indicators
-  const timesIcon = <FaTimes color="red" size={15} />;
-  const checkIcon = <BsCheck2All color="green" size={15} />;
-  const switchIcon = (condition) => (condition ? checkIcon : timesIcon);
+  const renderPasswordCheck = (condition, message) => (
+    <div className="password-rule">
+      <p className="infos">{message}</p>
+      {condition ? (
+        <BsCheck2All color="green" size={15} />
+      ) : (
+        <FaTimes color="red" size={15} />
+      )}
+    </div>
+  );
 
   return (
     <form onSubmit={submitHandler} className="register-form" noValidate>
@@ -168,6 +217,11 @@ const SignUpForm = () => {
             First Name
           </label>
           <span className="input-highlight"></span>
+          {formErrors.firstName && (
+            <small className="input-error-message">
+              {formErrors.firstName}
+            </small>
+          )}
         </div>
 
         {/* Last Name */}
@@ -183,11 +237,13 @@ const SignUpForm = () => {
             aria-label="Last Name"
             className="input-field"
           />
-
           <label htmlFor="lastName" className="input-label">
             Last Name
           </label>
           <span className="input-highlight"></span>
+          {formErrors.lastName && (
+            <small className="input-error-message">{formErrors.lastName}</small>
+          )}
         </div>
 
         {/* Email */}
@@ -199,15 +255,17 @@ const SignUpForm = () => {
             id="email"
             value={email}
             onChange={changeHandler}
-            placeholder="email"
+            placeholder="Email"
             aria-label="Email"
             className="input-field"
           />
-
-          <label htmlFor="lastName" className="input-label">
+          <label htmlFor="email" className="input-label">
             Email
           </label>
           <span className="input-highlight"></span>
+          {formErrors.email && (
+            <small className="input-error-message">{formErrors.email}</small>
+          )}
         </div>
 
         {/* Confirm Email */}
@@ -223,11 +281,15 @@ const SignUpForm = () => {
             aria-label="Confirm Email"
             className="input-field"
           />
-
           <label htmlFor="confirmEmail" className="input-label">
             Confirm Email
           </label>
           <span className="input-highlight"></span>
+          {formErrors.confirmEmail && (
+            <small className="input-error-message">
+              {formErrors.confirmEmail}
+            </small>
+          )}
         </div>
 
         {/* Password */}
@@ -243,11 +305,13 @@ const SignUpForm = () => {
             aria-label="Password"
             className="input-field"
           />
-
           <label htmlFor="password" className="input-label">
             Password
           </label>
           <span className="input-highlight"></span>
+          {formErrors.password && (
+            <small className="input-error-message">{formErrors.password}</small>
+          )}
         </div>
 
         {/* Confirm Password */}
@@ -263,18 +327,22 @@ const SignUpForm = () => {
             aria-label="Confirm Password"
             className="input-field"
           />
-
           <label htmlFor="confirmPassword" className="input-label">
             Confirm Password
           </label>
           <span className="input-highlight"></span>
+          {formErrors.confirmPassword && (
+            <small className="input-error-message">
+              {formErrors.confirmPassword}
+            </small>
+          )}
         </div>
 
         {/* Phone */}
         <div className="input-container">
           <FaPhone className="input-icon" />
           <input
-            type="text"
+            type="tel"
             name="phone"
             id="phone"
             value={phone}
@@ -283,16 +351,18 @@ const SignUpForm = () => {
             aria-label="Phone"
             className="input-field"
           />
-
           <label htmlFor="phone" className="input-label">
-            phone
+            Phone
           </label>
           <span className="input-highlight"></span>
+          {formErrors.phone && (
+            <small className="input-error-message">{formErrors.phone}</small>
+          )}
         </div>
 
-        {/* Street Address */}
+        {/* Street */}
         <div className="input-container">
-          <MdLocationPin className="input-icon" />
+          <FaMapMarker className="input-icon" />
           <input
             type="text"
             name="street"
@@ -303,11 +373,13 @@ const SignUpForm = () => {
             aria-label="Street Address"
             className="input-field"
           />
-
           <label htmlFor="street" className="input-label">
             Street Address
           </label>
           <span className="input-highlight"></span>
+          {formErrors.street && (
+            <small className="input-error-message">{formErrors.street}</small>
+          )}
         </div>
 
         {/* Zip Code */}
@@ -323,11 +395,13 @@ const SignUpForm = () => {
             aria-label="Zip Code"
             className="input-field"
           />
-
           <label htmlFor="zipCode" className="input-label">
             Zip Code
           </label>
           <span className="input-highlight"></span>
+          {formErrors.zipCode && (
+            <small className="input-error-message">{formErrors.zipCode}</small>
+          )}
         </div>
 
         {/* City */}
@@ -343,11 +417,13 @@ const SignUpForm = () => {
             aria-label="City"
             className="input-field"
           />
-
           <label htmlFor="city" className="input-label">
             City
           </label>
           <span className="input-highlight"></span>
+          {formErrors.city && (
+            <small className="input-error-message">{formErrors.city}</small>
+          )}
         </div>
 
         {/* State */}
@@ -363,11 +439,13 @@ const SignUpForm = () => {
             aria-label="State"
             className="input-field"
           />
-
           <label htmlFor="state" className="input-label">
             State
           </label>
           <span className="input-highlight"></span>
+          {formErrors.state && (
+            <small className="input-error-message">{formErrors.state}</small>
+          )}
         </div>
 
         {/* Country */}
@@ -383,11 +461,13 @@ const SignUpForm = () => {
             aria-label="Country"
             className="input-field"
           />
-
           <label htmlFor="country" className="input-label">
             Country
           </label>
           <span className="input-highlight"></span>
+          {formErrors.country && (
+            <small className="input-error-message">{formErrors.country}</small>
+          )}
         </div>
       </div>
 
@@ -404,7 +484,7 @@ const SignUpForm = () => {
             />
             <label htmlFor="showPassword">Show Password</label>
           </div>
-          {/* Agree to terms */}
+          {/* Terms and Conditions */}
           <div className="accept-terms">
             <input
               type="checkbox"
@@ -415,13 +495,16 @@ const SignUpForm = () => {
               aria-label="Agree to Terms"
               className="consent-checkbox"
             />
-            <span>
-              I accept the{" "}
+            <label htmlFor="agree" className="terms-label">
+              I agree to the{" "}
               <Link to="/terms" className="terms-of-user">
                 Terms of Use
               </Link>
-            </span>
+            </label>
           </div>
+          {formErrors.agree && (
+            <small className="input-error-message">{formErrors.agree}</small>
+          )}
 
           {/* Register Button */}
           <div className="register-button-container">
@@ -431,7 +514,11 @@ const SignUpForm = () => {
               disabled={loading}
               aria-label="Register"
             >
-              {loading ? <ButtonLoader /> : "Register"}
+              {loading ? (
+                <ButtonLoader isLoading={loading} message="" size={24} />
+              ) : (
+                "Register"
+              )}
             </button>
           </div>
 
@@ -447,26 +534,25 @@ const SignUpForm = () => {
           </p>
         </div>
         {/* Password Validation */}
-        <div className="password-conditions-container">
-          <div className="password-rule">
-            <p className="infos">
-              Contains at least one lowercase and uppercase letter
-            </p>
-            {switchIcon(letterCase)}
-          </div>
-          <div className="password-rule">
-            <p className="infos">Contains at least one number</p>
-            {switchIcon(number)}
-          </div>
-          <div className="password-rule">
-            <p className="infos">Contains at least one special character</p>
-            {switchIcon(specialCharacter)}
-          </div>
-          <div className="password-rule">
-            <p className="infos">Password is at least 8 characters long</p>
-            {switchIcon(passwordLength)}
-          </div>
-        </div>
+        <aside className="password-conditions-container">
+          <h4 className="password-validation-title">Password Requirements:</h4>
+          {renderPasswordCheck(
+            passwordRequirements.length,
+            "At least 8 characters long"
+          )}
+          {renderPasswordCheck(
+            passwordRequirements.number,
+            "At least one number"
+          )}
+          {renderPasswordCheck(
+            passwordRequirements.letterCase,
+            "At least one uppercase and one lowercase letter"
+          )}
+          {renderPasswordCheck(
+            passwordRequirements.specialCharacter,
+            "At least one special character"
+          )}
+        </aside>
       </div>
     </form>
   );
