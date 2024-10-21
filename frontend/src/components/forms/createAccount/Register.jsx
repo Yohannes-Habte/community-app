@@ -1,15 +1,19 @@
 import SignUpForm from "../registerForm/SignUpForm";
 import "./Register.scss";
 
-const Register = ({ signUp, openAddUser, setOpenAddUser }) => {
+const Register = ({ onSignUp, open, setOpen }) => {
   return (
     <>
-      {openAddUser && (
+      {open && (
         <article className="modal">
           <section className="register-popup-box">
             <span
               className="close-popup-box"
-              onClick={() => setOpenAddUser(false)}
+              onClick={() => setOpen(false)}
+              aria-label="Close registration modal"
+              role="button"
+              tabIndex="0" // Make it focusable for keyboard accessibility
+              onKeyDown={(e) => e.key === "Enter" && setOpen(false)} // Handle keyboard enter
             >
               X
             </span>
@@ -21,7 +25,7 @@ const Register = ({ signUp, openAddUser, setOpenAddUser }) => {
         </article>
       )}
 
-      {signUp && <SignUpForm signUp={signUp} />}
+      {onSignUp && <SignUpForm onSignUp={onSignUp} />}
     </>
   );
 };

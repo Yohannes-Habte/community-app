@@ -6,7 +6,7 @@
 
   .member-contribution-popup-box {
     @include popupBox;
-    width: 600px;
+
     padding: 2rem;
 
     .close-modal {
@@ -17,7 +17,7 @@
       @include subTitle;
     }
 
-    .member-contribution-form{
+    .member-contribution-form {
       @include flexColumn;
 
       .input-container {
@@ -36,13 +36,16 @@
           @include inputLabel;
         }
 
-        .input-highlight {
-          @include inputHighlight;
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
         }
+
+        
       }
 
       .add-member-contribution-btn {
         @include button3;
+        margin-top: 1rem;
       }
     }
   }

@@ -34,6 +34,12 @@
     }
   }
 
+  .error-text {
+    color: $red;
+    font-size: $sfs;
+    margin: 0.5rem 0 0 0.4rem;
+  }
+
   .subscription-btn {
     @include button3;
   }

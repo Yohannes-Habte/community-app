@@ -3,11 +3,11 @@
 
 .service-update-form {
     @include flexColumn;
-    width: 50%;
-    margin: auto;
 
   .input-container {
-    @include inputContainer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
    
 
     .icon {
@@ -32,13 +32,18 @@
     .input-field:focus + .input-label + .input-highlight {
       width: 100%;
     }
+
+    .error-text {
+      color: $red;
+      font-size: $sfs;
+      margin: 0.5rem 0 0 0.4rem;
+    }
   }
 
   .service-update-btn {
-    @include button1;
+    @include button3;
+    margin-top: 1rem;
 
-    .loading {
-      @include loader;
-    }
+   
   }
 }

@@ -161,7 +161,7 @@ export const getSingleService = async (req, res, next) => {
 
 export const updateServiceRequest = async (req, res, next) => {
   const { id } = req.params;
-  const { serviceStatus } = req.body;
+  const { serviceStatus, message } = req.body;
 
   // Validate the service ID format
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -179,8 +179,9 @@ export const updateServiceRequest = async (req, res, next) => {
       throw createError(404, "Service not found.");
     }
 
-    // Update the service status
+    // Update the service status and message
     service.serviceStatus = serviceStatus;
+    service.message = message;
     await service.save({ session });
 
     // Step 2: Update the service status in the Member's services array

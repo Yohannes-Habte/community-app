@@ -3,11 +3,14 @@
 
 .service-update-page {
   .service-update-page-container {
-    width: $desktop;
-    margin: 1rem auto;
+    width: 50%;
+    margin: 2rem auto;
+    background-color: $form-bg;
+    padding: 2rem;
 
     .service-update-title {
-      @include title;
+      @include subTitle;
+      margin-bottom: 2rem;
     }
   }
 }

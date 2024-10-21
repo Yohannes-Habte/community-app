@@ -25,7 +25,9 @@
         @include twoGridTemplateEqualColumns;
 
         .input-container {
-          @include inputContainer;
+          position: relative;
+          display: flex;
+          flex-direction: column;
 
           .icon {
             @include inputIcon;
@@ -50,11 +52,19 @@
           .input-field:focus + .input-label + .input-highlight {
             width: 100%;
           }
+
+          .error-text {
+            color: $red;
+            font-size: $sfs;
+            margin: 0.5rem 0 0 0.4rem;
+          }
         }
       }
 
       .textarea-container {
-        @include inputContainer;
+        position: relative;
+        display: flex;
+        flex-direction: column;
 
         .textarea-icon {
           @include inputIcon;
@@ -79,10 +89,16 @@
         .textarea-field:focus + .textarea-label + .textarea-highlight {
           width: 100%;
         }
+
+        .error-text {
+          color: $red;
+          font-size: $sfs;
+          margin: 0.5rem 0 0 0.4rem;
+        }
       }
 
       .priest-delegation-btn {
-        @include button1;
+        @include button3;
       }
     }
   }

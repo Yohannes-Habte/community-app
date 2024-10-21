@@ -19,6 +19,7 @@ const AddContribution = ({ setOpenAddContribution }) => {
   const [contributionInfos, setContributionInfos] = useState(initialState);
   const [userNames, setUserNames] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
   const [error, setError] = useState("");
 
   const { user, amount, date } = contributionInfos;
@@ -48,7 +49,6 @@ const AddContribution = ({ setOpenAddContribution }) => {
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Field Changed: ${name}, New Value: ${value}`);
     setContributionInfos({ ...contributionInfos, [name]: value });
   };
 
@@ -60,8 +60,6 @@ const AddContribution = ({ setOpenAddContribution }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("User before validation:", user);
 
     // Validate the selected user
     if (!user || !isValidObjectId(user)) {
@@ -76,7 +74,7 @@ const AddContribution = ({ setOpenAddContribution }) => {
     }
 
     try {
-      setLoading(true);
+      setFormLoading(true);
 
       const newContribution = {
         user,
@@ -99,13 +97,13 @@ const AddContribution = ({ setOpenAddContribution }) => {
         toast.error(data.message);
       }
 
-      setLoading(false);
+      setFormLoading(false);
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An error occurred. Please try again.";
       setError(errorMessage);
       toast.error(errorMessage);
-      setLoading(false);
+      setFormLoading(false);
     }
   };
 
@@ -139,19 +137,22 @@ const AddContribution = ({ setOpenAddContribution }) => {
               onChange={handleChange}
               className="input-field"
               aria-label="User selection"
-              required
             >
               <option value="">Select User</option>
-              {userNames?.map((userName) => (
-                <option key={userName.value} value={userName.value}>
-                  {userName.label}
-                </option>
-              ))}
+
+              {loading ? (
+                <ButtonLoader isLoading={loading} message="" size={20} />
+              ) : (
+                userNames?.map((userName) => (
+                  <option key={userName.value} value={userName.value}>
+                    {userName.label}
+                  </option>
+                ))
+              )}
             </select>
             <label htmlFor="user" className="input-label">
               User
             </label>
-            <span className="input-highlight"></span>
           </div>
 
           {/* Monthly Contribution Amount */}
@@ -167,12 +168,10 @@ const AddContribution = ({ setOpenAddContribution }) => {
               aria-label="Contribution amount"
               min="5"
               step="0.01"
-              required
             />
             <label htmlFor="amount" className="input-label">
               Monthly Contribution Amount
             </label>
-            <span className="input-highlight"></span>
           </div>
 
           {/* Contribution Date */}
@@ -186,27 +185,21 @@ const AddContribution = ({ setOpenAddContribution }) => {
               placeholder="Contribution Date"
               className="input-field"
               aria-label="Contribution date"
-              required
             />
             <label htmlFor="date" className="input-label">
               Contribution Date
             </label>
-            <span className="input-highlight"></span>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             className="add-member-contribution-btn"
-            disabled={loading}
+            disabled={formLoading}
             aria-label="Submit contribution"
           >
-            {loading ? (
-              <ButtonLoader
-                isLoading={loading}
-                message="Loading..."
-                size={24}
-              />
+            {formLoading ? (
+              <ButtonLoader isLoading={formLoading} size={24} />
             ) : (
               "Add Contribution"
             )}

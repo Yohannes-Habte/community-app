@@ -10,8 +10,8 @@ import {
   fetchParishioners,
 } from "../../../redux/actions/user/userAction";
 import { Alert } from "@mui/material";
-import Register from "../../forms/createAccount/Register";
 import { API } from "../../../utile/security/secreteKey";
+import Register from "../../forms/createAccount/Register";
 
 const Members = () => {
   const { parishioners, loading, error } = useSelector((state) => state.member);
@@ -20,7 +20,7 @@ const Members = () => {
   const [memberId, setMemberId] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
-  const [openAddUser, setOpenAddUser] = useState(false);
+  const [openAddNewMember, setOpenAddNewMember] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
   // Fetch members when the component mounts
@@ -140,7 +140,7 @@ const Members = () => {
       <aside className="new-member-wrapper">
         <h3 className="title">Add New Member</h3>
         <button
-          onClick={() => setOpenAddUser(true)}
+          onClick={() => setOpenAddNewMember(true)}
           className="add-member"
           aria-label="Add a new member"
         >
@@ -198,8 +198,8 @@ const Members = () => {
         />
       )}
 
-      {openAddUser && (
-        <Register openAddUser={openAddUser} setOpenAddUser={setOpenAddUser} />
+      {openAddNewMember && (
+        <Register open={openAddNewMember} setOpen={setOpenAddNewMember} />
       )}
     </section>
   );
