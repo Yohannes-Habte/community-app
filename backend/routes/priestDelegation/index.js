@@ -16,7 +16,7 @@ const priestDelegationRouter = express.Router();
 
 // Priest Delegation routes
 priestDelegationRouter.post(
-  "/:priestId/delegate",
+  "/delegate",
   isAuthenticated,
   isPriest,
   validatePriest(),
@@ -25,14 +25,14 @@ priestDelegationRouter.post(
 );
 
 priestDelegationRouter.get(
-  "/priests",
+  "/admin",
   isAuthenticated,
   isAdmin,
   getAllDelegatedPriests
 );
 
 priestDelegationRouter.get(
-  "/all/priests",
+  "/priest",
   isAuthenticated,
   isPriest,
   getAllDelegatedPriests

@@ -18,17 +18,15 @@ const MonthlyContribution = () => {
   useEffect(() => {
     const fetchMemberContributions = async () => {
       try {
-        setLoading(true); // Start loading
+        setLoading(true);
         const response = await axios.get(
-          `${API}/contributions/${currentUser._id}`,
+          `${API}/contributions/user/contribution`,
           {
-            headers: {
-              Authorization: `Bearer ${currentUser.token}`, // Secure API call
-            },
+            withCredentials: true,
           }
         );
-        setContributions(response.data.memberContributions);
-        setLoading(false); // Stop loading
+        setContributions(response.data.result);
+        setLoading(false);
       } catch (error) {
         setError(error.message || "Failed to fetch contributions");
         toast.error(error.message || "Failed to fetch contributions");
@@ -74,7 +72,6 @@ const MonthlyContribution = () => {
       ) : error ? (
         <Alert>{error}</Alert>
       ) : (
-        
         <DataGrid
           rows={rows}
           columns={columns}

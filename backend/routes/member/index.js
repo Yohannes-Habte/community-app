@@ -19,20 +19,15 @@ import {
 const memberRouter = express.Router();
 
 // User Route
-memberRouter.get("/", isAuthenticated, isPriest, getAllUsers);
-memberRouter.get("/all", isAuthenticated, isAdmin, getAllUsers);
+memberRouter.get("/priest", isAuthenticated, isPriest, getAllUsers);
+memberRouter.get("/admin", isAuthenticated, isAdmin, getAllUsers);
 memberRouter.get("/finance", isAuthenticated, isFinanceManager, getAllUsers);
 memberRouter.get("/user", isAuthenticated, getSingleUser);
 memberRouter.get("/search/user", getMemberBySearch);
 memberRouter.get("/services", isAuthenticated, getAllUserServices);
 memberRouter.get("/count/total", countMembers);
-memberRouter.put("/:id/update-address", updateUserAddress);
-
-memberRouter.delete(
-  "/:userId/address/:addressId",
-  isAuthenticated,
-  deleteUserAddress
-);
+memberRouter.put("/update/address", isAuthenticated, updateUserAddress);
+memberRouter.delete("/address/:addressId", isAuthenticated, deleteUserAddress);
 
 // Export user router
 export default memberRouter;

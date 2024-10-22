@@ -5,7 +5,7 @@ const checkValidation = (req, res, next) => {
   // This function checks the req object for any validation errors that were added by previous middleware (using express-validator)
   const errors = validationResult(req);
 
-  // console.log("Validation error check=", errors);
+
 
   if (!errors.isEmpty()) {
     // The errors in line 6 are converted into an array of error objects (errors.array()).

@@ -9,22 +9,29 @@ import {
   totalNumberOfServices,
   updateServiceRequest,
 } from "../../controllers/service/index.js";
-// import serviceValidation from "../../validators/service/index.js";
-// import checkValidation from "../../validators/validationResult/index.js";
+
 import {
   isAdmin,
   isAuthenticated,
   isPriest,
 } from "../../middlewares/auth/auth.js";
+import serviceValidation from "../../validators/service/index.js";
+import checkValidation from "../../validators/validationResult/index.js";
 
 const serviceRouter = express.Router();
 
 // service routes
-serviceRouter.post("/new", isAuthenticated, createServiceRequest);
+serviceRouter.post(
+  "/new",
+  isAuthenticated,
+  serviceValidation(),
+  checkValidation,
+  createServiceRequest
+);
 
-serviceRouter.get("/", isAuthenticated, isPriest, getAllServices);
+serviceRouter.get("/priest", isAuthenticated, isPriest, getAllServices);
 
-serviceRouter.get("/all", isAuthenticated, isAdmin, allServices);
+serviceRouter.get("/admin", isAuthenticated, isAdmin, allServices);
 
 serviceRouter.get("/:id", isAuthenticated, isPriest, getSingleService);
 

@@ -13,6 +13,7 @@ import {
 } from "../../controllers/committee/index.js";
 import validateCommittee from "../../validators/committee/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
+import { isAdmin, isAuthenticated } from "../../middlewares/auth/auth.js";
 
 // Committee Router
 const committeeRouter = express.Router();
@@ -20,6 +21,8 @@ const committeeRouter = express.Router();
 // committee Routes
 committeeRouter.post(
   "/register",
+  isAuthenticated,
+  isAdmin,
   validateCommittee(),
   checkValidation,
   createCommittee
@@ -30,9 +33,9 @@ committeeRouter.get("/committee", getCommitteesByServiceYearRange);
 committeeRouter.get("/years", getYearRanges);
 committeeRouter.get("/members/service", getCommitteeMembers);
 
-committeeRouter.put("/:id", updateCommitteeMember);
+committeeRouter.put("/:id", isAuthenticated, isAdmin, updateCommitteeMember);
 committeeRouter.get("/:id", getCommitteeMember);
-committeeRouter.delete("/:id", deleteCommitteeMember);
+committeeRouter.delete("/:id", isAuthenticated, isAdmin, deleteCommitteeMember);
 committeeRouter.get("/:id/facilitator", serviceFacilitator);
 
 // Export Committee Router

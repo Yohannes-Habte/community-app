@@ -105,11 +105,11 @@ export const getAllContributions = async (req, res, next) => {
 // =============================================================================
 
 export const getAllMemberContribution = async (req, res, next) => {
-  const id = req.params.userId;
-
   try {
+    const userId = req.user.id;
+
     // Fetch the member by ID and retrieve only their 'monthlyContributions' field
-    const member = await Member.findById(id, "monthlyContributions");
+    const member = await Member.findById(userId, "monthlyContributions");
 
     if (!member) {
       return next(createError(400, "User not found!"));
@@ -117,9 +117,8 @@ export const getAllMemberContribution = async (req, res, next) => {
 
     // Sorting contributions by year and month
     const sortedContributions = member.monthlyContributions.sort((a, b) => {
-      // Parse the dates assuming 'YYYY-MM-DD' format, or adapt if 'DD-MM-YYYY'
-      const dateA = moment(a.date, "YYYY-MM-DD"); // or 'DD-MM-YYYY' if needed
-      const dateB = moment(b.date, "YYYY-MM-DD"); // or 'DD-MM-YYYY' if needed
+      const dateA = moment(a.date, "YYYY-MM-DD");
+      const dateB = moment(b.date, "YYYY-MM-DD");
 
       // Sorting by year first, and if year is the same or equal, then sort by month
       if (dateA.year() !== dateB.year()) {
@@ -129,10 +128,10 @@ export const getAllMemberContribution = async (req, res, next) => {
       }
     });
 
-    // Responding with sorted contributions
+    
     res.status(200).json({
       success: true,
-      memberContributions: sortedContributions,
+      result: sortedContributions,
     });
   } catch (error) {
     next(createError(500, "Server error!"));

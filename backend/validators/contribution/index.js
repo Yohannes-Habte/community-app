@@ -1,31 +1,31 @@
 import { check } from "express-validator";
 
+const mongoDBObjectIdRegex = /^[a-fA-F\d]{24}$/;
+
 const validateContribution = () => {
   return [
     check("user")
+      .notEmpty()
+      .withMessage("User ID is required")
       .isString()
       .withMessage("User ID must be a string")
-      .matches(/^[a-f\d]{24}$/i)
-      .withMessage("User ID must be a valid MongoDB ObjectId")
-      .notEmpty()
-      .withMessage("User ID is required"),
+      .matches(mongoDBObjectIdRegex)
+      .withMessage("User ID must be a valid 24-character MongoDB ObjectId"),
 
     check("amount")
-      .isNumeric()
-      .withMessage("Amount amount must be a number")
-      .isDecimal()
-      .withMessage("Amount amount must be positive")
-      .custom((value) => value >= 0)
-      .withMessage("Price cannot be negative")
-      .toFloat()
       .notEmpty()
-      .withMessage("Amount is required"),
+      .withMessage("Amount is required")
+      .isNumeric({ no_symbols: true })
+      .withMessage("Amount must be a valid number")
+      .isFloat({ gt: 0 })
+      .withMessage("Amount must be a positive value greater than zero")
+      .toFloat(),
 
     check("date")
-      .isDate()
-      .withMessage("Date must be a valid date")
       .notEmpty()
-      .withMessage("Date is required"),
+      .withMessage("Date is required")
+      .isISO8601()
+      .withMessage("Date must be in a valid ISO8601 format (YYYY-MM-DD)"),
   ];
 };
 

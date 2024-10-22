@@ -21,9 +21,9 @@ authUserRouter.post(
   registerUser
 );
 authUserRouter.post("/login", loginUser);
-authUserRouter.put("/update",  isAuthenticated,  updateUser);
+authUserRouter.put("/update", isAuthenticated, updateUser);
 authUserRouter.get("/logout", userLogout);
-authUserRouter.put("/change-password/:id", userChangePassword);
+authUserRouter.put("/change-password/:id", isAuthenticated, userChangePassword);
 
 // Export Auth User Router
 export default authUserRouter;

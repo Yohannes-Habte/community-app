@@ -20,10 +20,10 @@ const financeRouter = express.Router();
 // Finance routes
 financeRouter.post(
   "/new-report",
-  validateFinance(),
-  checkValidation,
   isAuthenticated,
   isFinanceManager,
+  validateFinance(),
+  checkValidation,
   createFinanceReport
 );
 

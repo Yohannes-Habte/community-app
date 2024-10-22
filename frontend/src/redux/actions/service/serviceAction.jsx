@@ -79,7 +79,7 @@ export const fetchAllServices = () => async (dispatch) => {
 export const allServices = () => async (dispatch) => {
   dispatch(fetchAllServicesStart());
   try {
-    const response = await axios.get(`${API}/services/all`, {
+    const response = await axios.get(`${API}/services/admin`, {
       withCredentials: true,
     });
     dispatch(fetchAllServicesSuccess(response.data.result));

@@ -7,12 +7,21 @@ import {
   getCategory,
 } from "../../controllers/serviceCategory/index.js";
 import { isAdmin, isAuthenticated } from "../../middlewares/auth/auth.js";
+import validateCategory from "../../validators/serviceCategory/index.js";
+import checkValidation from "../../validators/validationResult/index.js";
 
 // Export service category router
 const serviceCategoryRouter = express.Router();
 
 // Export service category routes
-serviceCategoryRouter.post("/new", isAuthenticated, isAdmin, createCategory);
+serviceCategoryRouter.post(
+  "/new",
+  isAuthenticated,
+  isAdmin,
+  validateCategory(),
+  checkValidation,
+  createCategory
+);
 
 serviceCategoryRouter.get("/", getCategories);
 

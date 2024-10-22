@@ -1,5 +1,9 @@
 import express from "express";
-import { createEvent, getAllEvents, getLastEvent } from "../../controllers/event/index.js";
+import {
+  createEvent,
+  getAllEvents,
+  getLastEvent,
+} from "../../controllers/event/index.js";
 import validateEvent from "../../validators/event/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
 import { isAdmin, isAuthenticated } from "../../middlewares/auth/auth.js";
@@ -16,10 +20,9 @@ eventRouter.post(
   checkValidation,
   createEvent
 );
-eventRouter.get("/", getAllEvents);
+eventRouter.get("/", isAuthenticated, isAdmin, getAllEvents);
 
 eventRouter.get("/last-event", getLastEvent);
-
 
 // Export Event Router
 export default eventRouter;

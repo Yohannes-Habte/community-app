@@ -142,7 +142,7 @@ export const fetchParishioners = () => async (dispatch) => {
     // Start fetching parishioners
     dispatch(fetchParishionersRequest());
 
-    const res = await axios.get(`${API}/members/all`, {
+    const res = await axios.get(`${API}/members/admin`, {
       withCredentials: true,
     });
 

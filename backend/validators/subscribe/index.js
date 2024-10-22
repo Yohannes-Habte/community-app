@@ -1,14 +1,20 @@
 import { body } from "express-validator";
 import Subscriber from "../../models/subscriber/index.js";
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 // Subscriber validation rules
 const validateSubscriber = () => {
   return [
     body("email")
       .notEmpty()
-      .withMessage("Email is required.")
+      .withMessage("Email is required")
       .isEmail()
-      .withMessage("Email must be a valid email address.")
+      .withMessage("Invalid email format")
+      .isLength({ max: 50 })
+      .withMessage("Email must be at most 50 characters long")
+      .matches(emailRegex)
+      .withMessage("Email format is invalid")
       .normalizeEmail()
       .custom(async (value) => {
         const subscriber = await Subscriber.findOne({ email: value });
@@ -20,8 +26,8 @@ const validateSubscriber = () => {
 
     body("date")
       .optional()
-      .isDate()
-      .withMessage("Date must be a valid.")
+      .isISO8601()
+      .withMessage("Date must be a valid ISO 8601 date format.")
       .toDate(),
   ];
 };

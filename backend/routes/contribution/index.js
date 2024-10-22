@@ -6,7 +6,10 @@ import {
 } from "../../controllers/contribution/index.js";
 import validateContribution from "../../validators/contribution/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
-import { isAuthenticated, isFinanceManager } from "../../middlewares/auth/auth.js";
+import {
+  isAuthenticated,
+  isFinanceManager,
+} from "../../middlewares/auth/auth.js";
 
 // Contribution Router
 const contributionRouter = express.Router();
@@ -21,9 +24,18 @@ contributionRouter.post(
   createContribution
 );
 
-contributionRouter.get("/", getAllContributions);
+contributionRouter.get(
+  "/",
+  isAuthenticated,
+  isFinanceManager,
+  getAllContributions
+);
 
-contributionRouter.get("/:userId", getAllMemberContribution);
+contributionRouter.get(
+  "/user/contribution",
+  isAuthenticated,
+  getAllMemberContribution
+);
 
 // Export Contribution Router
 export default contributionRouter;
