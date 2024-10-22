@@ -20,6 +20,7 @@ import UpdateServicePage from "./views/priestPages/updateServicePage/UpdateServi
 import LoginPage from "./views/loginPage/LoginPage";
 import RegisterPage from "./views/registerPage/RegisterPage";
 import NewsPage from "./views/newsPage/NewsPage";
+import UpdateCommitteeProfilePage from "./views/adminPages/updateCommitteeProfilePage/UpdateCommitteeProfilePage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -49,8 +50,6 @@ const App = () => {
           }
         />
 
-       
-
         {/* Parish Priest pages */}
         <Route
           path="/priest/dashboard"
@@ -71,6 +70,11 @@ const App = () => {
               <AdminDashboardPage />
             </AdminProtectedRoutes>
           }
+        />
+
+        <Route
+          path="/committees/:id"
+          element={<UpdateCommitteeProfilePage />}
         />
 
         {/* Finance Manager pages */}

@@ -61,7 +61,7 @@ export const deleteEvent = (id) => async (dispatch) => {
 export const fetchAllEvents = () => async (dispatch) => {
   dispatch(fetchAllEventsStart());
   try {
-    const response = await axios.get(`${API}/events`, {
+    const response = await axios.get(`${API}/events/priest`, {
       withCredentials: true,
     });
     dispatch(fetchAllEventsSuccess(response.data.result));

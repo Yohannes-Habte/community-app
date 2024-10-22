@@ -32,9 +32,10 @@ committeeRouter.get("/", getAllCommitteeMembers);
 committeeRouter.get("/committee", getCommitteesByServiceYearRange);
 committeeRouter.get("/years", getYearRanges);
 committeeRouter.get("/members/service", getCommitteeMembers);
+committeeRouter.get("/:id", isAuthenticated, isAdmin, getCommitteeMember);
 
 committeeRouter.put("/:id", isAuthenticated, isAdmin, updateCommitteeMember);
-committeeRouter.get("/:id", getCommitteeMember);
+
 committeeRouter.delete("/:id", isAuthenticated, isAdmin, deleteCommitteeMember);
 committeeRouter.get("/:id/facilitator", serviceFacilitator);
 

@@ -93,19 +93,30 @@ export const loginCommitteeMember = async (req, res, next) => {
 // Update committee member details
 //==========================================================================
 export const updateCommitteeMember = async (req, res, next) => {
+  const committeeId = req.params.id;
   try {
-    const user = await Committee.findByIdAndUpdate(
-      req.params.id,
+    const committeeMember = await Committee.findByIdAndUpdate(
+      committeeId,
       { $set: req.body },
       { new: true, runValidators: true }
     );
 
-    return res.status(200).json("Update is successful", user);
+    if (!committeeMember) {
+      return next(
+        createError(400, "Committee member not found! please try again!")
+      );
+    }
+
+    // save the updated user
+    await committeeMember.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `${committeeMember.fullName} profile has been successfully updated`,
+    });
   } catch (error) {
     console.log(error);
-    return next(
-      createError(400, "User is unable to update! please try again!")
-    );
+    return next(createError(400, "Server error! please try again!"));
   }
 };
 
@@ -114,13 +125,16 @@ export const updateCommitteeMember = async (req, res, next) => {
 //==========================================================================
 export const getCommitteeMember = async (req, res, next) => {
   try {
-    const user = await Committee.findById(req.params.id);
-    return res.status(200).json(user);
+    const committeeMember = await Committee.findById(req.params.id);
+
+    if (!committeeMember) {
+      return next(createError(400, "Committee member not found!"));
+    }
+
+    return res.status(200).json({ success: true, result: committeeMember });
   } catch (error) {
     console.log(error);
-    return next(
-      createError(400, "You ar unable to get the user info! please try again!")
-    );
+    return next(createError(400, "Server error! please try again!"));
   }
 };
 

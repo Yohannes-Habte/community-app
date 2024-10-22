@@ -179,7 +179,8 @@ const AddCommittee = ({ setOpenCommittee }) => {
       // Submit to the API
       const { data } = await axios.post(
         `${API}/committees/register`,
-        newCommitteeMember
+        newCommitteeMember,
+        { withCredentials: true }
       );
 
       dispatch(postCommitteeSuccess(data.committee));
@@ -391,7 +392,11 @@ const AddCommittee = ({ setOpenCommittee }) => {
             )}
           </button>
 
-          {error && <Alert severity="error" className="error-message">{error}</Alert>}
+          {error && (
+            <Alert severity="error" className="error-message">
+              {error}
+            </Alert>
+          )}
         </form>
       </section>
     </article>

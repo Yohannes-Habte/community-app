@@ -64,7 +64,7 @@ export const deleteService = (id) => async (dispatch) => {
 export const fetchAllServices = () => async (dispatch) => {
   dispatch(fetchAllServicesStart());
   try {
-    const response = await axios.get(`${API}/services`, {
+    const response = await axios.get(`${API}/services/priest`, {
       withCredentials: true,
     });
     dispatch(fetchAllServicesSuccess(response.data.result));

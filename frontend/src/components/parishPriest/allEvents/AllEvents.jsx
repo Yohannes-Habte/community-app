@@ -13,15 +13,17 @@ const AllEvents = () => {
 
   useEffect(() => {
     const getAllEvents = async () => {
-      setLoading(true); // Show loading indicator
-      setError(""); // Reset error state
+      setLoading(true);
+      setError("");
       try {
-        const { data } = await axios.get(`${API}/events`);
-        setEvents(data.result || []); // Safely set events
+        const { data } = await axios.get(`${API}/events/priest`, {
+          withCredentials: true,
+        });
+        setEvents(data.result || []);
       } catch (err) {
         setError(err?.response?.data?.message || "Failed to fetch events.");
       } finally {
-        setLoading(false); // Stop loading indicator
+        setLoading(false);
       }
     };
     getAllEvents();

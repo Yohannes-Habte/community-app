@@ -18,7 +18,7 @@ const AllParishioners = () => {
       setLoading(true);
       setError("");
       try {
-        const { data } = await axios.get(`${API}/members`, {
+        const { data } = await axios.get(`${API}/members/priest`, {
           withCredentials: true,
         });
 

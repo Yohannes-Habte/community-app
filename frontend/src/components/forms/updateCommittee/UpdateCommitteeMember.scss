@@ -1,0 +1,38 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.add-committee-member-form {
+  @include flexColumn;
+  margin: 2rem 0;
+
+  .input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .input-icon {
+      @include inputIcon;
+    }
+
+    .input-field {
+      @include inputField;
+    }
+
+    .input-label {
+      @include inputLabel;
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      @include focusInputFieldAndInputLabel;
+    }
+  }
+
+  .add-committee-btn {
+    @include button3;
+    margin-top: 1rem;
+  }
+}

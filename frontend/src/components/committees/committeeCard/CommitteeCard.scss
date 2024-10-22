@@ -2,6 +2,7 @@
 @import "../../../styles/Mixins.scss";
 
 .committee-card-container {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -33,6 +34,13 @@
       strong {
         color: $green;
       }
+    }
+
+    .update-committee-member-btn {
+      @include editButton;
+      position: absolute;
+      bottom: 0.5rem;
+      right: 1rem;
     }
   }
 }

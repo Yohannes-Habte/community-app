@@ -272,6 +272,33 @@
   }
 }
 
+@mixin editButton {
+  background-color: #9cc9f8;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px #1818181a;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #5d9ee4;
+    transform: translateY(-2px);
+  }
+
+  &:focus {
+    outline: 2px solid #358eee;
+    outline-offset: 4px;
+  }
+
+  &:active {
+    background-color: #004494;
+    transform: translateY(0);
+  }
+}
+
 // ==============================================================================================
 // tab styling
 // ==============================================================================================

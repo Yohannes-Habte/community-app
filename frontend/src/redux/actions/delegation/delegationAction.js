@@ -84,7 +84,7 @@ export const deleteDelegatedPriest = (priestId) => async (dispatch) => {
 export const fetchAllDelegatedPriests = () => async (dispatch) => {
   dispatch(fetchAllDelegatedPriestsStart());
   try {
-    const response = await axios.get(`${API}/delegations/priests`, {
+    const response = await axios.get(`${API}/delegations/admin`, {
       withCredentials: true,
     });
     dispatch(fetchAllDelegatedPriestsSuccess(response.data.priests));
@@ -99,7 +99,7 @@ export const fetchAllDelegatedPriests = () => async (dispatch) => {
 export const fetchDelegatedPriests = () => async (dispatch) => {
   dispatch(fetchAllDelegatedPriestsStart());
   try {
-    const response = await axios.get(`${API}/delegations/all/priests`, {
+    const response = await axios.get(`${API}/delegations/priest`, {
       withCredentials: true,
     });
     dispatch(fetchAllDelegatedPriestsSuccess(response.data.priests));

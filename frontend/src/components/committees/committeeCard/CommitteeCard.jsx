@@ -1,6 +1,12 @@
+import { useSelector } from "react-redux";
 import "./CommitteeCard.scss";
+import { Link } from "react-router-dom";
 
 const CommitteeCard = ({ data }) => {
+  const { currentUser } = useSelector((state) => state.member);
+
+  console.log("Committee Card Data:", data);
+
   return (
     <section className="committee-card-container">
       <figure className="image-container">
@@ -26,6 +32,14 @@ const CommitteeCard = ({ data }) => {
             {data.endingTime.slice(0, 4)}{" "}
           </strong>
         </p>
+        {currentUser?.role === "admin" && (
+          <Link
+            to={`/committees/${data._id}`}
+            className="update-committee-member-btn"
+          >
+            Update{" "}
+          </Link>
+        )}
       </aside>
     </section>
   );

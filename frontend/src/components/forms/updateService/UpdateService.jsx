@@ -48,7 +48,7 @@ const UpdateService = () => {
     };
 
     fetchService();
-  }, [id]); // Adding id as dependency to refetch if the id changes
+  }, [id]); 
 
   // Validate form before submission
   const validateForm = () => {

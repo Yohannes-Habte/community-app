@@ -105,7 +105,7 @@ const AddEvent = () => {
     setLoading(true);
     dispatch(postServiceRequestStart());
     try {
-      const { data } = await axios.post(`${API}/events/new-event`, formData, {
+      const { data } = await axios.post(`${API}/events/new`, formData, {
         withCredentials: true,
       });
 

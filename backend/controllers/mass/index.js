@@ -140,9 +140,16 @@ export const updateMass = async (req, res) => {
       return res.status(404).json({ message: "Mass not found" });
     }
 
+    // Save the updated Mass document
+    await updatedMass.save();
+
     res
       .status(200)
-      .json({ message: "Mass updated successfully", mass: updatedMass });
+      .json({
+        success: true,
+        message: "Mass updated successfully",
+        result: updatedMass,
+      });
   } catch (error) {
     res
       .status(500)
