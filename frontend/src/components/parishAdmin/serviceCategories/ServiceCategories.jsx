@@ -24,7 +24,6 @@ const ServiceCategories = () => {
   useEffect(() => {
     dispatch(fetchAllCategories());
 
-    // Clear errors when the component unmounts or when the error state changes
     return () => {
       if (error) {
         dispatch(clearAllErrors());
@@ -32,13 +31,13 @@ const ServiceCategories = () => {
     };
   }, [dispatch, error]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      const { data } = await axios.delete(`${API}/categories/${id}`, {
+      const { data } = await axios.delete(`${API}/categories/${categoryId}`, {
         withCredentials: true,
       });
       toast.success(data.message);
-      // Refetch categories after deletion
+
       dispatch(fetchAllCategories());
     } catch (error) {
       const errorMessage =
@@ -64,10 +63,9 @@ const ServiceCategories = () => {
         <div className="action-wrapper">
           <FaTrashAlt
             onClick={() => {
-              setCategoryId(params.id);
-              setConfirmDeletion(true);
+              setCategoryId(params.id) || setConfirmDeletion(true);
             }}
-            className="delete"
+            className="delete-icon"
             aria-label={`Delete category ${params.id}`}
           />
         </div>
@@ -135,23 +133,21 @@ const ServiceCategories = () => {
 
       {confirmDeletion && (
         <article className="category-service-delete-confirmation-modal">
-          <h3 className="delete-confirmation-title">
-            Delete Service Category
-          </h3>
+          <h3 className="delete-confirmation-title">Delete Service Category</h3>
           <p className="delete-confirmation-statement">
             Are you sure you want to delete this category service? This action
             cannot be undone.
           </p>
           <div className="confirmation-buttons-wrapper">
             <button
-              className="cancel-delete"
+              className="confirm-delete-btn"
               aria-label="Cancel deletion"
               onClick={() => setConfirmDeletion(false)}
             >
               Cancel
             </button>
             <button
-              className="confirm-delete"
+              className="cancel-delete-btn"
               aria-label="Confirm deletion"
               onClick={() => {
                 setConfirmDeletion(false);

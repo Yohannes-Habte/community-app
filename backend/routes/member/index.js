@@ -1,6 +1,7 @@
 import express from "express";
 import {
   countMembers,
+  deleteUserAccount,
   deleteUserAddress,
   getAllUsers,
   getAllUserServices,
@@ -27,7 +28,8 @@ memberRouter.get("/search/user", getMemberBySearch);
 memberRouter.get("/services", isAuthenticated, getAllUserServices);
 memberRouter.get("/count/total", countMembers);
 memberRouter.put("/update/address", isAuthenticated, updateUserAddress);
-memberRouter.delete("/address/:addressId", isAuthenticated, deleteUserAddress);
+memberRouter.delete("/address/:id", isAuthenticated, deleteUserAddress);
+memberRouter.delete("/user/:id", isAuthenticated, isAdmin, deleteUserAccount);
 
 // Export user router
 export default memberRouter;

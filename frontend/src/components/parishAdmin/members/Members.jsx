@@ -36,7 +36,7 @@ const Members = () => {
   const handleDelete = async (id) => {
     try {
       setDeleteLoading(true);
-      const response = await axios.delete(`${API}/members/${id}`, {
+      const response = await axios.delete(`${API}/members/user/${id}`, {
         withCredentials: true,
       });
 

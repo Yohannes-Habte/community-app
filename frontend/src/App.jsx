@@ -22,6 +22,8 @@ import RegisterPage from "./views/registerPage/RegisterPage";
 import NewsPage from "./views/newsPage/NewsPage";
 import UpdateCommitteeProfilePage from "./views/adminPages/updateCommitteeProfilePage/UpdateCommitteeProfilePage";
 import UpdateFinancialReportPage from "./views/financePages/updateFinancialReportPage/UpdateFinancialReportPage";
+import UpdateEventPage from "./views/adminPages/updateEventPage/UpdateEventPage";
+import UpdatePriestDelegationPage from "./views/priestPages/updatePriestDelegationPage/UpdatePriestDelegationPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,6 +64,10 @@ const App = () => {
         />
 
         <Route path="/services/:id" element={<UpdateServicePage />} />
+        <Route
+          path="/delegations/:id"
+          element={<UpdatePriestDelegationPage />}
+        />
 
         {/* Admin Dashboard */}
         <Route
@@ -77,6 +83,8 @@ const App = () => {
           path="/committees/:id"
           element={<UpdateCommitteeProfilePage />}
         />
+
+        <Route path="/events/:id" element={<UpdateEventPage />} />
 
         {/* Finance Manager pages */}
         <Route

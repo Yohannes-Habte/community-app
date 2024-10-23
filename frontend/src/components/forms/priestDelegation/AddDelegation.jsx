@@ -190,7 +190,7 @@ const AddDelegation = ({ setOpenDelegation }) => {
 
           <button disabled={loading} className="priest-delegation-btn">
             {loading ? (
-              <ButtonLoader isLoading={loading} message="Loading" size={24} />
+              <ButtonLoader isLoading={loading} message="" size={24} />
             ) : (
               "Submit"
             )}

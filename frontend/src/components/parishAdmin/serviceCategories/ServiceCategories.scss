@@ -34,8 +34,6 @@
   @include flexCenter;
 }
 
-
-
 .category-service-delete-confirmation-modal {
   @include deleteConfirmationModal;
 
@@ -58,4 +56,8 @@
       @include buttonForCancel;
     }
   }
+}
+
+.delete-icon {
+  @include deleteIcon;
 }

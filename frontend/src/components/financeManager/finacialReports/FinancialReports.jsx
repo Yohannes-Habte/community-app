@@ -26,7 +26,7 @@ const FinancialReports = () => {
   const [annualIncome, setAnnualIncome] = useState(0);
   const [openAddFinancialReport, setOpenAddFinancialReport] = useState(false);
   const [reportId, setReportId] = useState("");
-  const [open, setOpen] = useState(false);
+  const [openDeleteReport, setOpenDeleteReport] = useState(false);
   const [year, setYear] = useState("2022");
   const [filteredReports, setFilteredReports] = useState([]);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -110,18 +110,18 @@ const FinancialReports = () => {
             aria-label="Edit report"
             title="Edit report"
           >
-            <MdEditSquare />
+            <MdEditSquare className="edit-icon" />
           </Link>
           <button
             className="delete"
             onClick={() => {
               setReportId(params.id);
-              setOpen(true);
+              setOpenDeleteReport(true);
             }}
             aria-label="Delete report"
             title="Delete report"
           >
-            <FaTrashAlt />
+            <FaTrashAlt className="delete-icon" />
           </button>
         </div>
       ),
@@ -157,10 +157,10 @@ const FinancialReports = () => {
   });
 
   // Handle deleting a financial report
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     setIsButtonLoading(true);
     try {
-      await axios.delete(`${API}/reports/delete-report/${id}`, {
+      await axios.delete(`${API}/reports/finances/${reportId}`, {
         withCredentials: true,
       });
       toast.success("Report deleted successfully.");
@@ -289,37 +289,32 @@ const FinancialReports = () => {
       </section>
 
       {/* Delete Confirmation Modal */}
-      {open && (
-        <article className="service-delete-confirmation-wrapper">
-          <span
-            className="delete-icon"
-            onClick={() => setOpen(false)}
-            aria-label="Close delete confirmation"
-          >
-            X
-          </span>
-          <h3 className="you-want-delete">
-            Are you sure you want to delete this report?
+      {openDeleteReport && (
+        <article className="financial-report-delete-confirmation-wrapper">
+          <h3 className="delete-confirmation-title">
+            {" "}
+            Delete Delegated Priest
           </h3>
-          <aside className="cancel-or-confirm-delete">
-            <h3
-              className="confirm-delete"
-              onClick={() => {
-                setOpen(false);
-                handleDelete(reportId);
-              }}
-              aria-label="Confirm delete report"
-            >
-              Confirm
-            </h3>
-            <p
-              className="cancel-delete"
-              onClick={() => setOpen(false)}
-              aria-label="Cancel delete report"
+          <p className="delete-confirmation-statement">
+            Are you sure you want to delete this financial report? This action
+            cannot be undone.
+          </p>
+          <div className="confirmation-buttons-wrapper">
+            <button
+              className={`cancel-delete-btn`}
+              onClick={() => setOpenDeleteReport(false)}
             >
               Cancel
-            </p>
-          </aside>
+            </button>
+            <button
+              className={`confirm-delete-btn`}
+              onClick={() =>
+                setOpenDeleteReport(false) || handleDelete(reportId)
+              }
+            >
+              Delete
+            </button>
+          </div>
         </article>
       )}
 

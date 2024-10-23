@@ -1,0 +1,16 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.update-event-page {
+  .update-event-page-container {
+    width: 60%;
+    margin: 2rem auto;
+    background-color: $form-bg;
+    padding: 2rem ;
+
+    .update-event-page-title {
+      @include title;
+      margin-bottom: 1rem;
+    }
+  }
+}

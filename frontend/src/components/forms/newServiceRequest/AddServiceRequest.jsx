@@ -14,7 +14,12 @@ import {
   postServiceRequestSuccess,
 } from "../../../redux/reducers/service/serviceReducer";
 import { clearErrors } from "../../../redux/reducers/serviceCategory/categoryReducer";
-import { API, cloud_name, cloud_URL, upload_preset } from "../../../utile/security/secreteKey";
+import {
+  API,
+  cloud_name,
+  cloud_URL,
+  upload_preset,
+} from "../../../utile/security/secreteKey";
 
 const initialState = {
   serviceCategory: "",
@@ -232,25 +237,19 @@ const AddServiceRequest = () => {
         </div>
 
         <div className="service-request-btn-wrapper">
-
-        <button
-          type="submit"
-          aria-label="Submit Service Request"
-          className="service-request-btn"
-          disabled={formLoading}
-        >
-          {formLoading ? (
-            <ButtonLoader isLoading={formLoading} />
-          ) : (
-            "Submit Request"
-          )}
-        </button>
-
+          <button
+            type="submit"
+            aria-label="Submit Service Request"
+            className="service-request-btn"
+            disabled={formLoading}
+          >
+            {formLoading ? (
+              <ButtonLoader isLoading={formLoading} message={""} />
+            ) : (
+              "Submit Request"
+            )}
+          </button>
         </div>
-
-        
-
-   
       </form>
     </section>
   );

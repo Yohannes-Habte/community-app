@@ -34,3 +34,11 @@
     }
   }
 }
+
+.edit-icon {
+  @include editIcon;
+}
+
+.delete-icon {
+  @include deleteIcon;
+}

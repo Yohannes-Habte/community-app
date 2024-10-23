@@ -500,6 +500,7 @@
 // ==============================================================================================
 
 @mixin deleteIcon {
+  @include flexCenter;
   color: $tomato;
   font-size: $afs;
   border: none;
@@ -512,6 +513,7 @@
 }
 
 @mixin editIcon {
+  @include flexCenter;
   color: $green;
   font-size: $afs;
   border: none;

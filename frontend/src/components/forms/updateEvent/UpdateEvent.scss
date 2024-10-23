@@ -1,0 +1,48 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.update-event-form {
+  @include flexColumn;
+  margin-top: 0;
+
+  .inputs-wrapper {
+    @include threeGridTemplateEqualColumns;
+    margin: 0;
+  }
+
+  .event-address-and-date {
+    @include twoGridTemplateEqualColumns;
+    margin: 0;
+  }
+
+  .input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .input-icon {
+      @include inputIcon;
+    }
+
+    .input-field {
+      @include inputField;
+    }
+
+    .input-label {
+      @include inputLabel;
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      @include focusInputFieldAndInputLabel;
+    }
+  }
+
+  .update-event-btn {
+    @include button3;
+    margin-top: 1rem;
+  }
+}

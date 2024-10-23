@@ -39,7 +39,7 @@ const eventReducer = createSlice({
       requestSuccess(state, action, "currentEvent"),
     fetchEventFailure: requestFailure,
 
-    // Update a single event
+    // Update an event
     updateEventStart: requestStart,
     updateEventSuccess: (state, action) =>
       requestSuccess(state, action, "currentEvent"),

@@ -51,3 +51,16 @@
     }
   }
 }
+
+.action-wrapper {
+  @include flexRow;
+  align-items: center;
+
+  .edit-icon {
+    @include editIcon;
+  }
+
+  .delete-icon {
+    @include deleteIcon;
+  }
+}

@@ -1,7 +1,10 @@
 import express from "express";
 import {
   createPriestDelegation,
+  deleteDelegatedPriest,
   getAllDelegatedPriests,
+  getDelegatedPriestById,
+  updateDelegatedPriest,
 } from "../../controllers/priestDelegation/index.js";
 import validatePriest from "../../validators/priestDelegation/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
@@ -36,6 +39,27 @@ priestDelegationRouter.get(
   isAuthenticated,
   isPriest,
   getAllDelegatedPriests
+);
+
+priestDelegationRouter.get(
+  "/:id",
+  isAuthenticated,
+  isPriest,
+  getDelegatedPriestById
+);
+
+priestDelegationRouter.put(
+  "/:id",
+  isAuthenticated,
+  isPriest,
+  updateDelegatedPriest
+);
+
+priestDelegationRouter.delete(
+  "/:id",
+  isAuthenticated,
+  isPriest,
+  deleteDelegatedPriest
 );
 
 // Export Priest Delegation router

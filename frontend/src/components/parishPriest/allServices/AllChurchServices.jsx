@@ -6,15 +6,15 @@ import {
   clearAllErrors,
   fetchAllServices,
 } from "../../../redux/actions/service/serviceAction";
-import ReactIcons from "../../reactIcons/ReactIcons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./AllChurchServices.scss";
 import { Link } from "react-router-dom";
 import { API } from "../../../utile/security/secreteKey";
+import { MdEditSquare } from "react-icons/md";
+import { FaTrashAlt } from "react-icons/fa";
 
 const AllChurchServices = () => {
-  const { trashIcon, editIcon } = ReactIcons();
   const dispatch = useDispatch();
   const { services, loading, error } = useSelector((state) => state.service);
 
@@ -96,14 +96,14 @@ const AllChurchServices = () => {
         return (
           <div className="action-wrapper">
             <Link to={`/services/${params.id}`} className="edit">
-              {editIcon}
+              <MdEditSquare className="edit-icon" />
             </Link>
 
             <button
               className="delete"
               onClick={() => setServiceId(params.id) || setOpen(true)}
             >
-              {trashIcon}
+              <FaTrashAlt className="delete-icon" />
             </button>
           </div>
         );
@@ -179,7 +179,10 @@ const AllChurchServices = () => {
             cannot be undone.
           </p>
           <div className="confirmation-buttons-wrapper">
-            <button className={`cancel-delete-btn`} onClick={() => setOpen(false)}>
+            <button
+              className={`cancel-delete-btn`}
+              onClick={() => setOpen(false)}
+            >
               cancel
             </button>
 

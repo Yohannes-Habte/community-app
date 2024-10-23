@@ -15,7 +15,12 @@ import {
   updateUserProfileSuccess,
 } from "../../../redux/reducers/user/memberReducer";
 import "./UpdateMemberProfile.scss";
-import { API, cloud_name, cloud_URL, upload_preset } from "../../../utile/security/secreteKey";
+import {
+  API,
+  cloud_name,
+  cloud_URL,
+  upload_preset,
+} from "../../../utile/security/secreteKey";
 
 const UpdateMemberProfile = () => {
   const navigate = useNavigate();
@@ -95,7 +100,6 @@ const UpdateMemberProfile = () => {
     try {
       let imageUrl = currentUser.image;
 
-      // If a new image is uploaded, update the image in Cloudinary
       if (image) {
         const formData = new FormData();
         formData.append("file", image);
@@ -124,9 +128,9 @@ const UpdateMemberProfile = () => {
         withCredentials: true,
       });
 
-      dispatch(updateUserProfileSuccess(data.user));
+      dispatch(updateUserProfileSuccess(data.result));
       toast.success(data.message);
-      navigate("/profile");
+      navigate("/user/profile");
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Update failed";
       dispatch(updateUserProfileFailure(errorMessage));

@@ -22,7 +22,6 @@ import {
 } from "@mui/material";
 import { API } from "../../../utile/security/secreteKey";
 
-
 const UserAddress = () => {
   // Global state variables
   const { currentUser, loading, error } = useSelector((state) => state.member);
@@ -46,12 +45,12 @@ const UserAddress = () => {
     try {
       dispatch(deleteUserAddressStart());
       const { data } = await axios.delete(
-        `${API}/members/${currentUser._id}/address/${selectedAddress._id}`,
+        `${API}/members/address/${selectedAddress._id}`,
         { withCredentials: true }
       );
       dispatch(deleteUserAddressSuccess(data.address));
       toast.success(data.message);
-      setDeleteDialogOpen(false); // Close the confirmation dialog
+      setDeleteDialogOpen(false);
     } catch (error) {
       const errorMessage =
         error?.response?.data?.message || "Unable to delete address";

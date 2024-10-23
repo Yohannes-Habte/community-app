@@ -1,5 +1,6 @@
 import Category from "../../models/serviceCategory/index.js";
 import createError from "http-errors";
+import mongoose from "mongoose";
 
 //==========================================================================
 // Create New service category
@@ -80,21 +81,30 @@ export const getCategory = async (req, res, next) => {
 export const deleteCategory = async (req, res, next) => {
   const categoryId = req.params.id;
 
+  if (!mongoose.isValidObjectId(categoryId)) {
+    return next(createError(400, "Invalid category ID provided."));
+  }
+
   try {
     const category = await Category.findById(categoryId);
 
     if (!category) {
-      return next(createError(404, "Service category does not exist!"));
+      return next(createError(404, "Service category not found."));
     }
 
     await Category.findByIdAndDelete(categoryId);
 
     return res.status(200).json({
       success: true,
-      message: "Service category has been successfully deleted",
+      message: "Service category has been successfully deleted.",
     });
   } catch (error) {
-    return next(createError(500, "Server error! Please try again!"));
+    return next(
+      createError(
+        500,
+        "An error occurred while deleting the category. Please try again later."
+      )
+    );
   }
 };
 

@@ -1,0 +1,88 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.update-delegated-page-container {
+  width: 50%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: $form-bg;
+
+  .update-priest-delegation-page-title {
+    @include title;
+  }
+
+  .update-priest-delegation-form {
+    @include flexColumn;
+
+    .priest-delegation-form-inputs-wrapper {
+      @include twoGridTemplateEqualColumns;
+
+      .input-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+      }
+    }
+
+    .textarea-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      .textarea-icon {
+        @include inputIcon;
+      }
+
+      .textarea-field {
+        @include inputField;
+      }
+
+      .textarea-label {
+        @include inputLabel;
+      }
+
+      .textarea-highlight {
+        @include inputHighlight;
+      }
+
+      .textarea-field:focus + .textarea-label {
+        @include focusInputFieldAndInputLabel;
+      }
+
+      .textarea-field:focus + .textarea-label + .textarea-highlight {
+        width: 100%;
+      }
+
+      .error-text {
+        color: $red;
+        font-size: $sfs;
+        margin: 0.5rem 0 0 0.4rem;
+      }
+    }
+
+    .update-priest-delegation-btn{
+      @include button3;
+      margin-top: 1rem;
+    }
+  }
+}

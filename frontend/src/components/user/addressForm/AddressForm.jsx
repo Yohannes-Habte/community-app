@@ -12,9 +12,9 @@ import {
   postUserAddressStart,
   postUserAddressSuccess,
 } from "../../../redux/reducers/user/memberReducer";
-import PageLoader from "../../../utile/loader/pageLoader/PageLoader"; // Import a loader component
-import { API } from "../../../utile/security/secreteKey";
 
+import { API } from "../../../utile/security/secreteKey";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 
 const initialState = {
   addressType: "",
@@ -26,13 +26,12 @@ const initialState = {
 };
 
 const AddressForm = ({ setOpenAddress }) => {
-  const { currentUser } = useSelector((state) => state.member);
+  const { loading } = useSelector((state) => state.member);
   const dispatch = useDispatch();
 
   // Local state for form data
   const [formData, setFormData] = useState(initialState);
   const [addressTypes, setAddressTypes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State to show loading while submitting form
 
   const { addressType, address, zipCode, city, state, country } = formData;
 
@@ -74,24 +73,23 @@ const AddressForm = ({ setOpenAddress }) => {
     }
 
     try {
-      setIsLoading(true); 
       dispatch(postUserAddressStart());
 
       const { data } = await axios.put(
-        `${API}/members/${currentUser._id}/update-address`,
-        formData
+        `${API}/members/update/address`,
+        formData,
+        { withCredentials: true }
       );
 
       dispatch(postUserAddressSuccess(data.address));
       toast.success(data.message);
       handleReset();
-      setOpenAddress(false); // Close form after success
+      setOpenAddress(false);
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Failed to update address";
+      const errorMessage =
+        error.response?.data?.message || "Failed to update address";
       dispatch(postUserAddressFailure(errorMessage));
       toast.error(errorMessage);
-    } finally {
-      setIsLoading(false); 
     }
   };
 
@@ -100,12 +98,17 @@ const AddressForm = ({ setOpenAddress }) => {
     <section className="member-addresses-modal">
       <section className="new-member-address-popup-box">
         <h4 className="member-address-popup-title">Add Your Address</h4>
-        <MdClose className="address-close-icon" onClick={() => setOpenAddress(false)} />
+        <MdClose
+          className="address-close-icon"
+          onClick={() => setOpenAddress(false)}
+        />
 
         <form onSubmit={handleSubmit} className="member-addresses-form">
           {/* Country Select */}
           <div className="select-container">
-            <label htmlFor="country" className="select-label">Country:</label>
+            <label htmlFor="country" className="select-label">
+              Country:
+            </label>
             <select
               name="country"
               id="country"
@@ -124,7 +127,9 @@ const AddressForm = ({ setOpenAddress }) => {
 
           {/* State Select */}
           <div className="select-container">
-            <label htmlFor="state" className="select-label">State:</label>
+            <label htmlFor="state" className="select-label">
+              State:
+            </label>
             <select
               name="state"
               id="state"
@@ -144,7 +149,9 @@ const AddressForm = ({ setOpenAddress }) => {
 
           {/* City Select */}
           <div className="select-container">
-            <label htmlFor="city" className="select-label">City:</label>
+            <label htmlFor="city" className="select-label">
+              City:
+            </label>
             <select
               name="city"
               id="city"
@@ -164,7 +171,9 @@ const AddressForm = ({ setOpenAddress }) => {
 
           {/* Address Type Select */}
           <div className="select-container">
-            <label htmlFor="addressType" className="select-label">Address Type:</label>
+            <label htmlFor="addressType" className="select-label">
+              Address Type:
+            </label>
             <select
               name="addressType"
               id="addressType"
@@ -194,7 +203,9 @@ const AddressForm = ({ setOpenAddress }) => {
               className="input-field"
               required
             />
-            <label htmlFor="address" className="input-label">Address</label>
+            <label htmlFor="address" className="input-label">
+              Address
+            </label>
             <span className="input-highlight"></span>
           </div>
 
@@ -211,13 +222,19 @@ const AddressForm = ({ setOpenAddress }) => {
               className="input-field"
               required
             />
-            <label htmlFor="zipCode" className="input-label">Zip Code</label>
+            <label htmlFor="zipCode" className="input-label">
+              Zip Code
+            </label>
             <span className="input-highlight"></span>
           </div>
 
           {/* Submit Button */}
-          <button className="user-address-btn" type="submit" disabled={isLoading}>
-            {isLoading ? <PageLoader size={20} isLoading={isLoading} /> : "Submit"}
+          <button className="user-address-btn" type="submit" disabled={loading}>
+            {loading ? (
+              <ButtonLoader isLoading={loading} message="" size={24} />
+            ) : (
+              "Add Address"
+            )}
           </button>
         </form>
       </section>

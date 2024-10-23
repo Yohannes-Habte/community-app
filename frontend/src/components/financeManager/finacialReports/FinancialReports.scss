@@ -117,3 +117,40 @@
     }
   }
 }
+
+.action-wrapper {
+  @include flexRow;
+  align-items: center;
+
+  .edit-icon {
+    @include editIcon;
+  }
+
+  .delete-icon {
+    @include deleteIcon;
+  }
+}
+
+.financial-report-delete-confirmation-wrapper {
+  @include deleteConfirmationModal;
+
+  .delete-confirmation-title {
+    @include deleteConfirmationTitle;
+  }
+
+  .delete-confirmation-statement {
+    @include deleteConfirmationStatement;
+  }
+
+  .confirmation-buttons-wrapper {
+    @include buttonsWrapper;
+
+    .confirm-delete-btn {
+      @include buttonForDelete;
+    }
+
+    .cancel-delete-btn {
+      @include buttonForCancel;
+    }
+  }
+}

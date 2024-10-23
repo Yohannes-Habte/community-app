@@ -2,6 +2,7 @@ import createError from "http-errors";
 import bcrypt from "bcryptjs";
 import Member from "../../models/member/index.js";
 import generateToken from "../../middlewares/token/index.js";
+import mongoose from "mongoose";
 
 //==========================================================================
 // Register new user
@@ -133,36 +134,33 @@ export const loginUser = async (req, res, next) => {
 // Update user details
 //==========================================================================
 export const updateUser = async (req, res, next) => {
+  const userId = req.user.id;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return next(createError(400, "Invalid user ID!"));
+  }
+
   const updateData = req.body;
 
   try {
-    const user = await Member.findById(req.user.id);
-
-    if (!user) {
-      createError(400, "User does not exist!");
-    }
-
     const updatedUser = await Member.findByIdAndUpdate(
-      req.user.id,
+      userId,
       { $set: updateData },
       { new: true, runValidators: true }
     );
 
-    try {
-      await user.save();
-    } catch (error) {
-      console.log("Update error:",error);
-      return next(createError(500, "Update could not be saved!"));
+    if (!updatedUser) {
+      return next(createError(404, "User not found!"));
     }
 
-    return res.status(201).json({
+    res.status(200).json({
       success: true,
-      user: updatedUser,
+      result: updatedUser,
       message: "Account successfully updated!",
     });
   } catch (error) {
     console.log(error);
-    next(createError(500, "Something went wrong!"));
+    next(createError(500, "Server Error!"));
   }
 };
 
@@ -207,8 +205,15 @@ export const userLogout = async (req, res, next) => {
 //==========================================================================
 export const userChangePassword = async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
+  const userId = req.user.id;
+
+  // validate user ID
+  if (!mongoose.isValidObjectId(userId)) {
+    return next(createError(400, "Invalid user ID!"));
+  }
+
   try {
-    const user = await Member.findById(req.params.id);
+    const user = await Member.findById(userId);
 
     if (!user) {
       return next(createError(400, "User not found! Please login!"));

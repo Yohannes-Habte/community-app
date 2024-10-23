@@ -1,13 +1,20 @@
 import createError from "http-errors";
 import Member from "../../models/member/index.js";
+import mongoose from "mongoose";
 
 //====================================================================
 // Update user address
 //====================================================================
 export const updateUserAddress = async (req, res, next) => {
   const { country, state, city, address, zipCode, addressType } = req.body;
+
+  const userId = req.user.id;
+  // Validate userId
+  if (!mongoose.isValidObjectId(userId)) {
+    return next(createError(400, "Invalid user ID!"));
+  }
+
   try {
-    const userId = req.params.id;
     const user = await Member.findById(userId);
 
     if (!user) {
@@ -72,42 +79,37 @@ export const updateUserAddress = async (req, res, next) => {
 // Delete user address
 //====================================================================
 export const deleteUserAddress = async (req, res, next) => {
+  const userId = req.user.id;
+  const addressId = req.params.id;
+
+  // Validate userId and addressId
+  if (
+    !mongoose.isValidObjectId(userId) ||
+    !mongoose.isValidObjectId(addressId)
+  ) {
+    return next(createError(400, "Invalid user or address ID!"));
+  }
+
   try {
-    const userId = req.params.userId;
-    const addressId = req.params.addressId;
-
-    const user = await Member.findById(userId);
-
-    if (!user) {
-      return next(createError(400, "User not found! Please login!"));
-    }
-
-    // Delete user address using addressId
-    await Member.findByIdAndUpdate(
-      {
-        _id: userId,
-      },
-      { $pull: { addresses: { _id: addressId } } }
+    // Use $pull to remove the address directly from the addresses array
+    const updatedUser = await Member.findByIdAndUpdate(
+      userId,
+      { $pull: { addresses: { _id: addressId } } },
+      { new: true }
     );
 
-    // Save updated addres to the user model
-    try {
-      await user.save();
-    } catch (error) {
-      return next(
-        createError(400, "User address is not saved! Please try again!")
-      );
+    if (!updatedUser) {
+      return next(createError(404, "User not found! Please login!"));
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      address: user,
-      message: "Address is successfully deleted!",
+      result: updatedUser,
+      message: "Address successfully deleted!",
     });
   } catch (error) {
-    next(
-      createError(500, "The address could not be deleted! Please try again!")
-    );
+    console.error("Address deletion error:", error);
+    return next(createError(500, "Server error! Please try again!"));
   }
 };
 
@@ -248,5 +250,32 @@ export const countMembers = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return next(createError(400, "Server error! Please try again"));
+  }
+};
+
+//==========================================================================
+// Delete user account
+//==========================================================================
+
+export const deleteUserAccount = async (req, res, next) => {
+  const userId = req.params.id;
+
+  if (!mongoose.isValidObjectId(userId)) {
+    return next(createError(400, "Invalid user ID!"));
+  }
+
+  try {
+    const user = await Member.findByIdAndDelete(userId);
+
+    if (!user) {
+      return next(createError(404, "User not found!"));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Account successfully deleted!",
+    });
+  } catch (error) {
+    next(createError(500, "Server Error!"));
   }
 };

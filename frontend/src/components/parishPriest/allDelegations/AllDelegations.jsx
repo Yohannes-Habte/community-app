@@ -70,14 +70,14 @@ const AllDelegations = () => {
       width: 150,
       renderCell: (params) => (
         <div className="action-wrapper">
-          <Link to={`/services/${params.id}`} className="edit">
-            <MdEditSquare />
+          <Link to={`/delegations/${params.id}`} className="edit">
+            <MdEditSquare className="edit-icon" />
           </Link>
           <button
             className="delete"
             onClick={() => handleOpenDeleteModal(params.id)}
           >
-            <FaTrashAlt />
+            <FaTrashAlt className="delete-icon" />
           </button>
         </div>
       ),
@@ -97,9 +97,12 @@ const AllDelegations = () => {
   // Handle delete operation for a delegation with error handling and confirmation
   const handleDelete = useCallback(async () => {
     try {
-      const { data } = await axios.delete(`${API}/services/${delegationId}`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.delete(
+        `${API}/delegations/${delegationId}`,
+        {
+          withCredentials: true,
+        }
+      );
       toast.success(data.message);
       dispatch(fetchDelegatedPriests());
     } catch (error) {

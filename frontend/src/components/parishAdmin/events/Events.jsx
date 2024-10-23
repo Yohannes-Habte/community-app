@@ -75,15 +75,15 @@ const Events = () => {
       renderCell: (params) => {
         return (
           <div className="action-wrapper">
-            <Link to={`/services/${params.id}`} className="edit">
-              <MdEditSquare />
+            <Link to={`/events/${params.id}`} className="edit">
+              <MdEditSquare className="edit-icon" />
             </Link>
 
             <button
               className="delete"
               onClick={() => setEventId(params.id) || setOpenDeleteModal(true)}
             >
-              <FaTrashAlt />
+              <FaTrashAlt className="delete-icon" />
             </button>
           </div>
         );
@@ -115,9 +115,9 @@ const Events = () => {
     });
 
   // Delete event
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      const { data } = await axios.delete(`${API}/events/${id}`, {
+      const { data } = await axios.delete(`${API}/events/${eventId}`, {
         withCredentials: true,
       });
       toast.success(data.message);
@@ -170,13 +170,13 @@ const Events = () => {
 
           <div className="confirmation-buttons-wrapper">
             <button
-              className={`cancel-delete`}
+              className={`cancel-delete-btn`}
               onClick={() => setOpenDeleteModal(false)}
             >
               Cancel
             </button>
             <button
-              className={`confirm-delete`}
+              className={`confirm-delete-btn`}
               onClick={() => setOpenDeleteModal(false) || handleDelete(eventId)}
             >
               Delete
