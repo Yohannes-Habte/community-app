@@ -1,7 +1,6 @@
-import React from 'react'
-import "../UserProfilePage.scss"
-import UserProfileSidebar from '../../../components/user/userProfileSidebar/UserProfileSidebar'
-import UserChangePassword from '../../../components/user/changePassword/UserChangePassword'
+import "../UserProfilePage.scss";
+import UserProfileSidebar from "../../../components/user/userProfileSidebar/UserProfileSidebar";
+import UserChangePassword from "../../../components/user/changePassword/UserChangePassword";
 
 const ChangePasswordPage = () => {
   return (
@@ -14,7 +13,7 @@ const ChangePasswordPage = () => {
         </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default ChangePasswordPage
+export default ChangePasswordPage;

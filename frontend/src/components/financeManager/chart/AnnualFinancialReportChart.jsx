@@ -34,58 +34,50 @@ const monthsMap = {
 };
 
 const AnnualFinancialReportChart = () => {
-  // Global state variables from Redux
   const { financialReports, loading, error } = useSelector(
     (state) => state.finance
   );
   const dispatch = useDispatch();
 
-  // Local state for the selected year and button loading state
   const [year, setYear] = useState("2022");
-  const [buttonLoading, setButtonLoading] = useState(false); // State for button loading
+  const [buttonLoading, setButtonLoading] = useState(false);
 
-  // Fetch financial reports on component mount
   useEffect(() => {
     dispatch(fetchAllFinancialReports());
 
-    // Clear errors when the component unmounts
     return () => {
       dispatch(clearFinancialReportErrors());
     };
   }, [dispatch]);
 
-  // Memoized calculation for monthly financial data to optimize rendering
   const row = useMemo(() => {
     return financialReports.reduce((acc, report) => {
       if (report.date.startsWith(year)) {
         acc.push({
-          name: monthsMap[report?.date.slice(5, 7)], // Extract month
-          total: report?.total, // Total amount
+          name: monthsMap[report?.date.slice(5, 7)],
+          total: report?.total,
         });
       }
       return acc;
     }, []);
   }, [financialReports, year]);
 
-  // Handle form submission for changing the year
   const handleSubmit = async (e) => {
     e.preventDefault();
     const inputYear = e.target.elements.year.value.trim();
 
-    // Validate the input year
     const currentYear = new Date().getFullYear();
     if (!inputYear || inputYear < 2022 || inputYear > currentYear) {
       alert(`Please enter a valid year between 2022 and ${currentYear}`);
       return;
     }
 
-    setButtonLoading(true); // Set button loading state
+    setButtonLoading(true);
 
     setYear(inputYear);
 
-    // Simulate data fetch (or perform real fetch)
-    await dispatch(fetchAllFinancialReports()); // Fetch the reports after year change
-    setButtonLoading(false); // Reset button loading state after data is fetched
+    await dispatch(fetchAllFinancialReports());
+    setButtonLoading(false);
   };
 
   return (
@@ -124,11 +116,9 @@ const AnnualFinancialReportChart = () => {
         </button>
       </form>
 
-      {/* Show PageLoader when the entire page is loading */}
       {loading && <PageLoader isLoading={loading} message="" />}
       {error && <p className="error-message">Error: {error}</p>}
 
-      {/* Render the chart only if there are no errors and the data is available */}
       {!loading && !error && row.length > 0 ? (
         <ResponsiveContainer width="100%" aspect={2 / 1}>
           <AreaChart

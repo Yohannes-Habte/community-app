@@ -1,5 +1,5 @@
 import { Oval } from "react-loader-spinner";
-import './ButtonLoader.scss'; // New CSS file for additional styling
+import "./ButtonLoader.scss";
 
 const ButtonLoader = ({ isLoading, message = "Loading...", size = 24 }) => {
   if (!isLoading) return null; // Do not render the spinner if not loading
@@ -9,8 +9,8 @@ const ButtonLoader = ({ isLoading, message = "Loading...", size = 24 }) => {
       <Oval
         height={size}
         width={size}
-        color="#4fa94d"
-        secondaryColor="#4fa94d"
+        color="#ffffff"
+        secondaryColor="#ffffff"
         strokeWidth={4}
         strokeWidthSecondary={4}
         visible={true}

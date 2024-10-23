@@ -17,7 +17,6 @@ import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { Alert } from "@mui/material";
 import { API } from "../../../utile/security/secreteKey";
 
-
 const FinancialReports = () => {
   const { loading, error, financialReports } = useSelector(
     (state) => state.finance
@@ -106,7 +105,7 @@ const FinancialReports = () => {
       renderCell: (params) => (
         <div className="action-wrapper">
           <Link
-            to={`/services/${params.id}`}
+            to={`/reports/finances/${params.id}`}
             className="edit"
             aria-label="Edit report"
             title="Edit report"

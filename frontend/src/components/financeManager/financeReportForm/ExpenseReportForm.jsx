@@ -179,11 +179,9 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
         date,
       };
 
-      const { data } = await axios.post(
-        `${API}/reports/new-report`,
-        newReport,
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(`${API}/reports/new`, newReport, {
+        withCredentials: true,
+      });
 
       dispatch(postFinancialReportSuccess(data.report));
       toast.success(data.success);

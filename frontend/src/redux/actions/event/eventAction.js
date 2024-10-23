@@ -12,7 +12,7 @@ import {
   fetchAllEventsStart,
   fetchAllEventsSuccess,
   fetchAllEventsFailure,
-  clearErrors
+  clearErrors,
 } from "../../reducers/event/eventReducer";
 import { API } from "../../../utile/security/secreteKey";
 
@@ -61,12 +61,29 @@ export const deleteEvent = (id) => async (dispatch) => {
 export const fetchAllEvents = () => async (dispatch) => {
   dispatch(fetchAllEventsStart());
   try {
-    const response = await axios.get(`${API}/events/priest`, {
+    const response = await axios.get(`${API}/events/admin`, {
       withCredentials: true,
     });
     dispatch(fetchAllEventsSuccess(response.data.result));
   } catch (error) {
     dispatch(fetchAllEventsFailure(error.message));
+  }
+};
+
+//==============================================================================
+// Fetch All Events
+//==============================================================================
+export const fetchEntireEvents = () => async (dispatch) => {
+  dispatch(fetchAllEventsStart());
+  try {
+    const response = await axios.get(`${API}/events/priest`, {
+      withCredentials: true,
+    });
+
+    dispatch(fetchAllEventsSuccess(response.data.result));
+  } catch (error) {
+    const errorMessage = error?.response?.data?.message || error.message;
+    dispatch(fetchAllEventsFailure(errorMessage));
   }
 };
 

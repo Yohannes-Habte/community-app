@@ -514,11 +514,7 @@ const SignUpForm = () => {
               disabled={loading}
               aria-label="Register"
             >
-              {loading ? (
-                <ButtonLoader isLoading={loading} message="" size={24} />
-              ) : (
-                "Register"
-              )}
+              {loading ? <ButtonLoader isLoading={loading} /> : "Register"}
             </button>
           </div>
 

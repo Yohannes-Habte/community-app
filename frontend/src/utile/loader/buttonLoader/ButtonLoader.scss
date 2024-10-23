@@ -3,12 +3,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;  
-  height: 100%; 
+  gap: 2rem;
+  height: 100%;
 }
 
 .loader-message {
-  color: #555; 
-  font-size: 0.875rem; 
+  color: #ffffff;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+ 
 }
-

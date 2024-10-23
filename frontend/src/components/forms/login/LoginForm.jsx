@@ -186,7 +186,7 @@ const LoginForm = () => {
 
       {/* Button for log in form */}
       <button className="login-button" disabled={loading}>
-        {loading ? <ButtonLoader isLoading={loading} size={30} /> : "Log In"}
+        {loading ? <ButtonLoader isLoading={loading} message="" /> : "Log In"}
       </button>
 
       {/* Do not have an account, Sign Up */}

@@ -1,0 +1,39 @@
+@import "../../../styles/mixins.scss";
+@import "../../../styles/variables.scss";
+
+.update-financial-report-form {
+  .inputs-wrapper {
+    @include twoGridTemplateEqualColumns;
+
+    .input-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      .input-icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        @include focusInputFieldAndInputLabel;
+      }
+    }
+  }
+
+  .add-btn {
+    @include button3;
+    margin-top: 2rem;
+  }
+}

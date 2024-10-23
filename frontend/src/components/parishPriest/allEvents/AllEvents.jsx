@@ -1,33 +1,31 @@
-import axios from "axios";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import "./AllEvents.scss";
 import { Alert } from "@mui/material";
 import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
-import { API } from "../../../utile/security/secreteKey";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearAllEventErrors,
+  fetchEntireEvents,
+} from "../../../redux/actions/event/eventAction";
 
 const AllEvents = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  const { events = [], loading, error } = useSelector((state) => state.event);
 
   useEffect(() => {
-    const getAllEvents = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const { data } = await axios.get(`${API}/events/priest`, {
-          withCredentials: true,
-        });
-        setEvents(data.result || []);
-      } catch (err) {
-        setError(err?.response?.data?.message || "Failed to fetch events.");
-      } finally {
-        setLoading(false);
-      }
+    dispatch(fetchEntireEvents());
+
+    return () => {
+      dispatch(clearAllEventErrors());
     };
-    getAllEvents();
-  }, []);
+  }, [dispatch]);
+
+  // const handleViewEvents = () => {
+  //   navigate("/admin/dashboard");
+  //   setIsActive(7);
+  // };
 
   // DataGrid columns configuration
   const columns = useMemo(

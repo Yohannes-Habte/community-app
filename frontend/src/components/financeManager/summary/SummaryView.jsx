@@ -67,7 +67,6 @@ const SummaryView = () => {
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  // Fetch all parishioners on component mount
   useEffect(() => {
     dispatch(fetchAllParishionersForFinancialManager());
     return () => {
@@ -145,20 +144,17 @@ const SummaryView = () => {
     ];
   }, [parishioners, year]);
 
-  // Handle submit (Input validation and sanitization)
   const handleSubmit = async (e) => {
     e.preventDefault();
     const inputYear = e.target.elements.year.value;
 
-    // Validate that the input is a valid year
     const currentYear = new Date().getFullYear();
     if (inputYear && inputYear >= 2022 && inputYear <= currentYear) {
       setYear(inputYear);
-      setButtonLoading(true); // Set loading state for the button
+      setButtonLoading(true);
 
-      // Simulate fetching data for the selected year (you can remove this in production)
-      await dispatch(fetchAllParishionersForFinancialManager()); // This might need to be adjusted based on your action
-      setButtonLoading(false); // Reset loading state after data fetching
+      await dispatch(fetchAllParishionersForFinancialManager());
+      setButtonLoading(false);
     } else {
       alert(`Please enter a valid year between 2022 and ${currentYear}`);
     }
@@ -175,7 +171,6 @@ const SummaryView = () => {
           {`Parishioners' Monthly Contributions Overview for ${year}`}
         </h1>
 
-        {/* Form for year selection */}
         <form
           onSubmit={handleSubmit}
           className="members-contribution-pie-chart-form"
@@ -201,7 +196,6 @@ const SummaryView = () => {
           </button>
         </form>
 
-        {/* Loading state for the page */}
         {loading ? (
           <PageLoader isLoading={loading} message="" size={80} />
         ) : error ? (

@@ -21,6 +21,7 @@ import LoginPage from "./views/loginPage/LoginPage";
 import RegisterPage from "./views/registerPage/RegisterPage";
 import NewsPage from "./views/newsPage/NewsPage";
 import UpdateCommitteeProfilePage from "./views/adminPages/updateCommitteeProfilePage/UpdateCommitteeProfilePage";
+import UpdateFinancialReportPage from "./views/financePages/updateFinancialReportPage/UpdateFinancialReportPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -85,6 +86,11 @@ const App = () => {
               <FinanceManagerPage />
             </FinanceMgtProtectedRoutes>
           }
+        />
+
+        <Route
+          path="/reports/finances/:id"
+          element={<UpdateFinancialReportPage />}
         />
       </Routes>
 

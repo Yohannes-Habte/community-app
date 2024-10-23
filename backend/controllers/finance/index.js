@@ -1,5 +1,6 @@
 import createError from "http-errors";
 import Finance from "../../models/finance/index.js";
+import mongoose from "mongoose";
 
 //=======================================================
 // Post new finance report
@@ -79,25 +80,142 @@ export const createFinanceReport = async (req, res, next) => {
 };
 
 //==========================================================================
-// Get Finance
+// Get Single Financial report
 //==========================================================================
 export const getFinance = async (req, res, next) => {
-  try {
-    const report = await Finance.findById(req.params.id);
+  const reportId = req.params.id;
 
-    if (report) {
+  if (!mongoose.Types.ObjectId.isValid(reportId)) {
+    return next(
+      createError(400, "Invalid report ID format. Please provide a valid ID.")
+    );
+  }
+
+  try {
+    const report = await Finance.findById(reportId);
+
+    if (!report) {
       return next(
-        createError(400, "Such report does not exists. Please try again.")
+        createError(
+          404,
+          "Financial report not found. Please verify the ID and try again."
+        )
       );
     }
 
     return res.status(200).json({
       success: true,
-      report: report,
+      result: report,
     });
   } catch (error) {
     return next(
-      createError(400, "The finance could not be accessed! Please try again")
+      createError(
+        500,
+        "An internal server error occurred. Please try again later."
+      )
+    );
+  }
+};
+
+// ========================================================================
+// Update finance report
+// ========================================================================
+
+export const updateFinanceReport = async (req, res, next) => {
+  const reportId = req.params.id;
+
+  const {
+    contribution,
+    offer,
+    servicePayment,
+    frekdasie,
+    choirExpense,
+    eventExpense,
+    priestExpense,
+    guestExpense,
+    presentExpense,
+    tripExpense,
+    otherExpense,
+    date,
+  } = req.body;
+
+  // Validate the report ID
+  if (!mongoose.Types.ObjectId.isValid(reportId)) {
+    return next(
+      createError(400, "Invalid report ID format. Please provide a valid ID.")
+    );
+  }
+
+  try {
+    // Check if the financial report exists
+    const report = await Finance.findById(reportId);
+    if (!report) {
+      return next(
+        createError(
+          404,
+          "Financial report not found. Please verify the ID and try again."
+        )
+      );
+    }
+
+    const total =
+      Number(Number(contribution).toFixed(2)) +
+      Number(Number(offer).toFixed(2)) +
+      Number(Number(servicePayment).toFixed(2)) -
+      (Number(Number(frekdasie).toFixed(2)) +
+        Number(Number(choirExpense).toFixed(2)) +
+        Number(Number(eventExpense).toFixed(2)) +
+        Number(Number(priestExpense).toFixed(2)) +
+        Number(Number(guestExpense).toFixed(2)) +
+        Number(Number(presentExpense).toFixed(2)) +
+        Number(Number(tripExpense).toFixed(2)) +
+        Number(Number(otherExpense).toFixed(2)));
+
+        console.log("Total =", total);
+
+    // Prepare the fields to update
+    const updateFields = {
+      date,
+      contribution,
+      offer,
+      servicePayment,
+      frekdasie,
+      choirExpense,
+      eventExpense,
+      priestExpense,
+      guestExpense,
+      presentExpense,
+      tripExpense,
+      otherExpense,
+      total: total,
+    };
+
+    // Update the financial report
+    const updatedReport = await Finance.findByIdAndUpdate(
+      reportId,
+      { $set: updateFields },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      result: updatedReport,
+      message: "Financial report successfully updated!",
+    });
+  } catch (error) {
+    // Log the error for internal debugging
+    console.error(
+      `Error updating financial report with ID ${reportId}:`,
+      error
+    );
+
+    return next(
+      createError(
+        500,
+        "An internal server error occurred. Please try again later."
+      )
     );
   }
 };
@@ -173,7 +291,6 @@ export const totalIncome = async (req, res, next) => {
       0
     );
 
-    console.log("Annual Total Income =", annualTotalIncome);
 
     return res.status(200).json({
       success: true,

@@ -1,0 +1,15 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.update-financial-report-page {
+  .update-financial-report-page-container {
+    width: 50%;
+    margin: 2rem auto;
+    background-color: $form-bg;
+    padding: 1rem 2rem 2rem 2rem;
+
+    .update-financial-report-page-title {
+      @include title;
+    }
+  }
+}

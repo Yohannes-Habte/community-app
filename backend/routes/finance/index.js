@@ -5,6 +5,7 @@ import {
   getAllFinancialReports,
   getFinance,
   totalIncome,
+  updateFinanceReport,
 } from "../../controllers/finance/index.js";
 import validateFinance from "../../validators/finance/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
@@ -19,7 +20,7 @@ const financeRouter = express.Router();
 
 // Finance routes
 financeRouter.post(
-  "/new-report",
+  "/new",
   isAuthenticated,
   isFinanceManager,
   validateFinance(),
@@ -42,7 +43,7 @@ financeRouter.get(
 );
 
 financeRouter.get(
-  "/financial-reports/:id",
+  "/finances/:id",
   isAuthenticated,
   isFinanceManager,
   getFinance
@@ -55,8 +56,15 @@ financeRouter.get(
   totalIncome
 );
 
+financeRouter.put(
+  "/finances/:id",
+  isAuthenticated,
+  isFinanceManager,
+  updateFinanceReport
+);
+
 financeRouter.delete(
-  "/delete-report/:id",
+  "/finances/:id",
   isAuthenticated,
   isFinanceManager,
   deleteFinanceReport

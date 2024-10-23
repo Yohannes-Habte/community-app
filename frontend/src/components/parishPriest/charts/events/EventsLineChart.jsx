@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearAllEventErrors,
-  fetchAllEvents,
+  fetchEntireEvents,
 } from "../../../../redux/actions/event/eventAction";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
@@ -25,7 +25,7 @@ const EventsLineChart = ({ setActive }) => {
 
   // Fetch all events on mount and clear errors on unmount
   useEffect(() => {
-    dispatch(fetchAllEvents());
+    dispatch(fetchEntireEvents());
     return () => {
       dispatch(clearAllEventErrors());
     };

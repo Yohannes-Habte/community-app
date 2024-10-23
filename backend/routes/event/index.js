@@ -29,6 +29,8 @@ eventRouter.get("/", isAuthenticated, isAdmin, getAllEvents);
 
 eventRouter.get("/priest", isAuthenticated, isPriest, getAllEvents);
 
+eventRouter.get("/admin", isAuthenticated, isAdmin, getAllEvents);
+
 eventRouter.get("/last-event", getLastEvent);
 
 // Export Event Router
