@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import createError from "http-errors";
 
 const { Schema } = mongoose;
 
-// Finance Schema
+// Define Finance Schema
 const financeSchema = new Schema(
   {
     contribution: { type: Number, required: true },
@@ -16,16 +17,40 @@ const financeSchema = new Schema(
     presentExpense: { type: Number, required: true },
     tripExpense: { type: Number, required: true },
     otherExpense: { type: Number, required: true },
-    date: { type: String, required: true, unique: true },
-    total: { type: Number, required: false },
+    date: { type: Date, required: true },
+    total: { type: Number },
   },
   {
     timestamps: true,
   }
 );
 
-// Finance Model
-const Finance = mongoose.model('Finance', financeSchema);
+// Pre-save hook to calculate total if not explicitly provided
+financeSchema.pre("save", function (next) {
+  try {
+    if (this.total === undefined || this.total === null) {
+      // Calculate total as: income (contribution + offer) - expenses
+      const totalExpenses =
+        this.servicePayment +
+        this.frekdasie +
+        this.choirExpense +
+        this.eventExpense +
+        this.priestExpense +
+        this.guestExpense +
+        this.presentExpense +
+        this.tripExpense +
+        this.otherExpense;
 
-// Export Finance Model
+      this.total = this.contribution + this.offer - totalExpenses;
+    }
+    next();
+  } catch (error) {
+    return next(createError(500, error.message));
+  }
+});
+
+// Finance Model definition
+const Finance = mongoose.model("Finance", financeSchema);
+
+// Export the Finance Model
 export default Finance;

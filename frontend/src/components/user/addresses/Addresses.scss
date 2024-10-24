@@ -1,0 +1,51 @@
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
+
+.member-addresses-wrapper {
+  width: $laptop;
+  margin: 1rem auto;
+
+  .member-address-title {
+    @include subTitle;
+    font-size: $aafs;
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .add-new-user-address {
+    @include flexSpaceBetween;
+    margin-bottom: 1rem;
+
+    .add-member-title {
+      @include subTitle;
+    }
+
+    .add-new-address-btn {
+      @include button2;
+    }
+  }
+
+  .address-delete-confirmation-modal {
+    @include deleteConfirmationModal;
+
+    .delete-confirmation-title {
+      @include deleteConfirmationTitle;
+    }
+
+    .delete-confirmation-statement {
+      @include deleteConfirmationStatement;
+    }
+
+    .confirmation-buttons-wrapper {
+      @include buttonsWrapper;
+
+      .confirm-delete-btn {
+        @include buttonForDelete;
+      }
+
+      .cancel-delete-btn {
+        @include buttonForCancel;
+      }
+    }
+  }
+}

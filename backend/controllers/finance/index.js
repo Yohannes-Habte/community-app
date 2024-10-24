@@ -23,56 +23,69 @@ export const createFinanceReport = async (req, res, next) => {
   } = req.body;
 
   try {
-    const existingFinanceReport = await Finance.findOne({ date: date });
+    // Parse the provided date and extract month and year
+    const reportDate = new Date(date);
+    const reportMonth = reportDate.getMonth() + 1; // getMonth() is zero-based, so add 1
+    const reportYear = reportDate.getFullYear();
+
+    // Ensure that 'date' in the query is treated as a Date object by MongoDB
+    const existingFinanceReport = await Finance.findOne({
+      $expr: {
+        $and: [
+          { $eq: [{ $month: "$date" }, reportMonth] }, // Compare month
+          { $eq: [{ $year: "$date" }, reportYear] }, // Compare year
+        ],
+      },
+    });
 
     if (existingFinanceReport) {
-      return next(createError(400, "Finance report already exists"));
+      return next(
+        createError(
+          400,
+          "A financial report for this month and year already exists."
+        )
+      );
     }
 
-    // If finance report is not found, create new finance report
-    if (!existingFinanceReport) {
-      const newFinanceReport = new Finance({
-        contribution: contribution,
-        offer: offer,
-        servicePayment: servicePayment,
-        frekdasie: frekdasie,
-        choirExpense: choirExpense,
-        eventExpense: eventExpense,
-        priestExpense: priestExpense,
-        guestExpense: guestExpense,
-        presentExpense: presentExpense,
-        tripExpense: tripExpense,
-        otherExpense: otherExpense,
-        date: date,
-        total:
-          Number(Number(contribution).toFixed(2)) +
-          Number(Number(offer).toFixed(2)) +
-          Number(Number(servicePayment).toFixed(2)) -
-          (Number(Number(frekdasie).toFixed(2)) +
-            Number(Number(choirExpense).toFixed(2)) +
-            Number(Number(eventExpense).toFixed(2)) +
-            Number(Number(priestExpense).toFixed(2)) +
-            Number(Number(guestExpense).toFixed(2)) +
-            Number(Number(presentExpense).toFixed(2)) +
-            Number(Number(tripExpense).toFixed(2)) +
-            Number(Number(otherExpense).toFixed(2))),
-      });
+    // Calculate the total amount
+    const total =
+      Number(Number(contribution).toFixed(2)) +
+      Number(Number(offer).toFixed(2)) +
+      Number(Number(servicePayment).toFixed(2)) -
+      (Number(Number(frekdasie).toFixed(2)) +
+        Number(Number(choirExpense).toFixed(2)) +
+        Number(Number(eventExpense).toFixed(2)) +
+        Number(Number(priestExpense).toFixed(2)) +
+        Number(Number(guestExpense).toFixed(2)) +
+        Number(Number(presentExpense).toFixed(2)) +
+        Number(Number(tripExpense).toFixed(2)) +
+        Number(Number(otherExpense).toFixed(2)));
 
-      try {
-        await newFinanceReport.save();
-      } catch (err) {
-        console.log(err);
-        return next(
-          createError(500, "Financial report is not saved. Please try again.")
-        );
-      }
+    // Create the new finance report
+    const newFinanceReport = new Finance({
+      contribution,
+      offer,
+      servicePayment,
+      frekdasie,
+      choirExpense,
+      eventExpense,
+      priestExpense,
+      guestExpense,
+      presentExpense,
+      tripExpense,
+      otherExpense,
+      date: reportDate, // Store the exact date for reference
+      total,
+    });
 
-      return res.status(201).json({
-        success: true,
-        report: newFinanceReport,
-        message: "Financial report is successfully completed!",
-      });
-    }
+    // Save the new report
+    await newFinanceReport.save();
+
+    return res.status(201).json({
+      success: true,
+      result: newFinanceReport,
+      message: "Financial report successfully completed!",
+    });
   } catch (error) {
     console.log(error);
     return next(createError(500, "Server error. Please try again."));
@@ -171,7 +184,7 @@ export const updateFinanceReport = async (req, res, next) => {
         Number(Number(tripExpense).toFixed(2)) +
         Number(Number(otherExpense).toFixed(2)));
 
-        console.log("Total =", total);
+    console.log("Total =", total);
 
     // Prepare the fields to update
     const updateFields = {
@@ -262,6 +275,7 @@ export const getAllFinancialReports = async (req, res, next) => {
 // Get total financial report for the year
 //==========================================================================
 
+/** 
 export const totalIncome = async (req, res, next) => {
   try {
     const { year } = req.query;
@@ -291,6 +305,53 @@ export const totalIncome = async (req, res, next) => {
       0
     );
 
+    return res.status(200).json({
+      success: true,
+      result: annualTotalIncome,
+    });
+  } catch (error) {
+    console.log(error);
+    return next(createError(500, "Server error! Please try again."));
+  }
+};
+
+*/
+
+export const totalIncome = async (req, res, next) => {
+  try {
+    const { year } = req.query;
+
+    // Ensure the year is provided and is a valid number
+    if (!year || isNaN(year)) {
+      return next(createError(400, "Please provide a valid year."));
+    }
+
+    // Create a date range for the start and end of the year
+    const startOfYear = new Date(`${year}-01-01T00:00:00.000Z`);
+    const endOfYear = new Date(`${year}-12-31T23:59:59.999Z`);
+
+    // Find financial reports within the specified year
+    const financialReports = await Finance.find({
+      date: {
+        $gte: startOfYear,
+        $lte: endOfYear,
+      },
+    });
+
+    // If no reports are found, return a response with 0 income
+    if (financialReports.length === 0) {
+      return res.status(200).json({
+        success: true,
+        result: 0,
+        message: `No financial reports found for the year ${year}.`,
+      });
+    }
+
+    // Calculate the total income for the specified year
+    const annualTotalIncome = financialReports.reduce(
+      (totalSum, report) => totalSum + (report.total || 0),
+      0
+    );
 
     return res.status(200).json({
       success: true,

@@ -12,12 +12,14 @@ import {
   postFinancialReportSuccess,
 } from "../../../redux/reducers/finance/financeReducer";
 import { API } from "../../../utile/security/secreteKey";
+import Alert from "@mui/material/Alert";
+import { fetchAllFinancialReports } from "../../../redux/actions/finance/financeAction";
 
 const initialState = {
   contribution: "",
   offer: "",
   servicePayment: "",
-  frekdasie: "",
+  frekdasie: 150,
   choirExpense: "",
   eventExpense: "",
   priestExpense: "",
@@ -30,7 +32,7 @@ const initialState = {
 
 const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
   // Global state variables
-  const { loading } = useSelector((state) => state.finance);
+  const { loading, error } = useSelector((state) => state.finance);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -183,10 +185,17 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
         withCredentials: true,
       });
 
-      dispatch(postFinancialReportSuccess(data.report));
-      toast.success(data.success);
-      setSuccess("Report added successfully!");
-      resetStates();
+      if (data.success) {
+        dispatch(postFinancialReportSuccess(data.result));
+        dispatch(fetchAllFinancialReports());
+        toast.success(data.success);
+        setSuccess("Report added successfully!");
+        resetStates();
+      } else {
+        const errorMessage = data.message || "Failed to submit report";
+        dispatch(postFinancialReportFailure(errorMessage));
+        toast.error(errorMessage);
+      }
     } catch (error) {
       dispatch(
         postFinancialReportFailure(
@@ -366,7 +375,7 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
                 aria-label="Choir Expense"
               />
 
-              <label htmlFor="frekdasie" className="input-label">
+              <label htmlFor="choirExpense" className="input-label">
                 Choir Expense
               </label>
               <span className="input-highlight"></span>
@@ -506,6 +515,8 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
               "Submit"
             )}
           </button>
+
+          {error && <Alert security="error">{error}</Alert>}
         </form>
       </section>
     </article>
