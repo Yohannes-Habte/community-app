@@ -76,13 +76,13 @@ const Addresses = () => {
 
   // Prepare the rows for DataGrid based on currentUser addresses
   const rows = currentUser.addresses.map((address) => ({
-    id: address._id,
-    addressType: address.addressType,
-    address: address.address,
-    zipCode: address.zipCode,
-    city: address.city,
-    state: address.state,
-    country: address.country,
+    id: address?._id,
+    addressType: address?.addressType,
+    address: address?.address,
+    zipCode: address?.zipCode,
+    city: address?.city,
+    state: address?.state,
+    country: address?.country,
   }));
 
   return (

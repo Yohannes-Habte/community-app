@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { API } from "../../../utile/security/secreteKey";
 import { MdEditSquare } from "react-icons/md";
 import { FaTrashAlt } from "react-icons/fa";
+import { Alert } from "@mui/material";
 
 const AllChurchServices = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const AllChurchServices = () => {
     {
       field: "identificationDocument",
       headerName: "Identification Document",
-      width: 300, // Adjust width to fit the document URL
+      width: 300,
       renderCell: (params) => (
         <a href={params.value} target="_blank" rel="noopener noreferrer">
           View Document
@@ -66,14 +67,9 @@ const AllChurchServices = () => {
       renderCell: (params) => {
         let color = "";
 
-        // Set the color based on the serviceStatus value
-        if (params.value === "pending") {
-          color = "orange";
-        } else if (params.value === "completed") {
-          color = "green";
-        } else if (params.value === "cancelled") {
-          color = "red";
-        }
+        if (params.value === "pending") color = "orange";
+        else if (params.value === "completed") color = "green";
+        else if (params.value === "cancelled") color = "red";
 
         return (
           <span
@@ -92,58 +88,47 @@ const AllChurchServices = () => {
       field: "action",
       headerName: "Action",
       width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="action-wrapper">
-            <Link to={`/services/${params.id}`} className="edit">
-              <MdEditSquare className="edit-icon" />
-            </Link>
+      renderCell: (params) => (
+        <div className="action-wrapper">
+          <Link to={`/services/${params.id}`} className="edit">
+            <MdEditSquare className="edit-icon" />
+          </Link>
 
-            <button
-              className="delete"
-              onClick={() => setServiceId(params.id) || setOpen(true)}
-            >
-              <FaTrashAlt className="delete-icon" />
-            </button>
-          </div>
-        );
-      },
+          <button
+            className="delete"
+            onClick={() => setServiceId(params.id) || setOpen(true)}
+          >
+            <FaTrashAlt className="delete-icon" />
+          </button>
+        </div>
+      ),
     },
   ];
 
-  const rows = [];
-
-  // Sacraments pushed to rows
-  services &&
-    services.forEach((service) => {
-      const formattedDate = new Date(service.serviceDate).toLocaleDateString(
-        "en-GB",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
-      );
-
-      rows.push({
-        id: service._id,
-        serviceName: service.serviceName,
-        serviceDate: formattedDate,
-        identificationDocument: service.identificationDocument,
-        message: service.message.slice(0, 20) + "...",
-        serviceStatus: service.serviceStatus,
-      });
-    });
+  const rows = services.map((service) => ({
+    id: service._id,
+    serviceName: service.serviceName,
+    serviceDate: new Date(service.serviceDate).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }),
+    identificationDocument: service.identificationDocument,
+    message: service.message.slice(0, 20) + "...",
+    serviceStatus: service.serviceStatus,
+  }));
 
   return (
     <section className="church-services-table-wrapper">
       <h1 className="church-services-table-title"> Church Services </h1>
 
-      {loading && <PageLoader />}
-
-      {error ? <p className="error-message"> {error} </p> : null}
-
-      {!loading && !error && (
+      {loading ? (
+        <PageLoader />
+      ) : error ? (
+        <Alert className="error-message"> {error} </Alert>
+      ) : services.length === 0 ? (
+        <Alert className="no-services-message">No available services</Alert>
+      ) : (
         <div style={{ width: "100%" }}>
           <DataGrid
             rows={rows}
@@ -154,16 +139,13 @@ const AllChurchServices = () => {
                 paginationModel: { page: 0, pageSize: 10 },
               },
             }}
-            // Create search bar
             slots={{ toolbar: GridToolbar }}
-            // Search a specific user
             slotProps={{
               toolbar: {
                 showQuickFilter: true,
                 quickFilterProps: { debounceMs: 500 },
               },
             }}
-            // Page size options
             pageSizeOptions={[5, 10]}
             checkboxSelection
             disableRowSelectionOnClick
@@ -180,14 +162,14 @@ const AllChurchServices = () => {
           </p>
           <div className="confirmation-buttons-wrapper">
             <button
-              className={`cancel-delete-btn`}
+              className="cancel-delete-btn"
               onClick={() => setOpen(false)}
             >
-              cancel
+              Cancel
             </button>
 
             <button
-              className={`confirm-delete-btn`}
+              className="confirm-delete-btn"
               onClick={() => setOpen(false) || handleDelete(serviceId)}
             >
               Delete

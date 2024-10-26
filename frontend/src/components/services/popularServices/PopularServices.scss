@@ -17,15 +17,16 @@
       background-color: $section-bg;
       & strong {
         font-weight: bold;
-        color: $blue;
+        color: $gray;
         padding-left: 0.5rem;
         text-transform: capitalize;
       }
 
       & span {
-        color: $blue;
+        color: $gray;
         padding-left: 0.5rem;
         text-transform: capitalize;
+        font-size: $nfs;
       }
       .service-name {
         @include subTitle;

@@ -17,6 +17,7 @@ import {
 } from "../../middlewares/auth/auth.js";
 import serviceValidation from "../../validators/service/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
+import fetchCategoryMiddleware from "../../middlewares/serviceCategory/index.js";
 
 const serviceRouter = express.Router();
 
@@ -24,6 +25,7 @@ const serviceRouter = express.Router();
 serviceRouter.post(
   "/new",
   isAuthenticated,
+  fetchCategoryMiddleware,
   serviceValidation(),
   checkValidation,
   createServiceRequest

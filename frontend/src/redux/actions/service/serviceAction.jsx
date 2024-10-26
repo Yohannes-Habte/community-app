@@ -69,7 +69,23 @@ export const fetchAllServices = () => async (dispatch) => {
     });
     dispatch(fetchAllServicesSuccess(response.data.result));
   } catch (error) {
-    dispatch(fetchAllServicesFailure(error.message));
+    let errorMessage = "An unexpected error occurred. Please try again later.";
+
+    if (error.response) {
+      // Server responded with a status outside the 2xx range
+      errorMessage =
+        error.response.data?.message ||
+        `Error: ${error.response.status} - ${error.response.statusText}`;
+    } else if (error.request) {
+      // Request was made, but no response received
+      errorMessage =
+        "Unable to connect to the server. Please check your network connection.";
+    } else {
+      // Something else triggered an error
+      errorMessage = error.message || errorMessage;
+    }
+
+    dispatch(fetchAllServicesFailure(errorMessage));
   }
 };
 

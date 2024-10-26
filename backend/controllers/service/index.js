@@ -12,6 +12,8 @@ export const createServiceRequest = async (req, res, next) => {
     userId,
     serviceCategory,
     serviceName,
+    scriptureTopic,
+    catechismTopic,
     serviceDate,
     identificationDocument,
     message,
@@ -39,6 +41,10 @@ export const createServiceRequest = async (req, res, next) => {
     if (!serviceGroup) {
       throw createError(400, "Service category not found");
     }
+
+    // Log the category name
+    console.log("Category: ", serviceGroup.category);
+    console.log("Category from body: ", req.body.categoryName);
 
     // 1. Disallow any new service in "Spiritual Development" category if one already exists (applies globally for all users)
     if (serviceGroup.category === "Spiritual development") {
@@ -86,6 +92,8 @@ export const createServiceRequest = async (req, res, next) => {
       userId: sanitizedUserId,
       serviceCategory,
       serviceName,
+      scriptureTopic,
+      catechismTopic,
       serviceDate,
       identificationDocument,
       message,
@@ -244,10 +252,7 @@ export const getAllServices = async (req, res, next) => {
 
     // Check if services are found
     if (!services || services.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No services found.",
-      });
+      return next(createError(404, "No services found."));
     }
 
     // Return the fetched services

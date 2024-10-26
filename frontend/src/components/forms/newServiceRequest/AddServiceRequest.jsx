@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaBible } from "react-icons/fa";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { PiChurchFill } from "react-icons/pi";
 import { MdOutlineMessage, MdDateRange } from "react-icons/md";
@@ -27,15 +28,32 @@ const initialState = {
   serviceDate: "",
   identificationDocument: null,
   message: "",
+  scriptureTopic: "",
+  catechismTopic: "",
 };
 
 const AddServiceRequest = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.member);
   const { categories } = useSelector((state) => state.category);
+
+  // Add new state for mapping category IDs to category names
+  const [categoryMap, setCategoryMap] = useState({});
   const [formData, setFormData] = useState(initialState);
   const [formErrors, setFormErrors] = useState({});
   const [formLoading, setFormLoading] = useState(false);
+
+  console.log("Categories =", categories);
+
+  const {
+    serviceCategory,
+    serviceName,
+    serviceDate,
+    identificationDocument,
+    message,
+    scriptureTopic,
+    catechismTopic,
+  } = formData;
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -45,13 +63,33 @@ const AddServiceRequest = () => {
     };
   }, [dispatch]);
 
+  // Build the categoryMap when categories change
+  useEffect(() => {
+    if (categories) {
+      const map = categories.reduce((acc, category) => {
+        acc[category._id] = category.category; // Map category ID to category name
+        return acc;
+      }, {});
+      setCategoryMap(map);
+    }
+  }, [categories]);
+
   const validateForm = () => {
     const errors = {};
-    if (!formData.serviceCategory)
-      errors.serviceCategory = "Category is required.";
-    if (!formData.serviceName) errors.serviceName = "Service Name is required.";
-    if (!formData.serviceDate) errors.serviceDate = "Service Date is required.";
-    if (!formData.identificationDocument)
+    if (!serviceCategory) errors.serviceCategory = "Category is required.";
+
+    if (!serviceName) errors.serviceName = "Service Name is required.";
+
+    if (serviceName === "scriptures" && !scriptureTopic) {
+      errors.scriptureTopic = "Please specify a scripture topic.";
+    }
+
+    if (serviceName === "catechism" && !catechismTopic) {
+      errors.catechismTopic = "Please specify a catechism topic.";
+    }
+
+    if (!serviceDate) errors.serviceDate = "Service Date is required.";
+    if (!identificationDocument)
       errors.identificationDocument = "Document upload is required.";
     if (!formData.message) errors.message = "Message cannot be empty.";
 
@@ -61,10 +99,15 @@ const AddServiceRequest = () => {
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
+
+    console.log("Before Change =", serviceCategory);
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "file" ? files[0] : value,
     }));
+
+    console.log("After Change =", serviceCategory);
 
     if (formErrors[name]) {
       setFormErrors((prevErrors) => ({
@@ -95,7 +138,7 @@ const AddServiceRequest = () => {
 
       // Upload document to Cloudinary
       const formDataObj = new FormData();
-      formDataObj.append("file", formData.identificationDocument);
+      formDataObj.append("file", identificationDocument);
       formDataObj.append("cloud_name", cloud_name);
       formDataObj.append("upload_preset", upload_preset);
 
@@ -104,12 +147,18 @@ const AddServiceRequest = () => {
 
       // Prepare new service request data
       const newService = {
-        serviceCategory: formData.serviceCategory,
-        serviceName: formData.serviceName,
-        serviceDate: formData.serviceDate,
+        serviceCategory: serviceCategory,
+        serviceName: serviceName,
+        serviceDate: serviceDate,
         identificationDocument: url,
-        message: formData.message,
+        message: message,
         userId: currentUser._id,
+        ...(serviceName === "scriptures" && scriptureTopic
+          ? { scriptureTopic }
+          : {}),
+        ...(serviceName === "catechism" && catechismTopic
+          ? { catechismTopic }
+          : {}),
       };
 
       const { data } = await axios.post(`${API}/services/new`, newService, {
@@ -123,10 +172,74 @@ const AddServiceRequest = () => {
       const errorMessage =
         err.response?.data?.message || "Failed to send request";
       dispatch(postServiceRequestFailure(errorMessage));
-      toast.error(errorMessage);
+      alert(errorMessage);
       setFormLoading(false);
     }
   };
+
+  // Define sacrament options
+  const sacramentOptions = [
+    { value: "baptism", label: "Baptism" },
+    { value: "communion", label: "First Communion" },
+    { value: "confirmation", label: "Confirmation" },
+    { value: "confession", label: "Confession" },
+    { value: "anointing", label: "Anointing of the Sick" },
+    { value: "marriage", label: "Marriage" },
+    { value: "HolyOrders", label: "Holy Orders" },
+  ];
+
+  // Define spiritual development options
+  const spiritualDevelopmentOptions = [
+    { value: "scriptures", label: "Exploring the Scriptures" },
+    { value: "catechism", label: "Catechism Classes" },
+    { value: "mary", label: "The Virgin Mary" },
+    { value: "meditative-reading", label: "Lectio Divina" },
+    { value: "hail-mary", label: "The Hail Mary" },
+    { value: "prayer-rosary", label: "Praying the Rosary" },
+    { value: "saint-devotions", label: "Devotions to Saints" },
+    { value: "christ", label: "The Nature of Jesus Christ" },
+    { value: "trinity", label: "The Holy Trinity" },
+    { value: "adoration", label: "Eucharistic Adoration" },
+    { value: "sacraments", label: "Preparation for Sacraments" },
+    { value: "spiritual-direction", label: "Spiritual Direction" },
+    { value: "reconciliation", label: "Sacrament of Reconciliation" },
+    { value: "church-marks", label: "The Four Marks of the Church" },
+    { value: "church-fathers", label: "The Church Fathers" },
+    { value: "grace", label: "Understanding Grace" },
+    { value: "sin", label: "Understanding Sin" },
+    { value: "heaven", label: "Understanding Heaven" },
+    { value: "hell", label: "Understanding Hell" },
+    { value: "purgatory", label: "Understanding Purgatory" },
+    { value: "our-father", label: "The Our Father" },
+    { value: "prayer", label: "The Power of Prayer" },
+    { value: "daily-prayer", label: "The Liturgy of the Hours" },
+    { value: "contemplative-prayer", label: "Contemplative Prayer" },
+    { value: "centering-prayer", label: "Centering Prayer" },
+    { value: "fasting", label: "Fasting and Penance" },
+    { value: "suffering", label: "The Role of Suffering in Spiritual Growth" },
+    { value: "pilgrimage", label: "Pilgrimage" },
+    { value: "sacred-art", label: "Sacred Art" },
+    { value: "rosary", label: "The Mass" },
+    { value: "liturgical-year", label: "The Liturgical Year" },
+    { value: "prayer-techniques", label: "Prayer Techniques" },
+    { value: "prayer-mental", label: "Mental Prayer" },
+    { value: "prayer-vocal", label: "Vocal Prayer" },
+    { value: "prayer-contemplative", label: "Contemplative Prayer" },
+    { value: "prayer-meditation", label: "Meditation" },
+    { value: "moral-decision-making", label: "Moral Decision Making" },
+    { value: "deadly-sins", label: "The Seven Deadly Sins and Virtues" },
+    { value: "moral-virtues", label: "The Moral Virtues" },
+    { value: "social-justice", label: "Social Justice" },
+    { value: "human-dignity", label: "Human Dignity" },
+    { value: "almsgiving", label: "Almsgiving" },
+    { value: "mentorship", label: "Mentoring and Spiritual Growth" },
+    { value: "community", label: "Community in Faith" },
+  ];
+
+  // Define soul prayer options
+  const soulPrayerOptions = [
+    { value: "soul-prayer", label: "Prayer for the Faithful Departed" },
+  ];
 
   return (
     <section className="service-form-container">
@@ -137,7 +250,7 @@ const AddServiceRequest = () => {
           <select
             name="serviceCategory"
             id="serviceCategory"
-            value={formData.serviceCategory}
+            value={serviceCategory}
             onChange={handleChange}
             aria-label="Service Category"
             className={`input-field ${
@@ -162,24 +275,84 @@ const AddServiceRequest = () => {
           <select
             name="serviceName"
             id="serviceName"
-            value={formData.serviceName}
+            value={serviceName}
             onChange={handleChange}
             aria-label="Service Name"
-            className={`input-field ${formErrors.serviceName ? "error" : ""}`}
+            disabled={!serviceCategory}
+            className={`input-field ${serviceName ? "error" : ""}`}
           >
+            {/* Sacraments */}
             <option value="">Select Service</option>
-            <option value="baptism">Baptism</option>
-            <option value="communion">First Communion</option>
-            <option value="confirmation">Confirmation</option>
-            <option value="confession">Confession</option>
-            <option value="anointing">Anointing of the Sick</option>
-            <option value="marriage">Marriage</option>
-            <option value="others">Others</option>
+            {/* Render Sacrament options if the selected category is sacrament */}
+            {categoryMap[serviceCategory] === "Sacraments" &&
+              sacramentOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+
+            {/* Render Spiritual Development options if the selected category is spiritual development */}
+            {categoryMap[serviceCategory] === "Spiritual development" &&
+              spiritualDevelopmentOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+
+            {/* Render Soul Prayer options if the selected category is soul prayer */}
+            {categoryMap[serviceCategory] === "Soul prayer" &&
+              soulPrayerOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
           </select>
           {formErrors.serviceName && (
             <span className="error-text">{formErrors.serviceName}</span>
           )}
         </div>
+
+        {/* Conditional input for scripture topic */}
+        {serviceName === "scriptures" && (
+          <div className="input-container">
+            <FaBible className="icon" />
+            <input
+              type="text"
+              name="scriptureTopic"
+              value={scriptureTopic}
+              onChange={handleChange}
+              className={`input-field ${
+                formErrors.scriptureTopic ? "error" : ""
+              }`}
+              aria-label="Specific Scripture Topic"
+              placeholder="Specify the topic..."
+            />
+            {formErrors.scriptureTopic && (
+              <span className="error-text">{formErrors.scriptureTopic}</span>
+            )}
+          </div>
+        )}
+
+        {/* Conditional input for catechism topic */}
+        {serviceName === "catechism" && (
+          <div className="input-container">
+            <FaBible className="icon" />
+            <input
+              type="text"
+              name="catechismTopic"
+              value={catechismTopic}
+              onChange={handleChange}
+              className={`input-field ${
+                formErrors.catechismTopic ? "error" : ""
+              }`}
+              aria-label="Specific Catechism Topic"
+              placeholder="Specify the catechism topic..."
+            />
+            {formErrors.catechismTopic && (
+              <span className="error-text">{formErrors.catechismTopic}</span>
+            )}
+          </div>
+        )}
 
         <div className="input-container">
           <MdDateRange className="icon" />
@@ -187,7 +360,7 @@ const AddServiceRequest = () => {
             type="date"
             name="serviceDate"
             id="serviceDate"
-            value={formData.serviceDate}
+            value={serviceDate}
             onChange={handleChange}
             className={`input-field ${formErrors.serviceDate ? "error" : ""}`}
             aria-label="Service Date"
@@ -223,11 +396,11 @@ const AddServiceRequest = () => {
           <MdOutlineMessage className="icon" />
           <textarea
             name="message"
-            value={formData.message}
+            value={message}
             id="message"
             rows={8}
             onChange={handleChange}
-            className={`input-field ${formErrors.message ? "error" : ""}`}
+            className={`input-field ${message ? "error" : ""}`}
             aria-label="Service Text Message"
             placeholder="Enter your message..."
           />

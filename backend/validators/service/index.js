@@ -28,23 +28,55 @@ const serviceValidation = () => {
       .trim()
       .escape(),
 
+    // Conditional validation for `scriptureTopic`
+    body("scriptureTopic")
+      .optional({ nullable: true })
+      .if((value, { req }) => req.body.serviceName === "scriptures")
+      .notEmpty()
+      .withMessage("Scripture topic is required for service 'scriptures'."),
+
+    // Conditional validation for `catechismTopic`
+    body("catechismTopic")
+      .optional({ nullable: true })
+      .if((value, { req }) => req.body.serviceName === "catechism")
+      .notEmpty()
+      .withMessage("Catechism topic is required for service 'catechism'."),
+
     body("serviceDate")
       .notEmpty()
       .withMessage("Service date is required.")
       .isISO8601()
       .withMessage("Service date must be a valid ISO 8601 date.")
       .toDate() // Converts the string to a Date object
-      .custom((value) => {
-        const currentDate = new Date();
-        const serviceDate = new Date(value);
+      .custom((value, { req }) => {
+        const serviceCategory = req.body.categoryName;
+        const serviceName = req.body.serviceName;
+        const today = new Date();
+        const minimumDate = new Date(today); // Copy of today to calculate minimumDate
 
-        // Calculate the date that is 60 days from the current date
-        const minEventDate = new Date(currentDate);
-        minEventDate.setDate(currentDate.getDate() + 90);
+        // Calculate the minimum dates based on conditions
+        if (serviceCategory === "Sacraments") {
+          if (["marriage", "confirmation", "communion"].includes(serviceName)) {
+            minimumDate.setMonth(today.getMonth() + 6);
+          } else if (serviceName === "baptism") {
+            minimumDate.setMonth(today.getMonth() + 1);
+          } else {
+            minimumDate.setDate(today.getDate() + 20);
+          }
+        } else if (serviceCategory === "Spiritual development") {
+          minimumDate.setMonth(today.getMonth() + 2);
+        } else if (serviceCategory === "Soul prayer") {
+          minimumDate.setMonth(today.getMonth() + 1);
+        }
 
-        if (serviceDate < minEventDate) {
+        // Check if the provided serviceDate meets the minimum requirement
+        if (value < minimumDate) {
+          const daysRequired = Math.ceil(
+            (minimumDate - today) / (1000 * 60 * 60 * 24)
+          );
+
           throw new Error(
-            "Service date must be at least 90 days in the future"
+            `The selected service date for "${serviceName}" under the "${serviceCategory}" category must be at least ${daysRequired} days from today. Please choose a later date.`
           );
         }
         return true;
