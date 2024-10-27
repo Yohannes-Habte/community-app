@@ -150,7 +150,7 @@ const CategoryForm = ({ setOpenCategory }) => {
 
           <button className="genre-btn" disabled={loading}>
             {loading ? (
-              <ButtonLoader isLoading={loading} message="Loading" size={24} />
+              <ButtonLoader isLoading={loading} message="" size={24} />
             ) : (
               "Add Category"
             )}

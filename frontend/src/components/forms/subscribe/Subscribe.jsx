@@ -80,7 +80,7 @@ const Subscribe = () => {
 
       <button type="submit" className="subscription-btn" disabled={loading}>
         {loading ? (
-          <ButtonLoader isLoading={loading} message="Loading..." size={24} />
+          <ButtonLoader isLoading={loading} message="" size={24} />
         ) : (
           "Subscribe"
         )}

@@ -136,7 +136,11 @@ const SubscriberNotification = () => {
           type="submit"
           disabled={loading}
         >
-          {loading ? <ButtonLoader isLoading={loading} /> : "Send Notification"}
+          {loading ? (
+            <ButtonLoader isLoading={loading} message="" />
+          ) : (
+            "Send Notification"
+          )}
         </button>
 
         {/* Global Error Message */}

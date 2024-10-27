@@ -230,7 +230,7 @@ const VideoUpload = () => {
           {loading ? (
             <ButtonLoader
               isLoading={loading}
-              message="Uploading..."
+              message=""
               size={24}
             />
           ) : (

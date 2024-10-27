@@ -94,13 +94,28 @@ export const fetchAllServices = () => async (dispatch) => {
 //==============================================================================
 export const allServices = () => async (dispatch) => {
   dispatch(fetchAllServicesStart());
+
   try {
     const response = await axios.get(`${API}/services/admin`, {
       withCredentials: true,
     });
     dispatch(fetchAllServicesSuccess(response.data.result));
   } catch (error) {
-    dispatch(fetchAllServicesFailure(error.message));
+    // Extract error message with fallback if error.response or error.message is missing
+    let errorMessage = "An unexpected error occurred. Please try again later.";
+
+    if (error.response) {
+      if (error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else {
+        errorMessage = `Server Error: ${error.response.status} - ${error.response.statusText}`;
+      }
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    // Dispatch failure action with refined error message
+    dispatch(fetchAllServicesFailure(errorMessage));
   }
 };
 

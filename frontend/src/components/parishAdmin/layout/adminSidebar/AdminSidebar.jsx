@@ -215,7 +215,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         />
 
         <h4>
-          <Link to={"/"} onClick={handleLogout}>
+          <Link to={"/login"} onClick={handleLogout}>
             Log Out
           </Link>
         </h4>

@@ -384,7 +384,7 @@ const UpdateFinancialReport = () => {
 
       <button disabled={loading} className="add-btn">
         {loading ? (
-          <ButtonLoader isLoading={loading} message="Loading..." size={24} />
+          <ButtonLoader isLoading={loading} message="" size={24} />
         ) : (
           "Submit"
         )}

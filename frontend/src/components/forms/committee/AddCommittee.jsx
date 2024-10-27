@@ -386,7 +386,7 @@ const AddCommittee = ({ setOpenCommittee }) => {
             aria-label="Add Committee Member"
           >
             {formLoading ? (
-              <ButtonLoader isLoading={formLoading} size={24} />
+              <ButtonLoader isLoading={formLoading} message="" size={24} />
             ) : (
               "Add Committee Member"
             )}

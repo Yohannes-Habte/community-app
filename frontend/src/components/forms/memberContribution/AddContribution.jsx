@@ -199,7 +199,7 @@ const AddContribution = ({ setOpenAddContribution }) => {
             aria-label="Submit contribution"
           >
             {formLoading ? (
-              <ButtonLoader isLoading={formLoading} size={24} />
+              <ButtonLoader isLoading={formLoading} message="" size={24} />
             ) : (
               "Add Contribution"
             )}

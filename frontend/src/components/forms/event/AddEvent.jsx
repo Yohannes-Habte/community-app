@@ -258,7 +258,7 @@ const AddEvent = () => {
 
         {/* Submit Button with loading state */}
         <button className="add-event-btn" type="submit" disabled={loading}>
-          {loading ? <ButtonLoader isLoading={loading} /> : "Create Event"}
+          {loading ? <ButtonLoader isLoading={loading} message="" /> : "Create Event"}
         </button>
       </form>
     </section>

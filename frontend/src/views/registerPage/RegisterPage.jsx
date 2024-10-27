@@ -13,7 +13,7 @@ const RegisterPage = () => {
       <section className="register-container">
         <h1 className="user-register-title"> Create an Account for Free</h1>
 
-        <Register onSignUp={"Sign Up"} />
+        <Register />
       </section>
 
       <Footer />

@@ -508,7 +508,7 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
             {loading ? (
               <ButtonLoader
                 isLoading={success}
-                message="Loading..."
+                message=""
                 size={24}
               />
             ) : (

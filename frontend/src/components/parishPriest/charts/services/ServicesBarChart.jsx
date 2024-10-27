@@ -97,15 +97,10 @@ const ServicesBarChart = ({ setActive }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const inputYear = e.target.elements.year.value;
+    const selectedYear = new Date().getFullYear() + 1;
 
-    if (
-      !inputYear ||
-      inputYear < 1900 ||
-      inputYear > new Date().getFullYear()
-    ) {
-      setFormError(
-        `Enter a valid year between 2022 and ${new Date().getFullYear()}.`
-      );
+    if (!inputYear || inputYear < 2022 || inputYear > selectedYear) {
+      setFormError(`Enter a valid year between 2022 and ${selectedYear}.`);
       return;
     }
 

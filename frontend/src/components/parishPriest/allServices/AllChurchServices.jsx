@@ -46,7 +46,7 @@ const AllChurchServices = () => {
 
   // Parishioners header
   const columns = [
-    { field: "id", headerName: "Service ID", width: 250 },
+  
     { field: "serviceName", headerName: "Service Name", width: 200 },
     { field: "serviceDate", headerName: "Service Date", width: 200 },
     {

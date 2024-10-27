@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
+import { useEffect } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -39,6 +41,22 @@ const useFetchUserServices = () => {
 const AllUserServices = () => {
   const { services, loading, error } = useFetchUserServices();
 
+  // State for the dialog
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+
+  // Open dialog with the message
+  const handleOpenDialog = (message) => {
+    setDialogMessage(message);
+    setOpenDialog(true);
+  };
+
+  // Close dialog
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setDialogMessage("");
+  };
+
   // Define DataGrid columns
   const columns = [
     { field: "serviceDate", headerName: "Service Date", width: 150 },
@@ -59,7 +77,7 @@ const AllUserServices = () => {
     {
       field: "serviceStatus",
       headerName: "Service Status",
-      width: 150,
+      width: 130,
       renderCell: (params) => {
         let color = "";
 
@@ -91,6 +109,20 @@ const AllUserServices = () => {
         );
       },
     },
+
+    {
+      field: "message",
+      headerName: "Cancellation Reason",
+      width: 200,
+      renderCell: (params) => {
+        const { serviceStatus, message } = params.row;
+        return serviceStatus === "cancelled" ? (
+          <Button color="primary" onClick={() => handleOpenDialog(message)}>
+            View Reason
+          </Button>
+        ) : null; // Show nothing if service status is not "cancelled"
+      },
+    },
   ];
 
   // Format date to DD/MM/YYYY
@@ -104,10 +136,11 @@ const AllUserServices = () => {
   // Prepare rows for DataGrid
   const rows = services.map((service) => ({
     id: service._id?.slice(-10).concat("..."),
-    serviceDate: formatDate(service.serviceDate),
-    serviceName: service.serviceName,
-    identificationDocument: service.identificationDocument,
-    serviceStatus: service.serviceStatus,
+    serviceDate: formatDate(service?.serviceDate),
+    serviceName: service?.serviceName,
+    identificationDocument: service?.identificationDocument,
+    serviceStatus: service?.serviceStatus,
+    message: service?.message,
   }));
 
   return (
@@ -144,6 +177,14 @@ const AllUserServices = () => {
           />
         </div>
       )}
+
+      {/* Dialog for displaying cancellation reason */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Cancellation Reason</DialogTitle>
+        <DialogContent>
+          <p>{dialogMessage}</p>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

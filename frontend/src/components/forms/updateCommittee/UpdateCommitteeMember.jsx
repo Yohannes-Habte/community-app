@@ -18,9 +18,10 @@ import { FaUserAlt } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import { MdCloudUpload, MdLocationPin } from "react-icons/md";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateCommitteeMember = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { loading, currentCommittee } = useSelector((state) => state.committee);
   const dispatch = useDispatch();
@@ -127,8 +128,8 @@ const UpdateCommitteeMember = () => {
 
       dispatch(updateCommitteeSuccess(data.committee));
       toast.success(data.message);
-
       resetForm();
+      navigate("/admin/dashboard");
     } catch (err) {
       dispatch(
         updateCommitteeFailure(
@@ -205,7 +206,7 @@ const UpdateCommitteeMember = () => {
         aria-label="Add Committee Member"
       >
         {loading ? (
-          <ButtonLoader isLoading={loading} size={24} />
+          <ButtonLoader isLoading={loading} message="" size={24} />
         ) : (
           "Add Committee Member"
         )}

@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 const CommitteeCard = ({ data }) => {
   const { currentUser } = useSelector((state) => state.member);
 
-  console.log("Committee Card Data:", data);
-
   return (
     <section className="committee-card-container">
       <figure className="image-container">

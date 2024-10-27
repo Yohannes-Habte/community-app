@@ -1,18 +1,136 @@
-@import "../../../styles/variables.scss";
-@import "../../../styles/mixins.scss";
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
-.modal {
-  @include modal;
-  .register-popup-box {
-    @include popupBox;
+/* Laptop screen size */
+@media screen and (min-width: 1024px) {
+  .register-form {
+    background-color: $form-bg;
+    @include shadow1;
+    padding: 1rem 2rem;
 
-    .close-popup-box {
-      @include closeModal;
+    .register-input-fields-container {
+      @include twoGridTemplateEqualColumns;
+
+      .input-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .input-icon {
+          @include inputIcon;
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .input-label {
+          @include inputLabel;
+        }
+
+        .input-highlight {
+          @include inputHighlight;
+        }
+
+        .input-field:focus + .input-label {
+          @include focusInputFieldAndInputLabel;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .icon {
+          @include passwordDisplay;
+        }
+      }
+
+      .input-error-message {
+        color: $red;
+        font-size: $sfs;
+        margin: 0.2rem 0 0 0.3rem;
+      }
     }
 
-    .register-title {
-      @include subTitle;
-      text-align: center;
+    .consent-button-password-validation-container {
+      @include twoGridTemplateEqualColumns;
+
+      .consent-button-container {
+        @include flexColumn;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        .accept-terms {
+          @include display;
+
+          .consent-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+
+          .terms-of-user {
+            font-size: $nfs;
+            color: $blue;
+            padding-left: 0.5rem;
+          }
+        }
+
+        .show-password-container {
+          @include display;
+
+          .show-password-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+        }
+
+        .input-error-message {
+          color: $red;
+          font-size: $sfs;
+          margin: -1rem 0 0 0.3rem;
+        }
+
+        .register-button-container {
+          .register-button {
+            @include button3;
+          }
+        }
+
+        .error-message {
+          @include errorMessage;
+        }
+
+        .have-account {
+          @include flexRow;
+          font-size: $nfs;
+
+          .login-link {
+            font-weight: bold;
+            font-size: $nfs;
+            color: $blue;
+          }
+        }
+      }
+
+      .password-conditions-container {
+        @include shadow1;
+        background-color: #f8f9fa;
+        padding: 0.3rem 1rem;
+        border-radius: $radius;
+
+        .password-validation-title {
+          font-size: $nfs;
+          padding: 0.5rem 0;
+        }
+
+        .password-rule {
+          @include flexSpaceBetween;
+          align-items: center;
+          padding: 0.3rem 0;
+          .infos {
+            font-size: $sfs;
+          }
+        }
+      }
     }
   }
 }

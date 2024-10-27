@@ -11,7 +11,6 @@ import {
 } from "../../../redux/actions/user/userAction";
 import { Alert } from "@mui/material";
 import { API } from "../../../utile/security/secreteKey";
-import Register from "../../forms/createAccount/Register";
 
 const Members = () => {
   const { parishioners, loading, error } = useSelector((state) => state.member);
@@ -20,7 +19,6 @@ const Members = () => {
   const [memberId, setMemberId] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
-  const [openAddNewMember, setOpenAddNewMember] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
   // Fetch members when the component mounts
@@ -90,18 +88,18 @@ const Members = () => {
   ];
 
   const rows = parishioners.map((parishioner) => ({
-    id: parishioner._id,
-    firstName: parishioner.firstName,
-    lastName: parishioner.lastName,
-    maritalStatus: parishioner.maritalStatus,
-    email: parishioner.email,
-    phone: parishioner.phone,
-    street: parishioner.street,
-    zipCode: parishioner.zipCode,
-    city: parishioner.city,
-    state: parishioner.state,
-    country: parishioner.country,
-    role: parishioner.role,
+    id: parishioner?._id,
+    firstName: parishioner?.firstName,
+    lastName: parishioner?.lastName,
+    maritalStatus: parishioner?.maritalStatus,
+    email: parishioner?.email,
+    phone: parishioner?.phone,
+    street: parishioner?.street,
+    zipCode: parishioner?.zipCode,
+    city: parishioner?.city,
+    state: parishioner?.state,
+    country: parishioner?.country,
+    role: parishioner?.role,
   }));
 
   // Separate Delete Confirmation Modal component
@@ -136,17 +134,6 @@ const Members = () => {
       <h1 className="members-title">
         Current Members of the Eritrean Roman Catholic Church in Hamburg
       </h1>
-
-      <aside className="new-member-wrapper">
-        <h3 className="title">Add New Member</h3>
-        <button
-          onClick={() => setOpenAddNewMember(true)}
-          className="add-member"
-          aria-label="Add a new member"
-        >
-          Add Member
-        </button>
-      </aside>
 
       {loading && (
         <PageLoader
@@ -196,10 +183,6 @@ const Members = () => {
           onConfirm={() => handleDelete(memberId)}
           deleteLoading={deleteLoading}
         />
-      )}
-
-      {openAddNewMember && (
-        <Register open={openAddNewMember} setOpen={setOpenAddNewMember} />
       )}
     </section>
   );

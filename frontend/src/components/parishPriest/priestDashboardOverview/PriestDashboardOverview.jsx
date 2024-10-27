@@ -13,7 +13,7 @@ const PriestDashboardOverview = ({ active, setActive }) => {
 
       {active === 2 && <AllParishioners />}
 
-      {active === 3 && <AllChurchServices />}
+      {active === 3 && <AllChurchServices setActive={setActive} />}
 
       {active === 4 && <AllEvents />}
 

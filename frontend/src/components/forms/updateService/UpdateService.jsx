@@ -6,11 +6,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../../../utile/security/secreteKey";
-import { MdMessage } from "react-icons/md";
+import { MdDateRange, MdMessage } from "react-icons/md";
 
 const initialState = {
   serviceStatus: "pending",
   message: "",
+  serviceDate: "",
 };
 
 const UpdateService = () => {
@@ -20,7 +21,7 @@ const UpdateService = () => {
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { serviceStatus, message } = formData;
+  const { serviceStatus, serviceDate, message } = formData;
 
   console.log("Service Data:", formData);
 
@@ -35,6 +36,7 @@ const UpdateService = () => {
         if (data?.result) {
           setFormData({
             serviceStatus: data.result.serviceStatus,
+            serviceDate: data?.result?.serviceDate.slice(0, 10) || "",
             message: data?.result?.message || "",
           });
         } else {
@@ -48,7 +50,7 @@ const UpdateService = () => {
     };
 
     fetchService();
-  }, [id]); 
+  }, [id]);
 
   // Validate form before submission
   const validateForm = () => {
@@ -102,6 +104,7 @@ const UpdateService = () => {
       const updatedService = {
         serviceStatus,
         message: message.trim(),
+        serviceDate,
       };
 
       const { data } = await axios.put(
@@ -151,6 +154,19 @@ const UpdateService = () => {
         )}
       </div>
 
+      <div className="input-container">
+        <MdDateRange className="icon" />
+        <input
+          type="date"
+          name="serviceDate"
+          id="serviceDate"
+          value={serviceDate}
+          onChange={handleChange}
+          className={`input-field`}
+          aria-label="Service Date"
+        />
+      </div>
+
       {/* Update Message Textarea */}
       <div className="input-container">
         <MdMessage className="icon" />
@@ -176,7 +192,7 @@ const UpdateService = () => {
       {/* Submit Button */}
       <button className="service-update-btn" disabled={loading}>
         {loading ? (
-          <ButtonLoader isLoading={loading} message="Updating..." size={24} />
+          <ButtonLoader isLoading={loading} message="" size={24} />
         ) : (
           "Update Service"
         )}

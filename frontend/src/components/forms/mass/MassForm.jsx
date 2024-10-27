@@ -651,7 +651,7 @@ const MassForm = () => {
         <div className="submit-wrapper">
           <button className="create-mass-btn" disabled={loading}>
             {loading ? (
-              <ButtonLoader isLoading={loading} message="Loading" size={24} />
+              <ButtonLoader isLoading={loading} message="" size={24} />
             ) : (
               "Create Mass"
             )}

@@ -76,7 +76,7 @@ const serviceValidation = () => {
           );
 
           throw new Error(
-            `The selected service date for "${serviceName}" under the "${serviceCategory}" category must be at least ${daysRequired} days from today. Please choose a later date.`
+            `The selected service date for "${serviceName}" must be at least ${daysRequired} days from today. Please choose a later date.`
           );
         }
         return true;

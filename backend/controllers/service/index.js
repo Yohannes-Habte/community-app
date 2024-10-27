@@ -169,7 +169,7 @@ export const getSingleService = async (req, res, next) => {
 
 export const updateServiceRequest = async (req, res, next) => {
   const { id } = req.params;
-  const { serviceStatus, message } = req.body;
+  const { serviceStatus, serviceDate, message } = req.body;
 
   // Validate the service ID format
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -189,6 +189,7 @@ export const updateServiceRequest = async (req, res, next) => {
 
     // Update the service status and message
     service.serviceStatus = serviceStatus;
+    service.serviceDate = serviceDate;
     service.message = message;
     await service.save({ session });
 
@@ -250,18 +251,15 @@ export const getAllServices = async (req, res, next) => {
       serviceDate: 1, // Sort by serviceDate in ascending order (first year, then month)
     });
 
-    // Check if services are found
     if (!services || services.length === 0) {
       return next(createError(404, "No services found."));
     }
 
-    // Return the fetched services
     return res.status(200).json({
       success: true,
       result: services,
     });
   } catch (error) {
-    console.error("Error fetching services:", error); // Log error for internal tracking
     return next(createError(500, "Server error. Please try again later."));
   }
 };

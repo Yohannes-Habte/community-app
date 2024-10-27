@@ -207,24 +207,19 @@ export const clearAllMemberErrors = () => (dispatch) => {
 //==============================================================================
 
 export const fetchUser = () => async (dispatch) => {
-  dispatch(fetchUserRequest());
-
   try {
-    // console.log('All cookies:', Cookies.get());
+    dispatch(fetchUserRequest());
     const token = Cookies.get("token");
 
     if (!token) {
-      // console.warn("No token found in cookies, redirecting to login.");
       throw new Error("No user found");
     }
-
     const res = await axios.get(`${API}/members/user`, {
       withCredentials: true,
     });
-    // console.log("user data = ", res);
+
     dispatch(fetchUserSuccess(res.data.result));
   } catch (error) {
-    // console.error("Fetch User Error:", error);
     dispatch(fetchUserFailure(error.message));
   }
 };

@@ -94,9 +94,7 @@ const EventInfos = ({ setIsActive }) => {
 
   return (
     <section className="events-information-container">
-      <h4 className="event-information-title">
-        Events for the Year {year}
-      </h4>
+      <h4 className="event-information-title">Events for the Year {year}</h4>
 
       <form onSubmit={handleSubmit} className="event-year-form">
         <input

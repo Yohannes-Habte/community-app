@@ -6,9 +6,9 @@ const UserProtectedRoutes = ({ children }) => {
 
   if (!currentUser) {
     return <Navigate to="/login" />;
-  } else {
-    return children;
   }
+
+  return children;
 };
 
 export default UserProtectedRoutes;

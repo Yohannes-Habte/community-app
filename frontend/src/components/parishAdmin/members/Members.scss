@@ -8,19 +8,8 @@
   .members-title {
     @include subTitle;
     text-align: center;
-  }
-
-  .new-member-wrapper {
-    @include flexSpaceBetween;
     margin: 2rem 0;
-
-    .title {
-      @include subTitle;
-    }
-
-    .add-member {
-      @include button2;
-    }
+    font-size: $aafs;
   }
 
   // DeleteConfirmationModal Styles

@@ -21,7 +21,7 @@ const ServicesInfos = ({ setIsActive }) => {
 
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [inputError, setInputError] = useState(""); // State to track input validation errors
+  const [inputError, setInputError] = useState("");
 
   useEffect(() => {
     dispatch(allServices());
@@ -83,7 +83,7 @@ const ServicesInfos = ({ setIsActive }) => {
     setInputError(""); // Reset the error message
 
     const selectedYear = e.target.elements.year.value;
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear() + 1;
 
     if (
       isNaN(selectedYear) ||
@@ -151,7 +151,7 @@ const ServicesInfos = ({ setIsActive }) => {
           className="input-field"
           aria-label="Enter year for services"
           min="2022"
-          max={new Date().getFullYear()}
+          max={new Date().getFullYear() + 1}
         />
         <button className="year-form-btn" disabled={buttonLoading}>
           {buttonLoading ? (
@@ -162,7 +162,11 @@ const ServicesInfos = ({ setIsActive }) => {
         </button>
       </form>
 
-      {inputError && <p className="error-message">{inputError}</p>}
+      {inputError && (
+        <Alert severity="error" className="error-message">
+          {inputError}
+        </Alert>
+      )}
 
       <h4 className="total-year-services">
         Total Services for {year}: {totalServices}
@@ -170,10 +174,12 @@ const ServicesInfos = ({ setIsActive }) => {
 
       {loading && <PageLoader isLoading={loading} message="" size={80} />}
       {error && (
-        <Alert className="error-message">An error occurred: {error}</Alert>
+        <Alert severity="error" className="error-message">
+          An error occurred: {error}
+        </Alert>
       )}
       {!loading && !error && services.length === 0 && (
-        <Alert>No services available for the year {year}</Alert>
+        <Alert security="info">No services available for the year {year}</Alert>
       )}
 
       {!loading && !error && services.length > 0 && (
