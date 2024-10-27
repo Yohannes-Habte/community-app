@@ -1,76 +1,177 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
+/* Base styles for the navbar */
 .header-navbar {
   width: 100%;
   height: 3rem;
-  @include flexSpaceBetween;
   background-color: $navbar-bg;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
+  @include flexSpaceBetween;
 
-  // Logo
-  .short-logo {
-    font-family: 'Rubik Beastly', system-ui;
+  .church-logo {
+    font-family: "Rubik Beastly", system-ui;
     font-weight: 400;
     font-style: normal;
   }
 
-  // navigation bar
-  .navbar-items {
-    @include flexRow;
-    gap: 2rem ;
-
-    .navbar-item {
-      .active-navbar-item {
-        @include activeNavbar;
-      }
-
-      .passive-navbar-item {
-        @include passiveNavbar;
-      }
-    }
-  }
-
-  // Logged in user
   .logged-in-user-info {
-    @include flexRow;
+    display: flex;
     align-items: center;
     position: relative;
+    gap: 0.5rem;
+    cursor: pointer;
 
-    .logged-in-user-image {
-      @include loggedInUserImage;
+    .profile-photo-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      .logged-in-user-image {
+        width: 1.875rem;
+        height: 1.875rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 0.125rem solid $white;
+      }
     }
 
-    .logged-in-user-name {
-      @include loggedInUserName;
-    }
-
+    /* Dropdown menu */
     .logged-in-user-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
       position: absolute;
-      right: -2rem;
-      top: 2.5rem;
+      top: 2.4rem;
+      right: -3rem;
       background-color: $navbar-bg;
-      @include shadow1;
-      height: fit-content;
-      width: 20rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      padding: 0.5rem;
+      width: 12rem;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
 
       .menu-item {
-        @include shadow1;
+        padding: 0.5rem;
+      
 
         .link {
+          color: $blue;
+          text-decoration: none;
+          font-weight: 500;
           &:hover {
             color: $red;
           }
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
       }
     }
   }
 
-  // register and login
-  .register-login {
-    @include flexRow;
+  /* Navbar items, initially hidden on mobile */
+  .church-logo,
+  .navbar-items,
+  .register-login,
+  .logged-in-user-menu {
+    display: none;
+  }
 
-    .link {
+  /* Menu open state for mobile */
+  &.menu-open {
+    .navbar-items,
+    .logged-in-user-menu,
+    .register-login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      top: 3rem;
+      left: 0;
+      right: 0;
+      background-color: $navbar-bg;
+      padding: 1rem 0;
+      gap: 1rem;
+      min-height: 100vh;
+    }
+  }
+}
+
+/* Mobile styling up to 480px */
+@media (max-width: 480px) {
+  .header-navbar {
+    padding: 1rem;
+  }
+}
+
+/* Common mobile devices between 481px and 768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .header-navbar {
+    .hamburger-menu {
+      display: flex;
+    }
+
+    .navbar-items,
+    .register-login,
+    .logged-in-user-menu {
+      display: none;
+    }
+  }
+}
+
+/* Tablet screens between 769px and 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header-navbar {
+    padding: 0.5rem 2rem;
+    .navbar-items,
+    .register-login,
+    .logged-in-user-info {
+      display: flex;
+      @include flexRow;
+      gap: 1.5rem;
+    }
+
+    .hamburger-menu {
+      display: none;
+    }
+  }
+}
+
+/* Standard desktops between 1025px and 1200px */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .header-navbar {
+    padding: 0.5rem 2rem;
+    .navbar-items,
+    .register-login,
+    .logged-in-user-info {
+      display: flex;
+      @include flexRow;
+      gap: 1.5rem;
+    }
+
+    .hamburger-menu {
+      display: none;
+    }
+  }
+}
+
+/* Wide desktop screens above 1201px */
+@media (min-width: 1201px) {
+  .header-navbar {
+    padding: 0.5rem 3rem;
+    .navbar-items,
+    .register-login,
+    .logged-in-user-info {
+      display: flex;
+      @include flexRow;
+      gap: 1.5rem;
+    }
+
+    .hamburger-menu {
+      display: none;
     }
   }
 }

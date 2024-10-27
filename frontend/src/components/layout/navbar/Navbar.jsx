@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../../redux/actions/user/userAction";
 import Logout from "../../../utile/globalFunctions/Logout";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineClose } from "react-icons/md";
 
 const Navbar = () => {
   // Global state variables
@@ -11,21 +13,56 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { signOut } = Logout();
 
-  // Local state variable
-  const [open, setOpen] = useState(false);
+  // Local state variables
+  const [open, setOpen] = useState(false); // For dropdown visibility
+  const [menuOpen, setMenuOpen] = useState(false); // For hamburger menu
+
+  // ===============================================================================================
+  // Step 1: Ref to detect outside clicks
+  // ===============================================================================================
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
+  // ===============================================================================================
+  // Step 2: Event listener to detect outside clicks
+  // ===============================================================================================
+
+  useEffect(() => {
+    // Close dropdown if click is outside of dropdown area
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup the event listener on component unmount
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // Handle logout
   const handleLogout = async () => {
-    await signOut(); // This will trigger the logout process
+    await signOut();
+    setOpen(false); // Close dropdown after logout
   };
 
-  // Handle click
-  const handleClick = () => {
-    setOpen(!open);
+  // Toggle hamburger menu
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    setOpen(false); // Close user dropdown when menu opens
+  };
+
+  // Toggle dropdown for user info
+  const toggleDropdown = () => {
+    setOpen((prev) => !prev);
+    if (menuOpen) setMenuOpen(false); // Close menu if user info is toggled
   };
 
   // Styling NavLink
@@ -33,11 +70,16 @@ const Navbar = () => {
     isActive ? "active-navbar-item" : "passive-navbar-item";
 
   return (
-    <nav className="header-navbar">
+    <nav className={`header-navbar ${menuOpen ? "menu-open" : ""}`}>
       {/* Church logo */}
-      <NavLink to={"/"} className={"short-logo"}>
+      <NavLink to={"/"} className={"church-logo"}>
         <h1>ERCCH</h1>
       </NavLink>
+
+      {/* Hamburger icon for mobile screens */}
+      <div className="hamburger-menu" onClick={toggleMenu}>
+        {menuOpen ? <MdOutlineClose /> : <GiHamburgerMenu />}
+      </div>
 
       {/* Navigation bar */}
       <ul className="navbar-items">
@@ -46,65 +88,86 @@ const Navbar = () => {
             Home
           </NavLink>
         </li>
-
         <li className="navbar-item">
           <NavLink to={"/about"} className={navbarNavLink}>
             About
           </NavLink>
         </li>
-
         <li className="navbar-item">
           <NavLink to={"/news"} className={navbarNavLink}>
             News
           </NavLink>
         </li>
-
         <li className="navbar-item">
           <NavLink to={"/contact"} className={navbarNavLink}>
             Contact
           </NavLink>
         </li>
       </ul>
+
+      {/* Step 3: Ref to detect outside clicks */}
+
       {currentUser ? (
-        <aside className="logged-in-user-info" onClick={handleClick}>
-          <img
-            className="logged-in-user-image "
-            src={currentUser.image}
-            alt={currentUser.firstName}
-          />
-          <h4 className="logged-in-user-name"> {currentUser.firstName} </h4>
+        <aside
+          className="logged-in-user-info"
+          onClick={toggleDropdown}
+          ref={dropdownRef}
+        >
+          <figure className="profile-photo-wrapper">
+            <img
+              className="logged-in-user-image"
+              src={currentUser?.image}
+              alt={currentUser?.firstName}
+            />
+            <figcaption>{currentUser.firstName}</figcaption>
+          </figure>
+
+          {/* Dropdown menu, visible only when 'open' is true */}
           {open && (
             <ul className="logged-in-user-menu">
-              {currentUser && currentUser.role === "priest" && (
+              {currentUser.role === "priest" && (
                 <li className="menu-item">
-                  <NavLink to={"/priest/dashboard"} className={"link"}>
+                  <NavLink
+                    to={"/priest/dashboard"}
+                    className={"link"}
+                    onClick={() => setOpen(false)}
+                  >
                     Priest Dashboard
                   </NavLink>
                 </li>
               )}
-              {currentUser && currentUser.role === "admin" && (
-                <li className="menu-item">
-                  <NavLink to={"/admin/dashboard"} className={"link"}>
+              {currentUser.role === "admin" && (
+                <li className="menu-item" onClick={() => setOpen(false)}>
+                  <NavLink
+                    to={"/admin/dashboard"}
+                    className={"link"}
+                    onClick={() => setOpen(false)}
+                  >
                     Admin Dashboard
                   </NavLink>
                 </li>
               )}
-
-              {currentUser && currentUser.role === "financeManager" && (
-                <li className="menu-item">
-                  <NavLink to={"/finance/dashboard"} className={"link"}>
+              {currentUser.role === "financeManager" && (
+                <li className="menu-item" onClick={() => setOpen(false)}>
+                  <NavLink
+                    to={"/finance/dashboard"}
+                    className={"link"}
+                    onClick={() => setOpen(false)}
+                  >
                     Finance Dashboard
                   </NavLink>
                 </li>
               )}
-
-              <li className="menu-item">
-                <NavLink to={"/user/profile"} className={"link"}>
+              <li className="menu-item" onClick={() => setOpen(false)}>
+                <NavLink
+                  to={"/user/profile"}
+                  className={"link"}
+                  onClick={() => setOpen(false)}
+                >
                   User Profile
                 </NavLink>
               </li>
-
-              <li className="menu-item">
+              <li className="menu-item" onClick={() => setOpen(false)}>
                 <NavLink
                   to={"/login"}
                   onClick={handleLogout}
@@ -123,7 +186,6 @@ const Navbar = () => {
               Register
             </NavLink>
           </li>
-
           <li className="navbar-item">
             <NavLink to={"/login"} className="link login">
               Login

@@ -2,17 +2,18 @@
 @import "../../../styles/Mixins.scss";
 
 .subscription-form {
-  background-color: $footer-bg;
+  background-color: $copyright-bg;
   max-width: 25rem;
+  margin: 2rem auto;
   width: 100%;
   padding: 20px;
-  background-color: $copyright-bg;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   .subscription-title {
     color: $white;
     margin-bottom: 1rem;
+    text-align: center;
   }
 
   .input-container {
@@ -42,5 +43,85 @@
 
   .subscription-btn {
     @include button3;
+    width: 100%; // Full width button
+  }
+}
+
+/* Responsive Styles */
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .subscription-form {
+    max-width: 100%;
+    padding: 0.9rem;
+
+    .subscription-title {
+      font-size: $sfs * 1.1;
+    }
+
+    .input-field {
+      padding: 8px;
+    }
+
+    .subscription-btn {
+      padding: 12px;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .subscription-form {
+    max-width: 80%;
+    padding: 1rem;
+
+
+    .subscription-title {
+      font-size: $sfs * 1.2;
+    }
+
+    .input-field {
+      padding: 10px;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .subscription-form {
+    max-width: 70%;
+    padding: 1.2rem;
+
+    .subscription-title {
+      font-size: $sfs * 1.3;
+    }
+
+    .input-field {
+      padding: 12px;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .subscription-form {
+    max-width: 30rem;
+    padding: 20px;
+
+    .subscription-title {
+      font-size: $sfs * 1.4;
+    }
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .subscription-form {
+    max-width: 25rem;
+    padding: 20px;
+
+    .subscription-title {
+      font-size: $sfs * 1.5;
+    }
   }
 }
