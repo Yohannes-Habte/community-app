@@ -20,6 +20,7 @@
 
       .event-name {
         font-size: $afs;
+        margin-left: 0.5rem;
       }
 
       .event-purpose {
@@ -51,6 +52,11 @@
 /* Up to 480px (very small mobile screens) */
 @media (max-width: 480px) {
   .latest-event-container {
+    .latest-event-title {
+      font-size: $afs;
+      text-align: center;
+    }
+
     .event-wrapper {
       flex-direction: column;
       column-gap: 0.5rem;
@@ -60,7 +66,7 @@
         font-size: $sfs;
 
         .event-name {
-          font-size: $sfs;
+          font-size: $nfs;
         }
 
         .event-purpose {
@@ -70,6 +76,7 @@
 
       .event-management {
         flex: unset; // Reset flex property
+        padding: 0 1rem;
       }
     }
 
@@ -82,15 +89,21 @@
 /* Between 481px and 768px (common for most mobile devices) */
 @media (min-width: 481px) and (max-width: 768px) {
   .latest-event-container {
+    padding: 0 1rem;
+
+    .latest-event-title {
+      font-size: $nfs;
+    }
     .event-wrapper {
       flex-direction: column;
-      column-gap: 1rem;
+      column-gap: 0.5rem;
 
       .event-description {
+        flex: unset; // Reset flex property
         font-size: $sfs;
 
         .event-name {
-          font-size: $sfs;
+          font-size: $afs;
         }
 
         .event-purpose {
@@ -99,7 +112,8 @@
       }
 
       .event-management {
-        font-size: $nfs;
+        flex: unset; // Reset flex property
+        padding: 0 1rem;
       }
     }
 
@@ -112,9 +126,19 @@
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .latest-event-container {
+    padding: 0 1rem;
+
+    .latest-event-title {
+      font-size: $aafs;
+      text-align: center;
+    }
     .event-wrapper {
       flex-direction: column;
       column-gap: 1.5rem;
+
+      .event-name {
+        font-size: $afs;
+      }
 
       .event-description {
         font-size: $afs;
@@ -122,6 +146,7 @@
 
       .event-management {
         font-size: $nfs;
+        flex: 2;
       }
     }
 

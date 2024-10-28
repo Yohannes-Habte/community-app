@@ -474,7 +474,7 @@ export const getPopularCategories = async (req, res) => {
 
       { $sort: { count: -1 } }, // Sort by count in descending order
 
-      { $limit: 3 }, // Limit to top 3
+      { $limit: 4 }, // Limit to top 3
 
       {
         $project: {

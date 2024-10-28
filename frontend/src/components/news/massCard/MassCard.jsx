@@ -30,60 +30,75 @@ const MassCard = ({ mass }) => {
       <div className="mass-details-wrapper">
         <aside className="detail-box">
           <h4 className="mass-card-subtitle">
-            Address: <span>{location.address}</span>
+            Address:{" "}
+            <small className="church-mass-infos-small">
+              {location.address}
+            </small>
           </h4>
           <p className="mass-card-info">
-            Date: <span>{formattedDate}</span>{" "}
+            Date:{" "}
+            <small className="church-mass-infos-small">{formattedDate}</small>{" "}
           </p>
           <p className="mass-card-info">
-            Time: <span>{time}</span>{" "}
+            Time: <small className="church-mass-infos-small">{time}</small>{" "}
           </p>
           <p className="mass-card-info">
-            Day: <span>{type}</span>{" "}
+            Day: <small className="church-mass-infos-small">{type}</small>{" "}
           </p>
           <p className="mass-card-info">
-            Status: <span>{massStatus}</span>{" "}
+            Status:{" "}
+            <small className="church-mass-infos-small">{massStatus}</small>{" "}
           </p>
         </aside>
 
         <aside className="detail-box">
           <h4 className="mass-card-subtitle">Pre-Mass Service Details</h4>
           <p className="mass-card-info">
-            Officiant: <span>{officiant}</span>
+            Officiant:{" "}
+            <small className="church-mass-infos-small">{officiant}</small>
           </p>
           <p className="mass-card-info">
-            Participants: <span>{participants}</span>
+            Participants:{" "}
+            <small className="church-mass-infos-small">{participants}</small>
           </p>
           <p className="mass-card-info">
             {" "}
-            Confession: <span>{confession}</span>
+            Confession:{" "}
+            <small className="church-mass-infos-small">{confession}</small>
           </p>
           <p className="mass-card-info">
             {" "}
-            Pre-Mass Prayer: <span>{preMassPrayer}</span>
+            Pre-Mass Prayer: <small>{preMassPrayer}</small>
           </p>
         </aside>
 
         <aside className="detail-box">
           <h4 className="mass-card-subtitle">Readings:</h4>
           <p className="mass-card-info">
-            First Reading: <span>{readings.firstReading}</span>
+            First Reading:{" "}
+            <small className="church-mass-infos-small">
+              {readings.firstReading}
+            </small>
           </p>
           <p className="mass-card-info">
             {" "}
-            Psalm: <span> {readings.psalm}</span>
+            Psalm:{" "}
+            <small className="church-mass-infos-small"> {readings.psalm}</small>
           </p>
           <p className="mass-card-info">
-            Second Reading: <span>{readings.secondReading}</span>
+            Second Reading:{" "}
+            <small className="church-mass-infos-small">
+              {readings.secondReading}
+            </small>
           </p>
           <p className="mass-card-info">
             {" "}
-            Gospel: <span>{readings.gospel}</span>
+            Gospel:{" "}
+            <small className="church-mass-infos-small">{readings.gospel}</small>
           </p>
         </aside>
       </div>
       <p className="mass-description"> {description}</p>
-
     </section>
   );
 };

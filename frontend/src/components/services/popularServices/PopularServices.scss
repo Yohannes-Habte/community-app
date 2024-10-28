@@ -2,52 +2,124 @@
 @import "../../../styles/mixins.scss";
 
 .popular-services-wrapper {
-  margin-top: 2rem;
+  padding: 1rem 2rem 2rem 2rem;
+  background-color: #dee2e6;
+
   .popular-services-title {
     @include subTitle;
     font-size: $aafs;
   }
 
   .services-list {
-    @include threeGridTemplateEqualColumns;
-
     .service-details {
       @include shadow1;
       line-height: 2rem;
       background-color: $section-bg;
-      & strong {
-        font-weight: bold;
+
+      .small-element {
         color: $gray;
         padding-left: 0.5rem;
         text-transform: capitalize;
+        font-size: $sfs;
       }
 
-      & span {
-        color: $gray;
-        padding-left: 0.5rem;
-        text-transform: capitalize;
+      .service-title {
         font-size: $nfs;
-      }
-      .service-name {
-        @include subTitle;
         padding: 0;
       }
 
-      .count {
+      .service-size {
         font-size: $nfs;
       }
 
-      .message {
+      .service-infos {
+        font-size: $nfs;
       }
 
-      .status {
-        & span {
+      .service-status {
+        font-size: $nfs;
+
+        .completed {
           color: $green;
         }
       }
 
-      .date {
+      .service-date {
+        font-size: $nfs;
       }
     }
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .popular-services-wrapper {
+    padding: 0.3rem;
+    .popular-services-title {
+      font-size: $afs;
+      text-align: center;
+    }
+    .services-list {
+      @include flexColumn;
+      @include shadow1;
+      gap: 1rem;
+
+      .service-details {
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .popular-services-wrapper {
+    padding: 0.3rem;
+    .popular-services-title {
+      font-size: $afs;
+      text-align: center;
+    }
+    .services-list {
+      @include flexColumn;
+      @include shadow1;
+      gap: 1rem;
+
+      .service-details {
+        font-size: $nfs;
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .popular-services-wrapper {
+    padding: 0.3rem;
+    .popular-services-title {
+      font-size: $afs;
+      text-align: center;
+    }
+    .services-list {
+      @include twoGridTemplateEqualColumns;
+      @include shadow1;
+      gap: 1rem;
+
+      .service-details {
+        font-size: $nfs;
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .services-list {
+    @include twoGridTemplateEqualColumns;
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .services-list {
+    @include twoGridTemplateEqualColumns;
   }
 }

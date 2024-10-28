@@ -66,7 +66,7 @@
 
   .shepherd-info {
     position: absolute;
-    right: -15%;
+    right: -8%;
     top: 50%;
     opacity: 0;
     width: 40%;
@@ -191,41 +191,86 @@
 
 /* Up to 480px (very small mobile screens) */
 @media (max-width: 480px) {
+  .shepherds {
+    height: 40vh;
+  }
+  .slide-show {
+    .bishop-image-container {
+      @include flexCenter;
+
+      .photo {
+        width: 15rem;
+        height: 20rem;
+        object-fit: cover;
+      }
+    }
+  }
+
   .shepherd-info {
-    width: 80%;
+    display: none;
   }
 }
 
 /* Between 481px and 768px (common for most mobile devices) */
 @media (min-width: 481px) and (max-width: 768px) {
+  .slide-show {
+    .bishop-image-container {
+      @include flexCenter;
+      height: 30rem;
+      .photo {
+        width: 20rem;
+        height: 25rem;
+        border-radius: 0.5rem;
+        object-fit: cover;
+      }
+    }
+  }
+
   .shepherd-info {
-    width: 80%;
+    display: none;
   }
 }
 
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
 @media (min-width: 769px) and (max-width: 1024px) {
+  .shepherds {
+    height: 46vh;
+  }
+
   .slide-show {
     .bishop-image-container {
+      @include flexCenter;
       height: 30rem;
+
       .photo {
-        width: 50%;
-        height: fit-content;
-        object-fit: contain;
+        width: 23rem;
+        height: 29rem;
+        border-radius: 0.5rem;
+        object-fit: cover;
       }
     }
+  }
+
+  .shepherd-info {
+    display: none;
   }
 }
 
 /* Between 1025px and 1200px (standard desktops) */
 @media (min-width: 1025px) and (max-width: 1200px) {
+  .shepherds {
+    height: 50vh;
+  }
+
   .slide-show {
     .bishop-image-container {
       height: 30rem;
+
       .photo {
-        width: 50%;
-        height: fit-content;
-        object-fit: contain;
+        width: 25rem;
+        height: 29rem;
+        border-radius: 0.5rem;
+        object-fit: cover;
       }
     }
   }
@@ -233,12 +278,19 @@
 
 /* 1201px and up (large desktop and TV screens) */
 @media (min-width: 1201px) {
+  .shepherds {
+    height: 60vh;
+  }
+
   .slide-show {
     .bishop-image-container {
+      @include flexColumn;
+      justify-content: center;
       height: 30rem;
+
       .photo {
-        width: 50%;
-        height: fit-content;
+        width: 30rem;
+        height: 29rem;
         object-fit: contain;
       }
     }

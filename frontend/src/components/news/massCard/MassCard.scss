@@ -2,18 +2,16 @@
 @import "../../../styles/mixins.scss";
 
 .mass-card-container {
-  @include shadow1;
-  background-color: $form-bg;
-
+  margin: 1rem 0;
   .mass-card-title {
     @include subTitle;
   }
 
   .mass-details-wrapper {
-    @include threeGridTemplateEqualColumns;
-
+    background-color: $form-bg;
+    @include shadow1;
     .detail-box {
-      span {
+      .church-mass-infos-small {
         color: $blue;
         text-decoration: underline;
         font-size: 0.6rem;
@@ -23,13 +21,114 @@
       }
 
       .mass-card-info {
-        font-size: 0.6rem;
+        font-size: $sfs;
       }
     }
   }
 
   .mass-description {
     @include paragraph;
-    font-size: $sfs;
+    font-size: $nfs;
+    padding: 1rem;
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .mass-card-container {
+    .mass-card-title {
+      padding: 0 1rem;
+      font-size: $nfs;
+      text-align: center;
+    }
+
+    .mass-details-wrapper {
+      margin: 0.8rem;
+    }
+
+    .mass-description {
+      font-size: $sfs;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .mass-card-container {
+    padding: 0 1.5rem;
+    .mass-card-title {
+      padding: 0 1rem;
+      font-size: $nfs;
+      text-align: left;
+    }
+
+    .mass-details-wrapper {
+      margin: 0.8rem;
+    }
+
+    .mass-description {
+      font-size: $nfs;
+      line-height: 2rem;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mass-card-container {
+    padding: 0 2rem;
+    .mass-card-title {
+      font-size: $afs;
+    }
+
+    .mass-details-wrapper {
+      @include twoGridTemplateEqualColumns;
+    }
+
+    .mass-description {
+      font-size: $nfs;
+      line-height: 2rem;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .mass-card-container {
+    .mass-card-title {
+    }
+
+    .mass-details-wrapper {
+      @include threeGridTemplateEqualColumns;
+    }
+
+    .mass-description {
+      font-size: $nfs;
+      line-height: 2rem;
+    }
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .mass-card-container {
+    .mass-card-title {
+    
+    }
+
+    .mass-details-wrapper {
+      @include threeGridTemplateEqualColumns;
+
+      .detail-box {
+        .church-mass-infos-small {
+          font-size: 0.7rem;
+        }
+      }
+    }
+
+    .mass-description {
+      font-size: $nfs;
+      line-height: 2rem;
+    }
   }
 }

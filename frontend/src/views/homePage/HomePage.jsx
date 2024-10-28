@@ -12,13 +12,17 @@ const HomePage = () => {
     <main className="home-page">
       <Header />
       <section className="home-page-container">
-        <h1 className="title"> Eritrean Roman Catholic Church in Hamburg </h1>
+        <h1 className="home-page-title">
+          Eritrean Roman Catholic Church in Hamburg
+        </h1>
         <Bishops />
 
         <LastVideo />
 
         <PopularServices />
+
         <BraveBishops />
+
         <LatestEvent />
       </section>
       <Footer />

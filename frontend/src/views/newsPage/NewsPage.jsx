@@ -1,15 +1,16 @@
-import "./NewsPage.scss";
+
 import Header from "../../components/layout/header/Header";
 import Footer from "../../components/layout/footer/Footer";
 import MassList from "../../components/news/masses/MassList";
 import LatestEvent from "../../components/latestEvent/LatestEvent";
+import "./NewsPage.scss";
 
 const NewsPage = () => {
   return (
-    <main className="report-page">
+    <main className="news-page">
       <Header />
-      <section className="report-page-container">
-        <h1 className="report-title">Latest Parish Information</h1>
+      <section className="news-page-container">
+        <h1 className="news-page-title">Latest Parish Mass Information</h1>
 
         <MassList />
 

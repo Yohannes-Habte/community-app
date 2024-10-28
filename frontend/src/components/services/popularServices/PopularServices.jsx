@@ -4,12 +4,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utile/security/secreteKey";
 
-
 const PopularServices = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  console.log("Popular Services =", services);
   useEffect(() => {
     const fetchPopularServices = async () => {
       setLoading(true);
@@ -23,7 +23,7 @@ const PopularServices = () => {
         toast.error(errorMessage);
         setError(errorMessage); // Set error message
       } finally {
-        setLoading(false); // Stop loading after data is fetched
+        setLoading(false);
       }
     };
 
@@ -41,24 +41,32 @@ const PopularServices = () => {
         <div className="services-list">
           {services.map((service, index) => (
             <article key={index} className="service-details">
-              <h3 className="service-name">
-                Service Name: <strong>{service?.serviceName}</strong>
+              <h3 className="service-title">
+                Service Name:{" "}
+                <small className="small-element">{service?.serviceName}</small>
               </h3>
-              <p className="count">
-                Count: <span> {service?.count} </span>
+              <p className="service-size">
+                Total Size:{" "}
+                <small className="small-element"> {service?.count} </small>
               </p>
 
-              <p className="message">
-                Message: <span>{service?.details?.message}</span>
+              <p className="service-infos">
+                Message:{" "}
+                <small className="small-element">
+                  {service?.details?.message}
+                </small>
               </p>
-              <p className="status">
-                Status: <span>{service.details?.serviceStatus}</span>
+              <p className="service-status">
+                Status:{" "}
+                <small className="completed">
+                  {service.details?.serviceStatus}
+                </small>
               </p>
-              <p className="date">
+              <p className="service-date">
                 Service Date:{" "}
-                <span>
+                <small className="small-element">
                   {new Date(service?.details?.serviceDate).toDateString()}
-                </span>
+                </small>
               </p>
             </article>
           ))}

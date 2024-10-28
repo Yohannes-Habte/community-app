@@ -53,12 +53,17 @@
   .video-preview-container {
     display: flex;
     flex-direction: column;
+    padding: 1rem;
+    margin: 3rem 0;
+
     .video-preview-title {
       font-size: $afs;
+      text-align: center;
     }
 
     .video-description {
       font-size: $sfs;
+      margin-bottom: 2rem;
     }
 
     .video-overlay {
@@ -74,12 +79,17 @@
   .video-preview-container {
     display: flex;
     flex-direction: column;
+    padding: 1rem 2rem;
+    margin: 3rem 0;
+
     .video-preview-title {
       font-size: $afs;
+      text-align: center;
     }
 
     .video-description {
-      font-size: $nfs;
+      font-size: $sfs;
+      margin-bottom: 2rem;
     }
 
     .video-overlay {
@@ -93,12 +103,19 @@
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .video-preview-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2.5rem;
+    margin: 3rem 0;
+
     .video-preview-title {
-      font-size: $afs * 1.1;
+      font-size: $afs;
+      text-align: center;
     }
 
     .video-description {
-      font-size: $afs;
+      font-size: $nfs;
+      margin-bottom: 2rem;
     }
   }
 }
@@ -136,7 +153,8 @@
     }
 
     .video-description {
-      font-size: $afs;
+      font-size: $nfs;
+      line-height: 1rem;
     }
   }
 }
@@ -175,6 +193,7 @@
 
     .video-description {
       font-size: $nfs;
+      line-height: 2rem;
     }
   }
 }

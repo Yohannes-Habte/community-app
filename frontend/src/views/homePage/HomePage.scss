@@ -17,9 +17,69 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      .title {
+      .home-page-title {
         @include title;
       }
+    }
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .home-page-container {
+    .home-page-title {
+      font-size: $afs;
+      padding: 0 1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .home-page-container {
+    .home-page-title {
+      font-size: $aafs;
+      padding: 0 1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-page-container {
+    .home-page-title {
+      font-size: $aafs;
+      padding: 0 1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .home-page-container {
+    .home-page-title {
+      font-size: $aafs;
+      padding: 1rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .home-page-container {
+    .home-page-title {
+      font-size: $aafs;
+      padding: 1rem;
+      text-align: center;
+      margin: 2rem 0;
     }
   }
 }

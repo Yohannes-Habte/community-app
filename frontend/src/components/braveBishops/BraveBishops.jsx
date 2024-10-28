@@ -4,7 +4,7 @@ import "./BraveBishops.scss";
 const BraveBishops = () => {
   return (
     <section className="eritrean-bishops">
-      <h2 className="sub-title"> Brave Shepherds </h2>
+      <h2 className="eritrean-bishops-title"> Brave Shepherds </h2>
       <figure className="image-container">
         {BishopsMessage &&
           BishopsMessage?.map((shepherd) => (

@@ -4,7 +4,7 @@
 .eritrean-bishops {
   margin-top: 2rem;
 
-  .sub-title {
+  .eritrean-bishops-title {
     @include subTitle;
     font-size: $aafs;
   }
@@ -41,8 +41,9 @@
 @media (max-width: 480px) {
   .eritrean-bishops {
     padding: 0 1rem;
-    .sub-title {
-      font-size: $sfs;
+    .eritrean-bishops-title {
+      font-size: $afs;
+      text-align: center;
     }
 
     .image-container {
@@ -55,9 +56,11 @@
 /* Between 481px and 768px (common for most mobile devices) */
 @media (min-width: 481px) and (max-width: 768px) {
   .eritrean-bishops {
-    padding: 0 1rem;
-    .sub-title {
-      font-size: $afs;
+    padding: 0 2rem;
+
+    .eritrean-bishops-title {
+      font-size: $aafs;
+      text-align: center;
     }
 
     .image-container {
@@ -70,14 +73,16 @@
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .eritrean-bishops {
-    padding: 0 1rem;
-    .sub-title {
-      font-size: $afs;
+    padding: 0 2rem;
+
+    .eritrean-bishops-title {
+      font-size: $aafs;
+      text-align: center;
     }
 
     .image-container {
       grid-template-columns: repeat(2, 1fr);
-      column-gap: 1rem;
+      column-gap: 1.5rem;
     }
   }
 }
@@ -85,8 +90,10 @@
 /* Between 1025px and 1200px (standard desktops) */
 @media (min-width: 1025px) and (max-width: 1200px) {
   .eritrean-bishops {
-    .sub-title {
-      font-size: $afs * 1.1;
+    padding: 0 2rem;
+    .eritrean-bishops-title {
+      font-size: $afs;
+      text-align: center;
     }
 
     .image-container {
@@ -99,7 +106,7 @@
 /* 1201px and up (large desktop and TV screens) */
 @media (min-width: 1201px) {
   .eritrean-bishops {
-    .sub-title {
+    .eritrean-bishops-title {
       font-size: $afs * 1.2;
     }
 
