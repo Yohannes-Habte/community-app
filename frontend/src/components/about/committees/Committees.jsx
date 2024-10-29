@@ -74,7 +74,7 @@ const Committees = () => {
   };
 
   return (
-    <article className="committee-members">
+    <article className="committee-members-wrapper">
       <h3 className="committee-title">Committee Members</h3>
 
       <p className="select-year-range-information">
@@ -121,7 +121,7 @@ const Committees = () => {
               return <CommitteeCard key={member._id} data={member} />;
             })
           ) : (
-            <p>No members found</p>
+            <h4 className="no-members-fount">No members found</h4>
           )}
         </section>
       )}

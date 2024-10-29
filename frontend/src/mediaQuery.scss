@@ -1,6 +1,3 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
-
 /* Up to 480px (very small mobile screens) */
 @media (max-width: 480px) {
 }
@@ -15,10 +12,8 @@
 
 /* Between 1025px and 1200px (standard desktops) */
 @media (min-width: 1025px) and (max-width: 1200px) {
-  /* CSS rules here */
 }
 
 /* 1201px and up (large desktop and TV screens) */
-@media (min-width: 1201px) { 
-  /* CSS rules here */
+@media (min-width: 1201px) {
 }

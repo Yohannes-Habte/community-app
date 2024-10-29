@@ -18,19 +18,25 @@ const ParishPriest = () => {
     fetchData();
   }, []);
   return (
-    <article className="parish-priest">
-      <h2 className="parish-priest-title"> {priest?.title} </h2>
+    <article className="parish-priest-wrapper" aria-labelledby="priest-title">
+      <h2 id="priest-title" className="parish-priest-title">
+        {priest?.title}
+      </h2>
       <div className="image-description-container">
-        <figure className="image-container">
-          <img className="priest-image" src={priest?.image} alt="Abba Siyum" />
-          <figcaption className="priest-name">
-            Fr. Siyum Zera Ghiorgis{" "}
+        <figure className="image-container" aria-labelledby="priest-name">
+          <img
+            className="priest-image"
+            src={priest?.image}
+            alt="Fr. Siyum Zera Ghiorgis, a parish priest"
+            role="img"
+          />
+          <figcaption id="priest-name" className="priest-name">
+            Fr. Siyum Zera Ghiorgis
           </figcaption>
         </figure>
 
         <div className="priest-description">
           <p className="description">{priest?.paragraph1}</p>
-
           <p className="description description2">{priest?.paragraph2}</p>
         </div>
       </div>

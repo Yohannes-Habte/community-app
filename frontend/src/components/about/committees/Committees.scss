@@ -1,13 +1,13 @@
 @import "../../../styles/mixins.scss";
 @import "../../../styles/variables.scss";
 
-.committee-members {
+.committee-members-wrapper {
   @include shadow1;
   margin-top: 2rem;
 
   .committee-title {
     font-size: $aafs;
-    padding: 1rem 0;
+    margin: 1rem 0;
   }
 
   .select-year-range-information {
@@ -77,6 +77,200 @@
   }
 
   .committees-card-wrapper {
-    @include twoGridTemplateEqualColumns;
+    .no-members-fount {
+      @include subTitle;
+    }
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .committee-members-wrapper {
+    .committee-title {
+      font-size: $afs;
+    }
+
+    .select-year-range-information {
+      font-size: $sfs;
+      padding: 0;
+    }
+
+    .select-year-range-form-container {
+      margin: 2rem 0;
+
+      .year-range-title {
+        font-size: $afs;
+        margin: 2rem 0 1rem -0.5rem;
+      }
+
+      .select-year-range-form {
+        @include flexColumn;
+        .input-container {
+          @include flexColumn;
+          .input-field {
+            width: 100%;
+          }
+
+          .input-label {
+          }
+        }
+
+        .fetch-committee-btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .committees-card-wrapper {
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .committee-members-wrapper {
+    .committee-title {
+      font-size: $afs;
+    }
+
+    .select-year-range-information {
+      font-size: $sfs;
+      padding: 0;
+    }
+
+    .select-year-range-form-container {
+      margin: 2rem 0;
+
+      .year-range-title {
+        font-size: $afs;
+        margin: 2rem 0 1rem -0.5rem;
+      }
+
+      .select-year-range-form {
+        @include flexColumn;
+        .input-container {
+          @include flexColumn;
+          .input-field {
+            width: 100%;
+          }
+
+          .input-label {
+          }
+        }
+
+        .fetch-committee-btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .committees-card-wrapper {
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .committee-members-wrapper {
+    .committee-title {
+    }
+
+    .select-year-range-information {
+    }
+
+    .select-year-range-form-container {
+      margin: 2rem 0;
+
+      .year-range-title {
+        font-size: $afs;
+        margin: 2rem 0 1rem -0.5rem;
+      }
+
+      .select-year-range-form {
+        @include flexColumn;
+        .input-container {
+          @include flexColumn;
+          .input-field {
+            width: 100%;
+          }
+
+          .input-label {
+          }
+        }
+
+        .fetch-committee-btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .committees-card-wrapper {
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .committee-members-wrapper {
+    .committee-title {
+    }
+
+    .select-year-range-information {
+    }
+
+    .select-year-range-form-container {
+      .year-range-title {
+      }
+
+      .select-year-range-form {
+        .input-container {
+          .input-field {
+          }
+
+          .input-label {
+          }
+        }
+
+        .fetch-committee-btn {
+        }
+      }
+    }
+
+    .committees-card-wrapper {
+      @include twoGridTemplateEqualColumns;
+    }
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .committee-members-wrapper {
+    .committee-title {
+    }
+
+    .select-year-range-information {
+    }
+
+    .select-year-range-form-container {
+      .year-range-title {
+      }
+
+      .select-year-range-form {
+        .input-container {
+          .input-field {
+          }
+
+          .input-label {
+          }
+        }
+
+        .fetch-committee-btn {
+        }
+      }
+    }
+
+    .committees-card-wrapper {
+      @include twoGridTemplateEqualColumns;
+    }
   }
 }

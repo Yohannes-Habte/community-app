@@ -8,13 +8,14 @@
   gap: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 1rem 0;
+  background-color: $white;
 
   .image-container {
     @include flexCenter;
     .image {
       width: 8rem;
       height: 12rem;
-      object-fit: contain;
+      object-fit: cover;
       border-radius: 0.3rem;
     }
   }
@@ -41,6 +42,139 @@
       position: absolute;
       bottom: 0.5rem;
       right: 1rem;
+    }
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .committee-card-container {
+    flex-direction: column;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+
+    .image-container {
+      .image {
+        width: 12rem;
+        height: 12rem;
+        object-fit: cover;
+      }
+    }
+
+    .user-details {
+      .user-name {
+      }
+
+      .user-info {
+        strong {
+        }
+      }
+
+      .update-committee-member-btn {
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .committee-card-container {
+    margin-top: 2rem;
+ 
+
+    .image-container {
+   
+      .image {
+        width: 10rem;
+        height: 12rem;
+        object-fit: cover;
+      }
+    }
+
+    .user-details {
+      .user-name {
+      }
+
+      .user-info {
+        strong {
+        }
+      }
+
+      .update-committee-member-btn {
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .committee-card-container {
+   margin-bottom: 3rem;
+    .image-container {
+      .image {
+        width: 11rem;
+        height: 12rem;
+        object-fit: cover;
+      }
+    }
+
+    .user-details {
+      .user-name {
+      }
+
+      .user-info {
+        strong {
+        }
+      }
+
+      .update-committee-member-btn {
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .committee-card-container {
+    .image-container {
+      .image {
+      }
+    }
+
+    .user-details {
+      .user-name {
+      }
+
+      .user-info {
+        strong {
+        }
+      }
+
+      .update-committee-member-btn {
+      }
+    }
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .committee-card-container {
+    .image-container {
+      .image {
+      }
+    }
+
+    .user-details {
+      .user-name {
+      }
+
+      .user-info {
+        strong {
+        }
+      }
+
+      .update-committee-member-btn {
+      }
     }
   }
 }

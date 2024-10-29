@@ -34,8 +34,8 @@ const StrategicIntent = () => {
         <p> {error} </p>
       ) : (
         <section>
-          <h1 className="about-title"> {aboutInfos?.title} </h1>
-          <article>
+          <h1 className="about-page-title"> {aboutInfos?.title} </h1>
+          <article className="strategic-intent-wrapper">
             <section className="strategic-intent">
               <h2 className="strategic-intent-subtitle"> Mission </h2>
               <p className="mission-statement"> {aboutInfos?.mission} </p>
