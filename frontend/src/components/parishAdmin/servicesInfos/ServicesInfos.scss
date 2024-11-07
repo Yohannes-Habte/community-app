@@ -38,7 +38,7 @@
       @include shadow1;
       background-color: $form-bg;
 
-      .service-title {
+      .service-article-title {
         @include subTitle;
         padding: 0.1rem;
         font-size: $afs;
@@ -50,12 +50,12 @@
         row-gap: 0.3rem;
         column-gap: 1rem;
 
-        strong {
+        .strong-text {
           font-size: $nfs;
           font-weight: $afw;
         }
 
-        span {
+        .span-text {
           display: inline-block;
           width: 10rem;
           padding: 0.2rem 0.5rem;
@@ -70,7 +70,6 @@
         }
       }
 
-
       .more-infos {
         font-size: $nfs;
         margin: 1.5rem 0 0.6rem 0;
@@ -84,4 +83,192 @@
       }
     }
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .services-information-container {
+    width: $mobile;
+    margin: 2rem auto;
+    position: relative;
+
+    .services-information-title {
+      font-size: $sfs;
+    }
+
+    .services-year-form {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      width: 100%;
+
+      .input-field {
+        width: 10rem;
+        font-size: $sfs;
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .total-year-services {
+      font-size: $sfs;
+    }
+
+    .services-infos-wrapper {
+
+
+ 
+      @include flexColumn;
+      .service-article {
+        .service-article-title {
+          font-size: $nfs;
+        }
+
+        .service-status {
+          font-size: $sfs;
+
+          .strong-text {
+            font-size: $sfs;
+          }
+
+          .span-text {
+            width: 7rem;
+          }
+        }
+
+        .more-infos {
+          font-size: $sfs;
+
+          .view {
+            font-size: $sfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .services-information-container {
+    width: $mobile;
+    margin: auto;
+    position: relative;
+
+    .services-information-title {
+      font-size: $nfs;
+    }
+
+    .services-year-form {
+      position: absolute;
+      top: 1rem;
+      right: 0;
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .total-year-services {
+      font-size: $sfs;
+    }
+
+    .services-infos-wrapper {
+      @include flexColumn;
+      .service-article {
+        .service-article-title {
+          font-size: $nfs;
+        }
+
+        .service-status {
+          font-size: $sfs;
+
+          .strong-text {
+            font-size: $sfs;
+          }
+
+          .span-text {
+            width: 10rem;
+          }
+        }
+
+        .more-infos {
+          font-size: $sfs;
+
+          .view {
+            font-size: $sfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .services-information-container {
+    width: $tablet;
+    margin: auto;
+    position: relative;
+
+    .services-information-title {
+      font-size: $nfs;
+    }
+
+    .services-year-form {
+      position: absolute;
+      top: 1rem;
+      right: 0;
+
+      .input-field {
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .total-year-services {
+      font-size: $sfs;
+    }
+
+    .services-infos-wrapper {
+      @include twoGridTemplateEqualColumns;
+      .service-article {
+        .service-article-title {
+          font-size: $nfs;
+        }
+
+        .service-status {
+          font-size: $nfs;
+
+          .strong-text {
+            font-size: $nfs;
+          }
+
+          .span-text {
+            width: 10rem;
+          }
+        }
+
+        .more-infos {
+          font-size: $nfs;
+
+          .view {
+            font-size: $nfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

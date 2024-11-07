@@ -102,27 +102,28 @@ const ServicesInfos = ({ setIsActive }) => {
 
   const renderServiceCategory = (title, category) => (
     <article className="service-article">
-      <h4 className="service-title">{title}</h4>
+      <h4 className="service-article-title">{title}</h4>
       <p className="service-status">
-        <strong>Completed:</strong>
-        <span style={getStatusStyle("completed")}>
+        <strong className="strong-text">Completed:</strong>
+        <span className="span-text" style={getStatusStyle("completed")}>
           {countServicesByStatus(category, "completed")}
         </span>
       </p>
       <p className="service-status">
-        <strong>Pending:</strong>
-        <span style={getStatusStyle("pending")}>
+        <strong className="strong-text">Pending:</strong>
+        <span className="span-text" style={getStatusStyle("pending")}>
           {countServicesByStatus(category, "pending")}
         </span>
       </p>
       <p className="service-status">
-        <strong>Cancelled:</strong>
-        <span style={getStatusStyle("cancelled")}>
+        <strong className="strong-text">Cancelled:</strong>
+        <span className="span-text" style={getStatusStyle("cancelled")}>
           {countServicesByStatus(category, "cancelled")}
         </span>
       </p>
       <p className="service-status total">
-        <strong>Total:</strong> <span>{category.length}</span>
+        <strong className="strong-text">Total:</strong>{" "}
+        <span className="span-text">{category.length}</span>
       </p>
       <p className="more-infos">
         For more information, click on{" "}

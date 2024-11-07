@@ -72,7 +72,7 @@ const Navbar = () => {
   return (
     <nav className={`header-navbar ${menuOpen ? "menu-open" : ""}`}>
       {/* Church logo */}
-      <NavLink to={"/"} className={"church-logo"}>
+      <NavLink to={"/"} className={"church-text-logo"}>
         <h1>ERCCH</h1>
       </NavLink>
 

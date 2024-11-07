@@ -41,9 +41,8 @@ const MonthlyContribution = () => {
 
   // Contribution columns
   const columns = [
-    { field: "id", headerName: "Contribution ID", width: 350 },
-    { field: "date", headerName: "Contribution Date", width: 300 },
-    { field: "amount", headerName: "Contribution Amount", width: 300 },
+    { field: "date", headerName: "Contribution Date", width: 200 },
+    { field: "amount", headerName: "Contribution Amount", width: 200 },
   ];
 
   // Prepare row data

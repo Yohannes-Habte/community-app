@@ -124,16 +124,16 @@ const EventInfos = ({ setIsActive }) => {
         <div className="event-box">
           <aside className="left-event-box">
             <p className="event-status">
-              Past Events: <span className="span">{pastEvents}</span>
+              Past: <span className="span">{pastEvents}</span>
             </p>
             <p className="event-status">
-              Cancelled Events: <span className="span">{cancelledEvents}</span>
+              Cancelled: <span className="span">{cancelledEvents}</span>
             </p>
             <p className="event-status">
-              Upcoming Events: <span className="span">{upcomingEvents}</span>
+              Upcoming: <span className="span">{upcomingEvents}</span>
             </p>
             <p className="event-status">
-              Total Events: <span className="span">{totalEvents}</span>
+              Total: <span className="span">{totalEvents}</span>
             </p>
 
             <h4 className="event-link">

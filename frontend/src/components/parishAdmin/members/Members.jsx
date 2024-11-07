@@ -130,10 +130,8 @@ const Members = () => {
   };
 
   return (
-    <section className="members-container">
-      <h1 className="members-title">
-        Current Members of the Eritrean Roman Catholic Church in Hamburg
-      </h1>
+    <section className="parish-members-container">
+      <h1 className="parish-members-title">ERCCH Parishioners in Hamburg</h1>
 
       {loading && (
         <PageLoader

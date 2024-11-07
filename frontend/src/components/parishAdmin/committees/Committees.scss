@@ -39,7 +39,6 @@
 
       .input-field {
         @include inputField;
-       
       }
 
       .input-label {
@@ -56,16 +55,7 @@
     }
 
     .committees-btn {
-      background-color: #a2d2ff;
-      padding: 0 1rem;
-      border-radius: 0.3rem;
-      border: none;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #48cae4;
-        color: $red;
-      }
+      @include button3;
     }
   }
 
@@ -75,4 +65,162 @@
     row-gap: 1rem;
     margin-top: 2rem;
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .committees-container {
+    width: $mobile;
+
+    .committees-title {
+      font-size: $nfs;
+    }
+
+    .add-committee-aside {
+      .add-committee-aside-title {
+        font-size: $sfs;
+      }
+
+      .add-committee-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .instruction {
+      font-size: $sfs;
+    }
+
+    .committee-query-form {
+      @include flexColumn;
+      .input-container {
+        .icon {
+          font-size: $sfs;
+        }
+
+        .input-field {
+          font-size: $sfs;
+        }
+
+        .input-label {
+          font-size: $sfs;
+        }
+      }
+
+      .committees-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .committee-card-wrapper {
+      @include flexColumn;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .committees-container {
+    width: $mobile;
+
+    .committees-title {
+      font-size: $afs;
+    }
+
+    .add-committee-aside {
+      .add-committee-aside-title {
+        font-size: $nfs;
+      }
+
+      .add-committee-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .instruction {
+      font-size: $nfs;
+    }
+
+    .committee-query-form {
+      @include flexColumn;
+      .input-container {
+        .icon {
+          font-size: $nfs;
+        }
+
+        .input-field {
+          font-size: $nfs;
+        }
+
+        .input-label {
+          font-size: $nfs;
+        }
+      }
+
+      .committees-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .committee-card-wrapper {
+      @include flexColumn;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .committees-container {
+    width: $tablet;
+
+    .committees-title {
+      font-size: $aafs;
+    }
+
+    .add-committee-aside {
+      .add-committee-aside-title {
+        font-size: $afs;
+      }
+
+      .add-committee-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .instruction {
+      font-size: $nfs;
+    }
+
+    .committee-query-form {
+      @include flexColumn;
+      .input-container {
+        .icon {
+          font-size: $nfs;
+        }
+
+        .input-field {
+          font-size: $nfs;
+        }
+
+        .input-label {
+          font-size: $nfs;
+        }
+      }
+
+      .committees-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .committee-card-wrapper {
+      @include flexColumn;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

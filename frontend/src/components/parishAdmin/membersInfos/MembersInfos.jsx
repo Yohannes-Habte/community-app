@@ -111,12 +111,12 @@ const MembersInfos = ({ setIsActive }) => {
   return (
     <section className="parishioners-information-container">
       <h4 className="parishioners-information-title">
-        Parishioners Information for the year {year}
+        Parishioners Information - {year}
       </h4>
 
       <form onSubmit={handleSubmit} className="parishioners-year-form">
-        <label htmlFor="year" className="visually-hidden">
-          Enter Year for Parishioners
+        <label htmlFor="year" className="label">
+          Enter Year
         </label>
         <input
           type="number"
@@ -125,7 +125,7 @@ const MembersInfos = ({ setIsActive }) => {
           defaultValue={year}
           placeholder="Enter Year"
           className="input-field"
-          aria-label="Enter year for parishioners"
+          aria-label="Enter year for parishioners information"
           min="2022"
           max={new Date().getFullYear()}
           required
@@ -157,19 +157,19 @@ const MembersInfos = ({ setIsActive }) => {
         <aside className="parishioners-status-container">
           <h4 className="parishioners-status-title">Parishioners</h4>
           <p className="parishioners-status">
-            Single: <span>{singleMembers}</span>
+            Single: <span className="span-count">{singleMembers}</span>
           </p>
           <p className="parishioners-status">
-            Married: <span>{marriedMembers}</span>
+            Married: <span className="span-count">{marriedMembers}</span>
           </p>
           <p className="parishioners-status">
-            Divorced: <span>{divorcedMembers}</span>
+            Divorced: <span className="span-count">{divorcedMembers}</span>
           </p>
           <p className="parishioners-status">
-            Widowed: <span>{widowedMembers}</span>
+            Widowed: <span className="span-count">{widowedMembers}</span>
           </p>
           <p className="parishioners-status">
-            Total Members: <span>{totalMembers}</span>
+            Total: <span className="span-count">{totalMembers}</span>
           </p>
           <p className="parishioners-link">
             <button
@@ -186,21 +186,28 @@ const MembersInfos = ({ setIsActive }) => {
         <aside className="parishioners-status-container">
           <h4 className="parishioners-status-title">Contributed Members</h4>
           <p className="parishioners-status">
-            No Contribution: <span>{zeroContribution}</span>
+            0 - Month:{" "}
+            <span className="span-count">{zeroContribution}</span>
           </p>
           <p className="parishioners-status">
-            0 - 3 Months: <span>{contributionLessThanOrEqualToThree}</span>
+            0 - 3 Months:{" "}
+            <span className="span-count">
+              {contributionLessThanOrEqualToThree}
+            </span>
           </p>
           <p className="parishioners-status">
             4 - 6 Months:{" "}
-            <span>{contributionGreaterThanThreeAndLessOrEqualToSix}</span>
+            <span className="span-count">
+              {contributionGreaterThanThreeAndLessOrEqualToSix}
+            </span>
           </p>
           <p className="parishioners-status">
             7 - 9 Months:{" "}
-            <span>{contributionGreaterThanSixAndLessOrEqualToNine}</span>
+            <span  className="span-count">{contributionGreaterThanSixAndLessOrEqualToNine}</span>
           </p>
           <p className="parishioners-status">
-            10 - 12 Months: <span>{contributionGreaterThanNine}</span>
+            10 - 12 Months:{" "}
+            <span className="span-count">{contributionGreaterThanNine}</span>
           </p>
           <p className="parishioners-link">
             <button

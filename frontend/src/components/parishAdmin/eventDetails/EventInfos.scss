@@ -105,3 +105,239 @@
     }
   }
 }
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .events-information-container {
+    position: relative;
+
+    .event-information-title {
+      margin: 0 0 4rem 0;
+      font-size: $nfs;
+    }
+
+    .event-year-form {
+      position: absolute;
+      top: 2.5rem;
+      left: 0;
+
+      .input-field {
+        width: 10rem;
+        font-size: $sfs;
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .event-infos-wrapper {
+      .event-title {
+        font-size: $nfs;
+      }
+
+      .event-box {
+        @include flexColumn;
+
+        .left-event-box {
+          padding: 0;
+          margin: 0;
+          font-size: $sfs;
+          .event-status {
+            font-size: $sfs;
+
+            .span {
+              width: 7rem;
+              font-size: $sfs;
+            }
+          }
+
+          .event-link {
+            font-size: $sfs;
+            margin: 0.6rem 0;
+
+            .view {
+              font-size: $sfs;
+            }
+          }
+        }
+
+        .right-event-box {
+          padding: 0;
+          margin: 0;
+          .event-facilitators-list {
+            .event-facilitator {
+              font-size: $sfs;
+              @include flexColumn;
+
+              .facilitator {
+                width: 12rem;
+                font-size: $sfs;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .events-information-container {
+    position: relative;
+
+    .event-information-title {
+      margin: 0 0 5rem 0;
+      font-size: $afs;
+    }
+
+    .event-year-form {
+      position: absolute;
+      top: 3rem;
+      left: 0;
+
+      .input-field {
+        width: 10rem;
+        font-size: $sfs;
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .event-infos-wrapper {
+      .event-title {
+        font-size: $nfs;
+      }
+
+      .event-box {
+        @include flexColumn;
+
+        .left-event-box {
+          padding: 0;
+          margin: 0;
+          font-size: $sfs;
+          .event-status {
+            font-size: $sfs;
+
+            .span {
+              width: 10rem;
+              font-size: $sfs;
+            }
+          }
+
+          .event-link {
+            font-size: $sfs;
+            margin: 0.6rem 0;
+
+            .view {
+              font-size: $sfs;
+            }
+          }
+        }
+
+        .right-event-box {
+          padding: 0;
+          margin: 0;
+          .event-facilitators-list {
+            .event-facilitator {
+              font-size: $sfs;
+              @include flexColumn;
+
+              .facilitator {
+                width: 95%;
+                font-size: $sfs;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .events-information-container {
+    position: relative;
+
+    .event-information-title {
+      margin: 0 0 5rem 0;
+      font-size: $afs;
+    }
+
+    .event-year-form {
+      position: absolute;
+      top: 3rem;
+      left: 0;
+
+      .input-field {
+        width: 10rem;
+        font-size: $sfs;
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .event-infos-wrapper {
+      .event-title {
+        font-size: $nfs;
+      }
+
+      .event-box {
+        @include flexColumn;
+
+        .left-event-box {
+          padding: 0;
+          margin: 0;
+          font-size: $sfs;
+          .event-status {
+            font-size: $sfs;
+
+            .span {
+              width: 10rem;
+              font-size: $sfs;
+            }
+          }
+
+          .event-link {
+            font-size: $sfs;
+            margin: 0.6rem 0;
+
+            .view {
+              font-size: $sfs;
+            }
+          }
+        }
+
+        .right-event-box {
+          padding: 0;
+          margin: 0;
+          .event-facilitators-list {
+            .event-facilitator {
+              font-size: $sfs;
+              @include flexColumn;
+
+              .facilitator {
+                width: 95%;
+                font-size: $sfs;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+}

@@ -1,56 +1,161 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import "../../../styles/Variables.scss";
+@import "../../../styles/Mixins.scss";
 
 .user-profile-sidebar-wrapper {
   width: 18%;
-  min-height: 100vh;
-  @include shadow1;
+
   border-radius: 0;
   background-color: $userSidebar-bg;
 
-  .user-profile-sidebar-title {
-    @include subTitle;
+  .user-sidebar-hamburger-menu {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 
+  .user-sidebar-menu-container {
+    display: flex;
+    flex-direction: column;
+
+    .user-profile-sidebar-title {
+      @include subTitle;
+    }
+
+    .user-profile-sidebar-item {
+      @include flexRow;
+      @include shadow1;
+      align-items: center;
+      font-size: $nfs;
+      padding: 0.5rem 0;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      z-index: 9999;
+
+      &:hover {
+        color: $red;
+        background: $userSidebar-hover;
+        border-radius: $radius;
+      }
+
+      .active-text {
+        color: $red;
+      }
+
+      .passive-text {
+        color: $black;
+
+        &:hover {
+          color: $red;
+        }
+      }
+
+      .active-icon {
+        color: $red;
+        font-size: $afs;
+      }
+
+      .passive-icon {
+        color: $iconColor;
+        font-size: $afs;
+
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+}
+
+/* User sidebar menu, initially hidden on mobile */
+
+.user-profile-sidebar-wrapper.opened-user-sidebar-menu {
+  .user-sidebar-menu-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 3rem;
+    left: 0rem;
+    background-color: $userSidebar-bg;
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem 2rem;
+    z-index: 9999;
+  }
   .user-profile-sidebar-item {
-    @include flexRow;
-    @include shadow1;
-    align-items: center;
-    font-size: $nfs;
-    padding: 0.5rem 0;
-    margin-bottom: 1rem;
-    cursor: pointer;
+    display: flex;
+  }
+}
 
-    &:hover {
-      color: $red;
-      background: $userSidebar-hover;
-      border-radius: $radius;
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .user-profile-sidebar-wrapper {
+    width: 100%;
+
+    .user-profile-sidebar-title {
+      align-items: center;
+      justify-content: center;
     }
 
-    .active-text {
-      color: $red;
+    .user-sidebar-menu-container {
+      display: none;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .user-profile-sidebar-wrapper {
+    width: 100%;
+
+    .user-sidebar-hamburger-menu {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      font-size: $aafs;
     }
 
-    .passive-text {
-      color: $black;
+    .user-sidebar-menu-container {
+      display: none;
+    }
+  }
+}
 
-      &:hover {
-        color: $red;
-      }
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .user-profile-sidebar-wrapper {
+    width: 100%;
+
+    .user-sidebar-hamburger-menu {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      font-size: $lfs;
     }
 
-    .active-icon {
-      color: $red;
-      font-size: $afs;
+    .user-sidebar-menu-container {
+      display: none;
     }
+  }
+}
 
-    .passive-icon {
-      color: $green;
-      font-size: $afs;
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .user-profile-sidebar-wrapper {
+    padding-left: 1rem;
 
-      &:hover {
-        color: $red;
-      }
+    .user-sidebar-hamburger-menu {
+      display: none;
+    }
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .user-profile-sidebar-wrapper {
+    padding-left: 1rem;
+
+    .user-sidebar-hamburger-menu {
+      display: none;
     }
   }
 }

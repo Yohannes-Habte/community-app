@@ -1,49 +1,127 @@
-@import '../../../../styles/Variables.scss';
-@import '../../../../styles/Mixins.scss';
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
 
 .admin-dashboard-sidebar-wrapper {
-  width: 16%;
-  min-height: 100vh;
+  width: 17%;
   background-color: $sidebar-bg;
 
-  .admin-dashboard-sidebar-title {
-    @include subTitle;
+  .admin-hamburger-menu {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: $afs;
+    z-index: 9999;
   }
 
-  .admin-dashboard-sidebar-item {
-    @include flexRow;
-    @include shadow1;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $sidebar-hover;
+  .admin-dashboard-menu-container {
+    min-height: 100vh;
+    .admin-dashboard-sidebar-title {
+      @include subTitle;
     }
 
-    .active-icon {
-      color: $red;
-      font-size: $afs;
-    }
-
-    .passive-icon {
-      color: $green;
-      font-size: $afs;
+    .admin-dashboard-sidebar-item {
+      @include flexRow;
+      @include shadow1;
+      align-items: center;
+      cursor: pointer;
 
       &:hover {
+        background-color: $sidebar-hover;
+      }
+
+      .active-icon {
+        color: $red;
+        font-size: $afs;
+      }
+
+      .passive-icon {
+        color: $iconColor;
+        font-size: $afs;
+
+        &:hover {
+          color: $red;
+        }
+      }
+
+      .active-text {
         color: $red;
       }
-    }
 
-    .active-text {
-      color: $red;
-    }
+      .passive-text {
+        color: $black;
 
-    .passive-text {
-      color: $black;
-
-      &:hover {
-        color: $red;
+        &:hover {
+          color: $red;
+        }
       }
     }
+  }
+}
+
+.admin-dashboard-sidebar-wrapper.admin-hamburger-menu-opened {
+  .admin-dashboard-menu-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 3rem;
+    left: 0rem;
+    background-color: $userSidebar-bg;
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem 2rem;
+    z-index: 9999;
+  }
+  .user-profile-sidebar-item {
+    display: flex;
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .admin-dashboard-sidebar-wrapper {
+    .admin-sidebar-hamburger-menu {
+      font-size: $afs;
+    }
+    .admin-dashboard-menu-container {
+      display: none;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .admin-dashboard-sidebar-wrapper {
+    .admin-sidebar-hamburger-menu {
+      font-size: $afs;
+    }
+    .admin-dashboard-menu-container {
+      display: none;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .admin-dashboard-sidebar-wrapper {
+    .admin-sidebar-hamburger-menu {
+      font-size: $afs;
+    }
+    .admin-dashboard-menu-container {
+      display: none;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .admin-hamburger-menu {
+    display: none;
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .admin-hamburger-menu {
+    display: none;
   }
 }

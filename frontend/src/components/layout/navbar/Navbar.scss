@@ -9,7 +9,7 @@
   padding: 0.5rem 1rem;
   @include flexSpaceBetween;
 
-  .church-logo {
+  .church-text-logo {
     font-family: "Rubik Beastly", system-ui;
     font-weight: 400;
     font-style: normal;
@@ -54,7 +54,6 @@
 
       .menu-item {
         padding: 0.5rem;
-      
 
         .link {
           color: $blue;
@@ -73,12 +72,6 @@
   }
 
   /* Navbar items, initially hidden on mobile */
-  .church-logo,
-  .navbar-items,
-  .register-login,
-  .logged-in-user-menu {
-    display: none;
-  }
 
   /* Menu open state for mobile */
   &.menu-open {
@@ -104,6 +97,13 @@
 @media (max-width: 480px) {
   .header-navbar {
     padding: 1rem;
+
+    .church-text-logo,
+    .navbar-items,
+    .register-login,
+    .logged-in-user-menu {
+      display: none;
+    }
   }
 }
 
@@ -114,6 +114,7 @@
       display: flex;
     }
 
+    .church-text-logo,
     .navbar-items,
     .register-login,
     .logged-in-user-menu {

@@ -43,12 +43,7 @@
         row-gap: 0.3rem;
         column-gap: 1rem;
 
-        strong {
-          font-size: $nfs;
-          font-weight: $afw;
-        }
-
-        span {
+        .span-count {
           display: inline-block;
           width: 10rem;
           padding: 0.2rem 0.5rem;
@@ -76,4 +71,175 @@
       }
     }
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .parishioners-information-container {
+    position: relative;
+
+    .parishioners-information-title {
+      font-size: 0.9rem;
+      margin: 0 0 4rem 0;
+    }
+
+    .parishioners-year-form {
+      position: absolute;
+      top: 2.5rem;
+      right: 0;
+      left: 0.5rem;
+
+      .label {
+        font-size: $sfs;
+      }
+
+      .input-field {
+        width: 7rem;
+        font-size: $sfs;
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .parishioners-infos-wrapper {
+      @include flexColumn;
+
+      .parishioners-status-container {
+        .parishioners-status-title {
+          font-size: $nfs;
+        }
+
+        .parishioners-status {
+          font-size: $sfs;
+
+          .span-count {
+            width: 5rem;
+          }
+        }
+
+        .parishioners-link {
+          font-size: $sfs;
+
+          .view {
+            font-size: $sfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .parishioners-information-container {
+    position: relative;
+
+    .parishioners-information-title {
+      font-size: $afs;
+      margin: 0 0 5rem 0;
+    }
+
+    .parishioners-year-form {
+      position: absolute;
+      top: 3rem;
+      right: 0;
+      left: 0.5rem;
+
+      .label {
+        font-size: $sfs;
+      }
+
+      .input-field {
+        width: 7rem;
+        font-size: $sfs;
+      }
+
+      .year-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .parishioners-infos-wrapper {
+      @include flexColumn;
+
+      .parishioners-status-container {
+        .parishioners-status-title {
+          font-size: $nfs;
+        }
+
+        .parishioners-status {
+          font-size: $sfs;
+
+          .span-count {
+            width: 12rem;
+          }
+        }
+
+        .parishioners-link {
+          font-size: $sfs;
+
+          .view {
+            font-size: $sfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .parishioners-information-container {
+    position: relative;
+
+    .parishioners-information-title {
+      font-size: $afs;
+    }
+
+    .parishioners-year-form {
+      position: absolute;
+      top: 1rem;
+      right: 0;
+
+      .input-field {
+        font-size: $nfs;
+      }
+
+      .year-form-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .parishioners-infos-wrapper {
+      .parishioners-status-container {
+        .parishioners-status-title {
+          font-size: $afs;
+        }
+
+        .parishioners-status {
+          .span-count {
+            width: 5rem;
+          }
+        }
+
+        .parishioners-link {
+          font-size: $nfs;
+
+          .view {
+            font-size: $nfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

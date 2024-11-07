@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../UserProfilePage.scss";
+import "./UserProfilePage.scss";
 import UserProfileSidebar from "../../../components/user/userProfileSidebar/UserProfileSidebar";
 import UpdateUserProfile from "../../../components/user/updateUserProfile/UpdateUserProfile";
 import Footer from "../../../components/layout/footer/Footer";

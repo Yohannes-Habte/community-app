@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import "./Charts.scss";
+import "./FinancialReportChart.scss"
 import {
   XAxis,
   YAxis,
@@ -93,9 +93,9 @@ const FinancialReportChart = () => {
   };
 
   return (
-    <section className="chart-wrapper">
-      <h3 className="chart-title">
-        Monthly Financial Report for the Year {year}
+    <section className="financial-report-chart-wrapper">
+      <h3 className="financial-report-chart-title">
+        Monthly Financial Report - {year}
       </h3>
 
       {/* Year Selection Form */}

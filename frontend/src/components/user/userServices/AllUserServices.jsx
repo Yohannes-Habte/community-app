@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
+  Alert,
+} from "@mui/material";
 import { useEffect } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
-import "./AllUserServices.scss";
 import { API } from "../../../utile/security/secreteKey";
+import "./AllUserServices.scss";
 
 const useFetchUserServices = () => {
   const [services, setServices] = useState([]);
@@ -145,37 +151,39 @@ const AllUserServices = () => {
 
   return (
     <section className="church-services-table-wrapper">
-      <h1>Church Services</h1>
+      <h1 className="church-services-table-title">Church Services</h1>
 
       {loading ? (
         <PageLoader isLoading={loading} message="Loading ..." size={90} />
       ) : error ? (
-        <p className="error-message">{error}</p>
+        <Alert security="error" className="error-message">
+          {error}
+        </Alert>
       ) : services.length === 0 ? (
-        <p className="error-message">No services found</p>
+        <Alert security="info" className="error-message">
+          No services found
+        </Alert>
       ) : (
-        <div style={{ width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoHeight
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </div>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
       )}
 
       {/* Dialog for displaying cancellation reason */}

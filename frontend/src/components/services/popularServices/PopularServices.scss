@@ -4,6 +4,7 @@
 .popular-services-wrapper {
   padding: 1rem 2rem 2rem 2rem;
   background-color: #dee2e6;
+  border-radius: $radius;
 
   .popular-services-title {
     @include subTitle;

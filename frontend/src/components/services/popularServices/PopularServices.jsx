@@ -9,7 +9,7 @@ const PopularServices = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  console.log("Popular Services =", services);
+
   useEffect(() => {
     const fetchPopularServices = async () => {
       setLoading(true);
