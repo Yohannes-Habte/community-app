@@ -99,7 +99,7 @@ const SubscriberNotification = () => {
       <form onSubmit={handleSubmit} className="subscribers-notification-form">
         {/* Subject Field */}
         <div className="input-container">
-          <label htmlFor="subject">Subject:</label>
+          <label htmlFor="subject" className="subject">Subject:</label>
           <MdSubject className="icon" />
           <input
             type="text"

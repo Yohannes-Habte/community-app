@@ -38,20 +38,16 @@ const Delegations = () => {
 
   // Priests table columns configuration
   const columns = [
-    { field: "id", headerName: "User ID", width: 250 },
+    { field: "serviceDate", headerName: "Date", width: 150 },
     { field: "fullName", headerName: "Full Name", width: 200 },
     { field: "email", headerName: "Email", width: 200 },
     { field: "phoneNumber", headerName: "Phone", width: 200 },
-    { field: "serviceDate", headerName: "Date", width: 200 },
   ];
 
   // Prepare table rows dynamically from priests data
   const rows =
     priests?.map((delegation) => ({
       id: delegation._id,
-      fullName: delegation.fullName,
-      email: delegation.email,
-      phoneNumber: delegation.phoneNumber,
       serviceDate: new Date(delegation.serviceDate).toLocaleDateString(
         "en-GB",
         {
@@ -60,6 +56,9 @@ const Delegations = () => {
           year: "numeric",
         }
       ),
+      fullName: delegation.fullName,
+      email: delegation.email,
+      phoneNumber: delegation.phoneNumber,
     })) || [];
 
   return (

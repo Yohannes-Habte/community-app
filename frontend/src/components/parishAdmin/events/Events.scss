@@ -12,33 +12,186 @@
 
   .event-delete-confirmation-modal {
     @include deleteConfirmationModal;
-  
+
     .delete-confirmation-title {
       @include deleteConfirmationTitle;
     }
-  
+
     .delete-confirmation-statement {
       @include deleteConfirmationStatement;
     }
-  
+
     .confirmation-buttons-wrapper {
       @include buttonsWrapper;
-  
+
       .confirm-delete-btn {
         @include buttonForDelete;
       }
-  
+
       .cancel-delete-btn {
         @include buttonForCancel;
       }
     }
   }
+
+  .delete {
+    border: none;
+    .delete-icon {
+      @include deleteIcon;
+    }
+  }
+
+  .edit {
+    border: none;
+    .edit-icon {
+      @include editIcon;
+    }
+  }
 }
 
-.edit-icon {
-  @include editIcon;
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .events-section-wrapper {
+    width: $mobile;
+    margin: 2rem auto;
+
+    .events-list-title {
+      font-size: $nfs;
+    }
+
+    .event-delete-confirmation-modal {
+      @include mobileDeleteConfirmationModal;
+      height: 12rem;
+
+      .delete-confirmation-title {
+        font-size: $nfs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $sfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        @include buttonsWrapper;
+
+        .confirm-delete-btn {
+          font-size: $sfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $sfs;
+        }
+      }
+    }
+
+    .edit {
+      .edit-icon {
+        font-size: $nfs;
+      }
+    }
+
+    .delete {
+      .delete-icon {
+        font-size: $nfs;
+      }
+    }
+  }
 }
 
-.delete-icon {
-  @include deleteIcon;
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .events-section-wrapper {
+    width: $mobile;
+    margin: 2rem auto;
+
+    .events-list-title {
+      font-size: $afs;
+    }
+
+    .event-delete-confirmation-modal {
+      @include mobileDeleteConfirmationModal;
+      height: 12rem;
+
+      .delete-confirmation-title {
+        font-size: $afs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $nfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $nfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $nfs;
+        }
+      }
+    }
+
+    .edit {
+      .edit-icon {
+        font-size: $nfs;
+      }
+    }
+
+    .delete {
+      .delete-icon {
+        font-size: $nfs;
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .events-section-wrapper {
+    width: $tablet;
+
+    .events-list-title {
+      font-size: $aafs;
+    }
+
+    .event-delete-confirmation-modal {
+      .delete-confirmation-title {
+        font-size: $aafs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $nfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $nfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $nfs;
+        }
+      }
+    }
+
+    .edit {
+      .edit-icon {
+        font-size: $nfs;
+      }
+    }
+
+    .delete {
+      .delete-icon {
+        font-size: $nfs;
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

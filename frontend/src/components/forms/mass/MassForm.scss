@@ -12,56 +12,14 @@
     @include subTitle;
     text-align: center;
   }
-}
-
-.mass-form {
-  .inputs-wrapper {
-    @include twoGridTemplateEqualColumns;
-
-    .input-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-
-      .input-icon {
-        @include inputIcon;
-      }
-
-      .input-field {
-        @include inputField;
-      }
-
-      .input-label {
-        @include inputLabel;
-      }
-
-      .input-highlight {
-        @include inputHighlight;
-      }
-
-      .input-field:focus + .input-label {
-        @include focusInputFieldAndInputLabel;
-      }
-
-      .input-error-message {
-        color: $red;
-        font-size: $sfs;
-        margin: 0.3rem 0 0 0.5rem;
-        text-align: left;
-      }
-    }
-
-    .fieldset-form {
-      border: none;
-
-      .fieldset-legend {
-        font-weight: bold;
-        font-size: $nfs;
-      }
+  .mass-form {
+    .inputs-wrapper {
+      @include twoGridTemplateEqualColumns;
 
       .input-container {
-        @include inputContainer;
-        margin-top: 1rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
 
         .input-icon {
           @include inputIcon;
@@ -82,38 +40,272 @@
         .input-field:focus + .input-label {
           @include focusInputFieldAndInputLabel;
         }
+
+        .input-error-message {
+          color: $red;
+          font-size: $sfs;
+          margin: 0.3rem 0 0 0.5rem;
+          text-align: left;
+        }
+      }
+
+      .fieldset-form {
+        border: none;
+
+        .fieldset-legend {
+          font-weight: bold;
+          font-size: $nfs;
+        }
+
+        .input-container {
+          @include inputContainer;
+          margin-top: 1rem;
+
+          .input-icon {
+            @include inputIcon;
+          }
+
+          .input-field {
+            @include inputField;
+          }
+
+          .input-label {
+            @include inputLabel;
+          }
+
+          .input-highlight {
+            @include inputHighlight;
+          }
+
+          .input-field:focus + .input-label {
+            @include focusInputFieldAndInputLabel;
+          }
+        }
+      }
+    }
+
+    .input-textarea-container {
+      @include inputContainer;
+      margin: 1rem 0;
+
+      .input-icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        @include focusInputFieldAndInputLabel;
+      }
+    }
+
+    .submit-wrapper {
+      .create-mass-btn {
+        @include button3;
       }
     }
   }
+}
 
-  .input-textarea-container {
-    @include inputContainer;
-    margin: 1rem 0;
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .form-mass-container {
+    width: $mobile;
+    padding: 1rem;
+   
 
-    .input-icon {
-      @include inputIcon;
+    .mass-form-title {
+      font-size: $nfs;
     }
+    .mass-form {
+   
+      .inputs-wrapper {
+        @include flexColumn;
 
-    .input-field {
-      @include inputField;
-    }
+        .input-container {
+          .input-icon {
+            font-size: $sfs;
+          }
 
-    .input-label {
-      @include inputLabel;
-    }
+          .input-field {
+            font-size: $sfs;
+          }
 
-    .input-highlight {
-      @include inputHighlight;
-    }
+          .input-label {
+            font-size: $sfs;
+          }
 
-    .input-field:focus + .input-label {
-      @include focusInputFieldAndInputLabel;
+          .input-field:focus + .input-label {
+            font-size: $sfs;
+          }
+
+          .input-error-message {
+            font-size: $sfs;
+          }
+        }
+
+        .fieldset-form {
+          border: none;
+
+          .fieldset-legend {
+            font-size: $sfs;
+          }
+
+          .input-container {
+            .input-icon {
+              font-size: $sfs;
+            }
+
+            .input-field {
+              font-size: $sfs;
+            }
+
+            .input-label {
+              font-size: $sfs;
+            }
+
+            .input-field:focus + .input-label {
+              font-size: $sfs;
+            }
+          }
+        }
+      }
+
+      .input-textarea-container {
+        .input-icon {
+          font-size: $sfs;
+        }
+
+        .input-field {
+          font-size: $sfs;
+        }
+
+        .input-label {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label {
+          font-size: $sfs;
+        }
+      }
+
+      .submit-wrapper {
+        .create-mass-btn {
+          font-size: $sfs;
+        }
+      }
     }
   }
+}
 
-  .submit-wrapper {
-    .create-mass-btn {
-      @include button3;
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .form-mass-container {
+    width: $tablet;
+   
+
+    .mass-form-title {
+      font-size: $afs;
+    }
+    .mass-form {
+   
+      .inputs-wrapper {
+        @include flexColumn;
+
+        .input-container {
+          .input-icon {
+            font-size: $nfs;
+          }
+
+          .input-field {
+            font-size: $nfs;
+          }
+
+          .input-label {
+            font-size: $nfs;
+          }
+
+          .input-field:focus + .input-label {
+            font-size: $nfs;
+          }
+
+          .input-error-message {
+            font-size: $nfs;
+          }
+        }
+
+        .fieldset-form {
+          border: none;
+
+          .fieldset-legend {
+            font-size: $nfs;
+          }
+
+          .input-container {
+            .input-icon {
+              font-size: $nfs;
+            }
+
+            .input-field {
+              font-size: $nfs;
+            }
+
+            .input-label {
+              font-size: $nfs;
+            }
+
+            .input-field:focus + .input-label {
+              font-size: $nfs;
+            }
+          }
+        }
+      }
+
+      .input-textarea-container {
+        .input-icon {
+          font-size: $nfs;
+        }
+
+        .input-field {
+          font-size: $nfs;
+        }
+
+        .input-label {
+          font-size: $nfs;
+        }
+
+        .input-field:focus + .input-label {
+          font-size: $nfs;
+        }
+      }
+
+      .submit-wrapper {
+        .create-mass-btn {
+          font-size: $nfs;
+        }
+      }
     }
   }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

@@ -13,6 +13,7 @@
     z-index: 9999;
   }
 
+  // Big screens
   .admin-dashboard-menu-container {
     min-height: 100vh;
     .admin-dashboard-sidebar-title {
@@ -58,6 +59,7 @@
   }
 }
 
+// Small screens
 .admin-dashboard-sidebar-wrapper.admin-hamburger-menu-opened {
   .admin-dashboard-menu-container {
     display: flex;
@@ -71,15 +73,33 @@
     padding: 1rem 2rem;
     z-index: 9999;
   }
-  .user-profile-sidebar-item {
+  .admin-dashboard-sidebar-item {
     display: flex;
+
+    .active-icon {
+      color: $red;
+      font-size: $nfs;
+    }
+
+    .passive-icon {
+      font-size: $nfs;
+    }
+
+    .active-text {
+      color: $red;
+      font-size: $sfs;
+    }
+
+    .passive-text {
+      font-size: $sfs;
+    }
   }
 }
 
 /* Up to 480px (very small mobile screens) */
 @media (max-width: 480px) {
   .admin-dashboard-sidebar-wrapper {
-    .admin-sidebar-hamburger-menu {
+    .admin-hamburger-menu {
       font-size: $afs;
     }
     .admin-dashboard-menu-container {

@@ -37,6 +37,10 @@
       }
     }
   }
+
+  .delete-icon {
+    @include deleteIcon;
+  }
 }
 
 /* Up to 480px (very small mobile screens) */
@@ -71,6 +75,10 @@
           font-size: $sfs;
         }
       }
+    }
+
+    .delete-icon {
+      @include deleteIcon;
     }
   }
 }

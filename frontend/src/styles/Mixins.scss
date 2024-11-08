@@ -168,6 +168,57 @@
   font-size: $sfs;
   margin: 0 0.5rem;
 }
+
+// ==============================================================================================
+// Select styling
+// ==============================================================================================
+
+@mixin selectContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  // Arrow styling
+  &::after {
+    content: "▼";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: $black;
+    pointer-events: none; // allows click-through
+  }
+}
+
+@mixin selectField {
+  appearance: none;
+  width: 100%;
+  max-width: 100%; /* Ensures it doesn't overflow on mobile */
+  padding: 0.75rem;
+  padding-right: 2.5rem; // extra space for the arrow
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: #007bff;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  }
+}
+
+@mixin selectOption {
+  color: #333;
+  background-color: #f9f9f9;
+}
 // ==============================================================================================
 // Button styling
 // ==============================================================================================

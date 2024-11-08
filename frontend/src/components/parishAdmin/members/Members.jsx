@@ -76,7 +76,7 @@ const Members = () => {
               setOpenDeleteConfirm(true);
               setMemberId(params.row.id);
             }}
-            className="delete"
+            className="delete-icon"
             disabled={deleteLoading}
             aria-label={`Delete member: ${params.row.firstName} ${params.row.lastName}`}
           >

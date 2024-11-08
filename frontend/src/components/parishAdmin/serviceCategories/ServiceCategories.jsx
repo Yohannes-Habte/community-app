@@ -52,7 +52,6 @@ const ServiceCategories = () => {
   // Column definitions for DataGrid
   // ========================================================================
   const columns = [
-    { field: "id", headerName: "Category ID", width: 300 },
     { field: "category", headerName: "Service Category", width: 300 },
     { field: "description", headerName: "Category Description", width: 300 },
     {
@@ -83,10 +82,7 @@ const ServiceCategories = () => {
   }));
 
   return (
-    <section
-      className="service-category-table-container"
-      style={{ height: "400px", width: "100%" }}
-    >
+    <section className="service-category-table-container">
       <h3 className="service-category-table-title">Service Categories</h3>
 
       <aside className="add-new-service-category">

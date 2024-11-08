@@ -11,21 +11,25 @@ const CommitteeCard = ({ data }) => {
         <img className="image" src={data.image} alt={data.fullName} />
       </figure>
       <aside className="user-details">
-        <h4 className="user-name">
-          Full Name: <strong>{data.fullName} </strong>
+        <h4 className="user-info">
+          Full Name:{" "}
+          <strong className="strong-element">{data.fullName} </strong>
         </h4>
         <p className="user-info">
-          Service Title: <strong>{data.title}</strong>{" "}
+          Service Title:{" "}
+          <strong className="strong-element">{data.title}</strong>{" "}
         </p>
         <p className="user-info">
-          Email Address: <strong>{data.email}</strong>{" "}
+          Email Address:{" "}
+          <strong className="strong-element">{data.email}</strong>{" "}
         </p>
         <p className="user-info">
-          Phone Number: <strong>{data.phone} </strong>
+          Phone Number:{" "}
+          <strong className="strong-element">{data.phone} </strong>
         </p>
         <p className="user-info">
           Service Time:{" "}
-          <strong>
+          <strong className="strong-element">
             January {data.startingTime.slice(0, 4)} to December{" "}
             {data.endingTime.slice(0, 4)}{" "}
           </strong>

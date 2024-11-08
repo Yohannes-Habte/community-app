@@ -8,6 +8,7 @@
   gap: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 1rem 0;
+  padding: 2rem 0;
   background-color: $white;
 
   .image-container {
@@ -32,16 +33,18 @@
     .user-info {
       font-size: $sfs;
 
-      strong {
-        color: $green;
+      .strong-element {
+        display: block;
+        color: $gray;
+        font-size: $sfs;
       }
     }
 
     .update-committee-member-btn {
       @include editButton;
       position: absolute;
-      bottom: 0.5rem;
-      right: 1rem;
+      top: 1rem;
+      right: 0.2rem;
     }
   }
 }
@@ -66,11 +69,15 @@
       }
 
       .user-info {
-        strong {
+        .strong-element {
+          font-size: $sfs;
         }
       }
 
       .update-committee-member-btn {
+        position: absolute;
+        top: 13rem;
+        right: 0.2rem;
         font-size: $sfs;
       }
     }
@@ -81,10 +88,8 @@
 @media (min-width: 481px) and (max-width: 768px) {
   .committee-card-container {
     margin-top: 2rem;
- 
 
     .image-container {
-   
       .image {
         width: 10rem;
         height: 12rem;
@@ -97,7 +102,8 @@
       }
 
       .user-info {
-        strong {
+        .strong-element {
+          font-size: $sfs;
         }
       }
 
@@ -110,7 +116,7 @@
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
 @media (min-width: 769px) and (max-width: 1024px) {
   .committee-card-container {
-   margin-bottom: 3rem;
+    margin-bottom: 3rem;
     .image-container {
       .image {
         width: 11rem;
@@ -124,7 +130,8 @@
       }
 
       .user-info {
-        strong {
+        .strong-element {
+          font-size: $sfs;
         }
       }
 
@@ -147,7 +154,8 @@
       }
 
       .user-info {
-        strong {
+        .strong-element {
+          font-size: $sfs;
         }
       }
 
@@ -170,12 +178,12 @@
       }
 
       .user-info {
-        strong {
+        .strong-element {
+          font-size: $sfs;
         }
       }
 
       .update-committee-member-btn {
-        
       }
     }
   }

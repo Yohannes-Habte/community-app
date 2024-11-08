@@ -25,7 +25,6 @@ const ChurchServices = () => {
 
   // Define the columns for the DataGrid
   const columns = [
-    { field: "id", headerName: "Service ID", width: 250 },
     { field: "serviceName", headerName: "Service Name", width: 200 },
     { field: "serviceDate", headerName: "Service Date", width: 200 },
     {
@@ -72,12 +71,14 @@ const ChurchServices = () => {
   const rows =
     services?.map((service) => ({
       id: service._id,
-      serviceName: service.serviceName,
       serviceDate: new Date(service.serviceDate).toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
       }),
+      serviceName:
+        service.serviceName.charAt(0).toUpperCase() +
+        service.serviceName.slice(1),
       identificationDocument: service.identificationDocument,
       message: `${service.message.slice(0, 20)}...`,
       serviceStatus: service.serviceStatus,
@@ -85,35 +86,37 @@ const ChurchServices = () => {
 
   return (
     <section className="church-services-table-wrapper">
-      <h1 className="">Church Services</h1>
+      <h1 className="church-services-title">Church Services</h1>
 
       {loading && <PageLoader isLoading={loading} message="" size={80} />}
 
-      {error && <Alert className="error-message">{error}</Alert>}
+      {error && (
+        <Alert security="error" className="error-message">
+          {error}
+        </Alert>
+      )}
 
       {!loading && !error && services && (
-        <div style={{ width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoHeight
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </div>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
       )}
     </section>
   );

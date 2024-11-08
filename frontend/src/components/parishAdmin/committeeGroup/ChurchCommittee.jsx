@@ -71,8 +71,7 @@ const ChurchCommittees = () => {
       </p>
 
       <form onSubmit={fetchCommitteeMembers} className="committee-query-form">
-        <div className="input-container">
-          <label htmlFor="yearRange">Select Year Range:</label>
+        <div className="select-container">
           <select
             id="yearRange"
             value={selectedRange}
@@ -82,7 +81,7 @@ const ChurchCommittees = () => {
           >
             <option value="">--Select Year Range--</option>
             {yearRanges.map((range, index) => (
-              <option key={index} value={range}>
+              <option key={index} value={range} className="select-option">
                 {range}
               </option>
             ))}

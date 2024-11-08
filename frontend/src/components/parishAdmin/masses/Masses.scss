@@ -2,12 +2,51 @@
 @import "../../../styles/Mixins.scss";
 
 .masses-container {
-    text-align: center;
-    margin: 2rem;
+  max-width: 100%;
+  text-align: center;
+  margin: 2rem;
 
   .masses-title {
     @include subTitle;
     font-size: 1.4rem;
-  
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .masses-container {
+    max-width: 100%;
+    margin: 0.5rem;
+    .masses-title {
+      font-size: $nfs;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .masses-container {
+    max-width: 100%;
+    margin: 1rem;
+    .masses-title {
+      font-size: $afs;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .masses-container {
+    .masses-title {
+      font-size: $aafs;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }
