@@ -70,8 +70,8 @@ const ChurchCommittee = () => {
   );
 
   return (
-    <section className="committees-container">
-      <h3 className="committees-title">Committee Members</h3>
+    <section className="priest-committees-container">
+      <h3 className="priest-committees-title">Committee Members</h3>
 
       {/* Display error messages */}
       {error && (
@@ -91,7 +91,6 @@ const ChurchCommittee = () => {
       {/* Form to select a year range */}
       <form onSubmit={fetchCommitteeMembers} className="committee-query-form">
         <div className="input-container">
-          <label htmlFor="yearRange">Select Year Range:</label>
           <select
             id="yearRange"
             value={selectedRange}
@@ -99,7 +98,9 @@ const ChurchCommittee = () => {
             className="select-field"
             disabled={loading} // Disable input while loading
           >
-            <option value="">--Select Year Range--</option>
+            <option value="" className="select-option">
+              --Select Year Range--
+            </option>
             {yearRanges.map((range, index) => (
               <option key={index} value={range}>
                 {range}
@@ -110,7 +111,7 @@ const ChurchCommittee = () => {
 
         <button
           type="submit"
-          className="committees-btn"
+          className="priest-committees-btn"
           disabled={loading || !selectedRange}
         >
           {loading ? (
@@ -127,7 +128,7 @@ const ChurchCommittee = () => {
       )}
 
       {/* Display committee members */}
-      <section className="committee-card-wrapper">
+      <section className="priest-committee-card-wrapper">
         {committeeMembers.length > 0
           ? committeeMembers.map((member) => (
               <CommitteeCard key={member._id} data={member} />

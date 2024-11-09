@@ -43,76 +43,39 @@
     }
   }
 
-  .financial-reports-table {
-    margin-top: 1rem;
-    .financial-report-table {
-      width: 100%;
+  .action-wrapper {
+    @include flexRow;
+    align-items: center;
 
-      .table-head {
-        background-color: #b0c4de;
-        text-align: left;
-
-        .table-head-row {
-          border-radius: 1rem;
-
-          .head-cell {
-            padding: 1rem 0.3rem;
-            font-size: $nfs;
-          }
-        }
-      }
-
-      .table-body {
-        .table-body-row {
-          .body-cell {
-            border-bottom: 1px solid $table_border;
-            padding: 0 0.5rem;
-            padding: 1rem 0.5rem;
-            font-size: $nfs;
-          }
-
-          .negative {
-            border-bottom: 1px solid $table_border;
-            padding: 0 0.5rem;
-            color: tomato;
-          }
-
-          .positive {
-            border-bottom: 1px solid $table_border;
-            padding: 0 0.5rem;
-            color: $green;
-          }
-
-          .body-cell-action {
-            border-bottom: 1px solid $table_border;
-            padding: 0 0.5rem;
-            width: 150px;
-
-            .delete-icon {
-              font-size: $afs;
-              color: $tomato;
-              cursor: pointer;
-
-              &:hover {
-                color: $red;
-              }
-            }
-          }
-        }
-      }
+    .edit-icon {
+      @include editIcon;
     }
 
-    .total-income-status {
-      font-size: $afs;
-      padding: 1rem 0;
-      .total-surplus {
-        color: $blue;
-        font-size: $aafs;
+    .delete-icon {
+      @include deleteIcon;
+    }
+  }
+
+  .financial-report-delete-confirmation-wrapper {
+    @include deleteConfirmationModal;
+
+    .delete-confirmation-title {
+      @include deleteConfirmationTitle;
+    }
+
+    .delete-confirmation-statement {
+      @include deleteConfirmationStatement;
+    }
+
+    .confirmation-buttons-wrapper {
+      @include buttonsWrapper;
+
+      .confirm-delete-btn {
+        @include buttonForDelete;
       }
 
-      .total-deficit {
-        color: $tomato;
-        font-size: $aafs;
+      .cancel-delete-btn {
+        @include buttonForCancel;
       }
     }
   }
@@ -126,31 +89,200 @@
     @include editIcon;
   }
 
-  .delete-icon {
-    @include deleteIcon;
+  .delete-report-btn {
+    border: none;
+    .delete-icon {
+      @include deleteIcon;
+    }
   }
 }
 
-.financial-report-delete-confirmation-wrapper {
-  @include deleteConfirmationModal;
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .financial-report-table-container {
+    position: relative;
+    width: $mobile;
 
-  .delete-confirmation-title {
-    @include deleteConfirmationTitle;
-  }
-
-  .delete-confirmation-statement {
-    @include deleteConfirmationStatement;
-  }
-
-  .confirmation-buttons-wrapper {
-    @include buttonsWrapper;
-
-    .confirm-delete-btn {
-      @include buttonForDelete;
+    .financial-report-table-title {
+      font-size: $nfs;
+      margin: 1rem 0 5rem 0;
+      padding: 0;
     }
 
-    .cancel-delete-btn {
-      @include buttonForCancel;
+    .finance-report-table-form {
+      @include flexRow;
+      position: absolute;
+      top: 2.5rem;
+      left: 0;
+
+      .input-field {
+        width: 100%;
+        font-size: $sfs;
+      }
+
+      .finance-report-table-form-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .add-new-report {
+      .add-new-report-title {
+        font-size: $sfs;
+      }
+
+      .add-new-report-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .financial-report-delete-confirmation-wrapper {
+      @include mobileDeleteConfirmationModal;
+
+      .delete-confirmation-title {
+        font-size: $nfs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $sfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $sfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $sfs;
+        }
+      }
     }
   }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .financial-report-table-container {
+    position: relative;
+    width: $tablet;
+
+    .financial-report-table-title {
+      font-size: $afs;
+      margin: 1rem 0 5rem 0;
+      padding: 0;
+    }
+
+    .finance-report-table-form {
+      @include flexRow;
+      position: absolute;
+      top: 2.5rem;
+      left: 0;
+
+      .input-field {
+        width: 100%;
+        font-size: $nfs;
+      }
+
+      .finance-report-table-form-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .add-new-report {
+      .add-new-report-title {
+        font-size: $nfs;
+      }
+
+      .add-new-report-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .financial-report-delete-confirmation-wrapper {
+      .delete-confirmation-title {
+        font-size: $afs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $nfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $nfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $nfs;
+        }
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .financial-report-table-container {
+    position: relative;
+    width: $tablet;
+
+    .financial-report-table-title {
+      font-size: $afs;
+      margin: 1rem 0 5rem 0;
+      padding: 0;
+    }
+
+    .finance-report-table-form {
+      @include flexRow;
+      position: absolute;
+      top: 2.5rem;
+      left: 0;
+
+      .input-field {
+        width: 100%;
+        font-size: $nfs;
+      }
+
+      .finance-report-table-form-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .add-new-report {
+      .add-new-report-title {
+        font-size: $nfs;
+      }
+
+      .add-new-report-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .financial-report-delete-confirmation-wrapper {
+      .delete-confirmation-title {
+        font-size: $afs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $nfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $nfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $nfs;
+        }
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

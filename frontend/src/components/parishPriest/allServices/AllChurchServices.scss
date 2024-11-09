@@ -10,41 +10,155 @@
     font-size: $afs;
     padding: 2rem 0;
   }
-}
 
-.service-delete-confirmation-modal {
-  @include deleteConfirmationModal;
+  .service-delete-confirmation-modal {
+    @include deleteConfirmationModal;
 
-  .delete-confirmation-title {
-    @include deleteConfirmationTitle;
-  }
-
-  .delete-confirmation-statement {
-    @include deleteConfirmationStatement;
-  }
-
-  .confirmation-buttons-wrapper {
-    @include buttonsWrapper;
-
-    .confirm-delete-btn {
-      @include buttonForDelete;
+    .delete-confirmation-title {
+      @include deleteConfirmationTitle;
     }
 
-    .cancel-delete-btn {
-      @include buttonForCancel;
+    .delete-confirmation-statement {
+      @include deleteConfirmationStatement;
+    }
+
+    .confirmation-buttons-wrapper {
+      @include buttonsWrapper;
+
+      .confirm-delete-btn {
+        @include buttonForDelete;
+      }
+
+      .cancel-delete-btn {
+        @include buttonForCancel;
+      }
+    }
+  }
+
+  .action-wrapper {
+    @include flexRow;
+    align-items: center;
+
+    .edit-icon {
+      @include editIcon;
+    }
+
+    .delete-btn {
+      border: none;
+      .delete-icon {
+        @include deleteIcon;
+      }
+    }
+  }
+
+  .MuiDataGrid-cell {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .church-services-table-wrapper {
+    width: $mobile;
+
+    .church-services-table-title {
+      font-size: $nfs;
+    }
+
+    .service-delete-confirmation-modal {
+      @include mobileDeleteConfirmationModal;
+
+      .delete-confirmation-title {
+        font-size: $nfs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $sfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $sfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $sfs;
+        }
+      }
+    }
+
+    .action-wrapper {
+      @include flexRow;
+      align-items: center;
+
+      .edit-icon {
+        font-size: $nfs;
+      }
+
+      .delete-btn {
+        .delete-icon {
+          font-size: $nfs;
+        }
+      }
     }
   }
 }
 
-.action-wrapper {
-  @include flexRow;
-  align-items: center;
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .church-services-table-wrapper {
+    width: $tablet;
 
-  .edit-icon {
-    @include editIcon;
-  }
+    .church-services-table-title {
+      font-size: $afs;
+    }
 
-  .delete-icon {
-    @include deleteIcon;
+    .service-delete-confirmation-modal {
+      .delete-confirmation-title {
+        font-size: $nfs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $sfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $sfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $sfs;
+        }
+      }
+    }
+
+    .action-wrapper {
+      @include flexRow;
+      align-items: center;
+
+      .edit-icon {
+        font-size: $nfs;
+      }
+
+      .delete-btn {
+        .delete-icon {
+          font-size: $nfs;
+        }
+      }
+    }
   }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

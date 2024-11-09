@@ -211,15 +211,15 @@ const ExpenseReportForm = ({ setOpenAddFinancialReport }) => {
   }, []);
 
   return (
-    <article className="add-financial-expense-modal">
-      <section className="add-financial-expense-popup">
+    <article className="add-financial-report-modal">
+      <section className="add-financial-report-popup">
         <span
           onClick={() => setOpenAddFinancialReport(false)}
           className="close"
         >
           X
         </span>
-        <h3 className="title"> Add New Monthly Report </h3>
+        <h3 className="add-financial-report-title"> Add New Monthly Report </h3>
         <form onSubmit={handleSubmit} action="" className="expense-form">
           <div className="inputs-wrapper">
             {/* Date of Expense */}

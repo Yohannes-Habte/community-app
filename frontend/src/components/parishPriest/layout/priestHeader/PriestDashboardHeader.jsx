@@ -17,7 +17,7 @@ const PriestDashboardHeader = ({ active, setActive }) => {
   };
 
   return (
-    <header className="priest-dashboar-header">
+    <header className="priest-dashboard-header">
       <figure className="image-container">
         <img
           className="image"
@@ -27,8 +27,8 @@ const PriestDashboardHeader = ({ active, setActive }) => {
         />
       </figure>
 
-      <ul className="priest-dashboar-header-items">
-        <li className="priest-dashboar-header-item">
+      <ul className="priest-dashboard-header-items">
+        <li className="priest-dashboard-header-item">
           <FaUsers
             onClick={() => setActive(2)}
             title="Parishioners"
@@ -40,7 +40,7 @@ const PriestDashboardHeader = ({ active, setActive }) => {
           />
         </li>
 
-        <li className="priest-dashboar-header-item">
+        <li className="priest-dashboard-header-item">
           <FaCross
             onClick={() => setActive(3)}
             title="Services"
@@ -52,7 +52,7 @@ const PriestDashboardHeader = ({ active, setActive }) => {
           />
         </li>
 
-        <li className="priest-dashboar-header-item">
+        <li className="priest-dashboard-header-item">
           <SiEventstore
             onClick={() => setActive(4)}
             title="Events"
@@ -64,7 +64,7 @@ const PriestDashboardHeader = ({ active, setActive }) => {
           />
         </li>
 
-        <li className="priest-dashboar-header-item">
+        <li className="priest-dashboard-header-item">
           <GiSunPriest
             onClick={() => setActive(5)}
             title="New Priest"
@@ -76,7 +76,7 @@ const PriestDashboardHeader = ({ active, setActive }) => {
           />
         </li>
 
-        <li className="priest-dashboar-header-item">
+        <li className="priest-dashboard-header-item">
           <ImUsers
             onClick={() => setActive(6)}
             title="Church Committee"

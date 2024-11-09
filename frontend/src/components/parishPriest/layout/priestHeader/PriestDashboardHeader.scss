@@ -1,7 +1,7 @@
-@import '../../../../styles/Variables.scss';
-@import '../../../../styles/Mixins.scss';
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
 
-.priest-dashboar-header {
+.priest-dashboard-header {
   @include flexSpaceBetween;
   padding: 0 2rem;
   background-color: $priest-header-bg;
@@ -15,9 +15,9 @@
     }
   }
 
-  .priest-dashboar-header-items {
+  .priest-dashboard-header-items {
     @include flexRow;
-    .priest-dashboar-header-item {
+    .priest-dashboard-header-item {
       .active-priest-dashboard-header-icon {
         color: $red;
         font-size: $aafs;
@@ -35,4 +35,27 @@
       }
     }
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .priest-dashboard-header {
+    display: none;
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

@@ -8,11 +8,11 @@ const FinanceManagerPage = () => {
   const [active, setActive] = useState(1);
 
   return (
-    <main className="financial-manager-wrapper">
-      <section className="financial-manager-container">
-        <h1 className="financial-manager-title">Finance Manager Dashboard</h1>
+    <main className="financial-manager-page">
+      <section className="financial-manager-page-container">
+        <h1 className="financial-manager-page-title">Finance Manager Dashboard</h1>
 
-        <div className="financial-manager-contents">
+        <div className="financial-manager-contents-wrapper">
           <FinanceMgtSidebar active={active} setActive={setActive} />
           <FinanceMgtContent active={active} />
         </div>

@@ -39,10 +39,12 @@
 
       .active-text {
         color: $red;
+        font-size: $nfs;
       }
 
       .passive-text {
         color: $black;
+        font-size: $nfs;
 
         &:hover {
           color: $red;

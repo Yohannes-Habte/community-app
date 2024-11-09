@@ -1,24 +1,21 @@
 @import "../../../styles/Variables.scss";
 @import "../../../styles/Mixins.scss";
 
-.add-financial-expense-modal {
+.add-financial-report-modal {
   @include modal;
   overflow-y: scroll;
 
-
-  .add-financial-expense-popup {
+  .add-financial-report-popup {
     @include popupBox;
     width: 50rem;
     padding: 1rem 2rem 2rem;
     margin-top: 2rem;
 
-   
-
     .close {
       @include closeModal;
     }
 
-    .title {
+    .add-financial-report-title {
       @include title;
       margin-bottom: 1rem;
     }
@@ -74,4 +71,158 @@
       }
     }
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .add-financial-report-modal {
+    @include modal;
+
+    .add-financial-report-popup {
+      @include popupBox;
+      @include verticalScrollbar;
+      width: 16rem;
+
+      .close {
+        font-size: $nfs;
+      }
+
+      .add-financial-report-title {
+        font-size: $nfs;
+        text-align: center;
+      }
+
+      .expense-form {
+        .inputs-wrapper {
+          @include flexColumn;
+
+          .input-container {
+            .input-icon {
+              font-size: $sfs;
+            }
+
+            .input-field {
+              font-size: $sfs;
+            }
+
+            .input-label {
+              font-size: $sfs;
+            }
+
+            .input-highlight {
+              @include inputHighlight;
+            }
+
+            .input-field:focus + .input-label {
+              font-size: $sfs;
+            }
+
+            .input-field:focus + .input-label + .input-highlight {
+              width: 100%;
+            }
+
+            .error-text {
+              font-size: $sfs;
+            }
+          }
+        }
+
+        .add-btn {
+          font-size: $sfs;
+        }
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .add-financial-report-modal {
+    @include modal;
+
+    .add-financial-report-popup {
+      @include popupBox;
+      @include verticalScrollbar;
+      width: 27rem;
+      padding: 2rem 3rem;
+
+      .close {
+        font-size: $afs;
+      }
+
+      .add-financial-report-title {
+        font-size: $afs;
+        text-align: center;
+      }
+
+      .expense-form {
+        .inputs-wrapper {
+          @include flexColumn;
+
+          .input-container {
+            .input-icon {
+              font-size: $nfs;
+            }
+
+            .input-field {
+              font-size: $nfs;
+            }
+
+            .input-label {
+              font-size: $nfs;
+            }
+
+            .input-highlight {
+              @include inputHighlight;
+            }
+
+            .input-field:focus + .input-label {
+              font-size: $nfs;
+            }
+
+            .input-field:focus + .input-label + .input-highlight {
+              width: 100%;
+            }
+
+            .error-text {
+              font-size: $nfs;
+            }
+          }
+        }
+
+        .add-btn {
+          font-size: $nfs;
+        }
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .add-financial-report-modal {
+    @include modal;
+
+    .add-financial-report-popup {
+      @include popupBox;
+      width: 40rem;
+      padding: 1rem 2rem 2rem;
+      margin-top: 2rem;
+
+
+      .expense-form {
+        .inputs-wrapper {
+          @include twoGridTemplateEqualColumns;
+        }
+      }
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

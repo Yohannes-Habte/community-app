@@ -39,8 +39,6 @@
         .input-field:focus + .input-label {
           @include focusInputFieldAndInputLabel;
         }
-
-        
       }
 
       .add-member-contribution-btn {
@@ -49,4 +47,106 @@
       }
     }
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .add-contribution-modal {
+    @include modal;
+
+    .member-contribution-popup-box {
+      @include popupBox;
+      width: 16rem;
+      padding: 2rem;
+
+      .close-modal {
+        font-size: $sfs;
+      }
+
+      .member-contribution-title {
+        font-size: $sfs;
+      }
+
+      .member-contribution-form {
+        .input-container {
+          .input-icon {
+            font-size: $sfs;
+          }
+
+          .input-field {
+            font-size: $sfs;
+          }
+
+          .input-label {
+            font-size: $sfs;
+          }
+
+          .input-field:focus + .input-label {
+            font-size: $sfs;
+          }
+        }
+
+        .add-member-contribution-btn {
+          font-size: $sfs;
+        }
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .add-contribution-modal {
+    @include modal;
+
+    .member-contribution-popup-box {
+      @include popupBox;
+      width: 30rem;
+      padding: 2rem;
+
+      .close-modal {
+        font-size: $nfs;
+      }
+
+      .member-contribution-title {
+        font-size: $afs;
+      }
+
+      .member-contribution-form {
+        .input-container {
+          .input-icon {
+            font-size: $nfs;
+          }
+
+          .input-field {
+            font-size: $nfs;
+          }
+
+          .input-label {
+            font-size: $nfs;
+          }
+
+          .input-field:focus + .input-label {
+            font-size: $nfs;
+          }
+        }
+
+        .add-member-contribution-btn {
+          font-size: $nfs;
+        }
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

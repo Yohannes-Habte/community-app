@@ -116,7 +116,7 @@ const ServicesBarChart = ({ setActive }) => {
   return (
     <section className="services-bar-chart-container">
       <h4 className="service-chart-title">
-        Assessment of Parish Services: Year {year}
+        ERCCH Services Assessment - {year}
       </h4>
 
       <form

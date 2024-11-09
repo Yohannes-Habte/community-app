@@ -2,7 +2,6 @@
 @import "../../../../styles/Mixins.scss";
 
 .event-line-chart-container {
-  position: relative;
   margin: 2rem 0;
   background-color: $chart-bg;
   padding: 1rem 2rem;
@@ -10,7 +9,6 @@
 
   .event-line-chart-title {
     @include subTitle;
-    font-size: $afs;
   }
 
   .events-line-chart-info {
@@ -30,4 +28,64 @@
       }
     }
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .event-line-chart-container {
+    margin: 4rem 0;
+    padding: 1rem;
+
+    .event-line-chart-title {
+      font-size: $nfs;
+    }
+
+    .events-line-chart-info {
+      @include flexColumn;
+      font-size: $sfs;
+      .spiritual-development-count {
+        font-size: $sfs;
+      }
+
+      .more-information {
+        font-size: $sfs;
+      }
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .event-line-chart-container {
+    margin: 4rem 0;
+    padding: 1rem;
+
+    .event-line-chart-title {
+      font-size: $afs;
+    }
+
+    .events-line-chart-info {
+      @include flexColumn;
+      font-size: $nfs;
+      .spiritual-development-count {
+        font-size: $nfs;
+      }
+
+      .more-information {
+        font-size: $nfs;
+      }
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

@@ -1,49 +1,121 @@
-@import '../../../../styles/Variables.scss';
-@import '../../../../styles/Mixins.scss';
+@import "../../../../styles/Variables.scss";
+@import "../../../../styles/Mixins.scss";
 
-.parish-priest-dashboard-sidebar-wrapper {
+.parish-priest-dashboard-sidebar-container {
   width: 16%;
-  min-height: 100vh;
   background-color: $sidebar-bg;
 
-  .parish-priest-dashboard-sidebar-title {
-    @include subTitle;
+  .priest-sidebar-hamburger-menu {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 
-  .parish-priest-dashboard-sidebar-item {
-    @include flexRow;
-    @include shadow1;
-    align-items: center;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $sidebar-hover;
+  .parish-priest-dashboard-sidebar-wrapper {
+    .parish-priest-dashboard-sidebar-title {
+      @include subTitle;
     }
 
-    .active-icon {
-      color: $red;
-      font-size: $afs;
-    }
-
-    .passive-icon {
-      color: $green;
-      font-size: $afs;
+    .parish-priest-dashboard-sidebar-item {
+      @include flexRow;
+      @include shadow1;
+      align-items: center;
+      cursor: pointer;
 
       &:hover {
+        background-color: $sidebar-hover;
+      }
+
+      .active-icon {
+        color: $red;
+        font-size: $afs;
+      }
+
+      .passive-icon {
+        color: $green;
+        font-size: $afs;
+
+        &:hover {
+          color: $red;
+        }
+      }
+
+      .active-text {
         color: $red;
       }
-    }
 
-    .active-text {
-      color: $red;
-    }
+      .passive-text {
+        color: $black;
 
-    .passive-text {
-      color: $black;
-
-      &:hover {
-        color: $red;
+        &:hover {
+          color: $red;
+        }
       }
     }
+  }
+}
+
+// Small devices screen
+.parish-priest-dashboard-sidebar-container.open-priest-dashboard-sidebar-menu {
+  .parish-priest-dashboard-sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 3rem;
+    right: 0rem;
+    background-color: $userSidebar-bg;
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem 2rem;
+    z-index: 9999;
+
+    .parish-priest-dashboard-sidebar-item {
+      .active-icon {
+      }
+
+      .passive-icon {
+      }
+
+      .active-text {
+      }
+
+      .passive-text {
+      }
+    }
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .parish-priest-dashboard-sidebar-wrapper {
+    display: none;
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .parish-priest-dashboard-sidebar-wrapper {
+    display: none;
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .parish-priest-dashboard-sidebar-wrapper {
+    display: none;
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .priest-sidebar-hamburger-menu {
+    display: none;
+  }
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
+  .priest-sidebar-hamburger-menu {
+    display: none;
   }
 }

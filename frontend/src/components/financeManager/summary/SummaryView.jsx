@@ -201,33 +201,26 @@ const SummaryView = () => {
         ) : error ? (
           <p className="message-error">Error loading data: {error.message}</p>
         ) : (
-          <div className="pie-chart-wrapper">
-            <ResponsiveContainer width="65%" height={500}>
-              <PieChart>
-                <Pie
-                  dataKey="value"
-                  isAnimationActive={false}
-                  data={data}
-                  outerRadius={200}
-                  labelLine={false}
-                  label={renderCustomLabel}
-                />
-                <Tooltip />
-                <Legend
-                  content={<CustomLegend />}
-                  layout="vertical"
-                  align="left"
-                  verticalAlign="middle"
-                  wrapperStyle={{
-                    position: "absolute",
-                    right: "-14rem",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
+          <ResponsiveContainer width="75%" height={500}>
+            <PieChart>
+              <Pie
+                dataKey="value"
+                isAnimationActive={false}
+                data={data}
+                outerRadius={200}
+                labelLine={false}
+                label={renderCustomLabel}
+              />
+              <Tooltip />
+              <Legend
+                content={<CustomLegend />}
+                layout="vertical"
+                align="left"
+                verticalAlign="middle"
+                wrapperStyle={{ className: "legend-wrapper" }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
         )}
 
         <p className="illustration">

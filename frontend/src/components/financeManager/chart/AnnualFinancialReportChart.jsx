@@ -81,8 +81,8 @@ const AnnualFinancialReportChart = () => {
   };
 
   return (
-    <section className="chart-wrapper">
-      <h3 className="chart-title">
+    <section className="annual-report-chart-wrapper">
+      <h3 className="annual-report-chart-title">
         Monthly Financial Report for the Year {year}
       </h3>
 
@@ -91,9 +91,7 @@ const AnnualFinancialReportChart = () => {
         onSubmit={handleSubmit}
         className="financial-year-form"
       >
-        <label htmlFor="year" className="year-input-label">
-          Select Year:
-        </label>
+     
         <input
           type="number"
           id="year"

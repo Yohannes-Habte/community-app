@@ -113,7 +113,7 @@ const FinancialReports = () => {
             <MdEditSquare className="edit-icon" />
           </Link>
           <button
-            className="delete"
+            className="delete-report-btn"
             onClick={() => {
               setReportId(params.id);
               setOpenDeleteReport(true);

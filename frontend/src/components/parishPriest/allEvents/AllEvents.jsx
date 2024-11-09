@@ -70,7 +70,7 @@ const AllEvents = () => {
       ) : rows.length === 0 ? (
         <Alert severity="info">No events found.</Alert>
       ) : (
-        <div style={{ height: 400, width: "100%" }}>
+      
           <DataGrid
             rows={rows}
             columns={columns}
@@ -91,7 +91,7 @@ const AllEvents = () => {
             checkboxSelection
             disableRowSelectionOnClick
           />
-        </div>
+    
       )}
     </section>
   );

@@ -93,7 +93,7 @@ const MembersContribution = () => {
           onClick={() => setOpenAddContribution(true)}
           className="add-contribution-btn"
         >
-          Add New Contribution
+          Add New
         </button>
       </aside>
 

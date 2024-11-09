@@ -95,7 +95,7 @@ const AllChurchServices = () => {
           </Link>
 
           <button
-            className="delete"
+            className="delete-btn"
             onClick={() => setServiceId(params.id) || setOpen(true)}
           >
             <FaTrashAlt className="delete-icon" />

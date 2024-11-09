@@ -17,10 +17,6 @@
       font-size: $afs;
     }
 
-    .pie-chart-wrapper {
-      margin-left: -10rem;
-    }
-
     .illustration {
       @include paragraph;
 
@@ -50,4 +46,170 @@
       @include errorMessage;
     }
   }
+
+  .legend-wrapper {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .finance-mgt-summary-view {
+    width: $mobile;
+    .finance-mgt-summary-view-title {
+      font-size: $nfs;
+      text-align: center;
+    }
+    .members-contribution-pie-chart-container {
+      position: relative;
+
+      .members-contribution-pie-chart-title {
+        font-size: $sfs;
+        margin-top: 4rem;
+      }
+
+      .illustration {
+        font-size: $sfs;
+
+        .count-mark {
+          font-size: $sfs;
+        }
+      }
+
+      .members-contribution-pie-chart-form {
+        @include flexRow;
+        position: absolute;
+        top: -3rem;
+        left: 0;
+        .input-field {
+          font-size: $sfs;
+        }
+
+        .members-contribution-pie-chart-form-btn {
+          font-size: $sfs;
+        }
+      }
+
+      .message-error {
+        font-size: $sfs;
+      }
+    }
+
+    .recharts-legend-wrapper {
+      display: none;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .finance-mgt-summary-view {
+    width: $tablet;
+    .finance-mgt-summary-view-title {
+      font-size: $afs;
+      text-align: center;
+    }
+    .members-contribution-pie-chart-container {
+      position: relative;
+
+      .members-contribution-pie-chart-title {
+        font-size: $nfs;
+        margin-top: 4rem;
+      }
+
+      .illustration {
+        font-size: $nfs;
+
+        .count-mark {
+          font-size: $nfs;
+        }
+      }
+
+      .members-contribution-pie-chart-form {
+        @include flexRow;
+        position: absolute;
+        top: -3rem;
+        left: 0;
+        .input-field {
+          font-size: $nfs;
+      
+        }
+
+        .members-contribution-pie-chart-form-btn {
+          font-size: $nfs;
+          
+        }
+      }
+
+      .message-error {
+        font-size: $nfs;
+      }
+    }
+
+    .recharts-legend-wrapper {
+      display: none;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .finance-mgt-summary-view {
+    width: $tablet;
+    .finance-mgt-summary-view-title {
+      font-size: $afs;
+      text-align: center;
+    }
+    .members-contribution-pie-chart-container {
+      position: relative;
+
+      .members-contribution-pie-chart-title {
+        font-size: $nfs;
+        margin-top: 4rem;
+      }
+
+      .illustration {
+        font-size: $nfs;
+
+        .count-mark {
+          font-size: $nfs;
+        }
+      }
+
+      .members-contribution-pie-chart-form {
+        @include flexRow;
+        position: absolute;
+        top: -3rem;
+        left: 0;
+        .input-field {
+          font-size: $nfs;
+      
+        }
+
+        .members-contribution-pie-chart-form-btn {
+          font-size: $nfs;
+          
+        }
+      }
+
+      .message-error {
+        font-size: $nfs;
+      }
+    }
+
+    .recharts-legend-wrapper {
+      display: none;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

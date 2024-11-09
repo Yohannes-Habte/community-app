@@ -1,11 +1,11 @@
 @import "../../../styles/Variables.scss";
 @import "../../../styles/Mixins.scss";
 
-.committees-container {
+.priest-committees-container {
   width: $laptop;
   margin: 2rem auto;
 
-  .committees-title {
+  .priest-committees-title {
     @include subTitle;
   }
 
@@ -14,39 +14,146 @@
   }
 
   .committee-query-form {
-    @include flexRow;
-  @include shadow1;
+    @include flexColumn;
     padding: 1rem;
-   
+    margin-top: 2rem;
+
     .input-container {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        
+      @include selectContainer;
+
       .select-field {
-        padding: 0.5rem 1rem;
+        @include selectField;
+      }
+
+      .select-option {
+        @include selectOption;
       }
     }
 
-    .committees-btn {
-      background-color: #a2d2ff;
-      padding: 0 1rem;
-      border-radius: 0.3rem;
-      border: none;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #48cae4;
-        color: $red;
-      }
+    .priest-committees-btn {
+      @include button3;
     }
   }
 
-  .committee-card-wrapper {
+  .priest-committee-card-wrapper {
     @include twoGridTemplateEqualColumns;
     column-gap: 1rem;
     row-gap: 1rem;
     margin-top: 2rem;
     padding: 1rem;
   }
+}
+
+/* Up to 480px (very small mobile screens) */
+@media (max-width: 480px) {
+  .priest-committees-container {
+    width: $mobile;
+    margin: 2rem auto;
+
+    .priest-committees-title {
+      font-size: $nfs;
+    }
+
+    .access-information {
+      font-size: $sfs;
+    }
+
+    .committee-query-form {
+      .input-container {
+        .select-field {
+          font-size: $sfs;
+        }
+
+        .select-option {
+          font-size: $sfs;
+        }
+      }
+
+      .priest-committees-btn {
+        font-size: $sfs;
+      }
+    }
+
+    .priest-committee-card-wrapper {
+      @include flexColumn;
+    }
+  }
+}
+
+/* Between 481px and 768px (common for most mobile devices) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .priest-committees-container {
+    width: $tablet;
+
+    .priest-committees-title {
+      font-size: $afs;
+    }
+
+    .access-information {
+      font-size: $nfs;
+    }
+
+    .committee-query-form {
+      .input-container {
+        .select-field {
+          font-size: $nfs;
+        }
+
+        .select-option {
+          font-size: $nfs;
+        }
+      }
+
+      .priest-committees-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .priest-committee-card-wrapper {
+      @include flexColumn;
+    }
+  }
+}
+
+/* Between 769px and 1024px (ideal for tablets and small laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .priest-committees-container {
+    width: $laptop;
+
+    .priest-committees-title {
+      font-size: $aafs;
+    }
+
+    .access-information {
+      font-size: $nfs;
+    }
+
+    .committee-query-form {
+      .input-container {
+        .select-field {
+          font-size: $nfs;
+        }
+
+        .select-option {
+          font-size: $nfs;
+        }
+      }
+
+      .priest-committees-btn {
+        font-size: $nfs;
+      }
+    }
+
+    .priest-committee-card-wrapper {
+      @include flexColumn;
+    }
+  }
+}
+
+/* Between 1025px and 1200px (standard desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+}
+
+/* 1201px and up (large desktop and TV screens) */
+@media (min-width: 1201px) {
 }

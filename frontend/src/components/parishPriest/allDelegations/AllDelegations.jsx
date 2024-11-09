@@ -120,12 +120,12 @@ const AllDelegations = () => {
 
       {/* Add Delegation Section */}
       <aside className="add-delegation-priest-wrapper">
-        <h3 className="add-delegation-priest-title">Add Delegated Priest</h3>
+        <h3 className="add-delegation-priest-title">Add Priest delegation </h3>
         <button
           onClick={() => setIsAddDelegationOpen(true)}
           className="add-delegation-btn"
         >
-          Add New Delegation
+          Add New
         </button>
       </aside>
 
@@ -137,28 +137,26 @@ const AllDelegations = () => {
       ) : !loading && !error && rows.length === 0 ? (
         <Alert severity="info">No delegated priest found</Alert>
       ) : (
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoHeight
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-              },
-            }}
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-                quickFilterProps: { debounceMs: 500 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </div>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
       )}
 
       {/* Delete Confirmation Modal */}

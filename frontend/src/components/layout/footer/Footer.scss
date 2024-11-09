@@ -17,7 +17,7 @@
 
       .footer-section {
         .footer-title {
-          font-size: $nfs * 1.2;
+          font-size: $afs;
           margin-bottom: 1rem;
           color: $white;
         }
@@ -28,11 +28,10 @@
           padding: 0;
 
           .footer-ul-li {
-            margin-bottom: 0.5rem;
-
             .footer-ul-li-link {
               color: $white;
               transition: color 0.3s;
+              font-size: $sfs;
 
               &:hover {
                 color: $red;
