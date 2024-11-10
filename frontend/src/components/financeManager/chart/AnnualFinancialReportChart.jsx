@@ -38,8 +38,8 @@ const AnnualFinancialReportChart = () => {
     (state) => state.finance
   );
   const dispatch = useDispatch();
-
-  const [year, setYear] = useState("2022");
+  const thisYear = new Date().getFullYear();
+  const [year, setYear] = useState(thisYear);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
@@ -91,7 +91,6 @@ const AnnualFinancialReportChart = () => {
         onSubmit={handleSubmit}
         className="financial-year-form"
       >
-     
         <input
           type="number"
           id="year"

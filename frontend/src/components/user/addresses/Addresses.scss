@@ -48,6 +48,21 @@
       }
     }
   }
+
+  .action-wrapper {
+    .delete-button {
+      border: none;
+      .delete-icon {
+        @include deleteIcon;
+      }
+    }
+  }
+
+  .MuiDataGrid-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* Up to 480px (very small mobile screens) */
@@ -74,6 +89,23 @@
 
     .address-delete-confirmation-modal {
       @include mobileDeleteConfirmationModal;
+      .delete-confirmation-title {
+        font-size: $nfs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $sfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        .confirm-delete-btn {
+          font-size: $sfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $sfs;
+        }
+      }
     }
   }
 }

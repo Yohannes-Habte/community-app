@@ -61,7 +61,7 @@ const Addresses = () => {
         return (
           <div className="action-wrapper">
             <button
-              className="delete"
+              className="delete-button"
               onClick={() =>
                 setAddressId(params.id) || setDeleteDialogOpen(true)
               }

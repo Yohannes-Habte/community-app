@@ -1,6 +1,7 @@
 import Category from "../../models/serviceCategory/index.js";
 import createError from "http-errors";
 import mongoose from "mongoose";
+import Service from "../../models/service/index.js";
 
 //==========================================================================
 // Create New service category
@@ -81,30 +82,45 @@ export const getCategory = async (req, res, next) => {
 export const deleteCategory = async (req, res, next) => {
   const categoryId = req.params.id;
 
+  // Validate the category ID
   if (!mongoose.isValidObjectId(categoryId)) {
     return next(createError(400, "Invalid category ID provided."));
   }
 
+  // Start a session for the transaction
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const category = await Category.findById(categoryId);
+    // Fetch the category with the session
+    const category = await Category.findById(categoryId).session(session);
 
     if (!category) {
+      await session.abortTransaction();
       return next(createError(404, "Service category not found."));
     }
 
-    await Category.findByIdAndDelete(categoryId);
+    // Delete related Service documents with the session
+    await Service.deleteMany({ serviceCategory: categoryId }).session(session);
+
+    // Delete the category with the session
+    await Category.findByIdAndDelete(categoryId).session(session);
+
+    // Commit the transaction
+    await session.commitTransaction();
 
     return res.status(200).json({
       success: true,
-      message: "Service category has been successfully deleted.",
+      message:
+        "Service category and related services have been successfully deleted.",
     });
   } catch (error) {
-    return next(
-      createError(
-        500,
-        "An error occurred while deleting the category. Please try again later."
-      )
-    );
+    // Abort the transaction in case of an error
+    await session.abortTransaction();
+    return next(createError(500, `Server error: ${error.message}`));
+  } finally {
+    // Always ensure the session is closed
+    session.endSession();
   }
 };
 

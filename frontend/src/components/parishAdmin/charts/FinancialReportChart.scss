@@ -11,9 +11,15 @@
   }
 
   .financial-year-form {
+
     position: absolute;
-    top: 1rem;
+    top: -1rem;
     right: 2rem;
+
+    .year-input-label {
+      font-size: $nfs;
+      margin-right: 1rem;
+    }
 
     .input-field {
       @include inputWithButton;
