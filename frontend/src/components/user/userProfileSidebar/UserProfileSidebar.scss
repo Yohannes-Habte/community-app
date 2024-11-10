@@ -3,16 +3,15 @@
 
 .user-profile-sidebar-wrapper {
   width: 18%;
-
   border-radius: 0;
   background-color: $userSidebar-bg;
-
   .user-sidebar-hamburger-menu {
     position: absolute;
     top: 1rem;
     right: 1rem;
   }
 
+  // Big screens
   .user-sidebar-menu-container {
     display: flex;
     flex-direction: column;
@@ -85,6 +84,22 @@
   }
   .user-profile-sidebar-item {
     display: flex;
+
+    .active-text {
+      font-size: $sfs;
+    }
+
+    .passive-text {
+      font-size: $sfs;
+    }
+
+    .active-icon {
+      font-size: $sfs;
+    }
+
+    .passive-icon {
+      font-size: $sfs;
+    }
   }
 }
 
@@ -144,6 +159,7 @@
 @media (min-width: 1025px) and (max-width: 1200px) {
   .user-profile-sidebar-wrapper {
     padding-left: 1rem;
+    min-height: 100vh;
 
     .user-sidebar-hamburger-menu {
       display: none;
@@ -155,6 +171,7 @@
 @media (min-width: 1201px) {
   .user-profile-sidebar-wrapper {
     padding-left: 1rem;
+    min-height: 100vh;
 
     .user-sidebar-hamburger-menu {
       display: none;

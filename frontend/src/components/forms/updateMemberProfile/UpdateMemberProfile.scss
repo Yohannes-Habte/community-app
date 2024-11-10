@@ -104,6 +104,17 @@
     width: $mobile;
     margin: auto;
 
+    .update-user-profile-title {
+      font-size: $nfs;
+      text-align: center;
+    }
+
+    .update_user-image-container {
+      .update-user-legend {
+        font-size: $sfs;
+      }
+    }
+
     .update-user-profile-fieldset {
       width: 100%;
       padding: 0;
@@ -111,11 +122,45 @@
       .update-user-profile-form {
         .inputs-wrapper {
           @include flexColumn;
+
+          .input-container {
+            .update-user-account-icon {
+              font-size: $sfs;
+            }
+
+            .input-field {
+              font-size: $sfs;
+            }
+
+            .input-label {
+              font-size: $sfs;
+            }
+
+            .input-highlight {
+              font-size: $sfs;
+            }
+
+            .input-field:focus + .input-label {
+              font-size: $sfs;
+            }
+
+            .input-field:focus + .input-label + .input-highlight {
+              width: 100%;
+            }
+
+            .password-display {
+              font-size: $sfs;
+            }
+          }
         }
 
         .input-consent {
           font-size: $sfs;
           margin: 1rem 0rem;
+        }
+
+        .update-user-profile-btn {
+          font-size: $sfs;
         }
       }
     }
