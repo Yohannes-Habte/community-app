@@ -9,7 +9,6 @@ import "./database/index.js";
 // Routes
 import authUserRouter from "./routes/auth/index.js";
 import memberRouter from "./routes/member/index.js";
-import addressTypeRouter from "./routes/addressType/index.js";
 import committeeRouter from "./routes/committee/index.js";
 import financeRouter from "./routes/finance/index.js";
 import commentRouter from "./routes/comment/index.js";
@@ -48,7 +47,6 @@ app.use(morgan("tiny"));
 // End points
 app.use("/api/v1/auth", authUserRouter);
 app.use("/api/v1/members", memberRouter);
-app.use("/api/v1/addressTypes", addressTypeRouter);
 app.use("/api/v1/committees", committeeRouter);
 app.use("/api/v1/reports", financeRouter);
 app.use("/api/v1/masses", massRouter);

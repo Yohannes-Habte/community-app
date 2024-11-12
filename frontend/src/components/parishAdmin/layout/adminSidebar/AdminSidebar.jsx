@@ -6,8 +6,12 @@ import { IoSettings } from "react-icons/io5";
 import { MdDashboard, MdOutlineClose } from "react-icons/md";
 import { SiEventstore } from "react-icons/si";
 import { RiAdminFill } from "react-icons/ri";
-import { SiGooglemessages } from "react-icons/si";
+import { BiCategory } from "react-icons/bi";
+import { FaServicestack } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { FaChurch } from "react-icons/fa";
+import { IoIosNotifications } from "react-icons/io";
+import { FaVideo } from "react-icons/fa";
 import Logout from "../../../../utile/globalFunctions/Logout";
 import { useState } from "react";
 
@@ -93,7 +97,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           className="admin-dashboard-sidebar-item"
         >
           <RiAdminFill
-            title="Inbox"
+            title="Committee"
             className={isActive === 4 ? "active-icon" : "passive-icon"}
           />
 
@@ -108,8 +112,8 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           onClick={() => setIsActive(5) || setOpenAdminDashboardMenu(false)}
           className="admin-dashboard-sidebar-item"
         >
-          <SiGooglemessages
-            title="Inbox"
+          <FaChurch
+            title="Mass Schedule"
             className={isActive === 5 ? "active-icon" : "passive-icon"}
           />
 
@@ -156,8 +160,8 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           onClick={() => setIsActive(8) || setOpenAdminDashboardMenu(false)}
           className="admin-dashboard-sidebar-item"
         >
-          <SiGooglemessages
-            title="Inbox"
+          <BiCategory
+            title="Service Categories"
             className={isActive === 8 ? "active-icon" : "passive-icon"}
           />
 
@@ -172,8 +176,8 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           onClick={() => setIsActive(9) || setOpenAdminDashboardMenu(false)}
           className="admin-dashboard-sidebar-item"
         >
-          <SiGooglemessages
-            title="Inbox"
+          <FaServicestack
+            title="Services"
             className={isActive === 9 ? "active-icon" : "passive-icon"}
           />
 
@@ -187,8 +191,8 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           onClick={() => setIsActive(10) || setOpenAdminDashboardMenu(false)}
           className="admin-dashboard-sidebar-item"
         >
-          <SiGooglemessages
-            title="Inbox"
+          <IoIosNotifications
+            title="Notifications"
             className={isActive === 10 ? "active-icon" : "passive-icon"}
           />
 
@@ -202,8 +206,8 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           onClick={() => setIsActive(11) || setOpenAdminDashboardMenu(false)}
           className="admin-dashboard-sidebar-item"
         >
-          <SiGooglemessages
-            title="Inbox"
+          <FaVideo
+            title="Add Video"
             className={isActive === 11 ? "active-icon" : "passive-icon"}
           />
 
@@ -233,10 +237,8 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
             className={isActive === 13 ? "active-icon" : "passive-icon"}
           />
 
-          <h4>
-            <Link to={"/login"} onClick={handleLogout} className="passive-text">
-              Log Out
-            </Link>
+          <h4 onClick={handleLogout} className="passive-text">
+            Log Out
           </h4>
         </aside>
       </section>

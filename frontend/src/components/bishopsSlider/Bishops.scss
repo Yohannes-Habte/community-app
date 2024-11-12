@@ -8,6 +8,7 @@
   overflow: hidden;
   border-radius: 0.5rem;
 
+
   // Slide arrows
   .arrow {
     border: 2px solid #ee7042;
@@ -193,10 +194,13 @@
 @media (max-width: 480px) {
   .shepherds {
     height: 40vh;
+   
   }
   .slide-show {
+  
     .bishop-image-container {
       @include flexCenter;
+     
 
       .photo {
         width: 15rem;

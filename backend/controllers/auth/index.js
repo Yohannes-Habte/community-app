@@ -5,7 +5,7 @@ import generateToken from "../../middlewares/token/index.js";
 import mongoose from "mongoose";
 
 //==========================================================================
-// Register new user
+// Create a new member
 //==========================================================================
 export const registerUser = async (req, res, next) => {
   const {
@@ -52,6 +52,7 @@ export const registerUser = async (req, res, next) => {
       try {
         await newUser.save();
       } catch (error) {
+        console.log("error:", error);
         return next(createError(500, "User could not be saved"));
       }
 
@@ -75,6 +76,7 @@ export const registerUser = async (req, res, next) => {
         });
     }
   } catch (error) {
+    console.log("error 2 =", error);
     return next(
       createError(500, "You are unable to create an account! please try again!")
     );

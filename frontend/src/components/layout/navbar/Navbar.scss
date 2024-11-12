@@ -97,6 +97,7 @@
 @media (max-width: 480px) {
   .header-navbar {
     padding: 1rem;
+    z-index: 999;
 
     .church-text-logo,
     .navbar-items,
@@ -110,6 +111,7 @@
 /* Common mobile devices between 481px and 768px */
 @media (min-width: 481px) and (max-width: 768px) {
   .header-navbar {
+    z-index: 999;
     .hamburger-menu {
       display: flex;
     }

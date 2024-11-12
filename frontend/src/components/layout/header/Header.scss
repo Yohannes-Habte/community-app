@@ -50,10 +50,76 @@
 
 /* Up to 480px (very small mobile screens) */
 @media (max-width: 480px) {
+  .header {
+    position: relative;
+    height: 7rem;
+    .header-title {
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      transform: translate(-50%, -50%);
+      color: #ffffff;
+      font-size: $sfs;
+    }
+
+    .logo-container {
+      .logo {
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .divine-mercy {
+        position: absolute;
+        bottom: 0;
+        right: 1rem;
+        width: 3rem;
+        height: 4rem;
+        object-fit: cover;
+      }
+    }
+  }
 }
 
 /* Between 481px and 768px (common for most mobile devices) */
 @media (min-width: 481px) and (max-width: 768px) {
+  .header {
+    position: relative;
+    height: 9rem;
+    .header-title {
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      transform: translate(-50%, -50%);
+      color: #ffffff;
+      font-size: $sfs;
+    }
+
+    .logo-container {
+      .logo {
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .divine-mercy {
+        position: absolute;
+        bottom: 0;
+        right: 1rem;
+        width: 5rem;
+        height: 6rem;
+        object-fit: cover;
+      }
+    }
+  }
 }
 
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
@@ -62,7 +128,6 @@
 
 /* Between 1025px and 1200px (standard desktops) */
 @media (min-width: 1025px) and (max-width: 1200px) {
-
 }
 
 /* 1201px and up (large desktop and TV screens) */

@@ -5,6 +5,9 @@ import { SiEventstore } from "react-icons/si";
 import { ImUsers } from "react-icons/im";
 import Logout from "../../../../utile/globalFunctions/Logout";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { IoSettings } from "react-icons/io5";
+import { IoMdLogOut } from "react-icons/io";
 
 const PriestDashboardHeader = ({ active, setActive }) => {
   // Global state variables
@@ -82,6 +85,32 @@ const PriestDashboardHeader = ({ active, setActive }) => {
             title="Church Committee"
             className={
               active === 6
+                ? "active-priest-dashboard-header-icon"
+                : "passive-priest-dashboard-header-icon"
+            }
+          />
+        </li>
+
+        <Link to="/user/profile">
+          <li className="priest-dashboard-header-item">
+            <IoSettings
+              onClick={() => setActive(7)}
+              title="Settings"
+              className={
+                active === 7
+                  ? "active-priest-dashboard-header-icon"
+                  : "passive-priest-dashboard-header-icon"
+              }
+            />
+          </li>
+        </Link>
+
+        <li className="priest-dashboard-header-item">
+          <IoMdLogOut
+            onClick={handleLogout}
+            title="Logout"
+            className={
+              active === 8
                 ? "active-priest-dashboard-header-icon"
                 : "passive-priest-dashboard-header-icon"
             }

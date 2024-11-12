@@ -50,7 +50,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
           className="parish-priest-dashboard-sidebar-item"
         >
           <MdDashboard
-            title="Dashboar Overview"
+            title="Summary Overview"
             className={active === 1 ? "active-icon" : "passive-icon"}
           />
 
@@ -106,7 +106,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
           className="parish-priest-dashboard-sidebar-item"
         >
           <GiSunPriest
-            title="New Priest"
+            title="Priest Delegate"
             className={active === 5 ? "active-icon" : "passive-icon"}
           />
 

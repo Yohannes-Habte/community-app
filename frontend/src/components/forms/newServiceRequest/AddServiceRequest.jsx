@@ -43,8 +43,6 @@ const AddServiceRequest = () => {
   const [formErrors, setFormErrors] = useState({});
   const [formLoading, setFormLoading] = useState(false);
 
-  console.log("Categories =", categories);
-
   const {
     serviceCategory,
     serviceName,

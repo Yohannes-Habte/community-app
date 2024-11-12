@@ -9,73 +9,87 @@ import mongoose from "mongoose";
 // =============================================================================
 
 export const createContribution = async (req, res, next) => {
-  const { user, date, amount } = req.body;
+  const { user, amount, date } = req.body;
 
-  // Validate user ID is a valid MongoDB ObjectId
+  // Validate the user ID
   if (!mongoose.Types.ObjectId.isValid(user)) {
-    return next(createError(400, "User ID must be a valid MongoDB ObjectId"));
+    return next(createError(400, "Invalid user ID."));
   }
 
   try {
+    // Find the user by ID
     const foundUser = await Member.findById(user);
     if (!foundUser) {
-      return next(createError(404, "User not found"));
+      return next(createError(404, "User not found."));
     }
 
-    // Parse the date from the request body
-    const contributionDate = moment(date, "YYYY-MM-DD");
-
-    // Validate the date format
-    if (!contributionDate.isValid()) {
-      return next(createError(400, "Invalid date format"));
+    // Parse and validate the contribution date
+    const contributionDate = new Date(date);
+    if (isNaN(contributionDate)) {
+      return next(
+        createError(400, "Invalid date format. Please use YYYY-MM-DD.")
+      );
     }
 
-    // Check if the user already has a contribution for the same year and month
+    // Check for existing contributions in the same month and year
+    const startOfMonth = new Date(
+      contributionDate.getFullYear(),
+      contributionDate.getMonth(),
+      1
+    );
+    const endOfMonth = new Date(
+      contributionDate.getFullYear(),
+      contributionDate.getMonth() + 1,
+      0
+    );
+
     const existingContribution = await Contribution.findOne({
-      user: user,
-      date: {
-        $gte: contributionDate.startOf("month").format("YYYY-MM-DD"),
-        $lte: contributionDate.endOf("month").format("YYYY-MM-DD"),
-      },
+      user,
+      date: { $gte: startOfMonth, $lte: endOfMonth },
     });
 
     if (existingContribution) {
-      const existingMonth = moment(existingContribution.date).format("MMMM");
-      const existingYear = moment(existingContribution.date).format("YYYY");
+      const existingMonth = startOfMonth.toLocaleString("default", {
+        month: "long",
+      });
+      const existingYear = startOfMonth.getFullYear();
       return next(
         createError(
           400,
-          `Contribution for ${existingMonth} ${existingYear} already exists!`
+          `Contribution for ${existingMonth} ${existingYear} already exists.`
         )
       );
     }
 
-    // Create a new contribution
+    // Create a new contribution instance
     const newContribution = new Contribution({
-      user: user,
-      date: date,
-      amount: amount,
+      user,
+      date: contributionDate,
+      amount,
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
     });
 
-    // Save the new contribution
+    // Save the new contribution document
     await newContribution.save();
 
-    // Add the new contribution to the user's monthly contributions array
-    foundUser.monthlyContributions.push(newContribution);
-
-    // Save the updated user
+    // Add the contribution ID to user's monthlyContributions and save the user
+    foundUser.monthlyContributions.push({
+      user,
+      amount,
+      date: contributionDate,
+    });
     await foundUser.save();
 
+    // Respond with the newly created contribution
     return res.status(201).json({
       success: true,
       result: newContribution,
-      message: "The contribution is successful.",
+      message: "Contribution created successfully.",
     });
   } catch (error) {
-    console.log(error);
-    next(createError(500, "Server error!"));
+    console.error("Error creating contribution:", error.message);
+    next(createError(500, "Server error. Please try again later."));
   }
 };
 
@@ -128,7 +142,6 @@ export const getAllMemberContribution = async (req, res, next) => {
       }
     });
 
-    
     res.status(200).json({
       success: true,
       result: sortedContributions,

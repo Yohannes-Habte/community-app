@@ -1,7 +1,5 @@
 import { check } from "express-validator";
 
-const mongoDBObjectIdRegex = /^[a-fA-F\d]{24}$/;
-
 const validateContribution = () => {
   return [
     check("user")
@@ -9,8 +7,8 @@ const validateContribution = () => {
       .withMessage("User ID is required")
       .isString()
       .withMessage("User ID must be a string")
-      .matches(mongoDBObjectIdRegex)
-      .withMessage("User ID must be a valid 24-character MongoDB ObjectId"),
+      .isMongoId()
+      .withMessage("User must be a valid MongoDB ObjectId"),
 
     check("amount")
       .notEmpty()
@@ -25,7 +23,8 @@ const validateContribution = () => {
       .notEmpty()
       .withMessage("Date is required")
       .isISO8601()
-      .withMessage("Date must be in a valid ISO8601 format (YYYY-MM-DD)"),
+      .withMessage("Date must be a valid ISO 8601 date")
+      .toDate(),
   ];
 };
 

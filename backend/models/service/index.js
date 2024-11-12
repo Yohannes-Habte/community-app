@@ -19,7 +19,7 @@ const serviceSchema = new Schema(
     scriptureTopic: {
       type: String,
       required: function () {
-        return this.serviceName === "scriptures"; 
+        return this.serviceName === "scriptures";
       },
     },
 
@@ -27,11 +27,14 @@ const serviceSchema = new Schema(
     catechismTopic: {
       type: String,
       required: function () {
-        return this.serviceName === "catechism"; 
+        return this.serviceName === "catechism";
       },
     },
+
     identificationDocument: { type: String, required: true },
+
     message: { type: String, required: true },
+
     serviceStatus: {
       type: String,
       enum: ["pending", "completed", "cancelled"],

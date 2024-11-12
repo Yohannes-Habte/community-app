@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./AddressForm.scss";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -31,7 +31,6 @@ const AddressForm = ({ setOpenAddress }) => {
 
   // Local state for form data
   const [formData, setFormData] = useState(initialState);
-  const [addressTypes, setAddressTypes] = useState([]);
 
   const { addressType, address, zipCode, city, state, country } = formData;
 
@@ -43,20 +42,6 @@ const AddressForm = ({ setOpenAddress }) => {
       [name]: value,
     }));
   };
-
-  // Fetch address types on component mount
-  useEffect(() => {
-    const fetchAddressTypes = async () => {
-      try {
-        const { data } = await axios.get(`${API}/addressTypes`);
-        setAddressTypes(data.addresses);
-      } catch (error) {
-        toast.error("Error fetching address types.");
-      }
-    };
-
-    fetchAddressTypes();
-  }, []);
 
   // Reset form after submission
   const handleReset = () => {
@@ -174,6 +159,7 @@ const AddressForm = ({ setOpenAddress }) => {
             <label htmlFor="addressType" className="select-label">
               Address Type:
             </label>
+
             <select
               name="addressType"
               id="addressType"
@@ -181,12 +167,10 @@ const AddressForm = ({ setOpenAddress }) => {
               onChange={handleChange}
               className="select-options"
             >
-              <option value="">Choose address type</option>
-              {addressTypes.map((type) => (
-                <option key={type._id} value={type.addressType}>
-                  {type.addressType}
-                </option>
-              ))}
+              <option value="">Select Address Type</option>
+              <option value="Home">Home</option>
+              <option value="Office">Office</option>
+              <option value="Business">Business</option>
             </select>
           </div>
 

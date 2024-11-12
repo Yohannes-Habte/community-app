@@ -17,6 +17,7 @@
 
   .priest-dashboard-header-items {
     @include flexRow;
+    gap: 2rem;
     .priest-dashboard-header-item {
       .active-priest-dashboard-header-icon {
         color: $red;
@@ -25,8 +26,8 @@
       }
 
       .passive-priest-dashboard-header-icon {
-        color: $green;
-        font-size: $aafs;
+        color: $iconColor;
+        font-size: $afs;
         cursor: pointer;
 
         &:hover {
@@ -46,10 +47,32 @@
 
 /* Between 481px and 768px (common for most mobile devices) */
 @media (min-width: 481px) and (max-width: 768px) {
+  .priest-dashboard-header {
+    padding: 1rem;
+    .image-container {
+      display: none;
+    }
+
+    .priest-dashboard-header-items {
+      @include flexRow;
+      gap: 2rem;
+    }
+  }
 }
 
 /* Between 769px and 1024px (ideal for tablets and small laptops) */
 @media (min-width: 769px) and (max-width: 1024px) {
+  .priest-dashboard-header {
+    padding: 1rem;
+    .image-container {
+      display: none;
+    }
+
+    .priest-dashboard-header-items {
+      @include flexRow;
+      gap: 2rem;
+    }
+  }
 }
 
 /* Between 1025px and 1200px (standard desktops) */

@@ -55,13 +55,8 @@ export const updateUserAddress = async (req, res, next) => {
     }
 
     // Save address to the user model
-    try {
-      await user.save();
-    } catch (error) {
-      return next(
-        createError(400, "User address is not saved! Please try again!")
-      );
-    }
+
+    await user.save();
 
     return res.status(200).json({
       success: true,
@@ -69,9 +64,7 @@ export const updateUserAddress = async (req, res, next) => {
       message: "Address is successfully updated!",
     });
   } catch (error) {
-    next(
-      createError(500, "The address could not be updated! Please try again!")
-    );
+    next(createError(500, "Server error! Please try again!"));
   }
 };
 
@@ -202,7 +195,7 @@ export const getMemberBySearch = async (req, res, next) => {
 export const getAllUserServices = async (req, res, next) => {
   try {
     const user = await Member.findById(req.user.id).populate({
-      path: "services._id", // Populate the services array
+      path: "services", // Populate the services array
       model: "Service", // Specify the Service model
       populate: {
         path: "serviceCategory", // Also populate the service category details
@@ -214,8 +207,8 @@ export const getAllUserServices = async (req, res, next) => {
       return next(createError(400, "User not found! Please login!"));
     }
 
-    // Map the services to extract the _id (the populated Service document)
-    const services = user.services.map((service) => service._id);
+    // Map the services to extract the service (the populated Service document)
+    const services = user.services.map((service) => service);
 
     // Sort the services by serviceDate first by year and then by month
     services.sort((a, b) => {
@@ -236,6 +229,7 @@ export const getAllUserServices = async (req, res, next) => {
       result: services,
     });
   } catch (error) {
+    console.error("Error fetching user services:", error);
     next(createError(500, "Server error!"));
   }
 };

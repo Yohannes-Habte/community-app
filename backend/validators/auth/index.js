@@ -202,6 +202,11 @@ const validateRegister = () => {
       .isIn(["Home", "Office", "Business"])
       .withMessage("Address type must be one of: Home, Office, Business"),
 
+    check("monthlyContributions")
+      .optional()
+      .isArray()
+      .withMessage("Monthly contributions must be an array"),
+
     check("agree")
       .notEmpty()
       .withMessage("Agreement is required")

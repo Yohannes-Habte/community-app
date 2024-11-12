@@ -17,17 +17,18 @@
 
   .admin-dashboard-header-items {
     @include flexRow;
+    gap: 2rem;
 
     .admin-dashboard-header-item {
       .active-admin-dashboard-header-icon {
         color: $red;
-        font-size: $aafs;
+        font-size: $afs;
         cursor: pointer;
       }
 
       .passive-admin-dashboard-header-icon {
         color: $iconColor;
-        font-size: $aafs;
+        font-size: $afs;
         cursor: pointer;
 
         &:hover {

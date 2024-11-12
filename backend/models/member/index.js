@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 const { Schema } = mongoose;
 
-// User Schema
+// Define Member Schema
 const memberSchema = new Schema(
   {
     firstName: { type: String, required: true },
@@ -30,23 +30,26 @@ const memberSchema = new Schema(
         city: { type: String, required: true },
         address: { type: String, required: true },
         zipCode: { type: String, required: true },
-        addressType: { type: String, required: true, unique: true },
+        addressType: {
+          type: String,
+          enum: ["Home", "Office", "Business"],
+          default: "Home",
+          required: true,
+        },
       },
     ],
 
-    monthlyContributions: [],
-
-    comments: [{ _id: { type: mongoose.Types.ObjectId, ref: "Comment" } }],
-
-    services: [
+    monthlyContributions: [
       {
-        _id: { type: mongoose.Types.ObjectId, ref: "Service" },
+        user: { type: mongoose.Types.ObjectId, ref: "Member", required: true },
+        amount: { type: Number, required: true },
+        date: { type: Date, required: true },
       },
     ],
 
-    delegatedPriests: [
-      { _id: { type: mongoose.Types.ObjectId, ref: "Priest" } },
-    ],
+    services: [{ type: mongoose.Types.ObjectId, ref: "Service" }],
+    delegatedPriests: [{ type: mongoose.Types.ObjectId, ref: "Priest" }],
+    comments: [{ type: mongoose.Types.ObjectId, ref: "Comment" }],
 
     role: {
       type: String,
@@ -61,7 +64,7 @@ const memberSchema = new Schema(
   }
 );
 
-// Before saving the user password, encrypt it
+// Encrypt password before saving
 memberSchema.pre("save", async function (next) {
   try {
     if (!this.isModified("password")) return next();
@@ -73,7 +76,7 @@ memberSchema.pre("save", async function (next) {
   }
 });
 
-// User Model
+// Compile and export Member model
 const Member = mongoose.model("User", memberSchema);
 
 // Export User Model

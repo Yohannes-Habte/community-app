@@ -168,11 +168,11 @@ export const getSingleService = async (req, res, next) => {
 //==========================================================================
 
 export const updateServiceRequest = async (req, res, next) => {
-  const { id } = req.params;
+  const serviceId = req.params.id;
   const { serviceStatus, serviceDate, message } = req.body;
 
   // Validate the service ID format
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!mongoose.Types.ObjectId.isValid(serviceId)) {
     return next(createError(400, "Invalid Service ID format."));
   }
 
@@ -182,23 +182,21 @@ export const updateServiceRequest = async (req, res, next) => {
 
   try {
     // Step 1: Find and update the Service document by ID
-    const service = await Service.findById(id).session(session);
+    const service = await Service.findByIdAndUpdate(
+      serviceId,
+      { serviceStatus, serviceDate, message },
+      { new: true, session }
+    );
+
     if (!service) {
       throw createError(404, "Service not found.");
     }
 
-    // Update the service status and message
-    service.serviceStatus = serviceStatus;
-    service.serviceDate = serviceDate;
-    service.message = message;
-    await service.save({ session });
-
-    // Step 2: Update the service status in the Member's services array
-    const member = await Member.findOneAndUpdate(
-      { _id: service.userId, "services._id": id }, // Find the member who has this service
-      { $set: { "services.$.status": serviceStatus } }, // Update the service status in the member's services array
-      { new: true, session } // Return the updated document
-    );
+    // Step 2: Check if the service is linked to the Member's services array
+    const member = await Member.findOne({
+      _id: service.userId,
+      services: serviceId,
+    }).session(session);
 
     if (!member) {
       throw createError(404, "Member with the specified service not found.");
@@ -211,7 +209,8 @@ export const updateServiceRequest = async (req, res, next) => {
     // Send success response
     res.status(200).json({
       success: true,
-      message: "Service and member updated successfully.",
+      message: "Service updated successfully within the member's record.",
+      service,
     });
   } catch (error) {
     // If there's an error, abort the transaction
@@ -348,8 +347,6 @@ export const deleteService = async (req, res) => {
       .json({ message: "Forbidden: to perform service deletion" });
   }
 
-  // Start a session for transaction
-  // Mongoose Sessions (Database Transactions): These are used to ensure that a series of database operations are executed atomically. If all operations within the transaction succeed, the changes are committed. If any operation fails, the entire transaction is rolled back.
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -365,8 +362,8 @@ export const deleteService = async (req, res) => {
 
     // Remove the reference to the deleted service from all members
     await Member.updateMany(
-      { "services._id": serviceId },
-      { $pull: { services: { _id: serviceId } } },
+      { services: serviceId },
+      { $pull: { services: serviceId } },
       { session }
     );
 
@@ -406,8 +403,6 @@ export const deleteOneService = async (req, res) => {
     return res.status(403).json({ message: "Forbidden: to delete services" });
   }
 
-  // Start a session for transaction
-  // Mongoose Sessions (Database Transactions): These are used to ensure that a series of database operations are executed atomically. If all operations within the transaction succeed, the changes are committed. If any operation fails, the entire transaction is rolled back.
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -423,8 +418,8 @@ export const deleteOneService = async (req, res) => {
 
     // Remove the reference to the deleted service from the respective member
     const member = await Member.findOneAndUpdate(
-      { "services._id": serviceId },
-      { $pull: { services: { _id: serviceId } } },
+      { services: serviceId },
+      { $pull: { services: serviceId } },
       { new: true, session }
     );
 
