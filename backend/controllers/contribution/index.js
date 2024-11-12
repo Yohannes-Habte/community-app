@@ -74,11 +74,7 @@ export const createContribution = async (req, res, next) => {
     await newContribution.save();
 
     // Add the contribution ID to user's monthlyContributions and save the user
-    foundUser.monthlyContributions.push({
-      user,
-      amount,
-      date: contributionDate,
-    });
+    foundUser.monthlyContributions.push(newContribution);
     await foundUser.save();
 
     // Respond with the newly created contribution
@@ -147,6 +143,69 @@ export const getAllMemberContribution = async (req, res, next) => {
       result: sortedContributions,
     });
   } catch (error) {
+    next(createError(500, "Server error!"));
+  }
+};
+
+// =============================================================================
+// Delete a single contribution
+// =============================================================================
+
+export const deleteContribution = async (req, res, next) => {
+  const contributionId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(contributionId)) {
+    return res.status(400).json({ message: "Invalid contribution ID" });
+  }
+
+  if (req.user.role !== "financeManager") {
+    return res
+      .status(403)
+      .json({ message: "Forbidden: to delete contribution" });
+  }
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // Fetch the contribution first to access the user reference
+    const contribution = await Contribution.findById(contributionId).session(
+      session
+    );
+
+    if (!contribution) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Contribution not found" });
+    }
+
+    // Delete the contribution
+    await Contribution.findByIdAndDelete(contributionId).session(session);
+
+    // Update the Member's monthlyContributions array by removing the reference
+    const member = await Member.findByIdAndUpdate(
+      contribution.user,
+      { $pull: { monthlyContributions: contributionId } },
+      { new: true, session }
+    );
+
+    if (!member) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Member not found" });
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json({
+      success: true,
+      message: "Contribution deleted successfully.",
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
     next(createError(500, "Server error!"));
   }
 };

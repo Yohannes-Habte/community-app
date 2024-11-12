@@ -43,19 +43,6 @@
     }
   }
 
-  .action-wrapper {
-    @include flexRow;
-    align-items: center;
-
-    .edit-icon {
-      @include editIcon;
-    }
-
-    .delete-icon {
-      @include deleteIcon;
-    }
-  }
-
   .financial-report-delete-confirmation-wrapper {
     @include deleteConfirmationModal;
 
@@ -87,14 +74,21 @@
 
   .edit-icon {
     @include editIcon;
+    font-size: $nfs;
   }
 
   .delete-report-btn {
     border: none;
     .delete-icon {
       @include deleteIcon;
+      font-size: $nfs;
     }
   }
+}
+
+.MuiDataGrid-cell {
+  display: flex;
+  align-items: center;
 }
 
 /* Up to 480px (very small mobile screens) */

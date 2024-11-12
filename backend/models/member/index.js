@@ -40,13 +40,8 @@ const memberSchema = new Schema(
     ],
 
     monthlyContributions: [
-      {
-        user: { type: mongoose.Types.ObjectId, ref: "Member", required: true },
-        amount: { type: Number, required: true },
-        date: { type: Date, required: true },
-      },
+      { type: mongoose.Types.ObjectId, ref: "Contribution" },
     ],
-
     services: [{ type: mongoose.Types.ObjectId, ref: "Service" }],
     delegatedPriests: [{ type: mongoose.Types.ObjectId, ref: "Priest" }],
     comments: [{ type: mongoose.Types.ObjectId, ref: "Comment" }],

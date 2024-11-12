@@ -75,6 +75,7 @@
 @media (min-width: 1025px) and (max-width: 1200px) {
   .admin-dashboard-page {
     .admin-dashboard-page-container {
+      min-height: 100vh;
       .admin-dashboard-page-title {
         @include title;
         background-color: $sidebar-bg;
@@ -91,6 +92,7 @@
 @media (min-width: 1201px) {
   .admin-dashboard-page {
     .admin-dashboard-page-container {
+      min-height: 100vh;
       .admin-dashboard-page-title {
         @include title;
       }

@@ -3,6 +3,7 @@
 
 .parish-priest-dashboard-page {
   .parish-priest-dashboard-page-container {
+    min-height: 100vh;
     .parish-priest-dashboard-page-title {
       @include title;
       background-color: $sidebar-bg;

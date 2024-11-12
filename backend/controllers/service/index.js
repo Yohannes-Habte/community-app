@@ -393,7 +393,7 @@ export const deleteService = async (req, res) => {
 export const deleteOneService = async (req, res) => {
   const serviceId = req.params.serviceId;
 
-  // Validate the input
+
   if (!mongoose.Types.ObjectId.isValid(serviceId)) {
     return res.status(400).json({ message: "Invalid service ID" });
   }

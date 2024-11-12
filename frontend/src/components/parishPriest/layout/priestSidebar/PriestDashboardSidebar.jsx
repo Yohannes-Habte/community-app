@@ -149,7 +149,7 @@ const PriestDashboardSidebar = ({ active, setActive }) => {
             className={active === 8 ? "active-icon" : "passive-icon"}
           />
 
-          <h4>
+          <h4 className="passive-text">
             <Link to={"/login"} onClick={handleLogout}>
               Log Out
             </Link>

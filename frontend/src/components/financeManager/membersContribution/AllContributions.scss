@@ -42,11 +42,51 @@
     }
   }
 
- 
-
   .no-financial-contribution {
     @include subTitle;
     color: $tomato;
+  }
+
+  .contribution-delete-confirmation-modal {
+    @include deleteConfirmationModal;
+
+    .delete-confirmation-title {
+      @include deleteConfirmationTitle;
+    }
+
+    .delete-confirmation-statement {
+      @include deleteConfirmationStatement;
+    }
+
+    .confirmation-buttons-wrapper {
+      @include buttonsWrapper;
+
+      .confirm-delete-btn {
+        @include buttonForDelete;
+      }
+
+      .cancel-delete-btn {
+        @include buttonForCancel;
+      }
+    }
+  }
+
+  .action-wrapper {
+    @include flexRow;
+    align-items: center;
+
+    .delete-btn {
+      border: none;
+      .delete-icon {
+        @include deleteIcon;
+        font-size: $nfs;
+      }
+    }
+  }
+
+  .MuiDataGrid-cell {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -94,6 +134,30 @@
     .no-financial-contribution {
       font-size: $sfs;
     }
+
+    .contribution-delete-confirmation-modal {
+      @include mobileDeleteConfirmationModal;
+
+      .delete-confirmation-title {
+        font-size: $nfs;
+      }
+
+      .delete-confirmation-statement {
+        font-size: $sfs;
+      }
+
+      .confirmation-buttons-wrapper {
+        @include buttonsWrapper;
+
+        .confirm-delete-btn {
+          font-size: $sfs;
+        }
+
+        .cancel-delete-btn {
+          font-size: $sfs;
+        }
+      }
+    }
   }
 }
 
@@ -103,7 +167,7 @@
     width: $tablet;
 
     .members-contribution-title {
-      font-size: $afs *1.2;
+      font-size: $afs * 1.2;
       text-align: center;
     }
 

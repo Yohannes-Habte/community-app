@@ -25,7 +25,6 @@ const initialState = {
 };
 
 const AddDelegation = ({ setOpenDelegation }) => {
-  const { currentUser } = useSelector((state) => state.member);
   const { error, loading } = useSelector((state) => state.priest);
   const dispatch = useDispatch();
 
@@ -97,7 +96,7 @@ const AddDelegation = ({ setOpenDelegation }) => {
     try {
       dispatch(postDelegatePriestStart());
       const { data } = await axios.post(
-        `${API}/delegations/${currentUser._id}/delegate`,
+        `${API}/delegations/delegate`,
         formData,
         { withCredentials: true }
       );

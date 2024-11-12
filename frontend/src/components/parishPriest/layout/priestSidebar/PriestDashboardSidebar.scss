@@ -71,15 +71,19 @@
 
     .parish-priest-dashboard-sidebar-item {
       .active-icon {
+        font-size: $sfs;
       }
 
       .passive-icon {
+        font-size: $sfs;
       }
 
       .active-text {
+        font-size: $sfs;
       }
 
       .passive-text {
+        font-size: $sfs;
       }
     }
   }
@@ -108,14 +112,22 @@
 
 /* Between 1025px and 1200px (standard desktops) */
 @media (min-width: 1025px) and (max-width: 1200px) {
-  .priest-sidebar-hamburger-menu {
-    display: none;
+  .parish-priest-dashboard-sidebar-container {
+    min-height: 100vh;
+
+    .priest-sidebar-hamburger-menu {
+      display: none;
+    }
   }
 }
 
 /* 1201px and up (large desktop and TV screens) */
 @media (min-width: 1201px) {
-  .priest-sidebar-hamburger-menu {
-    display: none;
+  .parish-priest-dashboard-sidebar-container {
+    min-height: 100vh;
+
+    .priest-sidebar-hamburger-menu {
+      display: none;
+    }
   }
 }

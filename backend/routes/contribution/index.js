@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createContribution,
+  deleteContribution,
   getAllContributions,
   getAllMemberContribution,
 } from "../../controllers/contribution/index.js";
@@ -35,6 +36,13 @@ contributionRouter.get(
   "/user/contribution",
   isAuthenticated,
   getAllMemberContribution
+);
+
+contributionRouter.delete(
+  "/:id",
+  isAuthenticated,
+  isFinanceManager,
+  deleteContribution
 );
 
 // Export Contribution Router

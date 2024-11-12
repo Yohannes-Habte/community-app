@@ -1,34 +1,30 @@
 import createError from "http-errors";
 import Member from "../../models/member/index.js";
 import Priest from "../../models/priestDelegation/index.js";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 //==========================================================================
 // Delegate Priest
 //==========================================================================
 export const createPriestDelegation = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.params.priestId);
+    const user = await Member.findById(req.user.id);
 
     if (!user) {
       return next(createError(400, "Parish priest not found! Please login!"));
     }
 
+    if (req.user.role !== "priest") {
+      return res.status(403).json({ message: "Forbidden: to delete services" });
+    }
+
     const newPriestDelegation = new Priest(req.body);
 
-    try {
-      await newPriestDelegation.save();
-    } catch (error) {
-      return next(createError(400, "Priest delegation is not saved!"));
-    }
+    await newPriestDelegation.save();
 
-    user.delegatedPriests.push(newPriestDelegation._id);
-    // Save user after delegating a priest
-    try {
-      await user.save();
-    } catch (error) {
-      return next(createError(400, "Priest delegation is not  into the user!"));
-    }
+    user.delegatedPriests.push(newPriestDelegation);
+
+    await user.save();
 
     return res.status(201).json({
       success: true,
@@ -37,12 +33,7 @@ export const createPriestDelegation = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(
-      createError(
-        500,
-        "The delegation of priests is unsuccessful! Please try again"
-      )
-    );
+    next(createError(500, "Server error! Please try again"));
   }
 };
 
@@ -161,25 +152,46 @@ export const deleteDelegatedPriest = async (req, res, next) => {
     return next(createError(400, "Invalid priest ID"));
   }
 
+  // Authorization check
+  if (req.user.role !== "priest") {
+    return res.status(403).json({ message: "Forbidden: to delete services" });
+  }
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const priest = await Priest.findById(priestId);
+    const priest = await Priest.findByIdAndDelete(priestId).session(session);
 
     if (!priest) {
+      await session.abortTransaction();
+      session.endSession();
       return next(createError(400, "Delegated priest not found!"));
     }
 
-    await Priest.findByIdAndDelete(priestId);
+    const member = await Member.findOneAndUpdate(
+      { delegatedPriests: priestId },
+      { $pull: { delegatedPriests: priestId } },
+      { new: true, session }
+    );
+
+    if (!member) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "Member not found" });
+    }
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
 
     return res.status(200).json({
       success: true,
       message: "Delegated priest has been deleted successfully!",
     });
   } catch (error) {
-    next(
-      createError(
-        500,
-        "Delegated priest could not be deleted! Please try again!"
-      )
-    );
+    await session.abortTransaction();
+    session.endSession();
+    next(createError(500, "Server error! Please try again!"));
   }
 };

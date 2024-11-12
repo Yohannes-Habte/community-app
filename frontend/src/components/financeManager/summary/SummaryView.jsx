@@ -87,12 +87,12 @@ const SummaryView = () => {
     };
 
     parishioners.forEach((member) => {
-      const contributions = member.monthlyContributions.filter(
+      const contributions = member?.monthlyContributions?.filter(
         (contribution) =>
-          new Date(contribution.date).getFullYear().toString() === year
+          new Date(contribution?.date).getFullYear().toString() === year
       );
 
-      const count = contributions.length;
+      const count = contributions?.length;
 
       switch (true) {
         case count === 0:

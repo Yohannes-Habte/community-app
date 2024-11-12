@@ -9,6 +9,10 @@ import {
 } from "../../../redux/actions/contributions/contributionAction";
 import { Alert } from "@mui/material";
 import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { API } from "../../../utile/security/secreteKey";
+import { FaTrashAlt } from "react-icons/fa";
 
 const MembersContribution = () => {
   const dispatch = useDispatch();
@@ -19,6 +23,9 @@ const MembersContribution = () => {
   const [openAddContribution, setOpenAddContribution] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [contributionId, setContributionId] = useState("");
+  const [openDeleteContribution, setOpenDeleteContribution] = useState(false);
 
   // Fetch all contributions when the component mounts
   useEffect(() => {
@@ -50,12 +57,29 @@ const MembersContribution = () => {
 
   // Define columns for DataGrid
   const columns = [
-    { field: "id", headerName: "Contribution ID", width: 200 },
+    { field: "id", headerName: "Contribution ID", width: 250 },
     { field: "user", headerName: "User ID", width: 250 },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
     { field: "date", headerName: "Date", width: 150 },
     { field: "amount", headerName: "Amount", width: 80 },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => (
+        <div className="action-wrapper">
+          <button
+            className="delete-btn"
+            onClick={() =>
+              setContributionId(params.id) || setOpenDeleteContribution(true)
+            }
+          >
+            <FaTrashAlt className="delete-icon" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
   // Handle year filter submission and validation
@@ -77,7 +101,20 @@ const MembersContribution = () => {
     setButtonLoading(false); // Reset button loading state after fetch
   };
 
-  const [errorMessage, setErrorMessage] = useState("");
+  // Delete user contribution
+
+  const handleDelete = async () => {
+    try {
+      const { data } = await axios.delete(`${API}/contributions/${contributionId}`, {
+        withCredentials: true,
+      });
+      toast.success(data.message);
+      dispatch(fetchAllContributions());
+    } catch (error) {
+      const errorMessage = error.response.data.message || "An error occurred!";
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <section className="members-contribution-wrapper">
@@ -159,6 +196,33 @@ const MembersContribution = () => {
       {/* Show modal for adding a new contribution */}
       {openAddContribution && (
         <AddContribution setOpenAddContribution={setOpenAddContribution} />
+      )}
+
+      {openDeleteContribution && (
+        <article className="contribution-delete-confirmation-modal">
+          <h3 className="delete-confirmation-title">Delete Contribution</h3>
+          <p className="delete-confirmation-statement">
+            Are you sure you want to delete this contribution? This action
+            cannot be undone.
+          </p>
+          <div className="confirmation-buttons-wrapper">
+            <button
+              className="cancel-delete-btn"
+              onClick={() => setOpenDeleteContribution(false)}
+            >
+              Cancel
+            </button>
+
+            <button
+              className="confirm-delete-btn"
+              onClick={() =>
+                setOpenDeleteContribution(false) || handleDelete(contributionId)
+              }
+            >
+              Delete
+            </button>
+          </div>
+        </article>
       )}
     </section>
   );

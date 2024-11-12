@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
+import { FaMoneyBill } from "react-icons/fa";
+import { BsCalendarDateFill } from "react-icons/bs";
 import "./AddContribution.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -157,7 +159,7 @@ const AddContribution = ({ setOpenAddContribution }) => {
 
           {/* Monthly Contribution Amount */}
           <div className="input-container">
-            <FaUserAlt className="input-icon" aria-hidden="true" />
+            <FaMoneyBill className="input-icon" aria-hidden="true" />
             <input
               type="number"
               name="amount"
@@ -176,7 +178,7 @@ const AddContribution = ({ setOpenAddContribution }) => {
 
           {/* Contribution Date */}
           <div className="input-container">
-            <FaUserAlt className="input-icon" aria-hidden="true" />
+            <BsCalendarDateFill className="input-icon" aria-hidden="true" />
             <input
               type="date"
               name="date"
