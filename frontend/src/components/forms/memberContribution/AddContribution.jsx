@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { Alert } from "@mui/material";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { API } from "../../../utile/security/secreteKey";
+import { useDispatch } from "react-redux";
+import { fetchAllContributions } from "../../../redux/actions/contributions/contributionAction";
 
 // Initial form state
 const initialState = {
@@ -17,6 +19,7 @@ const initialState = {
 };
 
 const AddContribution = ({ setOpenAddContribution }) => {
+  const dispatch = useDispatch();
   // State variables
   const [contributionInfos, setContributionInfos] = useState(initialState);
   const [userNames, setUserNames] = useState([]);
@@ -100,6 +103,7 @@ const AddContribution = ({ setOpenAddContribution }) => {
       }
 
       setFormLoading(false);
+      dispatch(fetchAllContributions());
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "An error occurred. Please try again.";

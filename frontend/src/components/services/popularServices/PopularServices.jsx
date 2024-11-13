@@ -3,12 +3,13 @@ import "./PopularServices.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { API } from "../../../utile/security/secreteKey";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import { Alert } from "@mui/material";
 
 const PopularServices = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
 
   useEffect(() => {
     const fetchPopularServices = async () => {
@@ -34,9 +35,15 @@ const PopularServices = () => {
     <section className="popular-services-wrapper">
       <h1 className="popular-services-title">Popular Services</h1>
       {loading ? (
-        <p>Loading...</p>
+        <PageLoader isLoading={loading} message="" size={80} />
       ) : error ? (
-        <p className="error-message">{error}</p>
+        <Alert security="error" className="error-message">
+          {error}
+        </Alert>
+      ) : services.length === 0 ? (
+        <Alert security="info">
+          New popular services are coming soon. Stay tuned for updates!
+        </Alert>
       ) : (
         <div className="services-list">
           {services.map((service, index) => (

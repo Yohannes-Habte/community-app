@@ -48,7 +48,7 @@ const AllParishioners = () => {
       { field: "city", headerName: "City", width: 100 },
       { field: "state", headerName: "State", width: 100 },
       { field: "country", headerName: "Country", width: 100 },
-      { field: "role", headerName: "Role", width: 100 },
+      { field: "role", headerName: "Role", width: 150 },
     ],
     []
   );

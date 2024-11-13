@@ -134,7 +134,10 @@ export const getSingleUser = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
   try {
     // Fetch all users and sort them by firstName in ascending order
-    const users = await Member.find().sort({ firstName: 1 });
+    const users = await Member.find().sort({ firstName: 1 }).populate({
+      path: "monthlyContributions",
+      model: "Contribution",
+    });
 
     if (!users) {
       return next(createError(400, "Users not found! Please login!"));
@@ -177,7 +180,8 @@ export const getMemberBySearch = async (req, res, next) => {
     const members = await Member.find(query)
       .limit(limit)
       .select("firstName lastName")
-      .lean();
+      .lean()
+      .sort({ firstName: 1 });
 
     // Format members list
     const membersList = members.map((member) => ({
@@ -293,7 +297,7 @@ export const deleteUserAccount = async (req, res, next) => {
     await Priest.deleteMany({ user: userId }).session(session);
 
     // Delete the user
-    await Member.findByIdAndDelete(userId).session(session); 
+    await Member.findByIdAndDelete(userId).session(session);
 
     // Commit the transaction
     await session.commitTransaction();

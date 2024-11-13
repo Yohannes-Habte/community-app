@@ -15,6 +15,7 @@ import {
 import { API } from "../../../utile/security/secreteKey";
 import { validEmail, validPhone } from "../../../utile/validation/validate";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { fetchDelegatedPriests } from "../../../redux/actions/delegation/delegationAction";
 
 const initialState = {
   fullName: "",
@@ -26,6 +27,7 @@ const initialState = {
 
 const AddDelegation = ({ setOpenDelegation }) => {
   const { error, loading } = useSelector((state) => state.priest);
+  const { currentUser } = useSelector((state) => state.member);
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState(initialState);
@@ -95,14 +97,24 @@ const AddDelegation = ({ setOpenDelegation }) => {
 
     try {
       dispatch(postDelegatePriestStart());
+
+      const newDelegatedPriest = {
+        fullName,
+        email,
+        phoneNumber,
+        serviceDate,
+        textMessage,
+        user: currentUser._id,
+      };
       const { data } = await axios.post(
         `${API}/delegations/delegate`,
-        formData,
+        newDelegatedPriest,
         { withCredentials: true }
       );
       dispatch(postDelegatePriestSuccess(data.delegate));
       toast.success(data.message);
       handleReset();
+      dispatch(fetchDelegatedPriests());
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || "Failed to submit the form";

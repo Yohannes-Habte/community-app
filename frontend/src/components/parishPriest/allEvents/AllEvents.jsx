@@ -34,7 +34,7 @@ const AllEvents = () => {
       { field: "eventName", headerName: "Event Name", width: 250 },
       { field: "eventOrganizer", headerName: "Organizer", width: 250 },
       { field: "eventFacilitator", headerName: "Facilitator", width: 250 },
-      { field: "eventAddress", headerName: "Address", width: 200 },
+      { field: "eventAddress", headerName: "Address", width: 400 },
     ],
     []
   );

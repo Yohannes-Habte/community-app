@@ -98,8 +98,6 @@ export const getAllContributions = async (req, res, next) => {
     // Find all contributions and sort by date (year first, then month)
     const contributions = await Contribution.find().sort({ date: 1 });
 
-    console.log("Contributions", contributions);
-
     if (!contributions) {
       return next(createError(400, "contributions not found!"));
     }

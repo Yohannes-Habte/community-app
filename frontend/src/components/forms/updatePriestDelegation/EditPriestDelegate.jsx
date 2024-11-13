@@ -215,7 +215,7 @@ const TextareaField = ({
 );
 
 EditPriestDelegate.propTypes = {
-  setOpenDelegation: PropTypes.func.isRequired,
+  setOpenDelegate: PropTypes.func.isRequired,
 };
 
 export default EditPriestDelegate;

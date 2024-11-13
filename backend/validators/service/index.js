@@ -66,7 +66,7 @@ const serviceValidation = () => {
         } else if (serviceCategory === "Spiritual development") {
           minimumDate.setMonth(today.getMonth() + 2);
         } else if (serviceCategory === "Soul prayer") {
-          minimumDate.setMonth(today.getMonth() + 1);
+          minimumDate.setDate(today.getDate() + 14);
         }
 
         // Check if the provided serviceDate meets the minimum requirement

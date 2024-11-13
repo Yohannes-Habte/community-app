@@ -24,7 +24,7 @@ const AllDelegations = () => {
 
   // Local state variables
   const [delegationId, setDelegationId] = useState("");
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [openDeleteDelegatedPriest, setOpenDeleteDelegatedPriest] = useState(false);
   const [isAddDelegationOpen, setIsAddDelegationOpen] = useState(false);
 
   // Fetch delegated priests on component mount
@@ -87,11 +87,11 @@ const AllDelegations = () => {
   // Handle opening and closing of delete modal
   const handleOpenDeleteModal = (id) => {
     setDelegationId(id);
-    setIsDeleteModalOpen(true);
+    setOpenDeleteDelegatedPriest(true);
   };
 
   const handleCloseDeleteModal = () => {
-    setIsDeleteModalOpen(false);
+    setOpenDeleteDelegatedPriest(false);
   };
 
   // Handle delete operation for a delegation with error handling and confirmation
@@ -110,7 +110,7 @@ const AllDelegations = () => {
         error?.response?.data?.message || "An error occurred.";
       toast.error(errorMessage);
     } finally {
-      setIsDeleteModalOpen(false);
+      openDeleteDelegatedPriest(false);
     }
   }, [delegationId, dispatch]);
 
@@ -160,7 +160,7 @@ const AllDelegations = () => {
       )}
 
       {/* Delete Confirmation Modal */}
-      {isDeleteModalOpen && (
+      {openDeleteDelegatedPriest && (
         <DeleteConfirmationModal
           onClose={handleCloseDeleteModal}
           onConfirm={handleDelete}

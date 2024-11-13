@@ -97,6 +97,12 @@ const UpdateMemberProfile = () => {
     event.preventDefault();
     dispatch(updateUserProfileRequest());
 
+    // Check consent is checked
+
+    if (!agree) {
+      toast.error("Please accept the terms of use");
+    }
+
     try {
       let imageUrl = currentUser.image;
 
