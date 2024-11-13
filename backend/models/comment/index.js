@@ -7,6 +7,7 @@ const commentSchema = new Schema(
   {
     email: { type: String, required: true },
     message: { type: String, required: true },
+    user: { type: mongoose.Types.ObjectId, ref: "Member", required: true },
   },
   {
     timestamps: true,

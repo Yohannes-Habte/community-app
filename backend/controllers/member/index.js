@@ -1,6 +1,10 @@
 import createError from "http-errors";
 import Member from "../../models/member/index.js";
 import mongoose from "mongoose";
+import Contribution from "../../models/contribution/index.js";
+import Service from "../../models/service/index.js";
+import Priest from "../../models/priestDelegation/index.js";
+import Comment from "../../models/comment/index.js";
 
 //====================================================================
 // Update user address
@@ -258,18 +262,51 @@ export const deleteUserAccount = async (req, res, next) => {
     return next(createError(400, "Invalid user ID!"));
   }
 
+  // Check if the user is an admin
+  if (req.user.role !== "admin") {
+    return next(createError(401, "Unauthorized!"));
+  }
+
+  // Start a session to handle transactions
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const user = await Member.findByIdAndDelete(userId);
+    const user = await Member.findById(userId).session(session);
 
     if (!user) {
+      await session.abortTransaction();
+      session.endSession();
       return next(createError(404, "User not found!"));
     }
+
+    // Delete all the services related to the user
+    await Service.deleteMany({ userId: userId }).session(session);
+
+    // Delete all the comments related to the user
+    await Comment.deleteMany({ user: userId }).session(session);
+
+    // Delete all the contributions related to the user
+    await Contribution.deleteMany({ user: userId }).session(session);
+
+    // Delete all the delegated priests related to the user
+    await Priest.deleteMany({ user: userId }).session(session);
+
+    // Delete the user
+    await Member.findByIdAndDelete(userId).session(session); 
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
 
     res.status(200).json({
       success: true,
       message: "Account successfully deleted!",
     });
   } catch (error) {
+    console.error("Error deleting user account:", error);
+    await session.abortTransaction();
+    session.endSession();
     next(createError(500, "Server Error!"));
   }
 };

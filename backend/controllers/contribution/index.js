@@ -98,6 +98,8 @@ export const getAllContributions = async (req, res, next) => {
     // Find all contributions and sort by date (year first, then month)
     const contributions = await Contribution.find().sort({ date: 1 });
 
+    console.log("Contributions", contributions);
+
     if (!contributions) {
       return next(createError(400, "contributions not found!"));
     }
@@ -119,7 +121,14 @@ export const getAllMemberContribution = async (req, res, next) => {
     const userId = req.user.id;
 
     // Fetch the member by ID and retrieve only their 'monthlyContributions' field
-    const member = await Member.findById(userId, "monthlyContributions");
+    const member = await Member.findById(
+      userId,
+      "monthlyContributions"
+    ).populate({
+      path: "monthlyContributions",
+      model: "Contribution",
+      options: { sort: { date: 1 } },
+    });
 
     if (!member) {
       return next(createError(400, "User not found!"));
