@@ -25,7 +25,7 @@ const initialState = {
   textMessage: "",
 };
 
-const AddDelegation = ({ setOpenDelegation }) => {
+const AddDelegation = ({ setOpenAddDelegation }) => {
   const { error, loading } = useSelector((state) => state.priest);
   const { currentUser } = useSelector((state) => state.member);
   const dispatch = useDispatch();
@@ -114,6 +114,7 @@ const AddDelegation = ({ setOpenDelegation }) => {
       dispatch(postDelegatePriestSuccess(data.delegate));
       toast.success(data.message);
       handleReset();
+      setOpenAddDelegation(false);
       dispatch(fetchDelegatedPriests());
     } catch (error) {
       const errorMessage =
@@ -131,7 +132,7 @@ const AddDelegation = ({ setOpenDelegation }) => {
       <section className="add-priest-delegation-popup">
         <span
           className="close-modal"
-          onClick={() => setOpenDelegation(false)}
+          onClick={() => setOpenAddDelegation(false)}
           aria-label="Close"
         >
           X

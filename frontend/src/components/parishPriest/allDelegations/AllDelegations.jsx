@@ -24,8 +24,8 @@ const AllDelegations = () => {
 
   // Local state variables
   const [delegationId, setDelegationId] = useState("");
-  const [openDeleteDelegatedPriest, setOpenDeleteDelegatedPriest] = useState(false);
-  const [isAddDelegationOpen, setIsAddDelegationOpen] = useState(false);
+  const [openDeleteDelegation, setOpenDeleteDelegation] = useState(false);
+  const [openAddDelegation, setOpenAddDelegation] = useState(false);
 
   // Fetch delegated priests on component mount
   useEffect(() => {
@@ -75,7 +75,10 @@ const AllDelegations = () => {
           </Link>
           <button
             className="delete"
-            onClick={() => handleOpenDeleteModal(params.id)}
+            onClick={() => {
+              setDelegationId(params.id);
+              setOpenDeleteDelegation(true);
+            }}
           >
             <FaTrashAlt className="delete-icon" />
           </button>
@@ -83,16 +86,6 @@ const AllDelegations = () => {
       ),
     },
   ];
-
-  // Handle opening and closing of delete modal
-  const handleOpenDeleteModal = (id) => {
-    setDelegationId(id);
-    setOpenDeleteDelegatedPriest(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setOpenDeleteDelegatedPriest(false);
-  };
 
   // Handle delete operation for a delegation with error handling and confirmation
   const handleDelete = useCallback(async () => {
@@ -110,7 +103,7 @@ const AllDelegations = () => {
         error?.response?.data?.message || "An error occurred.";
       toast.error(errorMessage);
     } finally {
-      openDeleteDelegatedPriest(false);
+      setOpenDeleteDelegation(false);
     }
   }, [delegationId, dispatch]);
 
@@ -122,7 +115,7 @@ const AllDelegations = () => {
       <aside className="add-delegation-priest-wrapper">
         <h3 className="add-delegation-priest-title">Add Priest delegation </h3>
         <button
-          onClick={() => setIsAddDelegationOpen(true)}
+          onClick={() => setOpenAddDelegation(true)}
           className="add-delegation-btn"
         >
           Add New
@@ -160,37 +153,41 @@ const AllDelegations = () => {
       )}
 
       {/* Delete Confirmation Modal */}
-      {openDeleteDelegatedPriest && (
-        <DeleteConfirmationModal
-          onClose={handleCloseDeleteModal}
-          onConfirm={handleDelete}
-        />
+      {openDeleteDelegation && (
+        <article className="delegated-priest-delete-confirmation-modal">
+          <h3 className="delete-confirmation-title">
+            {" "}
+            Delete Delegated Priest
+          </h3>
+          <p className="delete-confirmation-statement">
+            Are you sure you want to delete this delegated priest? This action
+            cannot be undone.
+          </p>
+          <div className="confirmation-buttons-wrapper">
+            <button
+              className="cancel-delete-btn"
+              onClick={() => setOpenDeleteDelegation(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="confirm-delete-btn"
+              onClick={() =>
+                setOpenDeleteDelegation(false) || handleDelete(delegationId)
+              }
+            >
+              Delete
+            </button>
+          </div>
+        </article>
       )}
 
       {/* Add Delegation Modal */}
-      {isAddDelegationOpen && (
-        <AddDelegation setOpenDelegation={setIsAddDelegationOpen} />
+      {openAddDelegation && (
+        <AddDelegation setOpenAddDelegation={setOpenAddDelegation} />
       )}
     </section>
   );
 };
-
-const DeleteConfirmationModal = ({ onClose, onConfirm }) => (
-  <article className="delegated-priest-delete-confirmation-modal">
-    <h3 className="delete-confirmation-title"> Delete Delegated Priest</h3>
-    <p className="delete-confirmation-statement">
-      Are you sure you want to delete this delegated priest? This action cannot
-      be undone.
-    </p>
-    <div className="confirmation-buttons-wrapper">
-      <button className="cancel-delete-btn" onClick={onClose}>
-        Cancel
-      </button>
-      <button className="confirm-delete-btn" onClick={onConfirm}>
-        Delete
-      </button>
-    </div>
-  </article>
-);
 
 export default AllDelegations;
