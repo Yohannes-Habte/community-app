@@ -1,6 +1,7 @@
 @import "../../styles/Variables.scss";
 @import "../../styles/Mixins.scss";
 
+// Base styling
 .shepherds {
   width: 100%;
   height: 60vh;
@@ -8,10 +9,9 @@
   overflow: hidden;
   border-radius: 0.5rem;
 
-
   // Slide arrows
   .arrow {
-    border: 2px solid #ee7042;
+    border: 1px solid $red;
     border-radius: 50%;
     background: transparent;
     color: #fff;
@@ -29,12 +29,12 @@
   }
 
   .next {
-    right: 1.5rem;
-    color: #2c22f3;
+    right: 0;
+    color: $blue;
   }
   .prev {
-    left: 1.5rem;
-    color: #2c22f3;
+    left: 0;
+    color: $blue;
   }
 
   // Slide show
@@ -190,22 +190,25 @@
   }
 }
 
-/* Up to 480px (very small mobile screens) */
-@media (max-width: 480px) {
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  /* Add styles specific to portrait phones */
   .shepherds {
     height: 40vh;
-   
-  }
-  .slide-show {
-  
-    .bishop-image-container {
-      @include flexCenter;
-     
 
-      .photo {
-        width: 15rem;
-        height: 20rem;
-        object-fit: cover;
+    .arrow {
+      display: none;
+    }
+
+    .slide-show {
+      .bishop-image-container {
+        @include flexCenter;
+
+        .photo {
+          width: 15rem;
+          height: 20rem;
+          object-fit: cover;
+        }
       }
     }
   }
@@ -215,8 +218,9 @@
   }
 }
 
-/* Between 481px and 768px (common for most mobile devices) */
-@media (min-width: 481px) and (max-width: 768px) {
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  /* Add styles specific to landscape phones */
   .slide-show {
     .bishop-image-container {
       @include flexCenter;
@@ -235,8 +239,8 @@
   }
 }
 
-/* Between 769px and 1024px (ideal for tablets and small laptops) */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .shepherds {
     height: 46vh;
   }
@@ -260,10 +264,15 @@
   }
 }
 
-/* Between 1025px and 1200px (standard desktops) */
-@media (min-width: 1025px) and (max-width: 1200px) {
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
   .shepherds {
     height: 50vh;
+
+    .shepherd-info {
+      position: absolute;
+      right: -18%;
+    }
   }
 
   .slide-show {
@@ -280,8 +289,8 @@
   }
 }
 
-/* 1201px and up (large desktop and TV screens) */
-@media (min-width: 1201px) {
+/* Ultra-High-Resolution Devices (2560px and above) */
+@media (min-width: 1367px) {
   .shepherds {
     height: 60vh;
   }

@@ -2,18 +2,19 @@
 @import "../../../styles/Mixins.scss";
 
 .contact-page-form {
-  width: $laptop;
+  width: $mobile;
   margin: 1rem auto;
-  padding-bottom: 1rem;
-  @include shadow1;
+  padding: 1rem;
   border-radius: 0.2rem;
-  background-color: $form-bg; 
+  background-color: $form-bg;
 
   .contact-page-form-title {
     @include subTitle;
   }
 
-  .contact-form {
+  .contact-page-form {
+    @include flexColumn;
+    width: 100%;
     .contact-form-input-container {
       @include inputContainer;
 
@@ -34,9 +35,7 @@
       }
 
       .input-field:focus + .input-label {
-        top: -5px;
-        font-size: 12px;
-        color: #81a3e6;
+        @include focusInputFieldAndInputLabel;
       }
 
       .input-field:focus + .input-label + .input-highlight {
@@ -44,59 +43,45 @@
       }
     }
 
-    .contact-form-button-container {
-      width: 16%;
-      margin: auto;
-
-      .contact-form-btn {
-        @include button1;
-
-        &:hover {
-          background-color: $button-hover;
-          color: $red;
-        }
-      }
+    .contact-form-btn {
+      @include button3;
     }
   }
 }
 
-/* Tablet screen size */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
   .contact-page-form {
-    width: $laptop;
+    width: $mobile;
     margin: 1rem auto;
-    padding-bottom: 1rem;
-    @include shadow1;
+    padding: 1rem 0.5rem 0.2rem 0.5rem;
     border-radius: 0.2rem;
+    background-color: $form-bg;
 
     .contact-page-form-title {
-      @include subTitle;
+      font-size: $nfs;
     }
 
-    .contact-form {
+    .contact-page-form {
       .contact-form-input-container {
-        @include inputContainer;
-
         .input-icon {
-          @include inputIcon;
+          font-size: $sfs;
         }
 
         .input-field {
-          @include inputField;
+          font-size: $sfs;
         }
 
         .input-label {
-          @include inputLabel;
+          font-size: $sfs;
         }
 
         .input-highlight {
-          @include inputHighlight;
+          font-size: $sfs;
         }
 
         .input-field:focus + .input-label {
-          top: -5px;
-          font-size: 12px;
-          color: #81a3e6;
+          font-size: $sfs;
         }
 
         .input-field:focus + .input-label + .input-highlight {
@@ -104,63 +89,47 @@
         }
       }
 
-      .contact-form-button-container {
-        width: 16%;
-        margin: auto;
-
-        .contact-form-btn {
-          @include button1;
-
-          &:hover {
-            background-color: $button-hover;
-            color: $red;
-          }
-        }
+      .contact-form-btn {
+        font-size: $sfs;
+        margin-top: 1rem;
       }
     }
   }
 }
 
-/* Labtop screen size */
-@media screen and (min-width: 1024px) {
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
   .contact-page-form {
-    width: $laptop;
+    width: $tablet;
     margin: 1rem auto;
-    padding-bottom: 1rem;
-    @include shadow1;
+    padding: 1rem 1rem 0.5rem 1rem;
     border-radius: 0.2rem;
+    background-color: $form-bg;
 
     .contact-page-form-title {
-      @include subTitle;
+      font-size: $afs;
     }
 
-    // Form styling
-    .contact-form {
-      @include flexColumn;
-
+    .contact-page-form {
       .contact-form-input-container {
-        @include inputContainer;
-
         .input-icon {
-          @include inputIcon;
+          font-size: $nfs;
         }
 
         .input-field {
-          @include inputField;
+          font-size: $nfs;
         }
 
         .input-label {
-          @include inputLabel;
+          font-size: $nfs;
         }
 
         .input-highlight {
-          @include inputHighlight;
+          font-size: $nfs;
         }
 
         .input-field:focus + .input-label {
-          top: -5px;
-          font-size: 12px;
-          color: #81a3e6;
+          font-size: $nfs;
         }
 
         .input-field:focus + .input-label + .input-highlight {
@@ -168,10 +137,66 @@
         }
       }
 
-      // Button
       .contact-form-btn {
-        @include button1;
+        font-size: $nfs;
+        margin-top: 1.5rem;
       }
     }
   }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .contact-page-form {
+    width: $tablet;
+    margin: 1rem auto;
+    padding: 1rem 1rem 0.5rem 1rem;
+    border-radius: 0.2rem;
+    background-color: $form-bg;
+
+    .contact-page-form-title {
+      font-size: $aafs;
+    }
+
+    .contact-page-form {
+      .contact-form-input-container {
+        .input-icon {
+          font-size: $nfs;
+        }
+
+        .input-field {
+          font-size: $nfs;
+        }
+
+        .input-label {
+          font-size: $nfs;
+        }
+
+        .input-highlight {
+          font-size: $nfs;
+        }
+
+        .input-field:focus + .input-label {
+          font-size: $nfs;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+
+      .contact-form-btn {
+        font-size: $afs;
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
 }

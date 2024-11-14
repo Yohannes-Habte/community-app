@@ -201,7 +201,7 @@ const SummaryView = () => {
         ) : error ? (
           <p className="message-error">Error loading data: {error.message}</p>
         ) : (
-          <ResponsiveContainer width="75%" height={500}>
+          <ResponsiveContainer width="100%" height={500}>
             <PieChart>
               <Pie
                 dataKey="value"

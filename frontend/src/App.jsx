@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import AboutPage from "./views/aboutPage/AboutPage";
 import ContactPage from "./views/contactPage/ContactPage";
 import HomePage from "./views/homePage/HomePage";
-import UserProfilePage from "./views/userPages/userProfilePage/UserProfilePage";
 import PriestDashboardPage from "./views/priestPages/priestDashboardPage/PriestDashboardPage";
 import AdminDashboardPage from "./views/adminPages/adminDashboarPage/AdminDashboardPage";
 import UserProtectedRoutes from "./protectedRoutes/UserProtectedRoutes";
@@ -24,6 +23,7 @@ import UpdateCommitteeProfilePage from "./views/adminPages/updateCommitteeProfil
 import UpdateFinancialReportPage from "./views/financePages/updateFinancialReportPage/UpdateFinancialReportPage";
 import UpdateEventPage from "./views/adminPages/updateEventPage/UpdateEventPage";
 import UpdatePriestDelegationPage from "./views/priestPages/updatePriestDelegationPage/UpdatePriestDelegationPage";
+import UserProfilePage from "./views/userProfilePage/UserProfilePage";
 
 const App = () => {
   const dispatch = useDispatch();

@@ -2,19 +2,15 @@
 @import "../../../styles/mixins.scss";
 
 .services-information-container {
-  position: relative;
-  margin: 2rem 0;
-
+  @include flexColumn;
   .services-information-title {
     @include subTitle;
-    font-size: $aafs;
   }
 
   .services-year-form {
-    position: absolute;
-    top: 1rem;
-    right: 0;
-
+    .service-year-label {
+      font-size: $nfs;
+    }
     .input-field {
       @include inputWithButton;
     }
@@ -31,7 +27,7 @@
   }
 
   .services-infos-wrapper {
-    @include threeGridTemplateEqualColumns;
+    @include flexColumn;
     margin-bottom: 2rem;
 
     .service-article {
@@ -85,25 +81,22 @@
   }
 }
 
-/* Up to 480px (very small mobile screens) */
-@media (max-width: 480px) {
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
   .services-information-container {
-    width: $mobile;
-    margin: 2rem auto;
-    position: relative;
-
     .services-information-title {
       font-size: $sfs;
     }
 
     .services-year-form {
-      position: absolute;
-      top: -3rem;
-      right: 0;
-      width: 100%;
+      @include flexColumn;
+
+      .service-year-label {
+        font-size: $sfs;
+      }
 
       .input-field {
-        width: 10rem;
+        width: 100%;
         font-size: $sfs;
       }
 
@@ -117,9 +110,6 @@
     }
 
     .services-infos-wrapper {
-
-
- 
       @include flexColumn;
       .service-article {
         .service-article-title {
@@ -150,10 +140,10 @@
   }
 }
 
-/* Between 481px and 768px (common for most mobile devices) */
-@media (min-width: 481px) and (max-width: 768px) {
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
   .services-information-container {
-    width: $mobile;
+    width: $mobileLandscape;
     margin: auto;
     position: relative;
 
@@ -161,10 +151,18 @@
       font-size: $nfs;
     }
 
+  
     .services-year-form {
-      position: absolute;
-      top: 1rem;
-      right: 0;
+      @include flexColumn;
+
+      .service-year-label {
+        font-size: $sfs;
+      }
+
+      .input-field {
+        width: 100%;
+        font-size: $sfs;
+      }
 
       .year-form-btn {
         font-size: $sfs;
@@ -206,36 +204,41 @@
   }
 }
 
-/* Between 769px and 1024px (ideal for tablets and small laptops) */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .services-information-container {
     width: $tablet;
     margin: auto;
     position: relative;
 
     .services-information-title {
-      font-size: $nfs;
+      font-size: $afs;
     }
 
+   
     .services-year-form {
-      position: absolute;
-      top: 1rem;
-      right: 0;
+      @include flexColumn;
+
+      .service-year-label {
+        font-size: $nfs;
+      }
 
       .input-field {
+        width: 100%;
+        font-size: $nfs;
       }
 
       .year-form-btn {
-        font-size: $sfs;
+        font-size: $nfs;
       }
     }
 
     .total-year-services {
-      font-size: $sfs;
+      font-size: $afs;
     }
 
     .services-infos-wrapper {
-      @include twoGridTemplateEqualColumns;
+      @include flexColumn;
       .service-article {
         .service-article-title {
           font-size: $nfs;
@@ -265,10 +268,42 @@
   }
 }
 
-/* Between 1025px and 1200px (standard desktops) */
-@media (min-width: 1025px) and (max-width: 1200px) {
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
 }
 
-/* 1201px and up (large desktop and TV screens) */
-@media (min-width: 1201px) {
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
+  .services-information-container {
+    position: relative;
+    margin: 2rem 0;
+
+    .services-information-title {
+      font-size: $afs;
+    }
+
+    .services-year-form {
+      position: absolute;
+      top: 1rem;
+      right: 0;
+    }
+
+    .services-infos-wrapper {
+      @include threeGridTemplateEqualColumns;
+      margin-bottom: 2rem;
+
+      .service-article {
+        .service-article-title {
+          font-size: $nfs;
+        }
+
+        .service-status {
+          font-size: $nfs;
+          @include twoGridTemplateEqualColumns;
+          row-gap: 0.3rem;
+          column-gap: 1rem;
+        }
+      }
+    }
+  }
 }

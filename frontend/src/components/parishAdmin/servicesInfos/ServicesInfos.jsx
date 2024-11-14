@@ -144,9 +144,11 @@ const ServicesInfos = ({ setIsActive }) => {
       </h3>
 
       <form onSubmit={handleSubmit} className="services-year-form">
+        <label className="service-year-label" htmlFor="year">Service Year:</label>
         <input
           type="number"
           name="year"
+          id="year"
           defaultValue={year}
           placeholder="Enter Year"
           className="input-field"

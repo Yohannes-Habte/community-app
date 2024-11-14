@@ -5,6 +5,7 @@
   .news-page-container {
     width: $mobile;
     margin: 1rem auto;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -15,8 +16,8 @@
   }
 }
 
-/* Up to 480px (very small mobile screens) */
-@media (max-width: 480px) {
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
   .news-page {
     .news-page-container {
       display: flex;
@@ -31,10 +32,12 @@
   }
 }
 
-/* Between 481px and 768px (common for most mobile devices) */
-@media (min-width: 481px) and (max-width: 768px) {
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
   .news-page {
     .news-page-container {
+      width: $mobileLandscape;
+      margin: 1rem auto;
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -46,8 +49,8 @@
   }
 }
 
-/* Between 769px and 1024px (ideal for tablets and small laptops) */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .news-page {
     .news-page-container {
       width: $tablet;
@@ -60,8 +63,8 @@
   }
 }
 
-/* Between 1025px and 1200px (standard desktops) */
-@media (min-width: 1025px) and (max-width: 1200px) {
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
   .news-page {
     .news-page-container {
       width: $laptop;
@@ -74,8 +77,8 @@
   }
 }
 
-/* 1201px and up (large desktop and TV screens) */
-@media (min-width: 1201px) {
+/* Ultra-High-Resolution Devices (2560px and above) */
+@media (min-width: 1367px) {
   .news-page {
     .news-page-container {
       width: $desktop;

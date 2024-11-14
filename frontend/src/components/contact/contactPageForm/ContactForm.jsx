@@ -66,7 +66,7 @@ const ContactForm = () => {
     <section className="contact-page-form">
       <h2 className="contact-page-form-title">How can we help?</h2>
 
-      <form onSubmit={submitComment} className="contact-form">
+      <form onSubmit={submitComment} className="contact-page-form">
         {/* Email address input field */}
         <div className="contact-form-input-container">
           <MdEmail className="input-icon" />

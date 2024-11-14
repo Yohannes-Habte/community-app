@@ -74,7 +74,7 @@ const CommitteeList = () => {
       <h2 className="committees-title">Committee Lists</h2>
 
       <aside className="add-committee-aside">
-        <h3 className="add-committee-aside-title">Add New Committee Member</h3>
+        <h3 className="add-committee-aside-title">Add Committee Member</h3>
         <button
           onClick={() => setOpenCommittee(true)}
           className="add-committee-btn"

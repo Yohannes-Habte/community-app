@@ -119,12 +119,12 @@ const MembersContribution = () => {
   return (
     <section className="members-contribution-wrapper">
       <h3 className="members-contribution-title">
-        Parishioners Contribution Table
+        Parishioners Contributions
       </h3>
 
       <aside className="add-contribution-aside">
         <h3 className="add-contribution-aside-title">
-          Add Member Contribution
+          Add Contribution
         </h3>
         <button
           onClick={() => setOpenAddContribution(true)}

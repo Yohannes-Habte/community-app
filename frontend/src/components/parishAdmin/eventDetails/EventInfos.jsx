@@ -163,7 +163,7 @@ const EventInfos = ({ setIsActive }) => {
                 eventFacilitators.map((event, index) => (
                   <ul key={index} className="event-facilitators-list">
                     <li className="event-facilitator">
-                      {event.eventName}:{" "}
+                      {event.eventName}
                       <span className="facilitator">
                         {event.eventFacilitator}
                       </span>

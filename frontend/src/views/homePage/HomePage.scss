@@ -1,85 +1,83 @@
 @import "../../styles/Variables.scss";
 @import "../../styles/Mixins.scss";
 
-/* Mobile screen size */
-
-/* Tablet screen size */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+/* Base styling */
+.home-page {
+  .home-page-container {
+    width: $mobile;
+    margin: 1rem auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .home-page-title {
+      @include title;
+    }
+  }
 }
 
-/* Laptop screen size */
-@media screen and (min-width: 1024px) {
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  /* Add styles specific to portrait phones */
   .home-page {
     // Pope
     .home-page-container {
-      width: $laptop;
-      margin: 1rem auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
       .home-page-title {
-        @include title;
+        font-size: $nfs;
       }
     }
   }
 }
 
-/* Up to 480px (very small mobile screens) */
-@media (max-width: 480px) {
-  .home-page-container {
-    .home-page-title {
-      font-size: $afs;
-      padding: 0 1rem;
-      text-align: center;
-      margin: 2rem 0;
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  /* Add styles specific to landscape phones */
+  .home-page {
+    .home-page-container {
+      width: $mobileLandscape;
+      margin: 1rem auto;
+      .home-page-title {
+        font-size: $nfs;
+      }
     }
   }
 }
 
-/* Between 481px and 768px (common for most mobile devices) */
-@media (min-width: 481px) and (max-width: 768px) {
-  .home-page-container {
-    .home-page-title {
-      font-size: $aafs;
-      padding: 0 1rem;
-      text-align: center;
-      margin: 2rem 0;
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-page {
+    .home-page-container {
+      width: $tablet;
+      .home-page-title {
+        font-size: $afs;
+      }
     }
   }
 }
 
-/* Between 769px and 1024px (ideal for tablets and small laptops) */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .home-page-container {
-    .home-page-title {
-      font-size: $aafs;
-      padding: 0 1rem;
-      text-align: center;
-      margin: 2rem 0;
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .home-page {
+    .home-page-container {
+      width: $laptop;
+      .home-page-title {
+        font-size: $aafs;
+      }
     }
   }
 }
 
-/* Between 1025px and 1200px (standard desktops) */
-@media (min-width: 1025px) and (max-width: 1200px) {
-  .home-page-container {
-    .home-page-title {
-      font-size: $aafs;
-      padding: 1rem;
-      text-align: center;
-      margin: 2rem 0;
-    }
-  }
-}
-
-/* 1201px and up (large desktop and TV screens) */
-@media (min-width: 1201px) {
-  .home-page-container {
-    .home-page-title {
-      font-size: $aafs;
-      padding: 1rem;
-      text-align: center;
-      margin: 2rem 0;
+/* Ultra-High-Resolution Devices (2560px and above) */
+@media (min-width: 1367px) {
+  .home-page {
+    .home-page-container {
+      width: $desktop;
+      .home-page-title {
+        font-size: $lfs;
+        padding: 1rem;
+        text-align: center;
+        margin: 2rem 0;
+      }
     }
   }
 }

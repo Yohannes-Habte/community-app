@@ -2,25 +2,25 @@
 @import "../../../styles/Mixins.scss";
 
 .contact-media-wrapper {
-  width: $mobile;
-  margin: auto;
-  @include shadow1;
-  border-radius: 0.2rem;
   @include flexColumn;
+  @include shadow1;
+  width: $mobile;
+  margin: 2rem auto;
+  border-radius: 0.2rem;
+  background-color: $form-bg;
 
   .contact-media-items {
-    display: flex;
-    flex-direction: column;
+    @include flexColumn;
+    margin: 1rem 0;
   }
 
   .contact-media-header {
-    display: flex;
-    margin-top: 1rem;
+    @include flexRow;
+    font-size: $nfs;
 
     .contact-icon {
-      font-size: $aafs;
+      font-size: $afs;
       color: $iconColor;
-      margin-right: 0.2rem;
     }
   }
 
@@ -34,20 +34,6 @@
   }
 }
 
-/* Tablet screen size */
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .contact-media-wrapper {
-    @include flexColumn;
-  }
-}
-
-/* Laptop screen size */
-@media screen and (min-width: 1024px) {
-  .contact-media-wrapper {
-    @include flexColumn;
-  }
-}
-
 // Additional styling
 .errorVisible {
   display: block;
@@ -58,4 +44,140 @@
 
 .errorInvisible {
   display: none;
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .contact-media-wrapper {
+    .contact-media-items {
+      margin: 0.5rem 0;
+    }
+
+    .contact-media-header {
+      font-size: $nfs;
+
+      .contact-icon {
+        font-size: $nfs;
+      }
+    }
+
+    .contact-media-link-to {
+      font-size: $sfs;
+    }
+
+    .contact-media-link-to a {
+      color: $blue;
+    }
+  }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .contact-media-wrapper {
+    width: $tablet;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+
+    .contact-media-items {
+      margin: 0.8rem 0;
+    }
+
+    .contact-media-header {
+      font-size: $afs;
+
+      .contact-icon {
+        font-size: $afs;
+      }
+    }
+
+    .contact-media-link-to {
+      font-size: $nfs;
+    }
+
+    .contact-media-link-to a {
+      color: $blue;
+    }
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .contact-media-wrapper {
+    width: $tablet;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    .contact-media-items {
+      margin: 0.8rem 0;
+    }
+
+    .contact-media-header {
+      font-size: $afs;
+
+      .contact-icon {
+        font-size: $aafs;
+      }
+    }
+
+    .contact-media-link-to {
+      font-size: $nfs;
+    }
+
+    .contact-media-link-to a {
+      color: $blue;
+    }
+  }
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .contact-media-wrapper {
+    width: $laptop;
+    margin: 2rem auto;
+    .contact-media-items {
+      margin: 0.8rem 0;
+    }
+
+    .contact-media-header {
+      font-size: $afs;
+
+      .contact-icon {
+        font-size: $aafs;
+      }
+    }
+
+    .contact-media-link-to {
+      font-size: $nfs;
+    }
+
+    .contact-media-link-to a {
+      color: $blue;
+    }
+  }
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
+  .contact-media-wrapper {
+    width: $desktop;
+    margin: 2rem auto;
+    .contact-media-items {
+      margin: 0.8rem 0;
+    }
+
+    .contact-media-header {
+      font-size: $afs;
+
+      .contact-icon {
+        font-size: $aafs;
+      }
+    }
+
+    .contact-media-link-to {
+      font-size: $nfs;
+    }
+
+    .contact-media-link-to a {
+      color: $blue;
+    }
+  }
 }
