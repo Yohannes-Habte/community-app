@@ -1,0 +1,137 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.all-comment-container {
+  .all-comment-title {
+    @include title;
+  }
+
+  .search-comment-form {
+    position: relative;
+    width: 17rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: $afs;
+
+    .search-input {
+      @include searchInput;
+    }
+
+    .search-comment-btn {
+      @include searchButton;
+    }
+
+    .delete-search-text {
+      position: absolute;
+      right: 5.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+
+  .comment-card-box {
+    @include twoGridTemplateEqualColumns;
+    column-gap: 2rem;
+    row-gap: 2rem;
+  }
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .all-comment-container {
+    .all-comment-title {
+      font-size: $nfs;
+    }
+
+    .search-comment-form {
+      .search-input {
+        font-size: $sfs;
+      }
+
+      .search-comment-btn {
+        font-size: $sfs;
+      }
+
+      .delete-search-text {
+        font-size: $sfs;
+      }
+    }
+
+    .comment-card-box {
+      @include flexColumn;
+      gap: 3rem;
+    }
+  }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 768px) {
+  .all-comment-container {
+    .all-comment-title {
+      font-size: $afs;
+    }
+
+    .search-comment-form {
+      margin-bottom: $afs;
+
+      .search-input {
+        font-size: $nfs;
+      }
+
+      .search-comment-btn {
+        font-size: $nfs;
+      }
+
+      .delete-search-text {
+        font-size: $nfs;
+      }
+    }
+
+    .comment-card-box {
+      @include flexColumn;
+      gap: 3rem;
+    }
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .all-comment-container {
+    .all-comment-title {
+      font-size: $aafs;
+    }
+
+    .search-comment-form {
+      .search-input {
+        font-size: $nfs;
+      }
+
+      .search-comment-btn {
+        font-size: $nfs;
+      }
+
+      .delete-search-text {
+        font-size: $nfs;
+      }
+    }
+
+    .comment-card-box {
+      @include flexColumn;
+      gap: 4rem;
+    }
+  }
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
+}

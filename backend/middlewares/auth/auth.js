@@ -1,7 +1,7 @@
 import JWT from "jsonwebtoken";
 import createError from "http-errors";
 import mongoose from "mongoose";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 
 //====================================================================
 // Verify token
@@ -46,7 +46,7 @@ const checkRole = (role) => {
 
     try {
       const decoded = verifyToken(token);
-      const user = await Member.findById(decoded.id);
+      const user = await User.findById(decoded.id);
 
       if (!user) {
         return next(createError(404, "User not found"));
@@ -87,7 +87,7 @@ export const isOwnerOrAdmin = async (req, res, next) => {
       return next(createError(400, "Invalid user ID format"));
     }
 
-    const user = await Member.findById(decoded.id).select("_id role");
+    const user = await User.findById(decoded.id).select("_id role");
 
     if (!user) {
       return next(createError(404, "User not found"));
@@ -116,4 +116,3 @@ export const isOwnerOrAdmin = async (req, res, next) => {
 export const isAdmin = checkRole("admin");
 export const isPriest = checkRole("priest");
 export const isFinanceManager = checkRole("financeManager");
-

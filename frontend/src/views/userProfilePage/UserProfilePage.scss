@@ -71,7 +71,7 @@
       }
 
       .user-profile-wrapper {
-        @include flexColumn;
+        @include flexRow;
       }
     }
   }

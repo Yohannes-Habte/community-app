@@ -48,13 +48,21 @@ const LoginForm = () => {
     setErrors({});
   };
 
-  const changeHandler = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+
+  // Handle input changes
+  const changeHandler = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: type === "checkbox" ? checked : value,
-    });
-    setErrors({ ...errors, [name]: "" });
+    }));
+
+    // Clear the associated error message, if any
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const validateForm = () => {

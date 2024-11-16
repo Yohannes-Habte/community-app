@@ -1,14 +1,21 @@
 import createError from "http-errors";
 import Comment from "../../models/comment/index.js";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
+import mongoose from "mongoose";
 
 //==========================================================================
 // Create New Comment
 //==========================================================================
 export const createComment = async (req, res, next) => {
-  const userId = req.params.id;
+  const userId = req.user.id;
+
+  // Validate user id
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return next(createError(400, "Invalid user ID"));
+  }
+
   try {
-    const user = await Member.findById(userId);
+    const user = await User.findById(userId);
 
     if (!user) {
       return next(createError(400, "User not found!"));
@@ -16,33 +23,19 @@ export const createComment = async (req, res, next) => {
 
     const comment = new Comment(req.body);
 
-    // Save comment in the database
-    try {
-      await comment.save();
-    } catch (error) {
-      console.log(error);
-      return next(createError(500, "Something went wrong!"));
-    }
+    await comment.save();
 
     user.comments.push(comment._id);
 
-    console.log("user", user);
-    // Save user after the comment is added in the database
-
-    try {
-      await user.save();
-    } catch (error) {
-      console.log(error);
-      return next(createError(500, "Something went wrong!"));
-    }
+    await user.save();
 
     res.status(201).json({
       success: true,
-      comment,
+      result: comment,
       message: "Comment has been successfully sent",
     });
   } catch (error) {
-    return next(createError(500, "Comment could not be saved"));
+    return next(createError(500, "Server error! Please try again"));
   }
 };
 
@@ -50,8 +43,13 @@ export const createComment = async (req, res, next) => {
 // Get Comment
 //==========================================================================
 export const getComment = async (req, res, next) => {
+  const commentId = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(commentId)) {
+    return next(createError(400, "Invalid comment ID"));
+  }
   try {
-    const comment = await Comment.findById(req.params.id);
+    const comment = await Comment.findById(commentId);
 
     if (!comment) {
       return next(createError(400, "Comment not found!"));
@@ -59,57 +57,82 @@ export const getComment = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      comment,
+      result: comment,
     });
   } catch (error) {
-    console.log(error);
-    return next(createError(500, "Something went wrong!"));
+    return next(createError(500, "Server error! Please try again"));
   }
 };
 
 //==========================================================================
-// Delete Comment
+// Delete Single Comment
 //==========================================================================
 export const deleteComment = async (req, res, next) => {
-  const userId = req.params.userId;
+  const userId = req.user.id;
   const commentId = req.params.commentId;
+
+  // Validate ObjectId
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return next(createError(400, "Invalid user ID."));
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(commentId)) {
+    return next(createError(400, "Invalid comment ID."));
+  }
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const user = await Member.findById(userId);
+    // Find the user
+    const user = await User.findById(userId).session(session);
 
     if (!user) {
-      return next(createError(404, "User not found"));
+      await session.abortTransaction();
+      session.endSession();
+      return next(createError(404, "User not found."));
     }
 
-    // instead of findByIdAndUpdate, you can use updateOne
-    await Member.findByIdAndUpdate(
-      {
-        _id: userId,
-      },
-      { $pull: { comments: { _id: commentId } } }
-    );
-
-    // Save user after the comment is added in the database
-    try {
-      await user.save();
-    } catch (error) {
-      return next(createError(500, "Something went wrong!"));
+    // Check user role
+    if (user.role !== "admin") {
+      await session.abortTransaction();
+      session.endSession();
+      return next(
+        createError(403, "Forbidden! You cannot perform this action.")
+      );
     }
 
-    const comment = await Comment.findById(commentId);
+    // Ensure the comment exists
+    const comment = await Comment.findById(commentId).session(session);
 
     if (!comment) {
-      return next(createError(404, "Comment not found"));
+      await session.abortTransaction();
+      session.endSession();
+      return next(createError(404, "Comment not found."));
     }
 
-    await Comment.findByIdAndDelete(commentId);
+    // Remove the comment from the user's comments array
+    await User.updateMany(
+      { comments: commentId },
+      { $pull: { comments: commentId } },
+      { session }
+    );
+
+    // Delete the comment
+    await Comment.findByIdAndDelete(commentId, { session });
+
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
 
     return res.status(200).json({
       success: true,
-      message: "Comment has been successfully deleted",
+      message: "Comment successfully deleted.",
     });
   } catch (error) {
-    console.log(error);
-    return next(createError(500, "Something went wrong!"));
+    await session.abortTransaction();
+    session.endSession();
+    return next(createError(500, "Server error. Please try again later."));
   }
 };
 
@@ -117,24 +140,52 @@ export const deleteComment = async (req, res, next) => {
 // Get all Comments
 //==========================================================================export const getAllComments = async (req, res, next) => {
 export const getAllComments = async (req, res, next) => {
-  const { email } = req.query;
-  const name = fullName;
-
   try {
-    let comments;
-    if (name) {
-      comments = await Comment.find(name && { name: fullName.split(" ")[0] });
-    } else if (email && name) {
-      comments = await Comment.find({ email, name });
-    } else {
-      comments = await Comment.find();
+    const { search } = req.query;
+
+    // Build the user filter dynamically if search term is provided
+    const userFilter = {};
+
+    if (search) {
+      // Use regular expressions to search firstName, lastName, or email
+      userFilter.$or = [
+        { firstName: new RegExp(search, "i") },
+        { lastName: new RegExp(search, "i") },
+        { email: new RegExp(search, "i") },
+      ];
     }
 
-    return res.status(200).json({ success: true, comments });
+    // Perform aggregation to filter by user fields and fetch comments
+    const comments = await Comment.aggregate([
+      {
+        $lookup: {
+          from: "users", // Name of the collection you want to join with (the "users" collection).
+          localField: "user", // The field in the current collection (Comment) that contains the reference to the users collection.
+          foreignField: "_id", // The field in the "users" collection that corresponds to the value in the localField.
+          as: "userDetails", // The name of the new array field in the resulting documents that will store the joined data.
+        },
+      },
+      { $unwind: "$userDetails" }, // Deconstruct the array from $lookup into individual documents.
+      {
+        $match: userFilter, // Apply a filter to match specific criteria (based on userFilter).
+      },
+    ]);
+
+    // Check if no comments are found
+    if (!comments || comments.length === 0) {
+      return next(
+        createError(404, "No comments found with the specified criteria.")
+      );
+    }
+
+    // If comments are found, send a successful response with the comments
+    return res.status(200).json({
+      success: true,
+      result: comments,
+    });
   } catch (error) {
-    console.log(error);
     return next(
-      createError(400, "The comments could not be accessed! Please try again")
+      createError(500, "An error occurred while retrieving comments.")
     );
   }
 };
@@ -145,14 +196,8 @@ export const getAllComments = async (req, res, next) => {
 export const countComments = async (req, res, next) => {
   try {
     const counts = await Comment.countDocuments();
-    return res.status(200).json(counts);
+    return res.status(200).json({ success: true, result: counts });
   } catch (error) {
-    console.log(error);
-    return next(
-      createError(
-        400,
-        "The comment count could not be accessed! Please try again"
-      )
-    );
+    return next(createError(400, "Server error! Please try again later."));
   }
 };

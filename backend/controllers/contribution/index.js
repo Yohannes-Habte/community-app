@@ -1,6 +1,6 @@
 import createError from "http-errors";
 import Contribution from "../../models/contribution/index.js";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 import moment from "moment";
 import mongoose from "mongoose";
 
@@ -18,7 +18,7 @@ export const createContribution = async (req, res, next) => {
 
   try {
     // Find the user by ID
-    const foundUser = await Member.findById(user);
+    const foundUser = await User.findById(user);
     if (!foundUser) {
       return next(createError(404, "User not found."));
     }
@@ -119,7 +119,7 @@ export const getAllMemberContribution = async (req, res, next) => {
     const userId = req.user.id;
 
     // Fetch the member by ID and retrieve only their 'monthlyContributions' field
-    const member = await Member.findById(
+    const member = await User.findById(
       userId,
       "monthlyContributions"
     ).populate({
@@ -133,7 +133,7 @@ export const getAllMemberContribution = async (req, res, next) => {
     }
 
     // Sorting contributions by year and month
-    const sortedContributions = member.monthlyContributions.sort((a, b) => {
+    const sortedContributions = User.monthlyContributions.sort((a, b) => {
       const dateA = moment(a.date, "YYYY-MM-DD");
       const dateB = moment(b.date, "YYYY-MM-DD");
 
@@ -190,7 +190,7 @@ export const deleteContribution = async (req, res, next) => {
     await Contribution.findByIdAndDelete(contributionId).session(session);
 
     // Update the Member's monthlyContributions array by removing the reference
-    const member = await Member.findByIdAndUpdate(
+    const member = await User.findByIdAndUpdate(
       contribution.user,
       { $pull: { monthlyContributions: contributionId } },
       { new: true, session }

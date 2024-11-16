@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 
 const { Schema } = mongoose;
 
-// Define Member Schema
-const memberSchema = new Schema(
+// Define User Schema
+const userSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -60,7 +60,7 @@ const memberSchema = new Schema(
 );
 
 // Encrypt password before saving
-memberSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   try {
     if (!this.isModified("password")) return next();
     const hashedPassword = await bcrypt.hash(this.password, 12);
@@ -71,8 +71,8 @@ memberSchema.pre("save", async function (next) {
   }
 });
 
-// Compile and export Member model
-const Member = mongoose.model("User", memberSchema);
+// Compile and export User model
+const User = mongoose.model("User", userSchema);
 
 // Export User Model
-export default Member;
+export default User;

@@ -43,7 +43,6 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
     opacity: 0;
     transform: translateX(-50%);
     transition: all 0.5s ease;
@@ -52,9 +51,10 @@
 
   // Current slide show
 
-  .current-slide {
+  .slide-show.current-slide {
     opacity: 1;
     transform: translateX(0);
+    height: fit-content;
 
     .shepherd-info > * {
       margin-bottom: 1rem;
@@ -208,6 +208,7 @@
           width: 15rem;
           height: 20rem;
           object-fit: cover;
+          border-radius: 0.5rem;
         }
       }
     }
@@ -285,6 +286,18 @@
         border-radius: 0.5rem;
         object-fit: cover;
       }
+    }
+  }
+
+  // Current slide show
+
+  .slide-show.current-slide {
+    opacity: 1;
+    transform: translateX(0);
+    height: fit-content;
+
+    .shepherd-info > * {
+      margin-bottom: 1rem;
     }
   }
 }

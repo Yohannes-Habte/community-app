@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { FaChurch } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { FaVideo } from "react-icons/fa";
+import { MdInsertComment } from "react-icons/md";
 import Logout from "../../../../utile/globalFunctions/Logout";
 import { useState } from "react";
 
@@ -216,15 +217,30 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           </h4>
         </aside>
 
+        {/* All user comments */}
+        <aside
+          onClick={() => setIsActive(12) || setOpenAdminDashboardMenu(false)}
+          className="admin-dashboard-sidebar-item"
+        >
+          <MdInsertComment
+            title="All Comments"
+            className={isActive === 12 ? "active-icon" : "passive-icon"}
+          />
+
+          <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
+            Comments
+          </h4>
+        </aside>
+
         {/* Settings */}
 
         <Link to={"/user/profile"} className="admin-dashboard-sidebar-item">
           <IoSettings
             title="Settings"
-            className={isActive === 12 ? "active-icon" : "passive-icon"}
+            className={isActive === 13 ? "active-icon" : "passive-icon"}
           />
 
-          <h4 className={isActive === 12 ? "active-text" : "passive-text"}>
+          <h4 className={isActive === 13 ? "active-text" : "passive-text"}>
             Settings
           </h4>
         </Link>
@@ -234,7 +250,7 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
         <aside className="admin-dashboard-sidebar-item">
           <IoMdLogOut
             title="Log Out"
-            className={isActive === 13 ? "active-icon" : "passive-icon"}
+            className={isActive === 14 ? "active-icon" : "passive-icon"}
           />
 
           <h4 onClick={handleLogout} className="passive-text">

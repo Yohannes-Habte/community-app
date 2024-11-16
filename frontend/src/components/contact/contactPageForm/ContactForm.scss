@@ -16,7 +16,9 @@
     @include flexColumn;
     width: 100%;
     .contact-form-input-container {
-      @include inputContainer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
 
       .input-icon {
         @include inputIcon;
@@ -41,6 +43,17 @@
       .input-field:focus + .input-label + .input-highlight {
         width: 100%;
       }
+
+      .input-error-message {
+        color: $red;
+        font-size: $sfs;
+        margin-top: 0.5rem;
+      }
+    }
+
+    .message-length-signal {
+      color: $red;
+      font-size: $sfs;
     }
 
     .contact-form-btn {

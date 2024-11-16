@@ -1,7 +1,7 @@
 import JWT from "jsonwebtoken";
 import createError from "http-errors";
 import mongoose from 'mongoose';
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 
 //====================================================================
 // Verify token
@@ -50,7 +50,7 @@ export const isOwnerOrAdmin = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid user ID format" });
     }
 
-    const user = await Member.findById(loggedInUserId).select("_id role");
+    const user = await User.findById(loggedInUserId).select("_id role");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -86,7 +86,7 @@ export const isAdminAuth = async (req, res, next) => {
       return next(createError(403, "Forbidden: You do not have permission!"));
     }
 
-    const user = await Member.findById(decodedToken.id);
+    const user = await User.findById(decodedToken.id);
 
     if (user && user.role === "admin") {
       req.user = user; // Store the user info in req.user for further use
@@ -119,7 +119,7 @@ export const isPriestAuth = async (req, res, next) => {
       return next(createError(403, "Forbidden: You do not have permission!"));
     }
 
-    const user = await Member.findById(decodedToken.id);
+    const user = await User.findById(decodedToken.id);
 
     if (user && user.role === "priest") {
       req.user = user; // Store the user info in req.user for further use
@@ -153,7 +153,7 @@ export const isFinanceManagerAuth = async (req, res, next) => {
       return next(createError(403, "Forbidden: You do not have permission!"));
     }
 
-    const user = await Member.findById(decodedToken.id);
+    const user = await User.findById(decodedToken.id);
 
     if (user && user.role === "financeManager") {
       req.user = user; // Store the user info in req.user for further use

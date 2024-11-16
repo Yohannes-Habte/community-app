@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 import Service from "../../models/service/index.js";
 import mongoose from "mongoose";
 import Category from "../../models/serviceCategory/index.js";
@@ -29,7 +29,7 @@ export const createServiceRequest = async (req, res, next) => {
     session.startTransaction();
 
     // Fetch user by ID and validate existence
-    const user = await Member.findById(sanitizedUserId).session(session);
+    const user = await User.findById(sanitizedUserId).session(session);
     if (!user) {
       throw createError(404, "User not found");
     }
@@ -42,9 +42,7 @@ export const createServiceRequest = async (req, res, next) => {
       throw createError(400, "Service category not found");
     }
 
-    // Log the category name
-    console.log("Category: ", serviceGroup.category);
-    console.log("Category from body: ", req.body.categoryName);
+
 
     // 1. Disallow any new service in "Spiritual Development" category if one already exists (applies globally for all users)
     if (serviceGroup.category === "Spiritual development") {
@@ -193,7 +191,7 @@ export const updateServiceRequest = async (req, res, next) => {
     }
 
     // Step 2: Check if the service is linked to the Member's services array
-    const member = await Member.findOne({
+    const member = await User.findOne({
       _id: service.userId,
       services: serviceId,
     }).session(session);
@@ -230,7 +228,7 @@ export const updateServiceRequest = async (req, res, next) => {
 
 export const getAllServices = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.user.id);
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return next(createError(404, "User not found"));
@@ -269,7 +267,7 @@ export const getAllServices = async (req, res, next) => {
 
 export const allServices = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.user.id);
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return next(createError(404, "User not found"));
@@ -341,7 +339,7 @@ export const deleteService = async (req, res) => {
   }
 
   // Authorization check
-  if (req.user.role !== "admin") {
+  if (req.user.role !== "priest") {
     return res
       .status(403)
       .json({ message: "Forbidden: to perform service deletion" });
@@ -361,7 +359,7 @@ export const deleteService = async (req, res) => {
     }
 
     // Remove the reference to the deleted service from all members
-    await Member.updateMany(
+    await User.updateMany(
       { services: serviceId },
       { $pull: { services: serviceId } },
       { session }
@@ -417,7 +415,7 @@ export const deleteOneService = async (req, res) => {
     }
 
     // Remove the reference to the deleted service from the respective member
-    const member = await Member.findOneAndUpdate(
+    const member = await User.findOneAndUpdate(
       { services: serviceId },
       { $pull: { services: serviceId } },
       { new: true, session }

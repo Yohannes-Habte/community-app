@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Event from "../../models/event/index.js";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 import createError from "http-errors";
 
 // =============================================================================
@@ -9,7 +9,7 @@ import createError from "http-errors";
 
 export const createEvent = async (req, res, next) => {
   try {
-    const admin = await Member.find({ role: "admin" });
+    const admin = await User.find({ role: "admin" });
 
     if (!admin) {
       return next(createError(400, `Admin not fount! Please login`));

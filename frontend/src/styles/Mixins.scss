@@ -391,16 +391,49 @@
 // ==============================================================================================
 // Search styling
 // ==============================================================================================
-@mixin search {
-  font-family: inherit;
-  font-size: inherit;
-  background-color: #f4f2f2;
+@mixin searchInput {
+  width: 100%;
+  max-width: 12rem;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
+
+  &:focus {
+    border-color: #007bff;
+  }
+}
+
+@mixin searchButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
   border: none;
-  color: #646464;
-  padding: 0.7rem 1rem;
-  border-radius: 30px;
-  transition: all ease-in-out 0.5s;
-  margin-right: -2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    background-color: #004085;
+  }
 }
 
 // ==============================================================================================
@@ -442,7 +475,7 @@
 // Navbar styling
 // ==============================================================================================
 
-@mixin activeNavbar {
+@mixin activeNavbarItem {
   position: relative;
   color: $red;
 
@@ -457,7 +490,7 @@
   }
 }
 
-@mixin passiveNavbar {
+@mixin passiveNavbarItem {
   color: $black;
 
   &:hover {

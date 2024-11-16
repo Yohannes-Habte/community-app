@@ -10,7 +10,7 @@ const priestDelegationSchema = new Schema(
     phoneNumber: { type: String, required: true },
     serviceDate: { type: String, required: true },
     textMessage: { type: String, required: true },
-    user: { type: mongoose.Types.ObjectId, ref: "Member", required: true },
+    user: { type: mongoose.Types.ObjectId, ref: "User", required: true },
   },
   {
     timestamps: true,

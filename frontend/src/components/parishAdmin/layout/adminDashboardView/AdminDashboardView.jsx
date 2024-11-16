@@ -10,6 +10,9 @@ import ServiceCategories from "../../serviceCategories/ServiceCategories";
 import Masses from "../../masses/Masses";
 import ChurchServices from "../../services/ChurchServices";
 import VideoUpload from "../../videoUpload/VideoUpload";
+import AllComments from "../../comments/AllComments";
+
+
 
 const AdminDashboardView = ({ isActive, setIsActive }) => {
   return (
@@ -35,6 +38,8 @@ const AdminDashboardView = ({ isActive, setIsActive }) => {
       {isActive === 10 && <SubscriberNotification />}
 
       {isActive === 11 && <VideoUpload />}
+
+      {isActive === 12 && <AllComments />}
     </article>
   );
 };

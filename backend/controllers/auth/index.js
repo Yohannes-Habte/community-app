@@ -1,6 +1,6 @@
 import createError from "http-errors";
 import bcrypt from "bcryptjs";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 import generateToken from "../../middlewares/token/index.js";
 import mongoose from "mongoose";
 
@@ -23,7 +23,7 @@ export const registerUser = async (req, res, next) => {
   } = req.body;
 
   try {
-    const user = await Member.findOne({ email: email });
+    const user = await User.findOne({ email: email });
 
     // If user exists in the database
     if (user) {
@@ -34,7 +34,7 @@ export const registerUser = async (req, res, next) => {
 
     // If user does exist in the database
     if (!user) {
-      const newUser = new Member({
+      const newUser = new User({
         firstName,
         lastName,
         email,
@@ -90,7 +90,7 @@ export const loginUser = async (req, res, next) => {
   const { email, password, rememberMe } = req.body;
 
   try {
-    const user = await Member.findOne({ email: email });
+    const user = await User.findOne({ email: email });
     if (!user) {
       return next(createError(400, "Wrong credentials"));
     }
@@ -145,7 +145,7 @@ export const updateUser = async (req, res, next) => {
   const updateData = req.body;
 
   try {
-    const updatedUser = await Member.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: updateData },
       { new: true, runValidators: true }
@@ -215,7 +215,7 @@ export const userChangePassword = async (req, res, next) => {
   }
 
   try {
-    const user = await Member.findById(userId);
+    const user = await User.findById(userId);
 
     if (!user) {
       return next(createError(400, "User not found! Please login!"));

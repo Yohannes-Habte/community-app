@@ -10,12 +10,13 @@ import validateComment from "../../validators/comment/index.js";
 import checkValidation from "../../validators/validationResult/index.js";
 import { isAdmin, isAuthenticated } from "../../middlewares/auth/auth.js";
 
+
 // Comment Router
 const commentRouter = express.Router();
 
 // comment routes
 commentRouter.post(
-  "new",
+  "/new",
   isAuthenticated,
   validateComment(),
   checkValidation,
@@ -24,7 +25,7 @@ commentRouter.post(
 
 commentRouter.get("/:id", isAuthenticated, isAdmin, getComment);
 
-commentRouter.delete(":commentId", isAuthenticated, isAdmin, deleteComment);
+commentRouter.delete("/:commentId", isAuthenticated, isAdmin, deleteComment);
 
 commentRouter.get("/", isAuthenticated, isAdmin, getAllComments);
 

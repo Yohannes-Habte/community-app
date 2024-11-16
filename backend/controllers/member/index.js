@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 import mongoose from "mongoose";
 import Contribution from "../../models/contribution/index.js";
 import Service from "../../models/service/index.js";
@@ -19,7 +19,7 @@ export const updateUserAddress = async (req, res, next) => {
   }
 
   try {
-    const user = await Member.findById(userId);
+    const user = await User.findById(userId);
 
     if (!user) {
       return next(createError(400, "User not found! Please login!"));
@@ -89,7 +89,7 @@ export const deleteUserAddress = async (req, res, next) => {
 
   try {
     // Use $pull to remove the address directly from the addresses array
-    const updatedUser = await Member.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $pull: { addresses: { _id: addressId } } },
       { new: true }
@@ -115,7 +115,7 @@ export const deleteUserAddress = async (req, res, next) => {
 //====================================================================
 export const getSingleUser = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select("-password");
     if (!user) {
       return next(createError(404, "User not found"));
     }
@@ -134,7 +134,7 @@ export const getSingleUser = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
   try {
     // Fetch all users and sort them by firstName in ascending order
-    const users = await Member.find().sort({ firstName: 1 }).populate({
+    const users = await User.find().sort({ firstName: 1 }).populate({
       path: "monthlyContributions",
       model: "Contribution",
     });
@@ -177,7 +177,7 @@ export const getMemberBySearch = async (req, res, next) => {
     };
 
     // Find members
-    const members = await Member.find(query)
+    const members = await User.find(query)
       .limit(limit)
       .select("firstName lastName")
       .lean()
@@ -202,7 +202,7 @@ export const getMemberBySearch = async (req, res, next) => {
 //==========================================================================
 export const getAllUserServices = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.user.id).populate({
+    const user = await User.findById(req.user.id).populate({
       path: "services", // Populate the services array
       model: "Service", // Specify the Service model
       populate: {
@@ -247,7 +247,7 @@ export const getAllUserServices = async (req, res, next) => {
 //==========================================================================
 export const countMembers = async (req, res, next) => {
   try {
-    const counts = await Member.countDocuments();
+    const counts = await User.countDocuments();
     return res.status(200).json(counts);
   } catch (error) {
     console.log(error);
@@ -276,7 +276,7 @@ export const deleteUserAccount = async (req, res, next) => {
   session.startTransaction();
 
   try {
-    const user = await Member.findById(userId).session(session);
+    const user = await User.findById(userId).session(session);
 
     if (!user) {
       await session.abortTransaction();
@@ -297,7 +297,7 @@ export const deleteUserAccount = async (req, res, next) => {
     await Priest.deleteMany({ user: userId }).session(session);
 
     // Delete the user
-    await Member.findByIdAndDelete(userId).session(session);
+    await User.findByIdAndDelete(userId).session(session);
 
     // Commit the transaction
     await session.commitTransaction();

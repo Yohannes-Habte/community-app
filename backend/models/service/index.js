@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 // Service Schema
 const serviceSchema = new Schema(
   {
-    userId: { type: mongoose.Types.ObjectId, ref: "Member", required: true },
+    userId: { type: mongoose.Types.ObjectId, ref: "User", required: true },
     serviceCategory: {
       type: mongoose.Types.ObjectId,
       ref: "Category",

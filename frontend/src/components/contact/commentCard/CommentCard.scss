@@ -1,0 +1,235 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.comment-card-container {
+  @include flexColumn;
+  @include shadow2;
+  position: relative;
+  background-color: $form-bg;
+  border-radius: $radius;
+
+  .delete-single-comment {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $red;
+    }
+  }
+
+  .comment-card-title {
+    @include subTitle;
+  }
+
+  .commenter-information-wrapper {
+    @include flexRow;
+
+    .user-photo-container {
+      .user-photo {
+        width: 7rem;
+        height: 10rem;
+        object-fit: cover;
+        border-radius: $radius;
+      }
+
+      .user-figcaption {
+        font-size: $sfs;
+        color: $blue;
+      }
+    }
+
+    .commenter-address--status-wrapper {
+      @include flexRow;
+
+      .aside-box {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        .aside-box-title {
+          @include subTitle;
+          font-size: $nfs;
+          padding: 0;
+          margin: 0;
+        }
+
+        .aside-element {
+          font-size: $sfs;
+
+          .strong-element {
+            font-weight: $afw;
+          }
+
+          .span-element {
+            color: $blue;
+          }
+        }
+      }
+    }
+  }
+
+  .user-comment {
+    @include paragraph;
+  }
+
+  .comment-reply-btn {
+    @include button3;
+
+    .comment-reply-link {
+      text-decoration: none;
+      color: $white;
+    }
+  }
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .comment-card-container {
+    .delete-single-comment {
+      font-size: $sfs;
+    }
+
+    .comment-card-title {
+      font-size: $nfs;
+      text-align: center;
+    }
+
+    .commenter-information-wrapper {
+      @include flexColumn;
+
+      .user-photo-container {
+        @include flexColumn;
+        align-items: center;
+        .user-photo {
+          width: 7rem;
+          height: 10rem;
+          border-radius: $radius;
+        }
+
+        .user-figcaption {
+          font-size: $sfs;
+          color: $blue;
+        }
+      }
+
+      .commenter-address--status-wrapper {
+        @include flexRow;
+
+        .aside-box {
+          .aside-box-title {
+            font-size: $sfs;
+          }
+
+          .aside-element {
+            font-size: 0.7rem;
+
+            .strong-element {
+              font-weight: $afw;
+            }
+          }
+        }
+      }
+    }
+
+    .user-comment {
+      font-size: $sfs;
+    }
+
+    .comment-reply-btn {
+      font-size: $sfs;
+    }
+  }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 768px) {
+  .comment-card-container {
+    .delete-single-comment {
+      font-size: $afs;
+    }
+
+    .comment-card-title {
+      font-size: $afs;
+    }
+
+    .commenter-information-wrapper {
+      @include flexRow;
+      gap: 2rem;
+    }
+  }
+}
+
+/* Tablets (769px - 1023px) */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .comment-card-container {
+    .delete-single-comment {
+      font-size: $aafs;
+    }
+
+    .comment-card-title {
+      font-size: $afs;
+    }
+
+    .commenter-information-wrapper {
+      @include flexRow;
+      gap: 2rem;
+
+      .commenter-address--status-wrapper {
+        @include flexRow;
+        gap: 2rem;
+
+        .aside-box {
+          .aside-box-title {
+            font-size: $afs;
+          }
+
+          .aside-element {
+            font-size: $nfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .comment-card-container {
+    .comment-card-title {
+      font-size: $afs;
+    }
+
+    .commenter-information-wrapper {
+      .user-photo-container {
+        .user-photo {
+          width: 5rem;
+          height: 7rem;
+          border-radius: $radius;
+        }
+        .user-figcaption {
+          font-size: 0.65rem;
+        }
+      }
+
+      .commenter-address--status-wrapper {
+        .aside-box {
+          gap: 0;
+          .aside-box-title {
+            font-size: $sfs;
+            padding: 0;
+            margin: 0;
+          }
+
+          .aside-element {
+            font-size: 0.55rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
+}

@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import Member from "../../models/member/index.js";
+import User from "../../models/member/index.js";
 import Priest from "../../models/priestDelegation/index.js";
 import mongoose from "mongoose";
 
@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 //==========================================================================
 export const createPriestDelegation = async (req, res, next) => {
   try {
-    const user = await Member.findById(req.user.id);
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return next(createError(400, "Parish priest not found! Please login!"));
@@ -169,7 +169,7 @@ export const deleteDelegatedPriest = async (req, res, next) => {
       return next(createError(400, "Delegated priest not found!"));
     }
 
-    const member = await Member.findOneAndUpdate(
+    const member = await User.findOneAndUpdate(
       { delegatedPriests: priestId },
       { $pull: { delegatedPriests: priestId } },
       { new: true, session }

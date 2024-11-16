@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import commentReducer from "./reducers/commentReducer";
 import memberReducer from "./reducers/user/memberReducer";
 import serviceReducer from "./reducers/service/serviceReducer";
 import categoryReducer from "./reducers/serviceCategory/categoryReducer";
@@ -10,6 +9,7 @@ import financeReducer from "./reducers/finance/financeReducer";
 import contributionReducer from "./reducers/contribution/contributionReducer";
 import committeeReducer from "./reducers/committee/committeeReducer";
 import eventReducer from "./reducers/event/eventReducer";
+import commentReducer from "./reducers/comment/commentReducer";
 
 // Store items in the local storage
 const rootReducer = combineReducers({
