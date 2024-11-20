@@ -1,0 +1,114 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.annual-budgets-container {
+  .annual-budgets-title {
+    @include title;
+    text-align: center;
+  }
+
+  .annual-budgets {
+    @include flexColumn;
+
+    .budget-card {
+      .budget-year {
+        @include subTitle;
+      }
+
+      .items-planned-budget {
+        @include twoGridTemplateEqualColumns;
+
+        .item-planned-budget {
+          @include flexColumn;
+          background-color: $form-bg;
+          padding: 1rem 1.5rem;
+
+          .item {
+            font-size: $sfs;
+          }
+
+          .description {
+            line-height: 1.5rem;
+          }
+        }
+      }
+
+      .total-annual-budget {
+        margin: 2rem 0 1rem 0;
+      }
+
+      .budget-remarks {
+        @include paragraph;
+        padding: 0;
+        margin: 1rem 0;
+      }
+
+      .budget-approval-confirmation-wrapper {
+        .budget-approval-confirmation-label {
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .annual-budgets-container {
+    .annual-budgets-title {
+      font-size: $nfs;
+    }
+
+    .annual-budgets {
+      .budget-card {
+        .budget-year {
+          font-size: $nfs;
+        }
+
+        .items-planned-budget {
+          @include flexColumn;
+
+          .item-planned-budget {
+            .item {
+              font-size: $sfs;
+            }
+
+            .description {
+              line-height: 1.5rem;
+            }
+          }
+        }
+
+        .total-annual-budget {
+          margin: 2rem 0 1rem 0;
+        }
+
+        .budget-remarks {
+            font-size: $sfs;
+        }
+
+        .budget-approval-confirmation-wrapper {
+          .budget-approval-confirmation-label {
+            font-size: $sfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
+}

@@ -11,8 +11,7 @@ import Masses from "../../masses/Masses";
 import ChurchServices from "../../services/ChurchServices";
 import VideoUpload from "../../videoUpload/VideoUpload";
 import AllComments from "../../comments/AllComments";
-
-
+import AnnualBudget from "../../annualBudget/AnnualBudget";
 
 const AdminDashboardView = ({ isActive, setIsActive }) => {
   return (
@@ -40,6 +39,8 @@ const AdminDashboardView = ({ isActive, setIsActive }) => {
       {isActive === 11 && <VideoUpload />}
 
       {isActive === 12 && <AllComments />}
+
+      {isActive === 13 && <AnnualBudget />}
     </article>
   );
 };

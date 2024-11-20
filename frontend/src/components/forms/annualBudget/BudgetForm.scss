@@ -1,0 +1,207 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+// Variables for consistent design
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$error-color: #e74c3c;
+$text-color: #333;
+$background-color: #f9f9f9;
+$border-radius: 5px;
+$input-padding: 10px;
+$label-font-size: 14px;
+$transition-duration: 0.3s;
+
+.create-annual-budget-form-wrapper {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: $form-bg;
+  border-radius: $radius;
+
+  .create-annual-budget-form-title {
+    @include subTitle;
+    text-align: center;
+  }
+
+  .create-annual-budget-form {
+    @include flexColumn;
+
+    .input-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      .input-icon {
+        @include inputIcon;
+      }
+
+      .input-field {
+        @include inputField;
+        background-color: #ffffff;
+      }
+
+      .input-label {
+        @include inputLabel;
+      }
+
+      .input-highlight {
+        @include inputHighlight;
+      }
+
+      .input-field:focus + .input-label {
+        @include focusInputFieldAndInputLabel;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
+    }
+
+    .planned-budgets-items-container {
+      @include flexColumn;
+      .planned-budgets-items-title {
+        @include subTitle;
+        font-size: $nfs;
+      }
+
+      .budget-item-container {
+        @include flexColumn;
+        background-color: #ffffff;
+        border: 1px solid $primary-color;
+        border-radius: $border-radius;
+        padding: 1rem;
+        .inputs-wrapper {
+          @include twoGridTemplateEqualColumns;
+
+          .input-field {
+            @include inputField;
+          }
+        }
+
+        .input-field {
+          @include inputField;
+        }
+
+        .remove-item-btn {
+          align-self: flex-end;
+          background: $error-color;
+          color: #fff;
+          padding: 0.5rem 1rem;
+          border: none;
+          border-radius: $border-radius;
+          cursor: pointer;
+          transition: background-color $transition-duration;
+
+          &:hover {
+            background: darken($error-color, 10%);
+          }
+        }
+      }
+    }
+
+    .add-item-btn {
+      @include button1;
+    }
+
+    .create-annual-budget-form-btn {
+      @include button3;
+      align-items: center;
+    }
+  }
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .create-annual-budget-form-wrapper {
+    max-width: $mobile;
+    margin: auto;
+    padding: 1rem;
+
+    .create-annual-budget-form-title {
+      font-size: $nfs;
+    }
+
+    .create-annual-budget-form {
+      @include flexColumn;
+
+      .input-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .input-icon {
+          font-size: $sfs;
+        }
+
+        .input-field {
+          font-size: $sfs;
+        }
+
+        .input-label {
+          font-size: $sfs;
+        }
+
+        .input-highlight {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+      }
+
+      .planned-budgets-items-container {
+        .planned-budgets-items-title {
+          font-size: $nfs;
+        }
+
+        .budget-item-container {
+          .inputs-wrapper {
+            @include flexColumn;
+
+            .input-field {
+              font-size: $sfs;
+            }
+          }
+
+          .input-field {
+            font-size: $sfs;
+          }
+
+          .remove-item-btn {
+            font-size: $sfs;
+          }
+        }
+      }
+
+      .add-item-btn {
+        font-size: $sfs;
+      }
+
+      .create-annual-budget-form-btn {
+        font-size: $sfs;
+      }
+    }
+  }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
+}

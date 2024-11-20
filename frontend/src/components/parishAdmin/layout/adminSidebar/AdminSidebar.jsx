@@ -13,6 +13,7 @@ import { FaChurch } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { FaVideo } from "react-icons/fa";
 import { MdInsertComment } from "react-icons/md";
+import { FaMoneyCheck } from "react-icons/fa";
 import Logout from "../../../../utile/globalFunctions/Logout";
 import { useState } from "react";
 
@@ -232,15 +233,30 @@ const AdminSidebar = ({ isActive, setIsActive }) => {
           </h4>
         </aside>
 
+        {/* Annual Budget */}
+        <aside
+          onClick={() => setIsActive(13) || setOpenAdminDashboardMenu(false)}
+          className="admin-dashboard-sidebar-item"
+        >
+          <FaMoneyCheck
+            title="Budget"
+            className={isActive === 13 ? "active-icon" : "passive-icon"}
+          />
+
+          <h4 className={isActive === 13 ? "active-text" : "passive-text"}>
+            Budget
+          </h4>
+        </aside>
+
         {/* Settings */}
 
         <Link to={"/user/profile"} className="admin-dashboard-sidebar-item">
           <IoSettings
             title="Settings"
-            className={isActive === 13 ? "active-icon" : "passive-icon"}
+            className={isActive === 14 ? "active-icon" : "passive-icon"}
           />
 
-          <h4 className={isActive === 13 ? "active-text" : "passive-text"}>
+          <h4 className={isActive === 14 ? "active-text" : "passive-text"}>
             Settings
           </h4>
         </Link>
