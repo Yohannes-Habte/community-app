@@ -289,64 +289,138 @@
 }
 
 @mixin button3 {
-  width: 100%;
-  padding: 0.7rem 1rem;
-  border: none;
-  background-color: $button-bg;
-  font-size: $nfs;
-  font-weight: $aafw;
+  background-color: #007bff;
   color: white;
-  border-radius: 5px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: $button-hover;
+    background-color: #0056b3;
+    border-color: #0056b3;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    background-color: #004085;
+    border-color: #004085;
+    transform: scale(0.98);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.4);
+  }
+
+  &:disabled {
+    background-color: #b8daff;
+    color: #6c757d;
+    border-color: #b8daff;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 14px 32px;
   }
 }
 
-@mixin googleButton {
-  width: 100%;
-  background-color: $google-button-bg;
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
-  border: 1px solid $green;
-  font-weight: $aafs;
-  font-size: $afs;
-  border-radius: $radius;
+@mixin deleteButton {
+  background-color: #e74c3c;
+  color: white;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 0.3rem 1rem;
+  font-size: $nfs;
+  font-weight: $aafw;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: 0.5s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: $google-button-hover;
-    color: $red;
+    background-color: #c0392b;
+    border-color: #c0392b;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    background-color: #9b2d20;
+    border-color: #9b2d20;
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+  }
+
+  &:disabled {
+    background-color: #f5b7b1;
+    color: #b2b2b2;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 14px 28px;
   }
 }
 
 @mixin editButton {
-  background-color: #9cc9f8;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 10px 20px;
-  border: none;
+  background-color: #3498db;
+  color: white;
+  border: 1px solid transparent;
   border-radius: 5px;
+  padding: 0.3rem 1rem;
+  font-size: $nfs;
+  font-weight: $aafw;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   cursor: pointer;
-  box-shadow: 0 4px 6px #1818181a;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: #5d9ee4;
-    transform: translateY(-2px);
-  }
-
-  &:focus {
-    outline: 2px solid #358eee;
-    outline-offset: 4px;
+    background-color: #2980b9;
+    border-color: #2980b9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   &:active {
-    background-color: #004494;
-    transform: translateY(0);
+    background-color: #1f6fa7;
+    border-color: #1f6fa7;
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+  }
+
+  &:disabled {
+    background-color: #aed6f1;
+    color: #b2b2b2;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 14px 28px;
   }
 }
 

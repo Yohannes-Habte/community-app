@@ -29,7 +29,7 @@ const validateComment = () => {
       .withMessage("Message is required")
       .isString()
       .withMessage("Message must be a valid string")
-      .isLength({ min: 10, max: 500 })
+      .isLength({ min: 50, max: 500 })
       .withMessage("Message must be between 10 and 500 characters long")
       .matches(messageRegex)
       .withMessage(

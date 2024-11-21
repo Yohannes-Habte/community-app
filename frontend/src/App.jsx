@@ -24,6 +24,7 @@ import UpdateFinancialReportPage from "./views/financePages/updateFinancialRepor
 import UpdateEventPage from "./views/adminPages/updateEventPage/UpdateEventPage";
 import UpdatePriestDelegationPage from "./views/priestPages/updatePriestDelegationPage/UpdatePriestDelegationPage";
 import UserProfilePage from "./views/userProfilePage/UserProfilePage";
+import UpdateAnnualBudgetPage from "./views/adminPages/updateAnnualBudget/UpdateAnnualBudgetPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -85,6 +86,8 @@ const App = () => {
         />
 
         <Route path="/events/:id" element={<UpdateEventPage />} />
+
+        <Route path="/budgets/:id" element={<UpdateAnnualBudgetPage />} />
 
         {/* Finance Manager pages */}
         <Route

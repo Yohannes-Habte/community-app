@@ -1,22 +1,21 @@
 import { useState } from "react";
 import "./BudgetForm.scss";
-import axios from "axios";
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import {
   FaCalendar,
   FaListAlt,
   FaTag,
-  FaFileAlt,
   FaDollarSign,
   FaPlus,
   FaTrash,
 } from "react-icons/fa";
+import { Alert } from "@mui/material";
+
 import {
-  API,
-  cloud_File_URL,
-  cloud_name,
-  upload_preset,
-} from "../../../utile/security/secreteKey";
+  addAnnualBudget,
+  fetchAllAnnualBudgets,
+} from "../../../redux/actions/annualBudget/annualBudgetAction";
+import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 
 const initialState = {
   year: "",
@@ -32,14 +31,15 @@ const initialState = {
   ],
   budgetStatus: "",
   remarks: "",
-  diocesesConfirmation: null,
 };
 
 const BudgetForm = () => {
+  const dispatch = useDispatch();
+  const { error, loading } = useSelector((state) => state.annualBudget);
+  console.log("Error on the budget form:", error);
   const [formData, setFormData] = useState(initialState);
 
-  const { year, plannedBudget, budgetStatus, remarks, diocesesConfirmation } =
-    formData;
+  const { year, plannedBudget, budgetStatus, remarks } = formData;
 
   // Handle changes for simple inputs
   const handleChange = (e) => {
@@ -112,27 +112,6 @@ const BudgetForm = () => {
   };
 
   // Handle file upload
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-
-    if (!file) return;
-
-    if (file.type !== "application/pdf") {
-      toast.error("Please upload a valid PDF document.");
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      toast.error("The file size must be less than 5MB.");
-      return;
-    }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      diocesesConfirmation: file,
-    }));
-  };
 
   // Reset the form
   const handleReset = () => {
@@ -142,38 +121,20 @@ const BudgetForm = () => {
   // Submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formDataToSend = {
+      year,
+      plannedBudget,
+      budgetStatus,
+      remarks,
+    };
+
     try {
-      const documentPDF = new FormData();
-      documentPDF.append("file", diocesesConfirmation);
-      documentPDF.append("cloud_name", cloud_name);
-      documentPDF.append("upload_preset", upload_preset);
-
-      const response = await axios.post(cloud_File_URL, documentPDF, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      // Extract the secure URL from the response
-      const PDFUrl = response.data.secure_url;
-      if (!PDFUrl) {
-        throw new Error("Failed to retrieve uploaded file URL.");
-      }
-
-      const formDataToSend = {
-        year,
-        plannedBudget,
-        budgetStatus,
-        remarks,
-        diocesesConfirmation: PDFUrl,
-      };
-
-      const { data } = await axios.post(`${API}/budgets/new`, formDataToSend);
-      toast.success(data.message || "Budget submitted successfully!");
+      await dispatch(addAnnualBudget(formDataToSend));
+      dispatch(fetchAllAnnualBudgets());
       handleReset();
-    } catch (error) {
-      console.error("Error submitting budget:", error);
-      toast.error(error.response?.data?.message || "Error submitting budget.");
+    } catch (err) {
+      alert("Error creating budget");
     }
   };
 
@@ -316,25 +277,6 @@ const BudgetForm = () => {
           <FaPlus /> Add Item
         </button>
 
-        {/* File Input */}
-        <div className="input-container">
-          <FaFileAlt className="input-icon" />
-          <input
-            type="file"
-            id="diocesesConfirmation"
-            name="diocesesConfirmation"
-            accept=".pdf"
-            onChange={handleFileChange}
-            aria-label="Upload a PDF of the Dioceses Confirmation Document"
-            className="input-field"
-          />
-          <label htmlFor="diocesesConfirmation" className="input-label">
-            Dioceses Confirmation Document
-          </label>
-
-          <span className="input-highlight"></span>
-        </div>
-
         {/* Budget Status */}
         <div className="input-container">
           <FaListAlt className="input-icon" />
@@ -374,8 +316,14 @@ const BudgetForm = () => {
           <span className="input-highlight"></span>
         </div>
 
-        <button type="submit" className="create-annual-budget-form-btn">
-          Submit
+        {error && <Alert className="error-message">{error}</Alert>}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="create-annual-budget-form-btn"
+        >
+          {loading ? <ButtonLoader isLoading={loading} message="" /> : "Submit"}
         </button>
       </form>
     </section>

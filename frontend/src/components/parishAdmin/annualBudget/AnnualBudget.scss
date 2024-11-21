@@ -9,8 +9,11 @@
 
   .annual-budgets {
     @include flexColumn;
+    gap: 3rem;
 
     .budget-card {
+      @include shadow2;
+      position: relative;
       .budget-year {
         @include subTitle;
       }
@@ -43,9 +46,18 @@
         margin: 1rem 0;
       }
 
-      .budget-approval-confirmation-wrapper {
-        .budget-approval-confirmation-label {
-          margin-bottom: 0.5rem;
+      .buttons-box {
+        @include flexRow;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        .edit-budget {
+          @include editButton;
+        }
+
+        .delete-budget {
+          @include deleteButton;
         }
       }
     }
@@ -84,7 +96,7 @@
         }
 
         .budget-remarks {
-            font-size: $sfs;
+          font-size: $sfs;
         }
 
         .budget-approval-confirmation-wrapper {

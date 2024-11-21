@@ -133,7 +133,7 @@ export const getAllMemberContribution = async (req, res, next) => {
     }
 
     // Sorting contributions by year and month
-    const sortedContributions = User.monthlyContributions.sort((a, b) => {
+    const sortedContributions = member.monthlyContributions.sort((a, b) => {
       const dateA = moment(a.date, "YYYY-MM-DD");
       const dateB = moment(b.date, "YYYY-MM-DD");
 
@@ -150,6 +150,7 @@ export const getAllMemberContribution = async (req, res, next) => {
       result: sortedContributions,
     });
   } catch (error) {
+    console.log("Error fetching member contributions:", error);
     next(createError(500, "Server error!"));
   }
 };

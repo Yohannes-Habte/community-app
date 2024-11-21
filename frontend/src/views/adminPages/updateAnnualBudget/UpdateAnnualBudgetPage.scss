@@ -1,0 +1,12 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.update-annual-budget-page {
+  .update-annual-budget-page-container {
+    width: $laptop;
+    margin: 2rem auto;
+    .update-annual-budget-page-title {
+      @include title;
+    }
+  }
+}

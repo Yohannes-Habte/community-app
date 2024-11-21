@@ -9,7 +9,7 @@ const annualBudgetSchema = new Schema(
     year: { type: Number, required: true, unique: true },
     plannedBudget: [
       {
-        referenceNumber: { type: Number, required: true, unique: true },
+        referenceNumber: { type: Number, required: true },
         itemName: { type: String, required: true },
         unitCost: { type: Number, required: true },
         quantity: { type: Number, required: true },
@@ -25,7 +25,6 @@ const annualBudgetSchema = new Schema(
     },
     totalAnnualBudget: { type: Number, default: 0 }, // Will be auto-calculated
     remarks: { type: String },
-    diocesesConfirmation: { type: String, default: null },
   },
   {
     timestamps: true,

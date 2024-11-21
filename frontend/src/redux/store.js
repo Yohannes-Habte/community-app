@@ -10,6 +10,7 @@ import contributionReducer from "./reducers/contribution/contributionReducer";
 import committeeReducer from "./reducers/committee/committeeReducer";
 import eventReducer from "./reducers/event/eventReducer";
 import commentReducer from "./reducers/comment/commentReducer";
+import annualBudgetSlice from "./reducers/annualBudget/annualBudgetReducer";
 
 // Store items in the local storage
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   service: serviceReducer,
   category: categoryReducer,
   finance: financeReducer,
+  annualBudget: annualBudgetSlice,
 });
 
 const persistConfig = {

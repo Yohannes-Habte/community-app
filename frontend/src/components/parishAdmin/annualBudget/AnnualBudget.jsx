@@ -1,25 +1,35 @@
-import axios from "axios";
 import BudgetForm from "../../forms/annualBudget/BudgetForm";
 import "./AnnualBudget.scss";
-import { API } from "../../../utile/security/secreteKey";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteAnnualBudget,
+  fetchAllAnnualBudgets,
+} from "../../../redux/actions/annualBudget/annualBudgetAction";
+import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
+import { Alert } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const AnnualBudget = () => {
-  const [budgets, setBudgets] = useState([]);
+  const dispatch = useDispatch();
+  const { error, loading, annualBudgets } = useSelector(
+    (state) => state.annualBudget
+  );
 
   // Function to get all annual budgets
   useEffect(() => {
-    const getAnnualBudgets = async () => {
-      try {
-        const response = await axios.get(`${API}/budgets`);
-        setBudgets(response.data.result);
-      } catch (error) {
-        console.error("Error fetching budgets", error);
-      }
-    };
+    dispatch(fetchAllAnnualBudgets());
+  }, [dispatch]);
 
-    getAnnualBudgets();
-  }, []);
+  // Delete budget function
+  const deleteBudget = async (id) => {
+    try {
+      await dispatch(deleteAnnualBudget(id));
+      dispatch(fetchAllAnnualBudgets());
+    } catch (err) {
+      alert("Error deleting budget");
+    }
+  };
 
   return (
     <section className="annual-budgets-container">
@@ -27,11 +37,20 @@ const AnnualBudget = () => {
 
       <h2 className="annual-budgets-title">Annual Budget</h2>
 
-      {budgets.length > 0 ? (
+      {loading ? (
+        <PageLoader />
+      ) : error ? (
+        <Alert security="error">{error}</Alert>
+      ) : annualBudgets.length === 0 ? (
+        <Alert>No budgets available</Alert>
+      ) : (
         <article className="annual-budgets">
-          {budgets.map((budget) => (
+          {annualBudgets.map((budget) => (
             <section key={budget._id} className="budget-card">
-              <h3 className="budget-year">Year: {budget.year}</h3>
+              <h3 className="budget-year">
+                {" "}
+                Annual Budget for the Year - {budget.year}
+              </h3>
 
               <div className="items-planned-budget">
                 {budget.plannedBudget.map((item) => (
@@ -53,50 +72,32 @@ const AnnualBudget = () => {
               <h4 className="total-annual-budget">
                 Total Annual Budget: ${budget.totalAnnualBudget}
               </h4>
+
               <small className="budget-status">
                 Budget Status: {budget.budgetStatus}
               </small>
-              <p className="budget-remarks">Remarks: {budget.remarks}</p>
 
-              {/* Embedding the PDF document for Dioceses Confirmation */}
-              <div className="budget-approval-confirmation-wrapper">
-                <p className="budget-approval-confirmation-label">
-                  Dioceses Budget Approval Confirmation:
-                </p>
-                {budget.diocesesConfirmation ? (
-                  <>
-                    {/* Embed the PDF */}
-                    <iframe
-                      src={`${budget.diocesesConfirmation}#toolbar=0`}
-                      width="100%"
-                      height="500px"
-                      title={`Confirmation-${budget.year}`}
-                    >
-                      Your browser does not support PDF embedding.
-                    </iframe>
+              <p className="budget-remarks">
+                Remarks:{" "}
+                {budget.remarks
+                  ? budget.remarks
+                  : "Remarks will be provided in the near future."}
+              </p>
 
-                    {/* Fallback download link */}
-                    <p>
-                      If the PDF is not displayed, you can{" "}
-                      <a
-                        href={budget.diocesesConfirmation}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        download it here
-                      </a>
-                      .
-                    </p>
-                  </>
-                ) : (
-                  <p>No confirmation document available.</p>
-                )}
+              <div className="buttons-box">
+                <Link to={`/budgets/${budget._id}`} className="edit-budget">
+                  Edit Budget
+                </Link>
+                <button
+                  onClick={() => deleteBudget(budget._id)}
+                  className="delete-budget"
+                >
+                  Delete Budget
+                </button>
               </div>
             </section>
           ))}
         </article>
-      ) : (
-        "No budgets available"
       )}
     </section>
   );

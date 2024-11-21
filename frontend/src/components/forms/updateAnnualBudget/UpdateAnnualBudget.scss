@@ -1,0 +1,47 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.update-annual-budget-form {
+  @include flexColumn;
+  @include shadow2;
+  width: 50%;
+  margin: 2rem auto;
+  background-color: $form-bg;
+  ;
+
+  .input-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .input-icon {
+      @include inputIcon;
+    }
+
+    .input-field {
+      @include inputField;
+      background-color: #ffffff;
+    }
+
+    .input-label {
+      @include inputLabel;
+    }
+
+    .input-highlight {
+      @include inputHighlight;
+    }
+
+    .input-field:focus + .input-label {
+      @include focusInputFieldAndInputLabel;
+    }
+
+    .input-field:focus + .input-label + .input-highlight {
+      width: 100%;
+    }
+  }
+
+  .update-annual-budget-form-btn {
+    @include button3;
+    align-items: center;
+  }
+}
