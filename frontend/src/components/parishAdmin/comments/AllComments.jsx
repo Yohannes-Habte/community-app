@@ -15,6 +15,8 @@ const AllComments = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [shouldSearch, setShouldSearch] = useState(false);
 
+  console.log("Comments =", comments);
+
   useEffect(() => {
     if (searchTerm === "") {
       dispatch(fetchAllComments());
@@ -28,6 +30,9 @@ const AllComments = () => {
       dispatch(clearCommentErrors());
     };
   }, [dispatch, searchTerm, shouldSearch]);
+
+    // Filter out null or invalid comments
+    const validComments = comments?.filter((comment) => comment !== null) || [];
 
   // Handle change in the search input
   const handleSearchChange = (e) => {
@@ -91,7 +96,7 @@ const AllComments = () => {
         <Alert security="info"> No comments available </Alert>
       ) : (
         <div className="comment-card-box">
-          {comments.map((comment) => (
+          {validComments.map((comment) => (
             <CommentCard key={comment._id} data={comment} />
           ))}
         </div>

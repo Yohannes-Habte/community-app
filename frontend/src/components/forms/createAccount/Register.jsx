@@ -5,8 +5,6 @@ import { FaMapMarker, FaPhone, FaTimes, FaUserAlt } from "react-icons/fa";
 import { BsCheck2All } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import {
@@ -14,13 +12,7 @@ import {
   validPassword,
   validPhone,
 } from "../../../utile/validation/validate";
-import Cookies from "js-cookie";
-import {
-  registerUserFailure,
-  registerUserRequest,
-  registerUserSuccess,
-} from "../../../redux/reducers/user/memberReducer";
-import { API } from "../../../utile/security/secreteKey";
+import { createAUser } from "../../../redux/actions/user/userAction";
 
 const initialState = {
   firstName: "",
@@ -154,34 +146,11 @@ const Register = () => {
     }
 
     try {
-      dispatch(registerUserRequest());
-
-      const { data } = await axios.post(`${API}/auth/register`, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": Cookies.get("csrfToken"),
-        },
-      });
-
-      dispatch(registerUserSuccess(data.user));
-      toast.success("Registration successful!");
-
-      // Set secure token in cookies
-      Cookies.set("token", data.token, {
-        expires: 1,
-        secure: true,
-        sameSite: "Strict",
-      });
-
+      await dispatch(createAUser(formData));
       resetHandler();
       navigate("/login");
-    } catch (err) {
-      const errorMessage =
-        err.response?.data?.message ||
-        "Something went wrong. Please try again.";
-      dispatch(registerUserFailure(errorMessage));
-      toast.error(errorMessage);
+    } catch (error) {
+      alert("An error occurred. Please try again.");
     }
   };
 

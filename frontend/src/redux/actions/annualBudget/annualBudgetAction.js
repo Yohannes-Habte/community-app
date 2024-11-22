@@ -17,6 +17,7 @@ import {
   updateAnnualBudgetSuccess,
 } from "../../reducers/annualBudget/annualBudgetReducer";
 import { API } from "../../../utile/security/secreteKey";
+import { handleError } from "../../../utile/errorMessage/ErrorMessage";
 
 /** Add a new annual budget */
 export const addAnnualBudget = (budgetData) => async (dispatch) => {
@@ -30,7 +31,6 @@ export const addAnnualBudget = (budgetData) => async (dispatch) => {
     // Check if it's an Axios error
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        console.error("Backend response:", error.response);
         // Handle different HTTP status codes
         const errorMessage =
           error.response?.data?.message ||
@@ -83,41 +83,8 @@ export const fetchSingleAnnualBudget = (id) => async (dispatch) => {
     });
     dispatch(fetchSingleAnnualBudgetSuccess(response.data.result));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "Could not fetch the budget. Please try again later.";
-
-        if (error.response.status === 404) {
-          dispatch(
-            fetchSingleAnnualBudgetFailure(
-              "Budget not found. Please try again."
-            )
-          );
-        } else if (error.response.status === 500) {
-          dispatch(
-            fetchSingleAnnualBudgetFailure(
-              "Server error. Please try again later."
-            )
-          );
-        } else {
-          dispatch(fetchSingleAnnualBudgetFailure(errorMessage));
-        }
-      } else {
-        dispatch(
-          fetchSingleAnnualBudgetFailure(
-            "Network error. Please check your internet connection."
-          )
-        );
-      }
-    } else {
-      dispatch(
-        fetchSingleAnnualBudgetFailure(
-          "An unexpected error occurred. Please try again later."
-        )
-      );
-    }
+    const { message } = handleError(error);
+    dispatch(fetchSingleAnnualBudgetFailure(message));
   }
 };
 
@@ -130,45 +97,8 @@ export const updateAnnualBudget = (id, budgetData) => async (dispatch) => {
     });
     dispatch(updateAnnualBudgetSuccess(response.data.message));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "Failed to update the budget. Please try again later.";
-
-        if (error.response.status === 400) {
-          dispatch(
-            updateAnnualBudgetFailure(
-              "Invalid data. Please check your entries and try again."
-            )
-          );
-        } else if (error.response.status === 401) {
-          dispatch(updateAnnualBudgetFailure("Unauthorized access!"));
-        } else if (error.response.status === 404) {
-          dispatch(
-            updateAnnualBudgetFailure("Budget not found. Please try again.")
-          );
-        } else if (error.response.status === 500) {
-          dispatch(
-            updateAnnualBudgetFailure("Server error. Please try again later.")
-          );
-        } else {
-          dispatch(updateAnnualBudgetFailure(errorMessage));
-        }
-      } else {
-        dispatch(
-          updateAnnualBudgetFailure(
-            "Network error. Please check your internet connection."
-          )
-        );
-      }
-    } else {
-      dispatch(
-        updateAnnualBudgetFailure(
-          "An unexpected error occurred. Please try again later."
-        )
-      );
-    }
+    const { message } = handleError(error);
+    dispatch(updateAnnualBudgetFailure(message));
   }
 };
 
@@ -181,26 +111,8 @@ export const fetchAllAnnualBudgets = () => async (dispatch) => {
     });
     dispatch(fetchAllAnnualBudgetsSuccess(response.data.result));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "Could not fetch budgets. Please try again later.";
-        dispatch(fetchAllAnnualBudgetsFailure(errorMessage));
-      } else {
-        dispatch(
-          fetchAllAnnualBudgetsFailure(
-            "Network error. Please check your internet connection."
-          )
-        );
-      }
-    } else {
-      dispatch(
-        fetchAllAnnualBudgetsFailure(
-          "An unexpected error occurred. Please try again later."
-        )
-      );
-    }
+    const { message } = handleError(error);
+    dispatch(fetchAllAnnualBudgetsFailure(message));
   }
 };
 
@@ -213,34 +125,7 @@ export const deleteAnnualBudget = (id) => async (dispatch) => {
     });
     dispatch(deleteAnnualBudgetSuccess(response.data.message));
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const errorMessage =
-          error.response?.data?.message ||
-          "Failed to delete the budget. Please try again later.";
-
-        if (error.response.status === 404) {
-          dispatch(deleteAnnualBudgetFailure("Budget not found."));
-        } else if (error.response.status === 500) {
-          dispatch(
-            deleteAnnualBudgetFailure("Server error. Please try again later.")
-          );
-        } else {
-          dispatch(deleteAnnualBudgetFailure(errorMessage));
-        }
-      } else {
-        dispatch(
-          deleteAnnualBudgetFailure(
-            "Network error. Please check your internet connection."
-          )
-        );
-      }
-    } else {
-      dispatch(
-        deleteAnnualBudgetFailure(
-          "An unexpected error occurred. Please try again later."
-        )
-      );
-    }
+    const { message } = handleError(error);
+    dispatch(deleteAnnualBudgetFailure(message));
   }
 };

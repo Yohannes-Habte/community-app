@@ -78,24 +78,49 @@ export const createMass = async (req, res) => {
 // ================================================================================================
 export const getAllMasses = async (req, res, next) => {
   try {
-    // Get the current year
-    const currentYear = new Date().getFullYear();
+    // Get the current date and extract month and year
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
 
-    // Create start and end date for the current year
-    const startOfYear = new Date(`${currentYear}-01-01T00:00:00.000Z`);
-    const endOfYear = new Date(`${currentYear}-12-31T23:59:59.999Z`);
+    // Create start and end dates for the current year
+    const startOfCurrentYear = new Date(`${currentYear}-01-01T00:00:00.000Z`);
+    const endOfCurrentYear = new Date(`${currentYear}-12-31T23:59:59.999Z`);
 
-    // Fetch masses that fall within the current year
+    // Fetch masses for the current year
     const masses = await Mass.find({
-      date: { $gte: startOfYear, $lte: endOfYear },
-    }).sort({ date: 1 }); // Sort by date in ascending order
+      date: { $gte: startOfCurrentYear, $lte: endOfCurrentYear },
+    }).sort({ date: 1 });
 
     if (!masses || masses.length === 0) {
       return next(createError(404, "No Masses found for the current year"));
     }
 
-    // Send the response
-    res.status(200).json({ success: true, result: masses });
+    // Update `massStatus` for past months dynamically
+    const updatedMasses = masses.map((mass) => {
+      const massDate = new Date(mass.date);
+      if (
+        massDate.getFullYear() < currentYear ||
+        (massDate.getFullYear() === currentYear &&
+          massDate.getMonth() < currentMonth)
+      ) {
+        mass.massStatus = "past";
+      } else {
+        mass.massStatus = "upcoming";
+      }
+      return mass;
+    });
+
+    // Optionally, save changes back to the database (if persistence is needed)
+
+    await Promise.all(
+      updatedMasses.map((mass) => {
+        return mass.save();
+      })
+    );
+
+    // Send the response with updated statuses
+    res.status(200).json({ success: true, result: updatedMasses });
   } catch (error) {
     res
       .status(500)
@@ -143,13 +168,11 @@ export const updateMass = async (req, res) => {
     // Save the updated Mass document
     await updatedMass.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Mass updated successfully",
-        result: updatedMass,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Mass updated successfully",
+      result: updatedMass,
+    });
   } catch (error) {
     res
       .status(500)

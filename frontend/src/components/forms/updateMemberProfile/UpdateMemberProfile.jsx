@@ -8,19 +8,14 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
 import { toast } from "react-toastify";
-import {
-  clearError,
-  updateUserProfileFailure,
-  updateUserProfileRequest,
-  updateUserProfileSuccess,
-} from "../../../redux/reducers/user/memberReducer";
+import { clearError } from "../../../redux/reducers/user/memberReducer";
 import "./UpdateMemberProfile.scss";
 import {
-  API,
   cloud_name,
   cloud_URL,
   upload_preset,
 } from "../../../utile/security/secreteKey";
+import { updateUserProfile } from "../../../redux/actions/user/userAction";
 
 const UpdateMemberProfile = () => {
   const navigate = useNavigate();
@@ -95,53 +90,39 @@ const UpdateMemberProfile = () => {
   // Handle form submission
   const updateUserAccount = async (event) => {
     event.preventDefault();
-    dispatch(updateUserProfileRequest());
 
     // Check consent is checked
-
     if (!agree) {
       toast.error("Please accept the terms of use");
     }
 
-    try {
-      let imageUrl = currentUser.image;
+    let imageUrl = currentUser.image;
 
-      if (image) {
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("cloud_name", cloud_name);
-        formData.append("upload_preset", upload_preset);
+    if (image) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("cloud_name", cloud_name);
+      formData.append("upload_preset", upload_preset);
 
-        const { data: cloudData } = await axios.post(cloud_URL, formData);
-        imageUrl = cloudData.url;
-      }
-
-      const updatedData = {
-        firstName,
-        lastName,
-        image: imageUrl,
-        maritalStatus,
-        phone,
-        street,
-        zipCode,
-        city,
-        state,
-        country,
-        agree,
-      };
-
-      const { data } = await axios.put(`${API}/auth/update`, updatedData, {
-        withCredentials: true,
-      });
-
-      dispatch(updateUserProfileSuccess(data.result));
-      toast.success(data.message);
-      navigate("/user/profile");
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || "Update failed";
-      dispatch(updateUserProfileFailure(errorMessage));
-      toast.error(errorMessage);
+      const { data: cloudData } = await axios.post(cloud_URL, formData);
+      imageUrl = cloudData.url;
     }
+
+    const updatedUserData = {
+      firstName,
+      lastName,
+      image: imageUrl,
+      maritalStatus,
+      phone,
+      street,
+      zipCode,
+      city,
+      state,
+      country,
+      agree,
+    };
+
+    dispatch(updateUserProfile(updatedUserData));
   };
 
   return (

@@ -37,6 +37,39 @@ export const createAnnualBudget = async (req, res, next) => {
   }
 };
 
+// Function to update an annual budget
+export const updateAnnualBudget = async (req, res, next) => {
+  const { id } = req.params;
+  const { budgetStatus, remarks } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return next(createError(400, "Invalid budget ID"));
+  }
+
+  try {
+    const budget = await Budget.findById(id);
+
+    if (!budget) {
+      return next(createError(404, "Budget not found"));
+    }
+
+    await Budget.findByIdAndUpdate(
+      id,
+      { $set: { budgetStatus, remarks } },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Budget updated successfully",
+      result: budget,
+    });
+  } catch (error) {
+    console.log("Error =", error);
+    next(createError(500, "Error updating budget"));
+  }
+};
+
 // Function to get all annual budgets
 export const getAnnualBudgets = async (req, res, next) => {
   try {
@@ -80,39 +113,6 @@ export const getSingleAnnualBudget = async (req, res, next) => {
   } catch (error) {
     console.log("Error =", error);
     next(createError(500, "Error fetching budget"));
-  }
-};
-
-// Function to update an annual budget
-export const updateAnnualBudget = async (req, res, next) => {
-  const { id } = req.params;
-  const { budgetStatus, remarks } = req.body;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return next(createError(400, "Invalid budget ID"));
-  }
-
-  try {
-    const budget = await Budget.findById(id);
-
-    if (!budget) {
-      return next(createError(404, "Budget not found"));
-    }
-
-    await Budget.findByIdAndUpdate(
-      id,
-      { $set: { budgetStatus, remarks } },
-      { new: true, runValidators: true }
-    );
-
-    res.status(200).json({
-      success: true,
-      message: "Budget updated successfully",
-      result: budget,
-    });
-  } catch (error) {
-    console.log("Error =", error);
-    next(createError(500, "Error updating budget"));
   }
 };
 

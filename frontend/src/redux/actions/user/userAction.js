@@ -28,22 +28,35 @@ import {
   updateUserProfileSuccess,
 } from "../../reducers/user/memberReducer";
 import { API } from "../../../utile/security/secreteKey";
+import { handleError } from "../../../utile/errorMessage/ErrorMessage";
 
 //==============================================================================
 // Action to register a new user
 //==============================================================================
-export const registerUser = (userData) => async (dispatch) => {
+export const createAUser = (userData) => async (dispatch) => {
   try {
     // Start registration
     dispatch(registerUserRequest());
 
-    const res = await axios.post(`${API}/auth/register`, userData);
+    const res = await axios.post(`${API}/auth/register`, userData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": Cookies.get("csrfToken"),
+      },
+    });
 
     dispatch(registerUserSuccess(res.data.user));
+
+    // Set secure token in cookies
+    Cookies.set("token", res.data.token, {
+      expires: 1,
+      secure: true,
+      sameSite: "Strict",
+    });
   } catch (error) {
-    dispatch(
-      registerUserFailure(error.response?.data?.message || error.message)
-    );
+    const { message } = handleError(error);
+    dispatch(registerUserFailure(message));
   }
 };
 
@@ -61,27 +74,27 @@ export const loginUser = (credentials) => async (dispatch) => {
 
     dispatch(loginUserSuccess(res.data.user));
   } catch (error) {
-    dispatch(loginUserFailure(error.response?.data?.message || error.message));
+    const { message } = handleError(error);
+    dispatch(loginUserFailure(message));
   }
 };
 
 //==============================================================================
 // Action to update user profile
 //==============================================================================
-export const updateUserProfile = (userId, updatedData) => async (dispatch) => {
+export const updateUserProfile = (updatedData) => async (dispatch) => {
   try {
     // Start updating user profile
     dispatch(updateUserProfileRequest());
 
-    const res = await axios.put(`${API}/members/${userId}`, updatedData, {
+    const res = await axios.put(`${API}/auth/update`, updatedData, {
       withCredentials: true,
     });
 
-    dispatch(updateUserProfileSuccess(res.data.user));
+    dispatch(updateUserProfileSuccess(res.data.result));
   } catch (error) {
-    dispatch(
-      updateUserProfileFailure(error.response?.data?.message || error.message)
-    );
+    const { message } = handleError(error);
+    dispatch(updateUserProfileFailure(message));
   }
 };
 
@@ -104,11 +117,8 @@ export const changeUserPassword =
 
       dispatch(changeUserPasswordSuccess());
     } catch (error) {
-      dispatch(
-        changeUserPasswordFailure(
-          error.response?.data?.message || error.message
-        )
-      );
+      const { message } = handleError(error);
+      dispatch(changeUserPasswordFailure(message));
     }
   };
 
@@ -130,7 +140,8 @@ export const logoutUser = () => async (dispatch) => {
 
     dispatch(logoutUserSuccess());
   } catch (error) {
-    dispatch(logoutUserFailure(error.response?.data?.message || error.message));
+    const { message } = handleError(error);
+    dispatch(logoutUserFailure(message));
   }
 };
 
@@ -148,9 +159,8 @@ export const fetchParishioners = () => async (dispatch) => {
 
     dispatch(fetchParishionersSuccess(res.data.users));
   } catch (error) {
-    dispatch(
-      fetchParishionersFailure(error.response?.data?.message || error.message)
-    );
+    const { message } = handleError(error);
+    dispatch(fetchParishionersFailure(message));
   }
 };
 
@@ -169,9 +179,8 @@ export const fetchAllParishionersForFinancialManager =
 
       dispatch(fetchParishionersSuccess(res.data.users));
     } catch (error) {
-      dispatch(
-        fetchParishionersFailure(error.response?.data?.message || error.message)
-      );
+      const { message } = handleError(error);
+      dispatch(fetchParishionersFailure(message));
     }
   };
 
@@ -189,11 +198,8 @@ export const fetchParishionersCount = () => async (dispatch) => {
 
     dispatch(fetchParishionersCountSuccess(res.data.count));
   } catch (error) {
-    dispatch(
-      fetchParishionersCountFailure(
-        error.response?.data?.message || error.message
-      )
-    );
+    const { message } = handleError(error);
+    dispatch(fetchParishionersCountFailure(message));
   }
 };
 
@@ -220,6 +226,7 @@ export const fetchUser = () => async (dispatch) => {
 
     dispatch(fetchUserSuccess(res.data.result));
   } catch (error) {
-    dispatch(fetchUserFailure(error.message));
+    const { message } = handleError(error);
+    dispatch(fetchUserFailure(message));
   }
 };

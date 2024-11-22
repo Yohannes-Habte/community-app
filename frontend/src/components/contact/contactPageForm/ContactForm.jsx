@@ -1,18 +1,11 @@
-import axios from "axios";
 import { useState } from "react";
 import "./ContactForm.scss";
-import { toast } from "react-toastify";
 import { MdEmail } from "react-icons/md";
 import { BsCardText } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { API } from "../../../utile/security/secreteKey";
-import {
-  createCommentFailure,
-  createCommentRequest,
-  createCommentSuccess,
-} from "../../../redux/reducers/comment/commentReducer";
 import { validEmail } from "../../../utile/validation/validate";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { createComment } from "../../../redux/actions/comment/commentAction";
 
 const initialState = {
   email: "",
@@ -80,23 +73,14 @@ const ContactForm = () => {
 
     if (!validateContactForm()) return;
 
-    try {
-      dispatch(createCommentRequest());
-      // The body
-      const newComment = {
-        email: email,
-        message: message,
-        user: currentUser._id,
-      };
-      const { data } = await axios.post(`${API}/comments/new`, newComment, {
-        withCredentials: true,
-      });
-      dispatch(createCommentSuccess(data.result));
-      toast.success(data.message);
-      handleReset();
-    } catch (err) {
-      dispatch(createCommentFailure(toast.error(err.message)));
-    }
+    const newComment = {
+      email: email,
+      message: message,
+      user: currentUser._id,
+    };
+    dispatch(createComment(newComment));
+
+    handleReset();
   };
   return (
     <section className="contact-page-form">
