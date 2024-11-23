@@ -20,6 +20,10 @@
     }
   }
 
+  .error-message {
+    @include errorMessage;
+  }
+
   .total-year-services {
     font-size: $afs;
     margin: 1rem 0;

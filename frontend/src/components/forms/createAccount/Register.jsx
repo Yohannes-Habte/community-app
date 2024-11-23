@@ -167,8 +167,8 @@ const Register = () => {
   );
 
   return (
-    <form onSubmit={submitHandler} className="register-form" noValidate>
-      <div className="register-input-fields-container">
+    <form onSubmit={submitHandler} className="sign-up-form" noValidate>
+      <div className="sign-up-input-fields-container">
         {/* First Name */}
         <div className="input-container">
           <FaUserAlt className="input-icon" />
@@ -440,9 +440,9 @@ const Register = () => {
         </div>
       </div>
 
-      <div className="consent-button-password-validation-container">
-        <div className="consent-button-container">
-          <div className="show-password-container">
+      <div className="sign-up-consent-button-password-validation-wrapper">
+        <div className="consent-display-password-and-button-have-account-wrapper">
+          <div className="show-password-checkbox-container">
             <input
               type="checkbox"
               id="showPassword"
@@ -451,10 +451,13 @@ const Register = () => {
               onChange={changeHandler}
               className="show-password-checkbox"
             />
-            <label htmlFor="showPassword">Show Password</label>
+            <label htmlFor="showPassword" className="show-password-label">
+              Show Password
+            </label>
           </div>
+
           {/* Terms and Conditions */}
-          <div className="accept-terms">
+          <div className="checkbox-wrapper-for-accept-terms-wrapper">
             <input
               type="checkbox"
               name="agree"
@@ -466,20 +469,21 @@ const Register = () => {
             />
             <label htmlFor="agree" className="terms-label">
               I agree to the{" "}
-              <Link to="/terms" className="terms-of-user">
+              <Link to="/terms" className="terms-of-use-link">
                 Terms of Use
               </Link>
             </label>
           </div>
+
           {formErrors.agree && (
             <small className="input-error-message">{formErrors.agree}</small>
           )}
 
           {/* Register Button */}
-          <div className="register-button-container">
+          <div className="sign-up-button-container">
             <button
               type="submit"
-              className="register-button"
+              className="sign-up-btn"
               disabled={loading}
               aria-label="Register"
             >
@@ -494,13 +498,14 @@ const Register = () => {
           {/* Do you have an account? */}
           <p className="have-account">
             Already have an account?
-            <Link className="login-link" to="/login">
+            <Link className="link-to-login" to="/login">
               Log In
             </Link>
           </p>
         </div>
+
         {/* Password Validation */}
-        <aside className="password-conditions-container">
+        <aside className="password-conditions-wrapper">
           <h4 className="password-validation-title">Password Requirements:</h4>
           {renderPasswordCheck(
             passwordRequirements.length,

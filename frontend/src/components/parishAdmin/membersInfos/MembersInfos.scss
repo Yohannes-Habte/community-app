@@ -24,6 +24,10 @@
     }
   }
 
+  .error-message {
+    @include errorMessage;
+  }
+
   .parishioners-infos-wrapper {
     @include twoGridTemplateEqualColumns;
 

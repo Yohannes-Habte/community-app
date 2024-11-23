@@ -23,6 +23,10 @@
     }
   }
 
+  .error-message {
+    @include errorMessage;
+  }
+
   .event-infos-wrapper {
     @include shadow1;
     background-color: $form-bg;

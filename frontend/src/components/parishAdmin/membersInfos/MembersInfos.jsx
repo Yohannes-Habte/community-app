@@ -18,6 +18,8 @@ const MembersInfos = ({ setIsActive }) => {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [formError, setFormError] = useState(null);
 
+  console.log("Parishioners information =", parishioners);
+
   useEffect(() => {
     dispatch(fetchParishioners());
 
@@ -39,19 +41,19 @@ const MembersInfos = ({ setIsActive }) => {
   const totalMembers = parishionersForSelectedYear?.length || 0;
   const singleMembers = countByCriteria(
     parishionersForSelectedYear,
-    (member) => member.maritalStatus === "Single"
+    (member) => member.maritalStatus === "single"
   );
   const marriedMembers = countByCriteria(
     parishionersForSelectedYear,
-    (member) => member.maritalStatus === "Married"
+    (member) => member.maritalStatus === "married"
   );
   const divorcedMembers = countByCriteria(
     parishionersForSelectedYear,
-    (member) => member.maritalStatus === "Divorced"
+    (member) => member.maritalStatus === "divorced"
   );
   const widowedMembers = countByCriteria(
     parishionersForSelectedYear,
-    (member) => member.maritalStatus === "Widowed"
+    (member) => member.maritalStatus === "widowed"
   );
 
   const zeroContribution = countByCriteria(
@@ -126,9 +128,6 @@ const MembersInfos = ({ setIsActive }) => {
           placeholder="Enter Year"
           className="input-field"
           aria-label="Enter year for parishioners information"
-          min="2022"
-          max={new Date().getFullYear()}
-          required
         />
         <button
           type="submit"
@@ -143,7 +142,11 @@ const MembersInfos = ({ setIsActive }) => {
         </button>
       </form>
 
-      {formError && <p className="error-message">{formError}</p>}
+      {formError && (
+        <Alert severity="error" className="error-message">
+          {formError}
+        </Alert>
+      )}
 
       {/* Loading and Error States */}
       {loading && <PageLoader isLoading={loading} message="" size={80} />}
@@ -186,8 +189,7 @@ const MembersInfos = ({ setIsActive }) => {
         <aside className="parishioners-status-container">
           <h4 className="parishioners-status-title">Contributed Members</h4>
           <p className="parishioners-status">
-            0 - Month:{" "}
-            <span className="span-count">{zeroContribution}</span>
+            0 - Month: <span className="span-count">{zeroContribution}</span>
           </p>
           <p className="parishioners-status">
             0 - 3 Months:{" "}
@@ -203,7 +205,9 @@ const MembersInfos = ({ setIsActive }) => {
           </p>
           <p className="parishioners-status">
             7 - 9 Months:{" "}
-            <span  className="span-count">{contributionGreaterThanSixAndLessOrEqualToNine}</span>
+            <span className="span-count">
+              {contributionGreaterThanSixAndLessOrEqualToNine}
+            </span>
           </p>
           <p className="parishioners-status">
             10 - 12 Months:{" "}

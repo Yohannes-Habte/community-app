@@ -23,11 +23,13 @@ const AnnualBudget = () => {
 
   // Delete budget function
   const deleteBudget = async (id) => {
-    try {
+    if (
+      window.confirm(
+        `Are you sure you want to delete this annual financial plan?`
+      )
+    ) {
       await dispatch(deleteAnnualBudget(id));
       dispatch(fetchAllAnnualBudgets());
-    } catch (err) {
-      alert("Error deleting budget");
     }
   };
 

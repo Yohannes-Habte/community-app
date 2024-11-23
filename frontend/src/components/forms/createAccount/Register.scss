@@ -1,48 +1,41 @@
 @import "../../../styles/Variables.scss";
 @import "../../../styles/Mixins.scss";
 
-/* Laptop screen size */
-@media screen and (min-width: 1024px) {
-  .register-form {
-    background-color: $form-bg;
-    @include shadow1;
-    padding: 1rem 2rem;
+.sign-up-form {
+  background-color: $form-bg;
+  @include shadow1;
+  padding: 1rem 2rem;
 
-    .register-input-fields-container {
-      @include twoGridTemplateEqualColumns;
+  .sign-up-input-fields-container {
+    @include twoGridTemplateEqualColumns;
 
-      .input-container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
+    .input-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
 
-        .input-icon {
-          @include inputIcon;
-        }
+      .input-icon {
+        @include inputIcon;
+      }
 
-        .input-field {
-          @include inputField;
-        }
+      .input-field {
+        @include inputField;
+      }
 
-        .input-label {
-          @include inputLabel;
-        }
+      .input-label {
+        @include inputLabel;
+      }
 
-        .input-highlight {
-          @include inputHighlight;
-        }
+      .input-highlight {
+        @include inputHighlight;
+      }
 
-        .input-field:focus + .input-label {
-          @include focusInputFieldAndInputLabel;
-        }
+      .input-field:focus + .input-label {
+        @include focusInputFieldAndInputLabel;
+      }
 
-        .input-field:focus + .input-label + .input-highlight {
-          width: 100%;
-        }
-
-        .icon {
-          @include passwordDisplay;
-        }
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
       }
 
       .input-error-message {
@@ -51,59 +44,176 @@
         margin: 0.2rem 0 0 0.3rem;
       }
     }
+  }
 
-    .consent-button-password-validation-container {
-      @include twoGridTemplateEqualColumns;
+  .sign-up-consent-button-password-validation-wrapper {
+    @include twoGridTemplateEqualColumns;
 
-      .consent-button-container {
-        @include flexColumn;
-        justify-content: space-between;
+    .consent-display-password-and-button-have-account-wrapper {
+      @include flexColumn;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+
+      .show-password-checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        .show-password-checkbox {
+          width: $sfs;
+          height: $sfs;
+        }
+
+        .show-password-label {
+          font-size: $nfs;
+        }
+      }
+
+      .checkbox-wrapper-for-accept-terms-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        .consent-checkbox {
+          width: $sfs;
+          height: $sfs;
+        }
+
+        .terms-label {
+          font-size: $nfs;
+          .terms-of-use-link {
+            font-size: $nfs;
+            color: $blue;
+            padding-left: 0.5rem;
+          }
+        }
+      }
+
+      .sign-up-button-container {
+        .sign-up-btn {
+          @include button3;
+        }
+      }
+
+      .have-account {
+        @include flexRow;
+        font-size: $nfs;
+
+        .link-to-login {
+          font-weight: bold;
+          font-size: $nfs;
+          color: $blue;
+        }
+      }
+    }
+
+    .password-conditions-wrapper {
+      @include shadow1;
+      background-color: #f8f9fa;
+      padding: 0.3rem 1rem;
+      border-radius: $radius;
+
+      .password-validation-title {
+        font-size: $nfs;
         padding: 0.5rem 0;
-        .accept-terms {
-          @include display;
+      }
+
+      .password-rule {
+        @include flexSpaceBetween;
+        align-items: center;
+        padding: 0.3rem 0;
+        .infos {
+          font-size: $sfs;
+        }
+      }
+    }
+  }
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .sign-up-form {
+    .sign-up-input-fields-container {
+      @include flexColumn;
+
+      .input-container {
+        .input-icon {
+          font-size: $sfs;
+        }
+
+        .input-field {
+          font-size: $sfs;
+        }
+
+        .input-label {
+          font-size: $sfs;
+        }
+
+        .input-highlight {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .input-error-message {
+          font-size: $sfs;
+        }
+      }
+    }
+
+    .sign-up-consent-button-password-validation-wrapper {
+      @include flexColumn;
+
+      .consent-display-password-and-button-have-account-wrapper {
+        .show-password-checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          .show-password-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+
+          .show-password-label {
+            font-size: $sfs;
+          }
+        }
+
+        .checkbox-wrapper-for-accept-terms-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
 
           .consent-checkbox {
             width: $sfs;
             height: $sfs;
           }
 
-          .terms-of-user {
-            font-size: $nfs;
-            color: $blue;
-            padding-left: 0.5rem;
+          .terms-label {
+            font-size: $sfs;
+            .terms-of-use-link {
+              font-size: $sfs;
+            }
           }
         }
 
-        .show-password-container {
-          @include display;
-
-          .show-password-checkbox {
-            width: $sfs;
-            height: $sfs;
-          }
-        }
-
-        .input-error-message {
-          color: $red;
-          font-size: $sfs;
-          margin: -1rem 0 0 0.3rem;
-        }
-
-        .register-button-container {
-          .register-button {
+        .sign-up-button-container {
+          margin: 1rem 0;
+          .sign-up-btn {
             @include button3;
           }
-        }
-
-        .error-message {
-          @include errorMessage;
         }
 
         .have-account {
           @include flexRow;
           font-size: $nfs;
 
-          .login-link {
+          .link-to-login {
             font-weight: bold;
             font-size: $nfs;
             color: $blue;
@@ -111,21 +221,13 @@
         }
       }
 
-      .password-conditions-container {
-        @include shadow1;
-        background-color: #f8f9fa;
-        padding: 0.3rem 1rem;
-        border-radius: $radius;
-
+      .password-conditions-wrapper {
         .password-validation-title {
           font-size: $nfs;
-          padding: 0.5rem 0;
         }
 
         .password-rule {
-          @include flexSpaceBetween;
-          align-items: center;
-          padding: 0.3rem 0;
+          font-size: $sfs;
           .infos {
             font-size: $sfs;
           }
@@ -133,4 +235,124 @@
       }
     }
   }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .sign-up-form {
+    .sign-up-input-fields-container {
+      @include flexColumn;
+
+      .input-container {
+        .input-icon {
+          font-size: $sfs;
+        }
+
+        .input-field {
+          font-size: $sfs;
+        }
+
+        .input-label {
+          font-size: $sfs;
+        }
+
+        .input-highlight {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label {
+          font-size: $sfs;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .input-error-message {
+          font-size: $sfs;
+        }
+      }
+    }
+
+    .sign-up-consent-button-password-validation-wrapper {
+      @include flexColumn;
+
+      .consent-display-password-and-button-have-account-wrapper {
+        .show-password-checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          .show-password-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+
+          .show-password-label {
+            font-size: $sfs;
+          }
+        }
+
+        .checkbox-wrapper-for-accept-terms-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+
+          .consent-checkbox {
+            width: $sfs;
+            height: $sfs;
+          }
+
+          .terms-label {
+            font-size: $sfs;
+            .terms-of-use-link {
+              font-size: $sfs;
+            }
+          }
+        }
+
+        .sign-up-button-container {
+          margin: 1rem 0;
+          .sign-up-btn {
+            @include button3;
+          }
+        }
+
+        .have-account {
+          @include flexRow;
+          font-size: $nfs;
+
+          .link-to-login {
+            font-weight: bold;
+            font-size: $nfs;
+            color: $blue;
+          }
+        }
+      }
+
+      .password-conditions-wrapper {
+        .password-validation-title {
+          font-size: $nfs;
+        }
+
+        .password-rule {
+          font-size: $sfs;
+          .infos {
+            font-size: $sfs;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
 }

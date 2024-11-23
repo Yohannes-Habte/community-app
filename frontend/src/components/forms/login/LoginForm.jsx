@@ -48,7 +48,6 @@ const LoginForm = () => {
     setErrors({});
   };
 
-
   // Handle input changes
   const changeHandler = (event) => {
     const { name, value, type, checked } = event.target;
@@ -172,12 +171,14 @@ const LoginForm = () => {
           onChange={changeHandler}
           className="show-password-checkbox"
         />
-        <label htmlFor="showPassword">Show Password</label>
+        <label htmlFor="showPassword" className="show-password-label">
+          Show Password
+        </label>
       </div>
 
       {/* Log in remember me and forgot password */}
-      <div className="login-checkbox-forgot-password">
-        <div className="login-checkbox-keep-signed-in">
+      <div className="login-checkbox-forgot-password-container">
+        <div className="login-checkbox-keep-signed-in-wrapper">
           <input
             type="checkbox"
             name="rememberMe"
@@ -185,7 +186,7 @@ const LoginForm = () => {
             onChange={changeHandler}
             className="login-checkbox"
           />
-          <span>Keep me signed in</span>
+          <span className="keep-me-sign-in">Keep me signed in</span>
         </div>
         <Link className="forgot-password" to={"/forgot-password"}>
           Forgot your password?

@@ -40,11 +40,6 @@
       @include inputIcon;
     }
 
-    // displaying password
-    .password-display {
-      @include passwordDisplay;
-    }
-
     .input-error-message {
       color: $red;
       font-size: $sfs;
@@ -53,23 +48,36 @@
   }
 
   .show-password-container {
-    @include display;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
     .show-password-checkbox {
       width: $sfs;
       height: $sfs;
     }
+
+    .show-password-label {
+      font-size: $nfs;
+    }
   }
 
-  .login-checkbox-forgot-password {
+  .login-checkbox-forgot-password-container {
     @include flexSpaceBetween;
 
-    .login-checkbox-keep-signed-in {
-      @include display;
+    .login-checkbox-keep-signed-in-wrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      gap: 0.5rem;
 
       .login-checkbox {
         width: $sfs;
         height: $sfs;
+      }
+
+      .keep-me-sign-in {
+        font-size: $nfs;
       }
     }
 
@@ -94,4 +102,185 @@
       padding-left: 0.5rem;
     }
   }
+}
+
+/* Portrait Phones (max-width: 575px) */
+@media (max-width: 575px) {
+  .login-form {
+    .input-container {
+      .input-field {
+        font-size: $sfs;
+      }
+
+      .input-label {
+        font-size: $sfs;
+      }
+
+      .input-highlight {
+        font-size: $sfs;
+      }
+
+      .input-field:focus + .input-label {
+        font-size: $sfs;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
+
+      .icon {
+        font-size: $sfs;
+      }
+
+      .input-error-message {
+        font-size: $sfs;
+      }
+    }
+
+    .show-password-container {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      .show-password-checkbox {
+        width: $sfs;
+        height: $sfs;
+      }
+
+      .show-password-label {
+        font-size: $sfs;
+      }
+    }
+
+    .login-checkbox-forgot-password-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+
+      .login-checkbox-keep-signed-in-wrapper {
+        .login-checkbox {
+          width: $sfs;
+          height: $sfs;
+        }
+
+        .keep-me-sign-in {
+          font-size: $sfs;
+        }
+      }
+
+      .forgot-password {
+        font-size: $sfs;
+      }
+    }
+
+    .login-button {
+      font-size: $sfs;
+    }
+
+    .have-no-account {
+      font-size: $sfs;
+
+      .sign-up {
+        font-size: $sfs;
+      }
+    }
+  }
+}
+
+/* Landscape Phones (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .login-form {
+    .input-container {
+      .input-field {
+        font-size: $sfs;
+      }
+
+      .input-label {
+        font-size: $sfs;
+      }
+
+      .input-highlight {
+        font-size: $sfs;
+      }
+
+      .input-field:focus + .input-label {
+        font-size: $sfs;
+      }
+
+      .input-field:focus + .input-label + .input-highlight {
+        width: 100%;
+      }
+
+      .icon {
+        font-size: $sfs;
+      }
+
+      .input-error-message {
+        font-size: $sfs;
+      }
+    }
+
+    .show-password-container {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      .show-password-checkbox {
+        width: $sfs;
+        height: $sfs;
+      }
+
+      .show-password-label {
+        font-size: $sfs;
+      }
+    }
+
+    .login-checkbox-forgot-password-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+
+      .login-checkbox-keep-signed-in-wrapper {
+        .login-checkbox {
+          width: $sfs;
+          height: $sfs;
+        }
+
+        .keep-me-sign-in {
+          font-size: $sfs;
+        }
+      }
+
+      .forgot-password {
+        font-size: $sfs;
+      }
+    }
+
+    .login-button {
+      font-size: $sfs;
+    }
+
+    .have-no-account {
+      font-size: $sfs;
+
+      .sign-up {
+        font-size: $sfs;
+      }
+    }
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  
+}
+
+/*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
+@media (min-width: 1024px) and (max-width: 1366px) {
+}
+
+/* Ultra-High-Resolution Devices (1367px and above) */
+@media (min-width: 1367px) {
 }

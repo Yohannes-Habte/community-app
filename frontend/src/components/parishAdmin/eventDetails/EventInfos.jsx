@@ -104,8 +104,6 @@ const EventInfos = ({ setIsActive }) => {
           placeholder="Enter Year"
           className="input-field"
           aria-label="Enter year for event services"
-          min="2022"
-          max={new Date().getFullYear()}
         />
         <button className="year-form-btn" disabled={buttonLoading}>
           {buttonLoading ? (
@@ -117,7 +115,11 @@ const EventInfos = ({ setIsActive }) => {
       </form>
 
       {/* Display input validation error */}
-      {inputError && <Alert className="error-message">{inputError}</Alert>}
+      {inputError && (
+       <Alert severity="error" className="error-message">
+          {inputError}
+        </Alert>
+      )}
 
       <article className="event-infos-wrapper">
         <h4 className="event-title">Events in {year}</h4>
