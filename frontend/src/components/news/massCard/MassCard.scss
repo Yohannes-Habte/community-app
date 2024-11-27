@@ -2,13 +2,14 @@
 @import "../../../styles/mixins.scss";
 
 .mass-card-container {
+  background-color: $form-bg;
   margin: 1rem 0;
+  padding: 1rem 2rem;
   .mass-card-title {
     @include subTitle;
   }
 
   .mass-details-wrapper {
-    background-color: $form-bg;
     @include shadow1;
     .detail-box {
       .church-mass-infos-small {
@@ -31,11 +32,25 @@
     font-size: $nfs;
     padding: 1rem;
   }
+
+  .mass-action-buttons-wrapper {
+    @include flexRow;
+    padding: 1rem;
+
+    .update-mass-btn {
+      @include editButton;
+    }
+
+    .delete-mass-btn {
+      @include deleteButton;
+    }
+  }
 }
 
 /* Up to 480px (very small mobile screens) */
 @media (max-width: 480px) {
   .mass-card-container {
+    padding: 1rem;
     .mass-card-title {
       padding: 0 1rem;
       font-size: $nfs;
@@ -113,7 +128,6 @@
 @media (min-width: 1201px) {
   .mass-card-container {
     .mass-card-title {
-    
     }
 
     .mass-details-wrapper {

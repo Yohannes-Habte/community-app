@@ -32,26 +32,24 @@ const AboutPage = () => {
   return (
     <main className="about-page">
       <Helmet>
-        {/* SEO Meta Tags */}
-        <title> About Us - Eritrean Roman Catholic Church in Hamburg </title>
+        <title>About Us | Eritrean Catholic Church Hamburg</title>
         <meta
           name="description"
-          content="Discover the mission, vision, and leadership of the Eritrean Roman Catholic Church Parish in Hamburg. Explore our strategic intent, active committees, and meet our dedicated parish priest. Join us in fostering a strong faith-based community."
+          content="Learn about the Eritrean Catholic Church's mission, leadership, and strategic vision. Meet our Parish Priest and explore active committees in Hamburg."
         />
         <meta
           name="keywords"
-          content="Eritrean Roman Catholic Church, Parish Community, Church Mission, Strategic Intent, Church Committees, Parish Priest, Catholic Church, About Us"
+          content="Eritrean Catholic Church Hamburg, Parish Mission, Parish Leadership, Parish Priest, Church Committees"
         />
         <meta name="author" content="Habtemariam Yohannes" />
 
-        {/* Open Graph Meta Tags */}
         <meta
           property="og:title"
-          content="Eritrean Roman Catholic Church - About Us"
+          content="About Us | Eritrean Catholic Church Hamburg"
         />
         <meta
           property="og:description"
-          content="Learn more about our parish's mission, committees, and our priest. Join us in fostering faith and community."
+          content="Discover our mission, meet our leadership, and learn about the committees that build our community in Hamburg."
         />
         <meta property="og:url" content="https://yourwebsite.com/about" />
         <meta property="og:type" content="website" />
@@ -60,40 +58,42 @@ const AboutPage = () => {
           content="https://yourwebsite.com/images/about-page.jpg"
         />
 
-        {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Eritrean Roman Catholic Church - About Us"
+          content="About Us | Eritrean Catholic Church Hamburg"
         />
         <meta
           name="twitter:description"
-          content="Discover the Eritrean Roman Catholic Church Parish. Learn about our mission, committees, and leadership."
+          content="Meet the Parish Priest, explore our mission, and learn about our committees."
         />
         <meta
           name="twitter:image"
           content="https://yourwebsite.com/images/about-page.jpg"
         />
 
-        {/* Canonical URL */}
         <link rel="canonical" href="https://yourwebsite.com/about" />
 
-        {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "About Us - Eritrean Roman Catholic Church Hamburg",
+            name: "Eritrean Catholic Church Hamburg",
             url: "https://yourwebsite.com",
             logo: "https://yourwebsite.com/logo.png",
             description:
-              "The Eritrean Roman Catholic Church Parish is committed to faith and community building through strategic initiatives and pastoral care.",
+              "Explore our mission, vision, and leadership. Meet the Parish Priest and learn about the active committees of our church.",
             address: {
               "@type": "PostalAddress",
               streetAddress: "Bei Der Reitbahn 3",
               addressLocality: "Hamburg",
               postalCode: "22763",
               addressCountry: "Germany",
+            },
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+49-123-456-789",
+              contactType: "General Inquiry",
             },
           })}
         </script>

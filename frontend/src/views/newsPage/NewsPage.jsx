@@ -10,27 +10,26 @@ const NewsPage = () => {
     <main className="news-page">
       <Helmet>
         {/* SEO Meta Tags */}
-        <title>
-          Latest News and Mass Information - Eritrean Catholic Church Hamburg
-        </title>
+        <title>News & Mass Schedule | Eritrean Catholic Church Hamburg</title>
         <meta
           name="description"
-          content="Stay updated with the latest parish news, mass schedules, and upcoming events at the Eritrean Roman Catholic Church in Hamburg. Join us for worship and community activities."
+          content="Stay updated with the latest parish news, mass schedules, and upcoming events at the Eritrean Catholic Church in Hamburg. Join us for worship and community activities."
         />
         <meta
           name="keywords"
-          content="Parish News, Mass Schedule, Eritrean Catholic Church, Hamburg Events, Church Announcements, Catholic Worship, Mass Information"
+          content="Parish News, Mass Schedule, Eritrean Catholic Church Hamburg, Catholic Worship, Church Announcements"
         />
         <meta name="author" content="Habtemariam Yohannes" />
 
-        {/* Open Graph Meta Tags */}
+        {/* Open Graph Metadata  */}
+
         <meta
           property="og:title"
-          content="Latest News and Mass Information - Eritrean Catholic Church Hamburg"
+          content="News & Mass Schedule | Eritrean Catholic Church Hamburg"
         />
         <meta
           property="og:description"
-          content="Explore the latest mass schedules, parish news, and events from the Eritrean Roman Catholic Church in Hamburg."
+          content="Find the latest updates on mass schedules, parish news, and upcoming events at the Eritrean Catholic Church in Hamburg."
         />
         <meta property="og:url" content="https://yourwebsite.com/news" />
         <meta property="og:type" content="website" />
@@ -39,22 +38,23 @@ const NewsPage = () => {
           content="https://yourwebsite.com/images/news-page-banner.jpg"
         />
 
-        {/* Twitter Card Meta Tags */}
+        {/* Twitter Card Metadata */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Latest News and Mass Information - Eritrean Catholic Church Hamburg"
+          content="News & Mass Schedule | Eritrean Catholic Church Hamburg"
         />
         <meta
           name="twitter:description"
-          content="Stay updated with the latest parish news and mass schedules from the Eritrean Catholic Church in Hamburg."
+          content="Stay updated on parish news, mass schedules, and events."
         />
         <meta
           name="twitter:image"
           content="https://yourwebsite.com/images/news-page-banner.jpg"
         />
 
-        {/* Canonical URL */}
+        {/* Canonical link */}
+
         <link rel="canonical" href="https://yourwebsite.com/news" />
 
         {/* Structured Data */}
@@ -64,20 +64,20 @@ const NewsPage = () => {
             "@type": "WebPage",
             name: "News Page",
             description:
-              "Discover the latest mass schedules, parish news, and upcoming events at the Eritrean Roman Catholic Church in Hamburg.",
+              "Stay informed about parish news, mass schedules, and events at the Eritrean Catholic Church in Hamburg.",
             url: "https://yourwebsite.com/news",
             mainEntity: {
               "@type": "Event",
-              name: "Latest Parish Mass Information",
+              name: "Latest Mass Information",
               description:
-                "Stay updated with mass schedules, latest news, and upcoming events at the Eritrean Catholic Church in Hamburg.",
-              startDate: "2024-11-16", // Example date; dynamically populate this field if possible
+                "Get the latest mass schedules and upcoming parish events.",
+              startDate: "2024-11-16",
               eventAttendanceMode:
                 "https://schema.org/OfflineEventAttendanceMode",
               eventStatus: "https://schema.org/EventScheduled",
               location: {
                 "@type": "Place",
-                name: "Eritrean Roman Catholic Church Hamburg",
+                name: "Eritrean Catholic Church Hamburg",
                 address: {
                   "@type": "PostalAddress",
                   streetAddress: "Bei Der Reitbahn 3",

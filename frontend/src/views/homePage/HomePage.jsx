@@ -13,25 +13,28 @@ const HomePage = () => {
     <main className="home-page">
       <Helmet>
         {/* SEO Meta Tags */}
-        <title>Eritrean Roman Catholic Church Hamburg - Welcome</title>
+
+        <title>
+          Welcome to Eritrean Catholic Church Hamburg | Faith & Community
+        </title>
         <meta
           name="description"
-          content="Welcome to the Eritrean Roman Catholic Church in Hamburg. Explore our vibrant community, discover popular services, watch our latest videos, and stay updated on upcoming events."
+          content="Join the vibrant Eritrean Catholic Church community in Hamburg. Explore our services, events, inspiring videos, and mission to strengthen faith and fellowship."
         />
         <meta
           name="keywords"
-          content="Eritrean Roman Catholic Church, Hamburg, Catholic Church Hamburg, Bishops, Popular Services, Latest Events, Catholic Videos"
+          content="Eritrean Catholic Church Hamburg, Church Community, Catholic Worship, Parish Events, Inspirational Videos"
         />
         <meta name="author" content="Habtemariam Yohannes" />
 
-        {/* Open Graph Meta Tags */}
+        {/* Open Graph Metadata  */}
         <meta
           property="og:title"
-          content="Eritrean Roman Catholic Church Hamburg - Welcome"
+          content="Welcome to Eritrean Catholic Church Hamburg"
         />
         <meta
           property="og:description"
-          content="Join the Eritrean Roman Catholic Church in Hamburg. Discover our services, watch inspiring videos, and learn about the heroic bishops who guide our faith."
+          content="Discover our vibrant community, services, and inspiring videos. Join us in building a strong faith-based community in Hamburg."
         />
         <meta property="og:url" content="https://yourwebsite.com" />
         <meta property="og:type" content="website" />
@@ -40,15 +43,15 @@ const HomePage = () => {
           content="https://yourwebsite.com/images/homepage-banner.jpg"
         />
 
-        {/* Twitter Card Meta Tags */}
+        {/* Twitter Card Metadata */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Eritrean Roman Catholic Church Hamburg - Welcome"
+          content="Welcome to Eritrean Catholic Church Hamburg"
         />
         <meta
           name="twitter:description"
-          content="Discover the Eritrean Roman Catholic Church in Hamburg. Explore our services, events, and inspiring videos."
+          content="Explore our services, events, and inspirational content in Hamburg."
         />
         <meta
           name="twitter:image"
@@ -62,28 +65,23 @@ const HomePage = () => {
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Eritrean Roman Catholic Church Hamburg",
-            url: "https://yourwebsite.com",
-            logo: "https://yourwebsite.com/logo.png",
+            "@type": "WebPage",
+            name: "Home Page",
             description:
-              "The Eritrean Roman Catholic Church in Hamburg serves as a hub for faith, community, and spiritual growth, offering services, events, and media content to all.",
-            sameAs: [
-              "https://facebook.com/yourpage",
-              "https://twitter.com/yourpage",
-              "https://instagram.com/yourpage",
-            ],
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "Bei Der Reitbahn 3",
-              addressLocality: "Hamburg",
-              postalCode: "22763",
-              addressCountry: "Germany",
-            },
-            contactPoint: {
-              "@type": "ContactPoint",
-              telephone: "+49-123-456-789",
-              contactType: "Customer Service",
+              "Discover the Eritrean Catholic Church in Hamburg. Explore our services, events, and inspiring community activities.",
+            url: "https://yourwebsite.com",
+            mainEntity: {
+              "@type": "Organization",
+              name: "Eritrean Catholic Church Hamburg",
+              url: "https://yourwebsite.com",
+              logo: "https://yourwebsite.com/logo.png",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Bei Der Reitbahn 3",
+                addressLocality: "Hamburg",
+                postalCode: "22763",
+                addressCountry: "Germany",
+              },
             },
           })}
         </script>

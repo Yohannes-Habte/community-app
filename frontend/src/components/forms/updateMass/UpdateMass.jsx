@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./MassForm.scss";
+import "../mass/MassForm.scss";
 import { toast } from "react-toastify";
 import {
   FaCalendarAlt,
@@ -16,51 +16,86 @@ import {
 } from "react-icons/fa";
 import { MdChurch } from "react-icons/md";
 import ButtonLoader from "../../../utile/loader/buttonLoader/ButtonLoader";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearMassErrorsAction,
-  postMass,
+  fetchMass,
+  updateMass,
 } from "../../../redux/actions/mass/massAction";
-import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "@mui/material";
 
-const initialState = {
-  date: "",
-  time: "11:00",
-  type: "Saturday",
-  officiant: "Siyum Zeraghiorghis",
-  participants: 100,
-  confession: "Confession at 11:00 AM",
-  preMassPrayer: "Rosary 11:00 AM",
-  massStatus: "upcoming",
-  readings: {
-    firstReading: "",
-    secondReading: "",
-    gospel: "",
-    psalm: "",
-  },
-  location: {
-    name: "St. Mary Catholic Church",
-    address: "Bei Der Reitbahn 3, 22763 Hamburg, Germany",
-    coordinates: {
-      latitude: "53.551320",
-      longitude: "9.925270",
-    },
-  },
-  description:
-    "A regular Mass service in the Eritrean Roman Catholic Church typically begins with an opening prayer...",
-};
-
-const MassForm = () => {
+const UpdateMass = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.mass);
+  const { error, loading, currentMass } = useSelector((state) => state.mass);
+  console.log(currentMass);
 
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState({
+    date: "",
+    time: "",
+    type: "",
+    officiant: "",
+    participants: "",
+    confession: "",
+    preMassPrayer: "",
+    massStatus: "",
+    readings: {
+      firstReading: "",
+      secondReading: "",
+      gospel: "",
+      psalm: "",
+    },
+    location: {
+      name: "",
+      address: "",
+      coordinates: {
+        latitude: "",
+        longitude: "",
+      },
+    },
+    description: "",
+  });
   const [errors, setErrors] = useState({});
 
+  // Fetch the mass data by ID
   useEffect(() => {
+    dispatch(fetchMass(id));
+
     // error handling
     return () => dispatch(clearMassErrorsAction());
   }, [dispatch]);
+
+  // Update formData when mass data is fetched
+  useEffect(() => {
+    if (currentMass) {
+      setFormData({
+        date: currentMass.date?.slice(0, 10) || "",
+        time: currentMass.time || "",
+        type: currentMass.type || "",
+        officiant: currentMass.officiant || "",
+        participants: currentMass.participants || "",
+        confession: currentMass.confession || "",
+        preMassPrayer: currentMass.preMassPrayer || "",
+        massStatus: currentMass.massStatus || "",
+        readings: {
+          firstReading: currentMass.readings?.firstReading || "",
+          secondReading: currentMass.readings?.secondReading || "",
+          gospel: currentMass.readings?.gospel || "",
+          psalm: currentMass.readings?.psalm || "",
+        },
+        location: {
+          name: currentMass.location?.name || "",
+          address: currentMass.location?.address || "",
+          coordinates: {
+            latitude: currentMass.location?.coordinates?.latitude || "",
+            longitude: currentMass.location?.coordinates?.longitude || "",
+          },
+        },
+        description: currentMass.description || "",
+      });
+    }
+  }, [currentMass]);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -120,11 +155,6 @@ const MassForm = () => {
       }));
       toast.error(error.message);
     }
-  };
-
-  // Reset form
-  const resetForm = () => {
-    setFormData(initialState);
   };
 
   // Real-time Validation
@@ -241,8 +271,7 @@ const MassForm = () => {
 
     if (!validateForm()) return;
 
-    await dispatch(postMass(formData));
-    resetForm();
+    await dispatch(updateMass(id, formData));
   };
 
   return (
@@ -650,16 +679,19 @@ const MassForm = () => {
             {loading ? (
               <ButtonLoader isLoading={loading} message="" size={24} />
             ) : (
-              "Create Mass"
+              "Update Mass"
             )}
           </button>
         </div>
 
-        {/* Error Message */}
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert security="error" className="error-message">
+            {error}
+          </Alert>
+        )}
       </form>
     </section>
   );
 };
 
-export default MassForm;
+export default UpdateMass;

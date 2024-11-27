@@ -8,6 +8,46 @@
   .church-services-table-title {
     @include title;
   }
+
+  .reason-for-service-cancellation-modal {
+    @include modal;
+
+    .reason-for-service-cancellation-wrapper {
+      @include popupBox;
+      width: 500px;
+       background-color: #f0cd5a8f;
+
+      .close-icon {
+        @include closeModal;
+      }
+
+      .reason-for-service-cancellation-title {
+        @include subTitle;
+      }
+
+      .reason-for-service-cancellation-message {
+        @include paragraph;
+       
+      }
+    }
+  }
+
+  .view-cancellation-reason-btn {
+    font-family: "Arial, sans-serif";
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+    display: inline-block;
+    background-color: #ffc300;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
 }
 
 /* Portrait Phones (max-width: 575px) */
@@ -18,6 +58,24 @@
 
     .church-services-table-title {
       font-size: $nfs;
+    }
+
+    .reason-for-service-cancellation-modal {
+      .reason-for-service-cancellation-wrapper {
+        width: 90%;
+
+        .close-icon {
+          @include closeModal;
+        }
+
+        .reason-for-service-cancellation-title {
+          font-size: $nfs;
+        }
+
+        .reason-for-service-cancellation-message {
+          font-size: $sfs;
+        }
+      }
     }
   }
 }

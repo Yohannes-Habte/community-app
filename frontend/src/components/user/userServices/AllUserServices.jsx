@@ -1,9 +1,9 @@
 import { useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Button,
+  //   Dialog,
+  //   DialogTitle,
+  //   DialogContent,
+  //   Button,
   Alert,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import { API } from "../../../utile/security/secreteKey";
 import "./AllUserServices.scss";
+import { handleError } from "../../../utile/errorMessage/ErrorMessage";
+import { IoMdClose } from "react-icons/io";
 
 const useFetchUserServices = () => {
   const [services, setServices] = useState([]);
@@ -28,11 +30,10 @@ const useFetchUserServices = () => {
         });
         setServices(data.result);
       } catch (err) {
-        const errorMessage =
-          err.response?.data?.message ||
-          "An error occurred while fetching services.";
-        setError(errorMessage);
-        toast.error(errorMessage);
+        const { message } = handleError(err);
+
+        setError(message);
+        toast.error(message);
       } finally {
         setLoading(false);
       }
@@ -48,19 +49,19 @@ const AllUserServices = () => {
   const { services, loading, error } = useFetchUserServices();
 
   // State for the dialog
-  const [openDialog, setOpenDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState("");
+  const [openDialogueBox, setOpenDialogueBox] = useState(false);
+  const [dialogueMessage, setDialogueMessage] = useState("");
 
   // Open dialog with the message
-  const handleOpenDialog = (message) => {
-    setDialogMessage(message);
-    setOpenDialog(true);
+  const handleOpenDialogue = (cancellationReason) => {
+    setDialogueMessage(cancellationReason);
+    setOpenDialogueBox(true);
   };
 
-  // Close dialog
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setDialogMessage("");
+  // Close dialog box
+  const handleCloseDialogue = () => {
+    setOpenDialogueBox(false);
+    setDialogueMessage("");
   };
 
   // Define DataGrid columns
@@ -123,9 +124,12 @@ const AllUserServices = () => {
       renderCell: (params) => {
         const { serviceStatus, message } = params.row;
         return serviceStatus === "cancelled" ? (
-          <Button color="primary" onClick={() => handleOpenDialog(message)}>
+          <button
+            className="view-cancellation-reason-btn"
+            onClick={() => handleOpenDialogue(message)}
+          >
             View Reason
-          </Button>
+          </button>
         ) : null; // Show nothing if service status is not "cancelled"
       },
     },
@@ -187,12 +191,29 @@ const AllUserServices = () => {
       )}
 
       {/* Dialog for displaying cancellation reason */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+
+      {openDialogueBox && (
+        <div className="reason-for-service-cancellation-modal">
+          <article className="reason-for-service-cancellation-wrapper">
+            <IoMdClose onClick={handleCloseDialogue} className="close-icon" />
+            <h3 className="reason-for-service-cancellation-title">
+              Cancellation Reason
+            </h3>
+
+            <p className="reason-for-service-cancellation-message">
+              {dialogueMessage}
+            </p>
+          </article>
+        </div>
+      )}
+
+      {/* Dialog for displaying cancellation reason */}
+      {/* <Dialog open={openDialogueBox} onClose={handleCloseDialogue}>
         <DialogTitle>Cancellation Reason</DialogTitle>
         <DialogContent>
-          <p>{dialogMessage}</p>
+          <p>{dialogueMessage}</p>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </section>
   );
 };

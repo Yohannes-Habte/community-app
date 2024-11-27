@@ -170,6 +170,8 @@ const validateMass = () => {
       .withMessage("Description is required.")
       .isString()
       .withMessage("Description must be a string.")
+      .isLength({ min: 200, max: 1200 })
+      .withMessage("Description must be between 200 and 1200 characters.")
       .trim()
       .escape(),
   ];

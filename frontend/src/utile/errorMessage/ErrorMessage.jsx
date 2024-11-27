@@ -27,7 +27,7 @@ export const handleError = (error) => {
       errorCategory = "permission";
     } else if (status === 500) {
       // Server error
-      userMessage = "Something went wrong on our end. Please try again later.";
+      userMessage = "Something went wrong. Please try again later.";
       logMessage = `Internal Server Error at ${baseUrl}: ${message}`;
       errorCategory = "server";
     } else {

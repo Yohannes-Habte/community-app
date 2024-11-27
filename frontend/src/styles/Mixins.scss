@@ -586,7 +586,7 @@
   background-color: $modal-bg;
   @include flexCenter();
   padding: 2rem 0;
-  z-index: 99;
+  z-index: 99999;
 }
 
 @mixin popupBox {

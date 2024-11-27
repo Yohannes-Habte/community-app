@@ -1,6 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
 import "./MassCard.scss";
+import { Link } from "react-router-dom";
+import {
+  deleteMass,
+  fetchAllMasses,
+} from "../../../redux/actions/mass/massAction";
 
 const MassCard = ({ mass }) => {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.member);
+
   const {
     readings,
     location,
@@ -21,6 +30,15 @@ const MassCard = ({ mass }) => {
     month: "long",
     day: "numeric",
   });
+
+  // Delete Mass
+  const handleDeleteMass = async () => {
+    if (window.confirm(`Are you sure you want to delete this mass?`)) {
+      await dispatch(deleteMass(mass._id));
+
+      dispatch(fetchAllMasses());
+    }
+  };
 
   return (
     <section className="mass-card-container">
@@ -99,6 +117,18 @@ const MassCard = ({ mass }) => {
         </aside>
       </div>
       <p className="mass-description"> {description}</p>
+
+      {currentUser?.role === "admin" && (
+        <div className="mass-action-buttons-wrapper">
+          <Link to={`/masses/${mass._id}`} className="update-mass-btn">
+            Update{" "}
+          </Link>
+
+          <button className="delete-mass-btn" onClick={handleDeleteMass}>
+            Delete
+          </button>
+        </div>
+      )}
     </section>
   );
 };

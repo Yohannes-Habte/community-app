@@ -25,6 +25,7 @@ import UpdateEventPage from "./views/adminPages/updateEventPage/UpdateEventPage"
 import UpdatePriestDelegationPage from "./views/priestPages/updatePriestDelegationPage/UpdatePriestDelegationPage";
 import UserProfilePage from "./views/userProfilePage/UserProfilePage";
 import UpdateAnnualBudgetPage from "./views/adminPages/updateAnnualBudget/UpdateAnnualBudgetPage";
+import UpdateMassPage from "./views/adminPages/updateMassPage/UpdateMassPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -84,6 +85,8 @@ const App = () => {
           path="/committees/:id"
           element={<UpdateCommitteeProfilePage />}
         />
+
+        <Route path="/masses/:id" element={<UpdateMassPage />} />
 
         <Route path="/events/:id" element={<UpdateEventPage />} />
 

@@ -37,7 +37,7 @@ const massSchema = new Schema(
 
     massStatus: {
       type: String,
-      enum: ["upcoming", "past"],
+      enum: ["upcoming", "completed", "cancelled"],
       default: "upcoming",
     },
 

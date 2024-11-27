@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import memberReducer from "./reducers/user/memberReducer";
 import serviceReducer from "./reducers/service/serviceReducer";
 import categoryReducer from "./reducers/serviceCategory/categoryReducer";
@@ -11,6 +11,7 @@ import committeeReducer from "./reducers/committee/committeeReducer";
 import eventReducer from "./reducers/event/eventReducer";
 import commentReducer from "./reducers/comment/commentReducer";
 import annualBudgetSlice from "./reducers/annualBudget/annualBudgetReducer";
+import massReducer from "./reducers/mass/massReducer";
 
 // Store items in the local storage
 const rootReducer = combineReducers({
@@ -24,10 +25,11 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   finance: financeReducer,
   annualBudget: annualBudgetSlice,
+  mass: massReducer,
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
   version: 1,
 };
@@ -63,4 +65,3 @@ export const persistor = persistStore(Store);
 // });
 
 // export default Store;
-

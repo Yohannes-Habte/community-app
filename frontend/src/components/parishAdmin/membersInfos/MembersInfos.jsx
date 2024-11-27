@@ -18,7 +18,6 @@ const MembersInfos = ({ setIsActive }) => {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [formError, setFormError] = useState(null);
 
-  console.log("Parishioners information =", parishioners);
 
   useEffect(() => {
     dispatch(fetchParishioners());

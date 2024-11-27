@@ -1,3 +1,4 @@
+import mongoose, { mongo } from "mongoose";
 import Mass from "../../models/mass/index.js";
 import createError from "http-errors";
 
@@ -104,7 +105,7 @@ export const getAllMasses = async (req, res, next) => {
         (massDate.getFullYear() === currentYear &&
           massDate.getMonth() < currentMonth)
       ) {
-        mass.massStatus = "past";
+        mass.massStatus = "completed";
       } else {
         mass.massStatus = "upcoming";
       }
@@ -132,15 +133,22 @@ export const getAllMasses = async (req, res, next) => {
 // Controller to get a specific Mass by ID
 // ================================================================================================
 export const getMassById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No Mass with that id");
+
   try {
-    const { id } = req.params;
-    const mass = await Mass.findById(id).populate("attendees"); // Populate attendees with User details
+    const mass = await Mass.findById(id).populate({
+      path: "attendees",
+      model: "User",
+    });
 
     if (!mass) {
       return res.status(404).json({ message: "Mass not found" });
     }
 
-    res.status(200).json(mass);
+    res.status(200).json({ success: true, result: mass });
   } catch (error) {
     res
       .status(500)
@@ -152,8 +160,11 @@ export const getMassById = async (req, res) => {
 // Controller to update a Mass by ID
 // ================================================================================================
 export const updateMass = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("Invalid Mass ID");
   try {
-    const { id } = req.params;
     const updateData = req.body;
 
     // Update the Mass document
