@@ -27,31 +27,37 @@ import annualBudgetRouter from "./routes/annualBudget/index.js";
 // Express app
 dotenv.config();
 const app = express();
-const corsConfig =
-  process.env.NODE_ENV === "development"
-    ? {
-        origin: process.env.CLIENT_URL,
-        credentials: true,
-      }
-    : {
-        origin: process.env.RENDER_URL,
-        credentials: true,
-      };
 
-// const allowedOrigins = [process.env.CLIENT_URL, process.env.RENDER_URL];
+// const corsConfig =
+//   process.env.NODE_ENV === "development"
+//     ? {
+//         origin: process.env.CLIENT_URL,
+//         credentials: true,
+//       }
+//     : {
+//         origin: process.env.RENDER_URL,
+//         credentials: true,
+//       };
 
-// const corsConfig = {
-//   origin: function (origin, callback) {
-//     if (allowedOrigins.includes(origin) || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-// };
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.RENDER_URL,
+  "https://ercch.netlify.app",
+];
+
+const corsConfig = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
 
 app.use(cors(corsConfig));
+app.options('*', cors(corsConfig)); // Handle preflight requests
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("tiny"));
