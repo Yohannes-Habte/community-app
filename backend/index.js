@@ -43,7 +43,7 @@ const app = express();
 const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.RENDER_URL,
-  "https://ercch.netlify.app",
+  process.env.NETLIFY_UR,
 ];
 
 const corsConfig = {

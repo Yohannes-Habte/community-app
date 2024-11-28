@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const BASE_URL = process.env.RENDER_URL || "http://localhost:8000";
+const BASE_URL = process.env.RENDER_URL || process.env.NETLIFY_URL;
 //====================================================================
 // Header images
 //====================================================================
