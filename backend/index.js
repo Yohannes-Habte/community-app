@@ -24,8 +24,9 @@ import massRouter from "./routes/mass/index.js";
 import videoRouter from "./routes/video/index.js";
 import annualBudgetRouter from "./routes/annualBudget/index.js";
 
-// Express app
+
 dotenv.config();
+
 const app = express();
 
 // const corsConfig =

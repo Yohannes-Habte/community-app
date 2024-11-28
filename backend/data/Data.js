@@ -1,10 +1,15 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const BASE_URL = process.env.RENDER_URL || "http://localhost:8000";
 //====================================================================
 // Header images
 //====================================================================
 export const headerImages = {
-  logo: `https://community-app-aeqv.onrender.com/logo.jpg`,
+  logo: `${BASE_URL}/logo.jpg`,
   church: `/assets/church.jpg`,
-  divineMercy: "https://community-app-aeqv.onrender.com/divineMercy.png",
+  divineMercy: `${BASE_URL}/divineMercy.png`,
 };
 
 //====================================================================
@@ -13,7 +18,7 @@ export const headerImages = {
 export const shepherds = [
   {
     id: 1,
-    photo: `http://localhost:8000/Pope-Francis.jpg`,
+    photo: `${BASE_URL}/Pope-Francis.jpg`,
     title: "Pope",
     solute: "His holiness",
     name: "Pope Francis",
@@ -21,7 +26,7 @@ export const shepherds = [
   },
   {
     id: 2,
-    photo: `http://localhost:8000/MenghesteabTesfamariam.jpg`,
+    photo: `${BASE_URL}/MenghesteabTesfamariam.jpg`,
     title: "Archbishop",
     name: "Menghesteab Tesf...",
     eparchy: "Eparchy of Asmara",
@@ -30,7 +35,7 @@ export const shepherds = [
 
   {
     id: 3,
-    photo: `http://localhost:8000/kidane.jpg`,
+    photo: `${BASE_URL}/kidane.jpg`,
     title: "Bishop",
     name: "Kidane Yebio",
     eparchy: "Eparchy of Keren",
@@ -39,7 +44,7 @@ export const shepherds = [
 
   {
     id: 4,
-    photo: `http://localhost:8000/Fikremariam.jpg`,
+    photo: `${BASE_URL}/Fikremariam.jpg`,
     title: "Bishop",
     name: "Fikremariam Hagos ",
     eparchy: "Eparchy of Seganeiti",
@@ -48,7 +53,7 @@ export const shepherds = [
 
   {
     id: 5,
-    photo: `http://localhost:8000/Thomas-Osman.jpg`,
+    photo: `${BASE_URL}/Thomas-Osman.jpg`,
     title: "Bishop",
     name: "Thomas Osman",
     eparchy: "Eparchy of Barentu",
@@ -57,7 +62,7 @@ export const shepherds = [
 
   {
     id: 6,
-    photo: `http://localhost:8000/Stefan.jpg`,
+    photo: `${BASE_URL}/Stefan.jpg`,
     title: "Archbishop",
     name: "Stefan Heße",
     eparchy: "Eparchy of Hamburg",
@@ -72,12 +77,12 @@ export const shepherds = [
 export const hawkaAbeyAllo = [
   {
     id: 1,
-    image: `http://localhost:8000/Biships.jpg`,
+    image: `${BASE_URL}Biships.jpg`,
     link: "https://amber-myrilla-1.tiiny.site/",
   },
   {
     id: 2,
-    image: `http://localhost:8000/bishop-4.jpg`,
+    image: `${BASE_URL}/bishop-4.jpg`,
     link: `/assets/ሓውኻ-ኣበይ-ኣሎ.mp4`,
   },
 ];
@@ -88,7 +93,7 @@ export const hawkaAbeyAllo = [
 
 export const parishPriest = {
   title: "Parish Priest",
-  image: `http://localhost:8000/Fr.Siyum.jpg`,
+  image: `${BASE_URL}/Fr.Siyum.jpg`,
   paragraph1: `
 Since 2018, Father Siyum Kifle Zeragiorgis has faithfully served the Eritrean Roman Catholic communities in Hamburg and its surrounding regions with unwavering dedication and pastoral care. Through his deep commitment to the Gospel of Jesus Christ, he continually inspires parishioners with messages of hope, love, and spiritual renewal. Father Siyum also places a strong emphasis on delivering high-quality social services and supporting the emotional and spiritual well-being of individuals, families, and the wider community.`,
 
