@@ -27,29 +27,29 @@ import annualBudgetRouter from "./routes/annualBudget/index.js";
 // Express app
 dotenv.config();
 const app = express();
-// const corsConfig =
-//   process.env.NODE_ENV === "development"
-//     ? {
-//         origin: process.env.ORIGIN_URL,
-//         credentials: true,
-//       }
-//     : {
-//         origin: process.env.LIVE_URL,
-//         credentials: true,
-//       };
+const corsConfig =
+  process.env.NODE_ENV === "development"
+    ? {
+        origin: process.env.ORIGIN_URL,
+        credentials: true,
+      }
+    : {
+        origin: process.env.LIVE_URL,
+        credentials: true,
+      };
 
-const allowedOrigins = [process.env.CLIENT_URL, process.env.LIVE_URL];
+// const allowedOrigins = [process.env.CLIENT_URL, process.env.LIVE_URL];
 
-const corsConfig = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-};
+// const corsConfig = {
+//   origin: function (origin, callback) {
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true,
+// };
 
 app.use(cors(corsConfig));
 app.use(express.json());
