@@ -30,15 +30,15 @@ const app = express();
 const corsConfig =
   process.env.NODE_ENV === "development"
     ? {
-        origin: process.env.ORIGIN_URL,
+        origin: process.env.CLIENT_URL,
         credentials: true,
       }
     : {
-        origin: process.env.LIVE_URL,
+        origin: process.env.RENDER_URL,
         credentials: true,
       };
 
-// const allowedOrigins = [process.env.CLIENT_URL, process.env.LIVE_URL];
+// const allowedOrigins = [process.env.CLIENT_URL, process.env.RENDER_URL];
 
 // const corsConfig = {
 //   origin: function (origin, callback) {
