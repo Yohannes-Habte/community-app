@@ -2,9 +2,9 @@
 // Header images
 //====================================================================
 export const headerImages = {
-  logo: `http://localhost:8000/logo.jpg`,
+  logo: `https://community-app-aeqv.onrender.com/logo.jpg`,
   church: `/assets/church.jpg`,
-  deviceMercy: "http://localhost:8000/divineMercy.png",
+  divineMercy: "https://community-app-aeqv.onrender.com/divineMercy.png",
 };
 
 //====================================================================

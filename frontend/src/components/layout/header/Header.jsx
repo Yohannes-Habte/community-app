@@ -29,7 +29,7 @@ const Header = () => {
       <figure className="logo-container">
         <img src={images?.logo} alt="Logo" className="logo" />
 
-        <img src={images?.deviceMercy} alt="Logo" className="divine-mercy" />
+        <img src={images?.divineMercy} alt="Logo" className="divine-mercy" />
       </figure>
 
       <Navbar />
