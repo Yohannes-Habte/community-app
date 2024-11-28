@@ -1,8 +1,9 @@
 // Environment Configuration
 const environment = import.meta.env.VITE_NODE_ENV || "development";
 const isProduction = environment === "production";
-const baseUrl =
-  import.meta.env.VITE_REACT_APP_BACKEND_URL || "http://localhost:8000/api/v1";
+const serverUrl = import.meta.env.VITE_REACT_APP_LIVE_URL;
+const clientUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL;
+const baseUrl = serverUrl || clientUrl;
 
 // Generic Helper Function for Error Handling
 export const handleError = (error) => {
