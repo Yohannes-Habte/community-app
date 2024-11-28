@@ -13,7 +13,7 @@ const staticRouter = express.Router();
 staticRouter.get("/header", getHeaderData);
 staticRouter.get("/home/shepherds", getShepherds);
 staticRouter.get("/home/hawka-abey-allo", getHawkaAbeyAllo);
-staticRouter.get("/home/parish-priest", getParishPriest);
+staticRouter.get("/about/parish-priest", getParishPriest);
 staticRouter.get("/about", getAboutData);
 staticRouter.get("/services", getServiceData);
 

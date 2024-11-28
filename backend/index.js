@@ -43,7 +43,7 @@ const app = express();
 const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.RENDER_URL,
-  process.env.NETLIFY_UR,
+  process.env.NETLIFY_URL,
 ];
 
 const corsConfig = {
@@ -82,6 +82,7 @@ app.use("/api/v1/budgets", annualBudgetRouter);
 
 // Static assets
 app.use(express.static("assets"));
+
 
 // Global error handler
 app.use(globalErrorHandler);

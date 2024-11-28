@@ -12,7 +12,7 @@ const Header = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${API}/data/header`);
-        setImages(data.data);
+        setImages(data.result);
       } catch (error) {
         console.log(error);
       }

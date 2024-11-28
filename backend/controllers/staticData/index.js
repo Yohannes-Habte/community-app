@@ -17,7 +17,7 @@ export const getHeaderData = async (req, res, next) => {
     if (!data) {
       return next(createError(404, "Data not found"));
     }
-    res.status(200).json({ data });
+    res.status(200).json({ success: true, result: data });
   } catch (error) {
     next(createError(500, "Server error"));
   }

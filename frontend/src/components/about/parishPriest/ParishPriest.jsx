@@ -9,7 +9,7 @@ const ParishPriest = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${API}/data/home/parish-priest`);
+        const { data } = await axios.get(`${API}/data/about/parish-priest`);
         setPriest(data.data);
       } catch (error) {
         console.log(error);

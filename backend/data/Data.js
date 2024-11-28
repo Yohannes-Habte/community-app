@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const BASE_URL =
-  process.env.RENDER_URL || process.env.NETLIFY_URL || process.env.BACKEND_URL;
+const BASE_URL = process.env.BACKEND_URL;
 //====================================================================
 // Header images
 //====================================================================
