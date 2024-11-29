@@ -34,14 +34,17 @@ const CommitteeCard = ({ data }) => {
             {data.endingTime.slice(0, 4)}{" "}
           </strong>
         </p>
-        {currentUser?.role === "admin" && (
-          <Link
-            to={`/committees/${data._id}`}
-            className="update-committee-member-btn"
-          >
-            Update{" "}
-          </Link>
-        )}
+
+        <div className="update-committee-member-btn-wrapper">
+          {currentUser?.role === "admin" && (
+            <Link
+              to={`/committees/${data._id}`}
+              className="update-committee-member-btn"
+            >
+              Update{" "}
+            </Link>
+          )}
+        </div>
       </aside>
     </section>
   );

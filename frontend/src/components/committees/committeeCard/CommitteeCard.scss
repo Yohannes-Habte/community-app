@@ -13,6 +13,7 @@
 
   .image-container {
     @include flexCenter;
+
     .image {
       width: 8rem;
       height: 12rem;
@@ -40,11 +41,14 @@
       }
     }
 
-    .update-committee-member-btn {
-      @include editButton;
+    .update-committee-member-btn-wrapper {
       position: absolute;
-      top: 1rem;
-      right: 0.2rem;
+      bottom: 3rem;
+      left: 0.2rem;
+
+      .update-committee-member-btn {
+        @include editButton;
+      }
     }
   }
 }
@@ -53,7 +57,7 @@
 @media (max-width: 575px) {
   .committee-card-container {
     flex-direction: column;
-    margin-bottom: 2rem;
+    margin: 1rem 0 2rem 0;
     padding: 0.5rem;
 
     .image-container {
@@ -65,7 +69,9 @@
     }
 
     .user-details {
+      margin-top: 3rem;
       .user-name {
+        font-size: $sfs;
       }
 
       .user-info {
@@ -74,11 +80,15 @@
         }
       }
 
-      .update-committee-member-btn {
+      .update-committee-member-btn-wrapper {
         position: absolute;
         top: 13rem;
-        right: 0.2rem;
-        font-size: $sfs;
+        left: 1rem;
+
+        .update-committee-member-btn {
+          padding: 0.2rem 1rem;
+          font-size: $sfs;
+        }
       }
     }
   }
@@ -107,7 +117,15 @@
         }
       }
 
-      .update-committee-member-btn {
+      .update-committee-member-btn-wrapper {
+        position: absolute;
+        top: 13rem;
+        left: 1rem;
+
+        .update-committee-member-btn {
+          padding: 0.2rem 1rem;
+          font-size: $sfs;
+        }
       }
     }
   }
@@ -116,6 +134,7 @@
 /* Tablets (768px - 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .committee-card-container {
+    position: relative;
     margin-bottom: 3rem;
     .image-container {
       .image {
@@ -135,7 +154,14 @@
         }
       }
 
-      .update-committee-member-btn {
+      .update-committee-member-btn-wrapper {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 0.2rem;
+
+        .update-committee-member-btn {
+          font-size: $nfs;
+        }
       }
     }
   }
@@ -159,7 +185,14 @@
         }
       }
 
-      .update-committee-member-btn {
+      .update-committee-member-btn-wrapper {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 0.2rem;
+
+        .update-committee-member-btn {
+          font-size: $nfs;
+        }
       }
     }
   }
