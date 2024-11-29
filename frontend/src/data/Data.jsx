@@ -5,6 +5,84 @@ import BishopsPhoto from "../assets/Bishops.jpg";
 import Bishops4 from "../assets/bishop-4.jpg";
 import youTube from "../assets/ሓውኻ-ኣበይ-ኣሎ.mp4";
 
+import Logo from "../assets/logo.jpg";
+import DivineMercy from "../assets/divineMercy.png";
+import Church from "../assets/church.jpg";
+
+import Pope from "../assets/pope.jpg";
+import Menghesteab from "../assets/menghesteab.jpg";
+import Kidane from "../assets/kidane.jpg";
+import Fikremariam from "../assets/fikremariam.jpg";
+import Thomas from "../assets/thomas.jpg";
+import Stefan from "../assets/stefan.jpg";
+
+//====================================================================
+// Header images
+//====================================================================
+export const headerImages = {
+  logo: Logo,
+  church: Church,
+  divineMercy: DivineMercy,
+};
+
+//====================================================================
+// Bishops
+//====================================================================
+export const shepherds = [
+  {
+    id: 1,
+    photo: Pope,
+    title: "Pope",
+    solute: "His holiness",
+    name: "Pope Francis",
+    link: "https://www.vatican.va/content/vatican/en.html",
+  },
+  {
+    id: 2,
+    photo: Menghesteab,
+    title: "Archbishop",
+    name: "Menghesteab Tesf...",
+    eparchy: "Eparchy of Asmara",
+    link: "https://en.wikipedia.org/wiki/Menghesteab_Tesfamariam",
+  },
+
+  {
+    id: 3,
+    photo: Kidane,
+    title: "Bishop",
+    name: "Kidane Yebio",
+    eparchy: "Eparchy of Keren",
+    link: "http://www.eparchyofkeren.com/",
+  },
+
+  {
+    id: 4,
+    photo: Fikremariam,
+    title: "Bishop",
+    name: "Fikremariam Hagos ",
+    eparchy: "Eparchy of Seganeiti",
+    link: "https://en.wikipedia.org/wiki/Fikremariam_Hagos_Tsalim",
+  },
+
+  {
+    id: 5,
+    photo: Thomas,
+    title: "Bishop",
+    name: "Thomas Osman",
+    eparchy: "Eparchy of Barentu",
+    link: "https://de.wikipedia.org/wiki/Thomas_Osman",
+  },
+
+  {
+    id: 6,
+    photo: Stefan,
+    title: "Archbishop",
+    name: "Stefan Heße",
+    eparchy: "Eparchy of Hamburg",
+    link: "https://www.erzbistum-hamburg.de/Erzbischof_Erzbischof-Dr.-Stefan-Hesse",
+  },
+];
+
 //====================================================================
 // Hawka abey alo
 //====================================================================

@@ -1,25 +1,8 @@
 import "./Header.scss";
 import Navbar from "../navbar/Navbar";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { API } from "../../../utile/security/secreteKey";
-
+import { headerImages } from "../../../data/Data";
 
 const Header = () => {
-  const [images, setImages] = useState({});
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${API}/data/header`);
-        setImages(data.result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
   return (
     <header className="header">
       <h1 className="header-title">
@@ -27,9 +10,13 @@ const Header = () => {
       </h1>
 
       <figure className="logo-container">
-        <img src={images?.logo} alt="Logo" className="logo" />
+        <img src={headerImages?.logo} alt="Logo" className="logo" />
 
-        <img src={images?.divineMercy} alt="Logo" className="divine-mercy" />
+        <img
+          src={headerImages?.divineMercy}
+          alt="Logo"
+          className="divine-mercy"
+        />
       </figure>
 
       <Navbar />

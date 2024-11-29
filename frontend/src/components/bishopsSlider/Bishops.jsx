@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import "./Bishops.scss";
 import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
-import FetchData from "../../utile/globalFunctions/GlobalClientFunction";
-import { API } from "../../utile/security/secreteKey";
+import { shepherds } from "../../data/Data";
 
 const Bishops = () => {
-  const { data } = FetchData(`${API}/data/home/shepherds`);
+  // const { data } = FetchData(`${API}/data/home/shepherds`);
   // local state variables
   const [currentSlide, setCurrentSlide] = useState(0);
   const autoSlide = true;
 
   // Slide length, interval time
-  const slideLength = data.length;
+  const slideLength = shepherds.length;
   let slideInterval;
   const intervalTime = 5000;
 
@@ -44,8 +43,8 @@ const Bishops = () => {
       <FiArrowLeftCircle className="arrow prev" onClick={previousSlide} />
       <FiArrowRightCircle className="arrow next" onClick={nextSlide} />
 
-      {data &&
-        data.map((shepherd, index) => {
+      {shepherds &&
+        shepherds.map((shepherd, index) => {
           const { photo, title, name, eparchy, link } = shepherd;
           return (
             <div

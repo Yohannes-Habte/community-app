@@ -24,7 +24,6 @@ import massRouter from "./routes/mass/index.js";
 import videoRouter from "./routes/video/index.js";
 import annualBudgetRouter from "./routes/annualBudget/index.js";
 
-
 dotenv.config();
 
 const app = express();
@@ -44,6 +43,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   process.env.RENDER_URL,
   process.env.NETLIFY_URL,
+  "https://ercch.netlify.app",
 ];
 
 const corsConfig = {
@@ -57,8 +57,8 @@ const corsConfig = {
   credentials: true,
 };
 
+app.options("*", cors(corsConfig)); // Preflight requests
 app.use(cors(corsConfig));
-app.options('*', cors(corsConfig)); // Handle preflight requests
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("tiny"));
