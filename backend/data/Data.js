@@ -2,7 +2,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const BASE_URL = process.env.BACKEND_URL;
+const BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? process.env.BACKEND_URL
+    : process.env.RENDER_URL;
 //====================================================================
 // Header images
 //====================================================================
