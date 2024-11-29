@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./ParishPriest.scss";
 import axios from "axios";
 import { API } from "../../../utile/security/secreteKey";
+import ParishPriestPhoto from "../../../assets/images/siyum.jpg";
 
 const ParishPriest = () => {
   const [priest, setPriest] = useState({});
@@ -26,7 +27,7 @@ const ParishPriest = () => {
         <figure className="image-container" aria-labelledby="priest-name">
           <img
             className="priest-image"
-            src={priest?.image}
+            src={ParishPriestPhoto}
             alt="Fr. Siyum Zera Ghiorgis, a parish priest"
             role="img"
           />

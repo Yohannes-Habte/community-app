@@ -1,3 +1,6 @@
+
+/** 
+
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -90,13 +93,15 @@ export const hawkaAbeyAllo = [
   },
 ];
 
+*/
+
 //====================================================================
 // Parish Priest
 //====================================================================
 
 export const parishPriest = {
   title: "Parish Priest",
-  image: `${BASE_URL}/Fr.Siyum.jpg`,
+  image: `http://localhost:8000/Fr.Siyum.jpg`,
   paragraph1: `
 Since 2018, Father Siyum Kifle Zeragiorgis has faithfully served the Eritrean Roman Catholic communities in Hamburg and its surrounding regions with unwavering dedication and pastoral care. Through his deep commitment to the Gospel of Jesus Christ, he continually inspires parishioners with messages of hope, love, and spiritual renewal. Father Siyum also places a strong emphasis on delivering high-quality social services and supporting the emotional and spiritual well-being of individuals, families, and the wider community.`,
 
