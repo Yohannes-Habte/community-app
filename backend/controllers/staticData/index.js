@@ -1,12 +1,7 @@
-import {
-  aboutPageData,
-  hawkaAbeyAllo,
-  headerImages,
-  parishPriest,
-  serviceData,
-  shepherds,
-} from "../../data/Data.js";
+import { aboutPageData, parishPriest, serviceData } from "../../data/Data.js";
 import createError from "http-errors";
+
+/** 
 //====================================================================
 // Header images
 //====================================================================
@@ -54,6 +49,8 @@ export const getHawkaAbeyAllo = async (req, res, next) => {
     next(createError(500, "Server error"));
   }
 };
+
+*/
 
 //====================================================================
 // Parish Priest
