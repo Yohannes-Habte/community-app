@@ -5,16 +5,16 @@ import BishopsPhoto from "../assets/Bishops.jpg";
 import Bishops4 from "../assets/bishop-4.jpg";
 import youTube from "../assets/ሓውኻ-ኣበይ-ኣሎ.mp4";
 
-import Logo from "../assets/logo.jpg";
+import Logo from "../assets/logo.png";
 import DivineMercy from "../assets/divineMercy.png";
 import Church from "../assets/church.jpg";
 
-import Pope from "../assets/pope.jpg";
-import Menghesteab from "../assets/menghesteab.jpg";
-import Kidane from "../assets/kidane.jpg";
-import Fikremariam from "../assets/fikremariam.jpg";
-import Thomas from "../assets/thomas.jpg";
-import Stefan from "../assets/stefan.jpg";
+import Pope from "../assets/pope.png";
+import Menghesteab from "../assets/menghesteab.png";
+import Kidane from "../assets/kidane.png";
+import Fikremariam from "../assets/fikremariam.png";
+import Thomas from "../assets/thomas.png"
+import Stefan from "../assets/stefan.png";
 
 //====================================================================
 // Header images
