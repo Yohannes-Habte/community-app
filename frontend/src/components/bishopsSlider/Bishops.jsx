@@ -4,7 +4,6 @@ import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 import { shepherds } from "../../data/Data";
 
 const Bishops = () => {
-  // const { data } = FetchData(`${API}/data/home/shepherds`);
   // local state variables
   const [currentSlide, setCurrentSlide] = useState(0);
   const autoSlide = true;
@@ -39,7 +38,7 @@ const Bishops = () => {
   }, [currentSlide, intervalTime, autoSlide]);
 
   return (
-    <div className="shepherds">
+    <div className="shepherds-container">
       <FiArrowLeftCircle className="arrow prev" onClick={previousSlide} />
       <FiArrowRightCircle className="arrow next" onClick={nextSlide} />
 
@@ -57,8 +56,8 @@ const Bishops = () => {
             >
               {index === currentSlide && (
                 <>
-                  <figure className="bishop-image-container">
-                    <img className="photo" src={photo} alt={shepherd.name} />
+                  <figure className={`bishop-image-container `}>
+                    <img className={`photo`} src={photo} alt={shepherd.name} />
                   </figure>
 
                   {/* Shepherd Information */}
@@ -71,7 +70,7 @@ const Bishops = () => {
                       {title} {name}
                     </h2>
                     <p className="eparchy"> {eparchy} </p>
-                    <a href={link} target="_blank">
+                    <a href={link} target="_blank" rel="noopener noreferrer">
                       Click Here
                     </a>
                   </aside>

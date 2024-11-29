@@ -2,12 +2,12 @@
 @import "../../styles/Mixins.scss";
 
 // Base styling
-.shepherds {
+.shepherds-container {
   width: 100%;
-  height: 60vh;
+  height: 25rem;
   position: relative;
   overflow: hidden;
-  border-radius: 0.5rem;
+  border-radius: $radius;
 
   // Slide arrows
   .arrow {
@@ -39,22 +39,30 @@
 
   // Slide show
   .slide-show {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    transform: translateX(-50%);
-    transition: all 0.5s ease;
     background-color: $section-bg;
   }
 
   // Current slide show
-
   .slide-show.current-slide {
+    display: flex;
+    align-items: center;
+    height: 24rem;
     opacity: 1;
     transform: translateX(0);
-    height: fit-content;
+
+    .bishop-image-container {
+      @include flexColumn;
+      height: 24rem;
+      transition: opacity 1.5s ease, transform 2s ease;
+
+      .photo {
+        transition: transform 2s ease, opacity 1.5s ease-in-out;
+        width: 24rem;
+        height: 24rem;
+        object-fit: contain;
+        border-radius: $radius;
+      }
+    }
 
     .shepherd-info > * {
       margin-bottom: 1rem;
@@ -67,7 +75,7 @@
 
   .shepherd-info {
     position: absolute;
-    right: -8%;
+    right: -10%;
     top: 50%;
     opacity: 0;
     width: 40%;
@@ -112,6 +120,7 @@
     background: #ff00ff;
     animation: span2 3s linear infinite;
   }
+
   .shepherd-info .span3::before {
     content: "";
     position: absolute;
@@ -122,6 +131,7 @@
     background: #ff00ff;
     animation: span3 3s linear infinite;
   }
+
   .shepherd-info .span4::before {
     content: "";
     position: absolute;
@@ -175,7 +185,6 @@
 }
 
 // Animation slide up
-
 @keyframes slide-to-right {
   0% {
     visibility: visible;
@@ -192,133 +201,227 @@
 
 /* Portrait Phones (max-width: 575px) */
 @media (max-width: 575px) {
-  /* Add styles specific to portrait phones */
-  .shepherds {
-    height: 40vh;
+  .shepherds-container {
+    height: 15rem;
 
     .arrow {
       display: none;
     }
+    // Current slide show
+    .slide-show.current-slide {
+      @include flexCenter;
+      height: 15rem;
+      opacity: 1;
 
-    .slide-show {
       .bishop-image-container {
         @include flexCenter;
+        height: 15rem;
+        transition: opacity 1.5s ease, transform 2s ease;
 
         .photo {
+          transition: transform 2s ease, opacity 1.5s ease-in-out;
           width: 15rem;
-          height: 20rem;
-          object-fit: cover;
-          border-radius: 0.5rem;
+          height: 15rem;
+          object-fit: contain;
+          border-radius: $radius;
+
+          &.active-photo {
+            transform: scale(1.15) rotate(1deg);
+            opacity: 1;
+          }
         }
       }
     }
-  }
 
-  .shepherd-info {
-    display: none;
+    .shepherd-info {
+      display: none;
+    }
   }
 }
 
 /* Landscape Phones (576px - 767px) */
-@media (min-width: 576px) and (max-width: 767px) {
-  /* Add styles specific to landscape phones */
-  .slide-show {
-    .bishop-image-container {
-      @include flexCenter;
-      height: 30rem;
-      .photo {
-        width: 20rem;
-        height: 25rem;
-        border-radius: 0.5rem;
-        object-fit: cover;
+@media (min-width: 576px) and (max-width: 768px) {
+  .shepherds-container {
+    height: 18rem;
+
+    .arrow {
+      display: none;
+    }
+    // Current slide show
+    .slide-show.current-slide {
+      height: 18rem;
+      opacity: 1;
+
+      .bishop-image-container {
+        @include flexCenter;
+        height: 16rem;
+        transition: opacity 1.5s ease, transform 2s ease;
+
+        .photo {
+          transition: transform 2s ease, opacity 1.5s ease-in-out;
+          width: 18rem;
+          height: 18rem;
+          object-fit: contain;
+          border-radius: $radius;
+
+          &.active-photo {
+            transform: scale(1.15) rotate(1deg);
+            opacity: 1;
+          }
+        }
       }
     }
-  }
 
-  .shepherd-info {
-    display: none;
+    .shepherd-info {
+      position: absolute;
+      right: -14%;
+      top: 50%;
+      opacity: 0;
+      width: 40%;
+      padding: 1rem;
+      transform: translate(-50%, -50%);
+      background: #f0f8ff;
+      animation-fill-mode: forwards;
+      box-sizing: border-box;
+      overflow: hidden;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-radius: 0.3rem;
+      animation: slide-to-right 2s ease 1s;
+      font-size: $sfs;
+      h2 {
+        font-size: $sfs;
+      }
+      .link {
+        cursor: pointer;
+        .anchor {
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 
 /* Tablets (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .shepherds {
-    height: 46vh;
-  }
+@media (min-width: 769px) and (max-width: 1023px) {
+  .shepherds-container {
+    height: 20rem;
 
-  .slide-show {
-    .bishop-image-container {
-      @include flexCenter;
-      height: 30rem;
+    // Current slide show
+    .slide-show.current-slide {
+      height: 20rem;
+      opacity: 1;
 
-      .photo {
-        width: 23rem;
-        height: 29rem;
-        border-radius: 0.5rem;
-        object-fit: cover;
+      .bishop-image-container {
+        @include flexCenter;
+        height: 20rem;
+        transition: opacity 1.5s ease, transform 2s ease;
+
+        .photo {
+          transition: transform 2s ease, opacity 1.5s ease-in-out;
+          width: 20rem;
+          height: 20rem;
+          object-fit: contain;
+          border-radius: $radius;
+
+          &.active-photo {
+            transform: scale(1.15) rotate(1deg);
+            opacity: 1;
+          }
+        }
       }
     }
-  }
 
-  .shepherd-info {
-    display: none;
+    .shepherd-info {
+      position: absolute;
+      right: -14%;
+      top: 50%;
+      opacity: 0;
+      width: 40%;
+      padding: 1rem;
+      transform: translate(-50%, -50%);
+      background: #f0f8ff;
+      animation-fill-mode: forwards;
+      box-sizing: border-box;
+      overflow: hidden;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-radius: 0.3rem;
+      animation: slide-to-right 2s ease 1s;
+      font-size: $sfs;
+      h2 {
+        font-size: $nfs;
+      }
+      .link {
+        cursor: pointer;
+
+        .anchor {
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 
 /*  Laptops, iPad Pro, and Small Desktops (1024px - 1366px) */
 @media (min-width: 1024px) and (max-width: 1366px) {
-  .shepherds {
-    height: 50vh;
+  .shepherds-container {
+    height: 23rem;
+    background-color: blue;
+
+    // Current slide show
+    .slide-show.current-slide {
+      height: 23rem;
+      opacity: 1;
+
+      .bishop-image-container {
+        @include flexCenter;
+        height: 23rem;
+        transition: opacity 1.5s ease, transform 2s ease;
+
+        .photo {
+          transition: transform 2s ease, opacity 1.5s ease-in-out;
+          width: 23rem;
+          height: 23rem;
+          object-fit: contain;
+          border-radius: $radius;
+
+          &.active-photo {
+            transform: scale(1.15) rotate(1deg);
+            opacity: 1;
+          }
+        }
+      }
+    }
 
     .shepherd-info {
       position: absolute;
-      right: -18%;
-    }
-  }
-
-  .slide-show {
-    .bishop-image-container {
-      height: 30rem;
-
-      .photo {
-        width: 25rem;
-        height: 29rem;
-        border-radius: 0.5rem;
-        object-fit: cover;
+      right: -10.5%;
+      top: 50%;
+      opacity: 0;
+      width: 40%;
+      padding: 1rem;
+      transform: translate(-50%, -50%);
+      background: #f0f8ff;
+      animation-fill-mode: forwards;
+      box-sizing: border-box;
+      overflow: hidden;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      border-radius: 0.3rem;
+      animation: slide-to-right 2s ease 1s;
+      font-size: $sfs;
+      h2 {
+        font-size: $nfs;
       }
-    }
-  }
+      .link {
+        cursor: pointer;
 
-  // Current slide show
-
-  .slide-show.current-slide {
-    opacity: 1;
-    transform: translateX(0);
-    height: fit-content;
-
-    .shepherd-info > * {
-      margin-bottom: 1rem;
+        .anchor {
+          cursor: pointer;
+        }
+      }
     }
   }
 }
 
 /* Ultra-High-Resolution Devices (2560px and above) */
 @media (min-width: 1367px) {
-  .shepherds {
-    height: 60vh;
-  }
-
-  .slide-show {
-    .bishop-image-container {
-      @include flexColumn;
-      justify-content: center;
-      height: 30rem;
-
-      .photo {
-        width: 30rem;
-        height: 29rem;
-        object-fit: contain;
-      }
-    }
-  }
 }
