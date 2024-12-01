@@ -6,7 +6,7 @@ import AllUserServices from "../userServices/AllUserServices";
 import ServicesRequest from "../servicesRequest/ServiceRequest";
 import Addresses from "../addresses/Addresses";
 
-const UpdateUserProfile = ({ isActive }) => {
+const UpdateUserProfile = ({ isActive, setIsActive }) => {
   return (
     <article className="user-profile-container">
       {isActive === 1 && <UpdateMemberProfile />}
@@ -17,7 +17,7 @@ const UpdateUserProfile = ({ isActive }) => {
 
       {isActive === 4 && <MonthlyContribution />}
 
-      {isActive === 5 && <ServicesRequest />}
+      {isActive === 5 && <ServicesRequest setIsActive={setIsActive} />}
 
       {isActive === 6 && <AllUserServices />}
     </article>

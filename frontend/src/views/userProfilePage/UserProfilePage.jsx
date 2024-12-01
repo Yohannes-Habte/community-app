@@ -14,7 +14,7 @@ const UserProfilePage = () => {
 
         <div className="user-profile-wrapper">
           <UserProfileSidebar isActive={isActive} setIsActive={setIsActive} />
-          <UpdateUserProfile isActive={isActive} />
+          <UpdateUserProfile isActive={isActive} setIsActive={setIsActive} />
         </div>
       </section>
 

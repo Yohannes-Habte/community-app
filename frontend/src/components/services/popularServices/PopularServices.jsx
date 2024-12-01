@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 import { API } from "../../../utile/security/secreteKey";
 import PageLoader from "../../../utile/loader/pageLoader/PageLoader";
 import { Alert } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const PopularServices = () => {
+const PopularServices = ({ setIsActive }) => {
+  const navigate = useNavigate();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,11 +33,17 @@ const PopularServices = () => {
     fetchPopularServices();
   }, []);
 
+  // Navigate to service request page
+  const navigateToServiceRequest = () => {
+    navigate("/user/profile");
+    setIsActive(5);
+  };
+
   return (
     <section className="popular-services-wrapper">
       <h1 className="popular-services-title">Popular Services</h1>
       {loading ? (
-        <PageLoader isLoading={loading} message="" size={80} />
+        <PageLoader isLoading={""} message="" size={80} />
       ) : error ? (
         <Alert security="error" className="error-message">
           {error}
@@ -50,7 +58,12 @@ const PopularServices = () => {
             <article key={index} className="service-details">
               <h3 className="service-title">
                 Service Name:{" "}
-                <small className="small-element">{service?.serviceName}</small>
+                <small
+                  onClick={navigateToServiceRequest}
+                  className="small-element service-name"
+                >
+                  {service?.serviceName}
+                </small>
               </h3>
               <p className="service-size">
                 Total Size:{" "}

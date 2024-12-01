@@ -24,6 +24,16 @@
         font-size: $sfs;
       }
 
+      .service-name {
+        color: $blue;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          color: $tomato;
+        }
+      }
+
       .service-title {
         font-size: $nfs;
         padding: 0;
