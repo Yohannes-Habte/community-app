@@ -101,12 +101,12 @@
 @mixin inputLabel {
   position: absolute;
   top: 0;
-  left: 2rem;
+  left: 0.1rem;
   color: #cccccc00;
 }
 
 @mixin focusInputFieldAndInputLabel {
-  top: -1rem;
+  top: -1.2rem;
   font-size: $sfs;
   color: $gray;
 }
@@ -386,7 +386,7 @@
   border-radius: 5px;
   padding: 0.3rem 1rem;
   font-size: $nfs;
-  font-weight: $aafw;
+  font-weight: $afw;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;

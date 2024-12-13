@@ -62,8 +62,8 @@
 
     .image-container {
       .image {
-        width: 12rem;
-        height: 12rem;
+        width: 10rem;
+        height: 14rem;
         object-fit: cover;
       }
     }
@@ -82,11 +82,12 @@
 
       .update-committee-member-btn-wrapper {
         position: absolute;
-        top: 13rem;
-        left: 1rem;
+        top: 15.5rem;
+        left: 50%;
+        transform: translateX(-50%);
 
         .update-committee-member-btn {
-          padding: 0.2rem 1rem;
+          padding: 0.5rem 1rem;
           font-size: $sfs;
         }
       }
@@ -108,9 +109,6 @@
     }
 
     .user-details {
-      .user-name {
-      }
-
       .user-info {
         .strong-element {
           font-size: $sfs;
@@ -138,16 +136,13 @@
     margin-bottom: 3rem;
     .image-container {
       .image {
-        width: 11rem;
+        width: 8rem;
         height: 12rem;
         object-fit: cover;
       }
     }
 
     .user-details {
-      .user-name {
-      }
-
       .user-info {
         .strong-element {
           font-size: $sfs;
@@ -156,11 +151,11 @@
 
       .update-committee-member-btn-wrapper {
         position: absolute;
-        bottom: 2.5rem;
-        left: 0.2rem;
+        bottom: 0.8rem;
+        left: 0.5rem;
 
         .update-committee-member-btn {
-          font-size: $nfs;
+          font-size: $sfs;
         }
       }
     }
@@ -176,9 +171,6 @@
     }
 
     .user-details {
-      .user-name {
-      }
-
       .user-info {
         .strong-element {
           font-size: $sfs;
@@ -187,8 +179,8 @@
 
       .update-committee-member-btn-wrapper {
         position: absolute;
-        bottom: 2.5rem;
-        left: 0.2rem;
+        bottom: 1.5rem;
+        left: 0.7rem;
 
         .update-committee-member-btn {
           font-size: $nfs;
@@ -207,16 +199,20 @@
     }
 
     .user-details {
-      .user-name {
-      }
-
       .user-info {
         .strong-element {
           font-size: $sfs;
         }
       }
 
-      .update-committee-member-btn {
+      .update-committee-member-btn-wrapper {
+        position: absolute;
+        bottom: 1rem;
+        left: 0.7rem;
+
+        .update-committee-member-btn {
+          font-size: $nfs;
+        }
       }
     }
   }

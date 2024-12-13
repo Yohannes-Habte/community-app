@@ -206,9 +206,22 @@
 @media (min-width: 1024px) and (max-width: 1366px) {
   .finance-mgt-summary-view {
     width: $laptop;
+
     .finance-mgt-summary-view-title {
-      font-size: $lfs;
-      text-align: center;
+      font-size: $aafs;
+    }
+    .members-contribution-pie-chart-container {
+      position: relative;
+
+      .members-contribution-pie-chart-title {
+        font-size: $afs;
+      }
+
+      .members-contribution-pie-chart-form {
+        position: absolute;
+        top: 3rem;
+        left: 1rem;
+      }
     }
   }
 }
@@ -217,9 +230,22 @@
 @media (min-width: 1367px) {
   .finance-mgt-summary-view {
     width: $desktop;
+
     .finance-mgt-summary-view-title {
-      font-size: $lfs;
-      text-align: center;
+      font-size: $aafs;
+    }
+    .members-contribution-pie-chart-container {
+      position: relative;
+
+      .members-contribution-pie-chart-title {
+        font-size: $afs;
+      }
+
+      .members-contribution-pie-chart-form {
+        position: absolute;
+        top: 3rem;
+        left: 1rem;
+      }
     }
   }
 }
