@@ -2,8 +2,9 @@
 @import "../../../styles/Variables.scss";
 
 .strategic-intent-wrapper {
+  
   .strategic-intent {
-    margin: 1rem 0;
+    margin: 3rem 0;
     .strategic-intent-subtitle {
       @include subTitle;
     }
@@ -24,6 +25,7 @@
     }
 
     .core-value {
+      margin: 2rem 0;
       .value-title {
         @include subTitle;
         font-size: $afs;

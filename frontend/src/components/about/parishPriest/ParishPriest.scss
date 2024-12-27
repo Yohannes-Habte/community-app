@@ -10,10 +10,13 @@
 
   .image-description-container {
     .image-container {
+      width: 20rem;
+      height: 17rem;
+
       .priest-image {
-        width: 85%;
-        height: 20rem;
-        object-fit: cover;
+        width: 18rem;
+        height: 17rem;
+        object-fit: container;
         margin-top: 0.5rem;
         border-radius: 0.3rem;
         cursor: pointer;
@@ -51,6 +54,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 3rem;
      
         .priest-image {
           width: 85%;
@@ -85,6 +89,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 3rem;
+
         .priest-image {
           width: 60%;
           height: 25rem;
@@ -110,7 +116,7 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .parish-priest-wrapper {
     .parish-priest-title {
-      text-align: center;
+      text-align: left;
     }
 
     .image-description-container {
@@ -119,9 +125,11 @@
         flex-direction: column;
         align-items: center;
      
+     
         .priest-image {
-          width: 70%;
-          height: 30rem;
+          width: 20rem;
+          height: 20rem;
+          object-fit: contain;
          
         }
 
@@ -130,7 +138,7 @@
       }
 
       .priest-description {
-        margin-top: 2rem;
+        margin-top: 7rem;
         .description {
         }
 

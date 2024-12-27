@@ -79,7 +79,7 @@ export const shepherds = [
     title: "Archbishop",
     name: "Stefan Heße",
     eparchy: "Eparchy of Hamburg",
-    link: "https://www.erzbistum-hamburg.de/Erzbischof_Erzbischof-Dr.-Stefan-Hesse",
+    link: "https://erzbistum-hamburg.de/",
   },
 ];
 
