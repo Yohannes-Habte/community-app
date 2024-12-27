@@ -179,7 +179,6 @@ const SummaryView = () => {
             type="number"
             name="year"
             defaultValue={year}
-            placeholder="Enter Year only"
             className="input-field"
             aria-label="Enter the year"
           />

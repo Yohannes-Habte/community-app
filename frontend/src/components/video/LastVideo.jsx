@@ -5,7 +5,6 @@ import { RiPlayCircleFill } from "react-icons/ri";
 import PageLoader from "../../utile/loader/pageLoader/PageLoader";
 import { API } from "../../utile/security/secreteKey";
 
-
 const LastVideo = () => {
   const [videoFile, setVideoFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -33,9 +32,16 @@ const LastVideo = () => {
 
   const handlePlayClick = () => {
     const video = document.getElementById("featuredVideo");
-    video.play();
-    setPlaying(true);
+    if (video.paused) {
+      video.play();
+      setPlaying(true);
+    }
   };
+
+  const handlePause = () => {
+    setPlaying(false);
+  };
+
   return (
     <>
       {loading ? (
@@ -44,7 +50,7 @@ const LastVideo = () => {
         <h2>{error}</h2>
       ) : videoFile ? (
         <section className="video-preview-container">
-          <h3 className="video-preview-title"> {videoFile.title} </h3>
+          <h3 className="video-preview-title">{videoFile.title}</h3>
 
           <p className="video-description">{videoFile?.description}</p>
 
@@ -60,13 +66,13 @@ const LastVideo = () => {
               controls
               className="video"
               poster={videoFile?.thumbnailUrl || ""}
+              onPlay={() => setPlaying(true)}
+              onPause={handlePause}
             >
               <source src={videoFile?.videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
-
- 
         </section>
       ) : (
         <h2>No video found.</h2>

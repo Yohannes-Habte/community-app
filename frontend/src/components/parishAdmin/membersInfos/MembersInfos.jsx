@@ -191,7 +191,7 @@ const MembersInfos = ({ setIsActive }) => {
             0 - Month: <span className="span-count">{zeroContribution}</span>
           </p>
           <p className="parishioners-status">
-            0 - 3 Months:{" "}
+            1 - 3 Months:{" "}
             <span className="span-count">
               {contributionLessThanOrEqualToThree}
             </span>
