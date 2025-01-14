@@ -61,12 +61,12 @@ const serviceValidation = () => {
           } else if (serviceName === "baptism") {
             minimumDate.setMonth(today.getMonth() + 1);
           } else {
-            minimumDate.setDate(today.getDate() + 20);
+            minimumDate.setDate(today.getDate() + 15);
           }
         } else if (serviceCategory === "Spiritual development") {
-          minimumDate.setMonth(today.getMonth() + 2);
+          minimumDate.setMonth(today.getMonth() + 1);
         } else if (serviceCategory === "Soul prayer") {
-          minimumDate.setDate(today.getDate() + 14);
+          minimumDate.setDate(today.getDate() + 10);
         }
 
         // Check if the provided serviceDate meets the minimum requirement
